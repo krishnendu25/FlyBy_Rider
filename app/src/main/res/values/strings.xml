@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">FLYBY</string>
+    <string name="not_registered_yet_register_here">Not registered yet? </string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="resend_otp">RESEND OTP</string>
+    <string name="by_signing_in_you_agree_to_all_the_terms_amp_conditions">By Signing In, you agree to<font fgcolor='#FF97FD86'><u>Terms &amp; Conditions</u></font></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="add_and_manage_all_your_bikes_and_documents_in_one_place">Add and manage all your \nbikes and documents \nin one place</string>
+    <string name="discover_upgrades_parts_gears_and_offer_specific_to_your_bike_model">Discover Upgrades, Parts, \nGears and offer specific to \nyour Bike Model</string>
+    <string name="find_garages_repair_shops_workshops_and_other_essential_bike_services_near_you">Find Garages, repair shops, \nworkshops and other \nessential bike services near \nyou</string>
+    <string name="create_and_manage_rides_trips_with_your_fellow_riders_or_just_for_yourself"><![CDATA[Create and manage Rides & \ntrips with your fellow riders \nor just for yourself]]></string>
+    <string name="my_garage"> My Garage </string>
+    <string name="rides">\tRIDES\t</string>
+    <string name="discover"> DISCOVER </string>
+    <string name="LOCKER">DOCUMENT\nLOCKER</string>
+    <string name="Cards">Add RCs, DLs, Service Receipts,\nWarranty Cards etc.</string>
+    <string name="you_can_add_documents_for_your_bike_here_n_but_first_you_need_to_add_a_bike_to_your_garage">You can add documents for your bike here.\n But first you need to add a bike to your garage.</string>
+    <string name="save_document">SAVE DOCUMENT</string>
+    <string name="progress_title">Processing..</string>
+
+    <string name="done">NEXT</string>
+
+
+    <string-array name="tab_titles">
+        <item>Camera</item>
+        <item>Gallery</item>
+    </string-array>
+
+
+    <string name="toolbar_title">Choice Image</string>
+    <string name="no_image">No Image</string>
+
+    <string name="selected_image">Selected Image</string>
+
+
+    <string name="max_count_msg">%1$d images selected already</string>
+    <string name="min_count_msg">you have to choice %1$d images</string>
+
+    <string name="focusing">focusing/flash...wait a minute</string>
+
+
+    <string name="default_directory">Pictures</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="share_photos_and_videos_of_this_ride">Share photos and videos of this ride</string>
+    <string name="add_members_to_this_ride">Add members to this ride</string>
+    <string name="schedule_for_later">SCHEDULE FOR LATER</string>
+    <string name="start_ride">START RIDE</string>
+    <string name="starting_point">Starting Point</string>
+    <string name="average_speed">Average Speed</string>
+    <string name="ride_time">Ride Time</string>
+    <string name="top_speed">Top Speed</string>
+    <string name="distance_covered">Distance Covered</string>
+    <string name="end_ride">END RIDE</string>
+    <string name="add_upto_50_members_upgrade_to_premium">Add upto 50 members -<font fgcolor='#FF97FD86'>UPGRADE TO PREMIUM</font></string>
+    <string name="phone_contacts">PHONE CONTACTS</string>
+    <string name="contacts_on_flyby">CONTACTS ON FLYBY</string>
+    <string name="invite_new_member">Invite new member</string>
+    <string name="remove_member">Remove Member</string>
+    <string name="rename_ride">Rename Ride</string>
+    <string name="ride_name">Ride Name</string>
+    <string name="update">UPDATE</string>
+    <string name="pay_amp_upgrade"><![CDATA[PAY & UPGRADE]]></string>
+    <string name="basic_account">Basic Account</string>
+    <string name="add_1_bike_to_your_garage">Add 1 bike to your garage</string>
+    <string name="add_upto_3_rides">Add upto 3 RIdes</string>
+    <string name="free">FREE</string>
+    <string name="premium_account">Premium Account</string>
+    <string name="add_unlimited_bikes_to_your_garage">Add Unlimited bikes to your garage</string>
+    <string name="unlimited_rides">Unlimited Rides</string>
+    <string name="_2_gb_storage_per_ride">2 GB storage per ride</string>
+    <string name="rs_999_lifetime">Rs. 999 / - Lifetime</string>
+</resources>

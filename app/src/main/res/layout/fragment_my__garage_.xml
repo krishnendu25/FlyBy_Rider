@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    tools:context=".Ui.Fragment.My_Garage_Fragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarThumbHorizontal="@color/transparent"
+            android:scrollbarThumbVertical="@color/transparent"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/My_Bike_Image"
+                        android:layout_width="1000px"
+                        android:layout_height="600px"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="50dp"
+                        android:src="@drawable/ic_emptybike" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/bike_brand_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="marquee"
+                            android:fontFamily="@font/avenirnextbold"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:singleLine="true"
+                            android:layout_marginTop="10dp"
+                            android:text="DUCATI"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/bike_model_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="marquee"
+                            android:fontFamily="@font/avenirnextheavy"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:singleLine="true"
+                            android:layout_marginTop="5dp"
+                            android:text="DUCATI"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="30dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="start"
+                            android:orientation="horizontal">
+                            <ImageButton
+                                android:id="@+id/Bike_Add_btn"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/add_bike_ic"
+                                android:fontFamily="@font/manropemedium"
+                                android:gravity="center|top"
+                                android:text="+"
+                                android:textSize="35dp" />
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/My_Bike_list"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <com.flyby_riders.Utils.ShadowLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:shadowRadius="100dp"
+                        app:shadowShape="rectangle"
+                        app:shadowSide="bottom"
+                        app:sl_shadow_angle="270"
+                        app:sl_shadow_color="#33EDE9E9"
+                        app:sl_shadow_radius="8dp"
+                        app:sl_shadowed="true">
+
+                        <com.flyby_riders.Utils.ShadowLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_horizontal"
+                            app:shadowRadius="100dp"
+                            app:shadowShape="rectangle"
+                            app:shadowSide="top"
+                            app:sl_shadow_angle="90"
+                            app:sl_shadow_color="#000000"
+                            app:sl_shadow_radius="16dp"
+                            app:sl_shadowed="true">
+
+                            <RelativeLayout
+                                android:id="@+id/Document_Locker_btn"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:clickable="true"
+                                android:background="@drawable/locker_document_bg">
+
+                                <ImageButton
+                                    android:layout_width="130dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginEnd="25dp"
+                                    android:clickable="false"
+                                    android:background="@drawable/bg_documentcard" />
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginEnd="25dp"
+                                    android:padding="10dp"
+                                    android:clickable="false"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/ic_nextscreen" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="fill_parent"
+                                    android:weightSum="3"
+                                    android:clickable="false"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1.8"
+                                        android:gravity="center|start"
+                                        android:text="@string/LOCKER"
+                                        android:clickable="false"
+                                        android:paddingStart="15dp"
+                                        android:textColor="@color/white"
+                                        android:fontFamily="@font/avenirnextbold"
+                                        android:textSize="25dp"/>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1.2"
+                                        android:text="@string/Cards"
+                                        android:paddingStart="15dp"
+                                        android:clickable="false"
+                                        android:gravity="center|start"
+                                        android:textColor="@color/white"
+                                        android:fontFamily="@font/avenirbextregular"
+                                        android:textSize="16dp"/>
+
+
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+
+                        </com.flyby_riders.Utils.ShadowLayout>
+                    </com.flyby_riders.Utils.ShadowLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="#47424D"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/background_base">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="vertical"
+                        android:layout_marginTop="30dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upgrades for"
+                            android:textSize="20dp"
+                            android:textColor="@color/white"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/avenirnextbold"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="700dp"
+                            android:background="@drawable/add_demo"/>
+                        <ListView
+                            android:id="@+id/Advetisment_list"
+                            android:layout_width="match_parent"
+                            android:visibility="gone"
+                            android:layout_marginTop="20dp"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    tools:context=".Ui.Activity.Login_Form">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="25dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/bg_logo"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="20dp"
+                    android:fontFamily="@font/blackhansansregular"
+                    android:text="Sign In"
+                    android:layout_marginTop="30dp"
+                    android:textColor="@color/white"
+                    android:textSize="35dp" />
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/goto_regestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manropebold"
+                android:layout_marginTop="20dp"
+                android:text="@string/not_registered_yet_register_here"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manropelight"
+                android:layout_marginTop="20dp"
+                android:text="Mobile number"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+
+            <LinearLayout
+                android:id="@+id/edit_text_container"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:orientation="vertical"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ph_edittext_bg">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:weightSum="4"
+                    android:background="@color/transparent"
+
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/Country_code_ed"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:gravity="start|center"
+                        android:text="+91"
+                        android:drawablePadding="8dp"
+                        android:fontFamily="@font/manropelight"
+                        android:textSize="14dp"
+                        android:drawableStart="@drawable/ic_india"
+                        android:paddingStart="10dp"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_india" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".01"
+                        android:background="@color/white"/>
+                    <EditText
+                        android:id="@+id/pnone_no_ed"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:hint="----------"
+                        android:inputType="phone"
+                        android:textColor="@color/white"
+                        android:maxLength="10"
+                        android:fontFamily="@font/manropelight"
+                        android:textSize="20dp"
+                        android:letterSpacing="0.1"
+                        android:gravity="left|center"
+                        android:paddingStart="16dp"
+                        android:textColorHint="@color/white"
+                        android:layout_weight="2.99"/>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/Error_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/manropeextrabold"
+                android:layout_marginEnd="20dp"
+                android:gravity="end"
+                android:singleLine="true"
+                android:textColor="@color/Red"
+                android:textSize="14dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manropelight"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:text="An OTP will be sent to this number for login."
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+    <Button
+        android:id="@+id/send_otp_btn"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/green_btn_ripple_botton"
+        android:drawableEnd="@drawable/ic_nextarrowdark"
+        android:fontFamily="@font/blackhansansregular"
+        android:gravity="start|center"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="VERIFY &amp; CONTINUE"
+        android:textColor="@color/background_base"
+        android:textSize="16dp" />
+
+
+</RelativeLayout>

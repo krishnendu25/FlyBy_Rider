@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    android:orientation="vertical"
+    tools:context=".Ui.Activity.Ride_Members_Management">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.flyby_riders.Utils.ShadowLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:shadowRadius="100dp"
+            app:shadowShape="oval"
+            app:shadowSide="bottom"
+            app:sl_shadow_angle="270"
+            app:sl_shadow_color="#33EDE9E9"
+            app:sl_shadow_radius="2dp"
+            app:sl_shadowed="true">
+
+            <com.flyby_riders.Utils.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                app:shadowRadius="100dp"
+                app:shadowShape="oval"
+                app:shadowSide="top"
+                app:sl_shadow_angle="90"
+                app:sl_shadow_color="#000000"
+                app:sl_shadow_radius="10dp"
+                app:sl_shadowed="true">
+
+                <RelativeLayout
+                    android:id="@+id/Back_Btn"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_drak"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/ic_back" />
+                </RelativeLayout>
+            </com.flyby_riders.Utils.ShadowLayout>
+        </com.flyby_riders.Utils.ShadowLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/avenirnextbold"
+                android:text="Ride Members"
+                android:textColor="#fff"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/member_count_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/manroperegular"
+                android:textColor="#fff"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/Buy_Subscption_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/manroperegular"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:text="@string/add_upto_50_members_upgrade_to_premium"
+                android:textColor="#fff"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5px"
+        android:layout_marginTop="10dp"
+        android:background="#464646" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/Add_member_btn"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:drawableStart="@drawable/ic_addmembers_two"
+            android:drawableEnd="@drawable/ic_nextstep"
+            android:drawablePadding="20dp"
+            android:fontFamily="@font/manropebold"
+            android:gravity="start|center"
+            android:text="Add new member"
+            android:textColor="@color/light_green"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5px"
+        android:layout_marginTop="10dp"
+        android:background="#464646" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/Ride_member_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

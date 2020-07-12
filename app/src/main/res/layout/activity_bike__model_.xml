@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Ui.Activity.Bike_Model_Activity">
+    <include layout="@layout/toolbar_layout"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/manropebold"
+            android:text="Select your model"
+            android:textColor="#EEEFF5"
+            android:textSize="20dp" />
+
+        <GridView
+            android:id="@+id/bike_brand_list"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:numColumns="2"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+</LinearLayout>

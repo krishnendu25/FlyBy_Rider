@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:orientation="vertical"
+    tools:context=".Ui.Activity.Bike_Brand_Activity">
+
+   <include layout="@layout/toolbar_layout"/>
+    <com.flyby_riders.Utils.ShadowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:sl_shadow_color="#33EDE9E9"
+        app:shadowRadius="100dp"
+        app:shadowShape="rectangle"
+        app:sl_shadow_angle="270"
+        app:sl_shadowed="true"
+        app:shadowSide="bottom"
+        app:sl_shadow_radius="2sp">
+        <com.flyby_riders.Utils.ShadowLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:sl_shadow_color="#000000"
+            app:shadowRadius="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:shadowShape="rectangle"
+            app:sl_shadow_angle="90"
+            app:sl_shadowed="true"
+            app:sl_shadow_radius="13dp"
+            app:shadowSide="top">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@drawable/round_drak"
+                android:gravity="center">
+                <EditText
+                    android:id="@+id/Search_bike"
+                    android:layout_width="match_parent"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="20dp"
+                    android:paddingStart="20dp"
+                    android:hint="Search for a brands"
+                    android:fontFamily="@font/manropesemibold"
+                    android:layout_height="?actionBarSize"
+                    android:background="@drawable/ph_edittext_bg"/>
+            </RelativeLayout>
+        </com.flyby_riders.Utils.ShadowLayout>
+    </com.flyby_riders.Utils.ShadowLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/manropebold"
+            android:text="Select one or more brands"
+            android:textColor="#EEEFF5"
+            android:textSize="20dp" />
+
+        <GridView
+            android:id="@+id/bike_brand_list"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:numColumns="3"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+</LinearLayout>

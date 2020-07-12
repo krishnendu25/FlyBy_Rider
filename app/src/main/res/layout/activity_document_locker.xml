@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    android:orientation="vertical"
+    tools:context=".Ui.Activity.Document_Locker">
+
+    <include layout="@layout/toolbar_layout"/>
+
+    <RelativeLayout
+        android:id="@+id/Empty_View"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_docs"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#AEACB5"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/manroperegular"
+        android:textSize="16dp"
+        android:text="@string/you_can_add_documents_for_your_bike_here_n_but_first_you_need_to_add_a_bike_to_your_garage"/>
+</LinearLayout>
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/Document_upload_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/My_Bike_list"
+            android:layout_width="wrap_content"
+            android:layout_gravity="start"
+            android:layout_height="80dp" />
+        <TextView
+            android:id="@+id/Bike_Document_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/avenirnextbold"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/Add_Document_btn"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:gravity="center|start"
+            android:background="@drawable/dotted_broder">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableStart="@drawable/ic_add_doc"
+                android:text="Add new document"
+                android:textSize="20dp"
+                android:clickable="false"
+                android:gravity="center|start"
+                android:drawablePadding="10dp"
+                android:paddingStart="20dp"
+                android:fontFamily="@font/manropebold"
+                android:textColor="#97FD86"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/My_Album_List"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="match_parent" />
+</LinearLayout>

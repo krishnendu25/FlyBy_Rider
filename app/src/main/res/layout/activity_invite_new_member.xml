@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_base"
+    tools:context=".Ui.Activity.Invite_new_member">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.flyby_riders.Utils.ShadowLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:shadowRadius="100dp"
+            app:shadowShape="oval"
+            app:shadowSide="bottom"
+            app:sl_shadow_angle="270"
+            app:sl_shadow_color="#33EDE9E9"
+            app:sl_shadow_radius="2dp"
+            app:sl_shadowed="true">
+
+            <com.flyby_riders.Utils.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                app:shadowRadius="100dp"
+                app:shadowShape="oval"
+                app:shadowSide="top"
+                app:sl_shadow_angle="90"
+                app:sl_shadow_color="#000000"
+                app:sl_shadow_radius="10dp"
+                app:sl_shadowed="true">
+
+                <RelativeLayout
+                    android:id="@+id/Back_Btn"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_drak"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/ic_back" />
+                </RelativeLayout>
+            </com.flyby_riders.Utils.ShadowLayout>
+        </com.flyby_riders.Utils.ShadowLayout>
+
+        <LinearLayout
+            android:id="@+id/search_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/search_view"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical"
+                android:hint="@string/invite_new_member"
+                android:fontFamily="@font/avenirnextbold"
+                android:textSize="20dp"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:drawableEnd="@drawable/ic_search"
+                android:paddingLeft="2dp"
+                android:layout_marginEnd="10dp"
+                android:singleLine="true"
+                android:textColor="#ffffff"
+                android:textColorHint="#fff" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbarThumbVertical="@color/transparent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#fff"
+                    android:fontFamily="@font/avenirnextbold"
+                    android:layout_marginStart="25dp"
+                    android:text="@string/contacts_on_flyby"/>
+
+                <ListView
+                    android:id="@+id/Flyby_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:fontFamily="@font/avenirnextbold"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/phone_contacts"/>
+
+                <ListView
+                    android:id="@+id/Not_Flyby_user"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
+
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    tools:context=".Ui.Fragment.Bike_Add_Fragments">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/transparent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="90dp">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:background="@color/transparent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_emptybike"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="70dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You don’t have any bikes in your garage.\nAdd one or more bikes here."
+                android:textSize="16dp"
+                android:textColor="#AAAAAA"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginTop="65dp"
+                android:fontFamily="@font/avenirbextregular"/>
+                <Button
+                    android:id="@+id/Bike_Add_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                  android:layout_marginStart="50dp"
+                    android:layout_marginEnd="50dp"
+                    android:layout_marginTop="20dp"
+                    android:text="ADD YOUR BIKE"
+                    android:textColor="@color/background_base"
+                    android:textSize="16dp"
+                    android:gravity="start|center"
+                    android:paddingStart="24dp"
+                    android:drawableEnd="@drawable/ic_nextarrowdark"
+                    android:paddingEnd="24dp"
+                    android:fontFamily="@font/blackhansansregular"
+                    android:background="@drawable/base_btn_ripple" />
+
+        </LinearLayout>
+        </ScrollView>
+       </RelativeLayout>
+</FrameLayout>

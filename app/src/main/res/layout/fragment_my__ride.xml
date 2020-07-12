@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    tools:context=".Ui.Fragment.My_Ride_Fragment">
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+`       <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="80dp">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_marginStart="25dp"
+              android:layout_centerVertical="true"
+              android:textColor="#F0EEF5"
+              android:textSize="25dp"
+              android:text="My Rides"
+              android:fontFamily="@font/avenirnextheavy"/>
+
+
+          <TextView
+              android:id="@+id/Create_Ride_tv"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentEnd="true"
+              android:layout_marginStart="25dp"
+              android:layout_centerVertical="true"
+              android:textColor="@color/background_base"
+              android:textSize="18dp"
+              android:text="New Ride "
+              android:gravity="center"
+              android:layout_marginEnd="25dp"
+              android:padding="5dp"
+              android:drawablePadding="5dp"
+              android:drawableStart="@drawable/add_bike_ic"
+              android:background="@drawable/base_round_ripple"
+              android:fontFamily="@font/avenirnextheavy"/>
+
+      </RelativeLayout>
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/MyRide_List"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+
+  </LinearLayout>
+  </ScrollView>
+</FrameLayout>

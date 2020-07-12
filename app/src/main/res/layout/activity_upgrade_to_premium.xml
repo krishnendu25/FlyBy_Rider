@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    android:orientation="vertical"
+    tools:context=".Ui.Activity.Upgrade_To_Premium">
+
+
+    <TextView
+        android:id="@+id/Back_Btn"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_marginBottom="2dp"
+        android:drawableStart="@drawable/ic_backarrowwhite"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/manropeextrabold"
+        android:gravity="center|start"
+        android:paddingStart="20dp"
+        android:text="UPGRADE TO PREMIUM"
+        android:textColor="#fff"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#fff" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.3">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="PLAN COMPARISON"
+                    android:gravity="center"
+                    android:layout_margin="15dp"
+                    android:fontFamily="@font/manropeextrabold"
+                    android:textSize="20dp"
+                    android:textColor="#fff"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/manropebold"
+                            android:gravity="center"
+                            android:text="Current Plan"
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/manropebold"
+                            android:gravity="center"
+                            android:text="Upgrade"
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="200dp"
+                            android:background="@drawable/add_card"
+                            android:layout_weight="0.96">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="6dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12dp"
+                                    android:fontFamily="@font/manropeextrabold"
+                                    android:text="@string/basic_account"
+                                    android:textColor="#F7B500"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:textColor="#C8C7CA"
+                                    android:textSize="12dp"
+                                    android:text="@string/add_1_bike_to_your_garage"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:textColor="#C8C7CA"
+                                    android:textSize="12dp"
+                                    android:text="Ads expire in 3 days"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:textColor="#C8C7CA"
+                                    android:textSize="12dp"
+                                    android:text="@string/add_upto_3_rides"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:textColor="#C8C7CA"
+                                    android:textSize="12dp"
+                                    android:text="@string/free"/>
+
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.08"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="200dp"
+                            android:background="@drawable/add_card"
+                            android:layout_weight="0.96">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="6dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12dp"
+                                    android:fontFamily="@font/manropeextrabold"
+                                    android:text="@string/premium_account"
+                                    android:textColor="@color/light_green"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:textColor="#C8C7CA"
+                                    android:textSize="12dp"
+                                    android:text="@string/add_unlimited_bikes_to_your_garage"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:textColor="#C8C7CA"
+                                    android:textSize="12dp"
+                                    android:text="@string/unlimited_rides"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:textColor="#C8C7CA"
+                                    android:textSize="12dp"
+                                    android:text="@string/_2_gb_storage_per_ride"/>
+
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:textColor="#C8C7CA"
+                                    android:textSize="12dp"
+                                    android:text="50 members per ride"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:textColor="#C8C7CA"
+                                    android:textSize="12dp"
+                                    android:text="@string/rs_999_lifetime"/>
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+         </ScrollView>
+  </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7">
+
+            <TextView
+                android:id="@+id/pay_amp_upgrade_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="15dp"
+                android:background="@drawable/base_btn_ripple"
+                android:fontFamily="@font/avenirnextheavy"
+                android:gravity="center"
+                android:text="@string/pay_amp_upgrade"
+                android:textColor="@color/background_base"
+                android:textSize="25dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

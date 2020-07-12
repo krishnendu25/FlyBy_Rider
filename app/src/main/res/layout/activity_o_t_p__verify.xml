@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    tools:context=".Ui.Activity.OTP_Verify">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="25dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/bg_logo"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="20dp"
+                    android:fontFamily="@font/blackhansansregular"
+                    android:text="Sign In"
+                    android:layout_marginTop="30dp"
+                    android:textColor="@color/white"
+                    android:textSize="35dp" />
+            </RelativeLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manropelight"
+                android:layout_marginTop="20dp"
+                android:text="Enter OTP"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+
+            <LinearLayout
+                android:id="@+id/edit_text_container"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:orientation="vertical"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <in.aabhasjindal.otptextview.OtpTextView
+                        android:id="@+id/otp_ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        app:bar_error_color="@color/Red"
+                        android:visibility="visible"
+                        app:otp_box_background="@drawable/edittext_bg"
+                        app:width="60dp"
+                        app:bar_enabled="false"
+                        app:bar_height="2dp"
+                        app:length="4"
+                        app:bar_active_color="@color/light_green"
+                        app:box_margin_right="15dp"
+                        app:otp_text_size="24dp"/>
+                    <in.aabhasjindal.otptextview.OtpTextView
+                        android:id="@+id/otp_ed_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/deep_purpel"
+                        app:bar_error_color="@color/Red"
+                        app:otp_box_background="@drawable/edittext_bg_red"
+                        app:width="60dp"
+                        app:bar_enabled="false"
+                        app:bar_height="2dp"
+                        app:length="4"
+                        app:bar_active_color="@color/light_green"
+                        app:box_margin_right="15dp"
+                        app:otp_text_size="24dp"/>
+                </LinearLayout>
+
+
+
+
+
+
+            </LinearLayout>
+
+
+
+
+            <TextView
+                android:id="@+id/Error_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/manropeextrabold"
+                android:layout_marginEnd="20dp"
+                android:gravity="end"
+                android:paddingEnd="40dp"
+                android:singleLine="true"
+                android:textColor="@color/Red"
+                android:textSize="14dp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/show_otp_Mobile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:fontFamily="@font/manropelight"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:ellipsize="marquee"
+                    android:textColor="@color/deep_purpel_light"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/edit_phone_no"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/light_green"
+                    android:fontFamily="@font/manropebold"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="EDIT"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/Resend_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/manropebold"
+                android:gravity="left"
+                android:text="@string/resend_otp"
+                android:textColor="@color/light_green"
+                android:textSize="18dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <Button
+        android:id="@+id/otp_verify_btn"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/green_btn_ripple_botton"
+        android:drawableEnd="@drawable/ic_nextarrowdark"
+        android:fontFamily="@font/blackhansansregular"
+        android:gravity="start|center"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="VERIFY &amp; CONTINUE"
+        android:textColor="@color/background_base"
+        android:textSize="16dp" />
+</RelativeLayout>
