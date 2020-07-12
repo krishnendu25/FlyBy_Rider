@@ -47,17 +47,12 @@ import retrofit2.Response;
 public class My_Garage_Fragment extends Fragment implements onClick {
 
     TextView bikeBrandName;
-
     TextView bikeModelName;
-
     ImageButton BikeAddBtn;
-
     RelativeLayout DocumentLockerBtn;
-
     ListView AdvetismentList;
     My_Bike_Adapter my_bike_adapter;
     ArrayList<My_Bike_Model> My_Bike_els = new ArrayList<>();
-
     RecyclerView MyBikeList;
     My_Garage_Fragment fragment;
     public RetrofitCallback retrofitCallback;

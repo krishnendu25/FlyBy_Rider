@@ -15,6 +15,7 @@ import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Fragment.Bike_Add_Fragments;
 import com.flyby_riders.Ui.Fragment.Discover_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
+import com.flyby_riders.Ui.Fragment.My_Ride_Fragment;
 import com.flyby_riders.Ui.Fragment.Ride_Add_Fragments;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
 import com.flyby_riders.Utils.ShadowLayout;
@@ -60,14 +61,16 @@ public class DashBoard extends BaseActivity {
     @BindView(R.id.ShadowLayout_rides)
     ShadowLayout ShadowLayoutRides;
     public static ArrayList<My_Bike_Model> My_Bike = new ArrayList<>();
+    private String My_Ride_Attached;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
         ButterKnife.bind(this);
         Instantiation();
-
-
+        Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
+        hit_my_ride(new Session(this).get_LOGIN_USER_ID());
     }
     private void Instantiation() {
         Tab_View_Adjust(ShadowLayoutMyGarage,ShadowLayoutDiscover,ShadowLayoutRides);
@@ -95,11 +98,23 @@ public class DashBoard extends BaseActivity {
                 Tab_View_Adjust(ShadowLayoutMyGarage,ShadowLayoutRides,ShadowLayoutDiscover);
                 break;
             case R.id.rides_active:
-                replaceFragment(new Ride_Add_Fragments());
+                if (My_Ride_Attached!=null)
+                { if (My_Ride_Attached.equalsIgnoreCase("0"))
+                    { replaceFragment(new Ride_Add_Fragments());
+                    }else
+                    { replaceFragment(new My_Ride_Fragment()); }
+                }else
+                { replaceFragment(new Ride_Add_Fragments()); }
                 Tab_View_Adjust(ShadowLayoutRides,ShadowLayoutMyGarage,ShadowLayoutDiscover);
                 break;
             case R.id.rides_inactive:
-                replaceFragment(new Ride_Add_Fragments());
+                if (My_Ride_Attached!=null)
+                { if (My_Ride_Attached.equalsIgnoreCase("0"))
+                { replaceFragment(new Ride_Add_Fragments());
+                }else
+                { replaceFragment(new My_Ride_Fragment()); }
+                }else
+                { replaceFragment(new Ride_Add_Fragments()); }
                 Tab_View_Adjust(ShadowLayoutRides,ShadowLayoutMyGarage,ShadowLayoutDiscover);
                 break;
         }
@@ -167,7 +182,7 @@ public class DashBoard extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
+
     }
     private void Hit_Rider_Details(String userid) {
         show_ProgressDialog();
@@ -241,6 +256,44 @@ public class DashBoard extends BaseActivity {
             }
         });
     }
+    private void hit_my_ride(String user_id)
+    {
 
+        Call<ResponseBody> requestCall = retrofitCallback.fetch_fetch_my_ride(user_id);
+        requestCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response.body().string());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if (jsonObject.getString("success").equalsIgnoreCase("1")) {
+
+                            JSONArray RIDEDETAILS = jsonObject.getJSONArray("RIDEDETAILS");
+                            if (RIDEDETAILS.length()>0)
+                            {  My_Ride_Attached = String.valueOf(RIDEDETAILS.length()); }
+                            else  if (RIDEDETAILS.length()==0)
+                            {My_Ride_Attached = String.valueOf(RIDEDETAILS.length()); }
+                            else
+                            {My_Ride_Attached = String.valueOf(0);}
+
+                            } else {My_Ride_Attached = String.valueOf(0); }
+                    } catch (Exception e) {
+                        My_Ride_Attached = String.valueOf(0);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                My_Ride_Attached = String.valueOf(0);
+            }
+        });
+
+
+    }
 
 }

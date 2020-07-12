@@ -97,13 +97,24 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
     LinearLayout AFTERRIDESTARTLAYOUTFOOTER;
     private Marker mCurrLocationMarker;
     double Latitude_Start = 0, Longitude_Start = 0;
-    String My_Ride_ID="";
+    String My_Ride_ID="",Admin_User_Id="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create__group__ride);
         ButterKnife.bind(this);
+        try{ My_Ride_ID = getIntent().getStringExtra("My_Ride_ID");
+            Admin_User_Id = getIntent().getStringExtra("Admin_User_Id");
+        }catch (Exception e){My_Ride_ID="";Admin_User_Id="";}
         Instantiation();
+        View_Control();
+    }
+
+    private void View_Control() {
+        if (new Session(this).get_LOGIN_USER_ID().equalsIgnoreCase(Admin_User_Id))
+        {BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.VISIBLE); endMyRide.setVisibility(View.VISIBLE);
+        }else{BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
+            endMyRide.setVisibility(View.GONE); }
     }
 
     private void Instantiation() {
@@ -142,11 +153,13 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
             case R.id.addmedia_btn:
                 Intent addmedia = new Intent(getApplicationContext(),Ride_Gallery.class);
                 addmedia.putExtra("My_Ride_ID",My_Ride_ID);
+                addmedia.putExtra("Admin_User_Id",Admin_User_Id);
                 startActivity(addmedia);
                 break;
             case R.id.addmembers_btn:
                 Intent Ride_Members_Management = new Intent(getApplicationContext(),Ride_Members_Management.class);
                 Ride_Members_Management.putExtra("My_Ride_ID",My_Ride_ID);
+                Ride_Members_Management.putExtra("Admin_User_Id",Admin_User_Id);
                 startActivity(Ride_Members_Management);
                 break;
             case R.id.schedule_for_later_btn:

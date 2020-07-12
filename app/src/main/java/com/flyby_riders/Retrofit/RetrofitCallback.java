@@ -82,4 +82,13 @@ public interface RetrofitCallback {
                                         @Field("start_location_latitude") String start_location_latitude,
                                         @Field("start_location_longitude") String start_location_longitude);
 
+    @FormUrlEncoded
+    @POST("fetch_my_ride")
+    Call<ResponseBody> fetch_fetch_my_ride(@Field("userid") String userid);
+
+    @POST("upload_ride_media_file")
+    Call<ResponseBody> updateuploadupload_ride_media_file(@Body RequestBody file);
+    @FormUrlEncoded
+    @POST("fetch_ride_album")
+    Call<ResponseBody> fetch_ride_album(@Field("Ride_id") String admin_userid);
 }

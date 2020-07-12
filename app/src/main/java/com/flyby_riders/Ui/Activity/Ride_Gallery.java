@@ -18,20 +18,36 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
+import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Adapter.Bike_Ride_Media_Adapter;
 import com.flyby_riders.Ui.Adapter.Doucment_Privew_Adapter;
+import com.flyby_riders.Ui.Adapter.Ride_Members_Adapter;
 import com.flyby_riders.Ui.Model.Media_Model;
+import com.flyby_riders.Ui.Model.Ride_Member_model;
 import com.flyby_riders.Ui.PhotoPicker.ImagePickerActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Ride_Gallery extends BaseActivity {
     private static final int INTENT_REQUEST_GET_IMAGES = 58;
@@ -47,7 +63,7 @@ public class Ride_Gallery extends BaseActivity {
     ViewPager viewPager;
     @BindView(R.id.add_media_to_ride)
     FloatingActionButton addMediaToRide;
-    String My_Ride_ID = "";
+    String My_Ride_ID = "",Admin_User_Id="";
     Bike_Ride_Media_Adapter bike_ride_media_adapter;
     private int mSelectedTabPosition=0;
     ArrayList<Media_Model> media_models = new ArrayList<>();
@@ -57,6 +73,7 @@ public class Ride_Gallery extends BaseActivity {
         setContentView(R.layout.activity_ride__gallery);
         ButterKnife.bind(this);
         try { My_Ride_ID = getIntent().getStringExtra("My_Ride_ID");
+            Admin_User_Id = getIntent().getStringExtra("Admin_User_Id");
         } catch (Exception e) {
         }
         Instantiation();
@@ -74,16 +91,18 @@ public class Ride_Gallery extends BaseActivity {
 
             }
         });
-
     }
-
     private void Instantiation() {
         bike_ride_media_adapter = new Bike_Ride_Media_Adapter(getSupportFragmentManager());
         viewPager.setAdapter(bike_ride_media_adapter);
+
         if (bike_ride_media_adapter!=null)
         bike_ride_media_adapter.notifyDataSetChanged();
+        viewPager_tabs.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(0);
         mSelectedTabPosition = 0;
+
+        Fetch_Media_Ride(My_Ride_ID);
     }
 
     @OnClick({R.id.Back_Btn, R.id.add_media_to_ride})
@@ -135,7 +154,6 @@ public class Ride_Gallery extends BaseActivity {
             hit_upload_media(media_models,My_Ride_ID);
         }
     }
-
     public Bitmap getResizedBitmap(Bitmap image) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -152,8 +170,95 @@ public class Ride_Gallery extends BaseActivity {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
     private void hit_upload_media(ArrayList<Media_Model> media_models, String my_ride_id) {
+        show_ProgressDialog();
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        builder.addFormDataPart("Ride_id",my_ride_id);
+        builder.addFormDataPart("Custom_Object",new Session(getApplicationContext()).get_LOGIN_USER_ID());
+        for (int i = 0; i < media_models.size(); i++) {
+            File file = new File(media_models.get(i).getFile_Name());
+            builder.addFormDataPart("ride_file[]", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
+        }
+        MultipartBody requestBody = builder.build();
+        Call<ResponseBody> call = retrofitCallback.updateuploadupload_ride_media_file(requestBody);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                hide_ProgressDialog();
+                if (response.isSuccessful()) {
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(response.body().string());
+
+                        if (jsonObject.getString("success").equalsIgnoreCase("1")) {
+                            Fetch_Media_Ride(My_Ride_ID);
+                            Constant.Show_Tos(getApplicationContext(), "Media Upload successfully");
+
+                        } else {
+                            Constant.Show_Tos(getApplicationContext(), "Media Upload Failed");
+                        }
+
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                hide_ProgressDialog();
+                Constant.Show_Tos(getApplicationContext(), "Media Upload Failed");
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    private void Fetch_Media_Ride(String my_ride_id)
+    {
+        show_ProgressDialog();
+        Call<ResponseBody> requestCall = retrofitCallback.fetch_ride_album(my_ride_id);
+        requestCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                hide_ProgressDialog();
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response.body().string());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if (jsonObject.getString("success").equalsIgnoreCase("1")) {
 
 
 
+
+
+
+                        } else {
+                            Constant.Show_Tos(getApplicationContext(),"No Media Files Found");
+                            hide_ProgressDialog();
+                        }
+                    } catch (Exception e) {
+                        Constant.Show_Tos(getApplicationContext(),"No Media Files Found");
+                        hide_ProgressDialog();
+                        hide_ProgressDialog();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                hide_ProgressDialog();Constant.Show_Tos(getApplicationContext(),"No Media Files Found");
+            }
+        });
     }
 }

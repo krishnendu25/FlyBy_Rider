@@ -17,7 +17,6 @@ public class Ride_Add_Fragments extends Fragment {
 
 Button Add_my_ride;
     public Ride_Add_Fragments() {
-        // Required empty public constructor
     }
 
     public static Ride_Add_Fragments newInstance() {

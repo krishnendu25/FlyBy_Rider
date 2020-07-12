@@ -31,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Ride_Members_Management extends BaseActivity implements onClick {
-    String My_Ride_ID = "";
+    String My_Ride_ID = "",Admin_User_Id="";
     @BindView(R.id.Back_Btn)
     RelativeLayout BackBtn;
     @BindView(R.id.member_count_tv)
@@ -51,6 +51,7 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
         ButterKnife.bind(this);
         try {
             My_Ride_ID = getIntent().getStringExtra("My_Ride_ID");
+            Admin_User_Id = getIntent().getStringExtra("Admin_User_Id");
         } catch (Exception e) {
         }
         Instantiation();
