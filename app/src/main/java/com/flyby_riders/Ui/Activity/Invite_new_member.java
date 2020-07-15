@@ -1,8 +1,11 @@
 package com.flyby_riders.Ui.Activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
 import com.flyby_riders.R;
@@ -39,6 +44,7 @@ import retrofit2.Response;
 
 public class Invite_new_member extends BaseActivity implements onClick {
 
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 546;
     @BindView(R.id.Back_Btn)
     RelativeLayout BackBtn;
     @BindView(R.id.search_view)
@@ -151,7 +157,7 @@ public class Invite_new_member extends BaseActivity implements onClick {
                                 FB.setContact_Number(jsonArray_ALLMODEL.getJSONObject(i).getString("PHONE").toString());
                                 FlyBy_local_contact.add(FB);
                             }
-                            new TestAsync().execute();
+                            requestContactPermission();
                         } else {
                             hide_ProgressDialog();
                         }
@@ -246,5 +252,42 @@ public class Invite_new_member extends BaseActivity implements onClick {
         }
     }
 
+    public void requestContactPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        android.Manifest.permission.READ_CONTACTS)) {
+                    requestPermissions(
+                            new String[]
+                                    {android.Manifest.permission.READ_CONTACTS}
+                            , PERMISSIONS_REQUEST_READ_CONTACTS);
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{android.Manifest.permission.READ_CONTACTS},
+                            PERMISSIONS_REQUEST_READ_CONTACTS);
+                }
+            } else {
+                new TestAsync().execute();
+            }
+        } else {
+            new TestAsync().execute();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_READ_CONTACTS: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    new TestAsync().execute();
+                } else {
+                    requestContactPermission();
+                }
+                return;
+            }
+        }
+    }
 
 }

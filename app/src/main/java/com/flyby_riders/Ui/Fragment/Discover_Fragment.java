@@ -19,6 +19,7 @@ public class Discover_Fragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static Discover_Fragment newInstance(String param1, String param2) {
         Discover_Fragment fragment = new Discover_Fragment();
+
         return fragment;
     }
 

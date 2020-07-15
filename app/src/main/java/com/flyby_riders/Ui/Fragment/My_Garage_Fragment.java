@@ -3,6 +3,7 @@ package com.flyby_riders.Ui.Fragment;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,7 +164,9 @@ public class My_Garage_Fragment extends Fragment implements onClick {
                     try {
                         JSONObject jsonObject = null;
                         try {
-                            jsonObject = new JSONObject(response.body().string());
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

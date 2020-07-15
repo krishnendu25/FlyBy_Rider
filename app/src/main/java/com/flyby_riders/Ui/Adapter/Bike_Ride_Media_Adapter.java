@@ -12,9 +12,9 @@ import com.flyby_riders.Ui.Fragment.My_Media_Ride_Fragment;
  */
 public class Bike_Ride_Media_Adapter extends FragmentPagerAdapter {
     private int NUM_ITEMS = 2;
-
     public Bike_Ride_Media_Adapter(FragmentManager fragmentManager) {
         super(fragmentManager);
+
     }
 
     // Returns total number of pages

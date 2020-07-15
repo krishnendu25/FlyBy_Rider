@@ -1,6 +1,7 @@
 package com.flyby_riders.Ui.Activity;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -196,7 +197,9 @@ public class DashBoard extends BaseActivity {
                     try {
                         JSONObject jsonObject = null;
                         try {
-                            jsonObject = new JSONObject(response.body().string());
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

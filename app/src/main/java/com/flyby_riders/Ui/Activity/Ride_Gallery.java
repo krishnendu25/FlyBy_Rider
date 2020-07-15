@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,7 +23,10 @@ import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Adapter.Bike_Ride_Media_Adapter;
 import com.flyby_riders.Ui.Adapter.Doucment_Privew_Adapter;
 import com.flyby_riders.Ui.Adapter.Ride_Members_Adapter;
+import com.flyby_riders.Ui.Fragment.All_Media_Ride_Fragment;
+import com.flyby_riders.Ui.Fragment.My_Media_Ride_Fragment;
 import com.flyby_riders.Ui.Model.Media_Model;
+import com.flyby_riders.Ui.Model.Ride_Media_Model;
 import com.flyby_riders.Ui.Model.Ride_Member_model;
 import com.flyby_riders.Ui.PhotoPicker.ImagePickerActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +41,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,16 +68,18 @@ public class Ride_Gallery extends BaseActivity {
     ViewPager viewPager;
     @BindView(R.id.add_media_to_ride)
     FloatingActionButton addMediaToRide;
-    String My_Ride_ID = "",Admin_User_Id="";
+    public static String My_Ride_ID = "", Admin_User_Id = "";
     Bike_Ride_Media_Adapter bike_ride_media_adapter;
-    private int mSelectedTabPosition=0;
+    private int mSelectedTabPosition = 0;
     ArrayList<Media_Model> media_models = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride__gallery);
         ButterKnife.bind(this);
-        try { My_Ride_ID = getIntent().getStringExtra("My_Ride_ID");
+        try {
+            My_Ride_ID = getIntent().getStringExtra("My_Ride_ID");
             Admin_User_Id = getIntent().getStringExtra("Admin_User_Id");
         } catch (Exception e) {
         }
@@ -82,27 +89,30 @@ public class Ride_Gallery extends BaseActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
+
             @Override
             public void onPageSelected(int position) {
-                mSelectedTabPosition=position;
+                mSelectedTabPosition = position;
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
         });
     }
+
     private void Instantiation() {
         bike_ride_media_adapter = new Bike_Ride_Media_Adapter(getSupportFragmentManager());
         viewPager.setAdapter(bike_ride_media_adapter);
 
-        if (bike_ride_media_adapter!=null)
-        bike_ride_media_adapter.notifyDataSetChanged();
+        if (bike_ride_media_adapter != null)
+            bike_ride_media_adapter.notifyDataSetChanged();
         viewPager_tabs.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(0);
         mSelectedTabPosition = 0;
 
-        Fetch_Media_Ride(My_Ride_ID);
+
     }
 
     @OnClick({R.id.Back_Btn, R.id.add_media_to_ride})
@@ -116,6 +126,7 @@ public class Ride_Gallery extends BaseActivity {
                 break;
         }
     }
+
     private void getImages() {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) &&
                 (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
@@ -125,7 +136,7 @@ public class Ride_Gallery extends BaseActivity {
                     235);
         } else {
             Intent intent = new Intent(this, ImagePickerActivity.class);
-            intent.putExtra("Class",getLocalClassName());
+            intent.putExtra("Class", getLocalClassName());
             startActivityForResult(intent, INTENT_REQUEST_GET_IMAGES);
         }
     }
@@ -136,8 +147,9 @@ public class Ride_Gallery extends BaseActivity {
         if (requestCode == INTENT_REQUEST_GET_IMAGES && resuleCode == Activity.RESULT_OK) {
 
             ArrayList<Uri> image_uris = intent.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
-            if (media_models.size()==0)
-            {media_models.clear();}
+            if (media_models.size() == 0) {
+                media_models.clear();
+            }
             for (int i = 0; i < image_uris.size(); i++) {
                 try {
                     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -151,30 +163,32 @@ public class Ride_Gallery extends BaseActivity {
                     e.printStackTrace();
                 }
             }
-            hit_upload_media(media_models,My_Ride_ID);
+            hit_upload_media(media_models, My_Ride_ID);
         }
     }
+
     public Bitmap getResizedBitmap(Bitmap image) {
         int width = image.getWidth();
         int height = image.getHeight();
 
         float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
-            width = 480 ;
+            width = 480;
             height = (int) (width / bitmapRatio);
         } else {
-            height = 640 ;
+            height = 640;
             width = (int) (height * bitmapRatio);
         }
 
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
+
     private void hit_upload_media(ArrayList<Media_Model> media_models, String my_ride_id) {
         show_ProgressDialog();
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
-        builder.addFormDataPart("Ride_id",my_ride_id);
-        builder.addFormDataPart("Custom_Object",new Session(getApplicationContext()).get_LOGIN_USER_ID());
+        builder.addFormDataPart("Ride_id", my_ride_id);
+        builder.addFormDataPart("Custom_Object", new Session(getApplicationContext()).get_LOGIN_USER_ID());
         for (int i = 0; i < media_models.size(); i++) {
             File file = new File(media_models.get(i).getFile_Name());
             builder.addFormDataPart("ride_file[]", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
@@ -192,8 +206,17 @@ public class Ride_Gallery extends BaseActivity {
                         jsonObject = new JSONObject(response.body().string());
 
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
-                            Fetch_Media_Ride(My_Ride_ID);
+
                             Constant.Show_Tos(getApplicationContext(), "Media Upload successfully");
+                            if (mSelectedTabPosition==0)
+                            {
+                                All_Media_Ride_Fragment ab=All_Media_Ride_Fragment.newInstance();
+                                ab.Fetch_Media_Ride(My_Ride_ID);
+                            }else if(mSelectedTabPosition==1)
+                            { My_Media_Ride_Fragment mb= My_Media_Ride_Fragment.newInstance();
+                                mb.Fetch_Media_Ride(My_Ride_ID);
+                            }
+
 
                         } else {
                             Constant.Show_Tos(getApplicationContext(), "Media Upload Failed");
@@ -221,44 +244,5 @@ public class Ride_Gallery extends BaseActivity {
 
     }
 
-    private void Fetch_Media_Ride(String my_ride_id)
-    {
-        show_ProgressDialog();
-        Call<ResponseBody> requestCall = retrofitCallback.fetch_ride_album(my_ride_id);
-        requestCall.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                hide_ProgressDialog();
-                if (response.isSuccessful()) {
-                    try {
-                        JSONObject jsonObject = null;
-                        try {
-                            jsonObject = new JSONObject(response.body().string());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        if (jsonObject.getString("success").equalsIgnoreCase("1")) {
 
-
-
-
-
-
-                        } else {
-                            Constant.Show_Tos(getApplicationContext(),"No Media Files Found");
-                            hide_ProgressDialog();
-                        }
-                    } catch (Exception e) {
-                        Constant.Show_Tos(getApplicationContext(),"No Media Files Found");
-                        hide_ProgressDialog();
-                        hide_ProgressDialog();
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog();Constant.Show_Tos(getApplicationContext(),"No Media Files Found");
-            }
-        });
-    }
 }
