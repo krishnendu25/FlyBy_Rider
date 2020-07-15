@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.Choose_Way_Screen;
 
+import static com.flyby_riders.Ui.Listener.StringUtils.BASIC;
+
 public class Session {
 
     private static final String LOGIN_PHONE_NO = "PHONE_NO";
@@ -15,6 +17,8 @@ public class Session {
     private static final String IsLogin="";
     private static final String Is_onBoarding_visit = "false";
     private static final String GRAGE_PHOTO = "GRAGE_PHOTO";
+
+    private static final String MEMBER_STATUS = BASIC;
 
 
     public static SharedPreferences sPrfed_State_Saver;
@@ -79,6 +83,16 @@ public class Session {
     }
     public String get_IsLogin() {
         return sPrfed_State_Saver.getString(IsLogin, "");
+    }
+
+
+
+    public void set_MEMBER_STATUS(String tm) {
+        sPrfed_State_Saver_editor.putString(MEMBER_STATUS, tm);
+        sPrfed_State_Saver_editor.commit();
+    }
+    public String get_MEMBER_STATUS() {
+        return sPrfed_State_Saver.getString(MEMBER_STATUS, BASIC);
     }
 
 }

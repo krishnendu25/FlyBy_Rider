@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:text="PLAN COMPARISON"
                     android:gravity="center"
-                    android:layout_margin="15dp"
+                    android:layout_margin="30dp"
                     android:fontFamily="@font/manropeextrabold"
                     android:textSize="20dp"
                     android:textColor="#fff"/>
@@ -113,7 +113,7 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
                                     android:fontFamily="@font/manropeextrabold"
                                     android:text="@string/basic_account"
                                     android:textColor="#F7B500"/>
@@ -124,7 +124,7 @@
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
                                     android:text="@string/add_1_bike_to_your_garage"/>
                                 <TextView
                                     android:layout_width="match_parent"
@@ -132,7 +132,7 @@
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
                                     android:text="Ads expire in 3 days"/>
                                 <TextView
                                     android:layout_width="match_parent"
@@ -140,7 +140,7 @@
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
                                     android:text="@string/add_upto_3_rides"/>
                                 <TextView
                                     android:layout_width="match_parent"
@@ -148,7 +148,7 @@
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
                                     android:text="@string/free"/>
 
                             </LinearLayout>
@@ -171,7 +171,7 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
                                     android:fontFamily="@font/manropeextrabold"
                                     android:text="@string/premium_account"
                                     android:textColor="@color/light_green"/>
@@ -182,7 +182,7 @@
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
                                     android:text="@string/add_unlimited_bikes_to_your_garage"/>
                                 <TextView
                                     android:layout_width="match_parent"
@@ -190,7 +190,7 @@
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
                                     android:text="@string/unlimited_rides"/>
 
                                 <TextView
@@ -199,7 +199,7 @@
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
                                     android:text="@string/_2_gb_storage_per_ride"/>
 
 
@@ -209,7 +209,7 @@
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
                                     android:text="50 members per ride"/>
 
                                 <TextView
@@ -218,7 +218,7 @@
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
                                     android:text="@string/rs_999_lifetime"/>
 
                             </LinearLayout>
@@ -239,19 +239,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:gravity="center"
             android:layout_weight="0.7">
 
             <TextView
                 android:id="@+id/pay_amp_upgrade_tv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
                 android:layout_margin="15dp"
                 android:background="@drawable/base_btn_ripple"
                 android:fontFamily="@font/avenirnextheavy"
                 android:gravity="center"
                 android:text="@string/pay_amp_upgrade"
                 android:textColor="@color/background_base"
-                android:textSize="25dp" />
+                android:textSize="18dp" />
 
         </LinearLayout>
 

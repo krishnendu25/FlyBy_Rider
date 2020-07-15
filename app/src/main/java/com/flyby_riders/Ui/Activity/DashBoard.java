@@ -38,6 +38,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.flyby_riders.Ui.Listener.StringUtils.BASIC;
+import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
+
 public class DashBoard extends BaseActivity {
     @BindView(R.id.Account_Btn)
     RelativeLayout AccountBtn;
@@ -207,6 +210,7 @@ public class DashBoard extends BaseActivity {
                             JSONArray BIKEBRANDDETAILS = null;
                             try{
                                 BIKEBRANDDETAILS =  jsonObject.getJSONObject("ALLRIDERDETAILS").getJSONArray("BIKEBRANDDETAILS");
+                                Check_Payment(jsonObject.getJSONObject("ALLRIDERDETAILS").getJSONObject("USERDETAILS"));
                             }catch (Exception E)
                             { }
 
@@ -259,6 +263,28 @@ public class DashBoard extends BaseActivity {
             }
         });
     }
+
+    private void Check_Payment(JSONObject jsonObject) {
+
+        if (jsonObject.has("PLANNAME"))
+        {
+            try {
+                if (jsonObject.getString("PLANNAME")!=null)
+                {
+                    if (jsonObject.getString("PLANNAME").equalsIgnoreCase(""))
+                    {new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);
+                    }else
+                    {new Session(getApplicationContext()).set_MEMBER_STATUS(PREMIUM); }
+                }else
+                { new Session(getApplicationContext()).set_MEMBER_STATUS(PREMIUM); }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
     private void hit_my_ride(String user_id)
     {
 

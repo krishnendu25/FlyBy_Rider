@@ -45,6 +45,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.flyby_riders.Ui.Listener.StringUtils.BASIC;
+import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
+
 public class My_Garage_Fragment extends Fragment implements onClick {
 
     TextView bikeBrandName;
@@ -95,10 +98,16 @@ public class My_Garage_Fragment extends Fragment implements onClick {
         BikeAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), Bike_Brand_Activity.class));
+                if (new Session(getActivity()).get_MEMBER_STATUS().equalsIgnoreCase(PREMIUM))
+                {startActivity(new Intent(getActivity(), Bike_Brand_Activity.class));}else
+                { if (My_Bike_els.size()==1)
+                    {
+                        Constant.Show_Tos(getActivity(),"You Reach Maximum Number Of Bike");
+                    }else
+                    {startActivity(new Intent(getActivity(), Bike_Brand_Activity.class));}
+                }
             }
         });
-
         DocumentLockerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

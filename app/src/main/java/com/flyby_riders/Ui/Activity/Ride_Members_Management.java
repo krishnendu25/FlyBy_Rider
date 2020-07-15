@@ -30,6 +30,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
+
 public class Ride_Members_Management extends BaseActivity implements onClick {
     String My_Ride_ID = "",Admin_User_Id="";
     @BindView(R.id.Back_Btn)
@@ -101,7 +103,10 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
                                 rm.setAdmin(true);
                                 Member_List.add(rm);
                             }
-                            memberCountTv.setText(String.valueOf(Member_List.size()) +" of 5 members added");
+                            if (new Session(getApplicationContext()).get_MEMBER_STATUS().equalsIgnoreCase(PREMIUM))
+                            {memberCountTv.setText(String.valueOf(Member_List.size()) +" of 50 members added");
+                            }else
+                            {memberCountTv.setText(String.valueOf(Member_List.size()) +" of 5 members added");}
                             ride_members_adapter = new Ride_Members_Adapter(Ride_Members_Management.this,Member_List);
                             RideMemberList.setAdapter(ride_members_adapter);
 
@@ -133,10 +138,35 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
                 finish();
                 break;
             case R.id.Buy_Subscption_tv:
+                Intent i = new Intent(getApplicationContext(),Upgrade_To_Premium.class);
+                i.putExtra("My_Ride_ID",My_Ride_ID);
+                startActivity(i);
                 break;
             case R.id.Add_member_btn:
-                Intent intent = new Intent(getApplicationContext(),Invite_new_member.class);
-                startActivityForResult(intent,569);
+
+                if (new Session(this).get_LOGIN_USER_ID().equalsIgnoreCase(Admin_User_Id))
+                {
+                    if (new Session(getApplicationContext()).get_MEMBER_STATUS().equalsIgnoreCase(PREMIUM))
+                    {
+                        if (Member_List.size()<=50)
+                        {
+                            Intent intent = new Intent(getApplicationContext(),Invite_new_member.class);
+                            startActivityForResult(intent,569);
+                        }else{Constant.Show_Tos(getApplicationContext(),"This Ride Reach Maximum Member Number");}
+                    }else
+                    {
+                        if (Member_List.size()<=5)
+                        {
+                            Intent intent = new Intent(getApplicationContext(),Invite_new_member.class);
+                            startActivityForResult(intent,569);
+                        }else{Constant.Show_Tos(getApplicationContext(),"This Ride Reach Maximum Member Number");}
+
+                    }
+                }else
+                {Constant.Show_Tos(getApplicationContext(),"You Not Admin Of This Group"); }
+
+
+
                 break;
         }
     }
@@ -203,5 +233,19 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
     @Override
     public void onLongClick(String Value) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (new Session(getApplicationContext()).get_MEMBER_STATUS().equalsIgnoreCase(PREMIUM))
+        { BuySubscptionTv.setVisibility(View.GONE);
+        }else
+        {BuySubscptionTv.setVisibility(View.VISIBLE);}
+
+        if (new Session(getApplicationContext()).get_MEMBER_STATUS().equalsIgnoreCase(PREMIUM))
+        {memberCountTv.setText(String.valueOf(Member_List.size()) +" of 50 members added");
+        }else
+        {memberCountTv.setText(String.valueOf(Member_List.size()) +" of 5 members added");}
     }
 }

@@ -91,4 +91,17 @@ public interface RetrofitCallback {
     @FormUrlEncoded
     @POST("fetch_ride_album")
     Call<ResponseBody> fetch_ride_album(@Field("Ride_id") String admin_userid);
+
+
+
+    @POST("buy_subcription_plan")
+    Call<ResponseBody> buy_subcription_plan(
+            @Field("Userid") String Userid,
+                                        @Field("plan_name") String plan_name,
+                                        @Field("plan_id") String plan_id,
+                                        @Field("payment_amount") String payment_amount,
+                                        @Field("marchent_name") String marchent_name,
+                                        @Field("payment_id") String payment_id,
+                                        @Field("payment_ref_no") String payment_ref_no,
+                                        @Field("Ride_id") String order_id);
 }

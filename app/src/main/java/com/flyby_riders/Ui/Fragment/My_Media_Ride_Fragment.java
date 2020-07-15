@@ -21,6 +21,7 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
+import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Activity.Ride_Gallery;
 import com.flyby_riders.Ui.Adapter.Ride_Gallery_Adapter;
 import com.flyby_riders.Ui.Model.Ride_Media_Model;
@@ -134,8 +135,9 @@ public class My_Media_Ride_Fragment extends Fragment {
                                     Ride_Media_List.add(rm);
                                 }
                             }
-                            ride_gallery_adapter = new Ride_Gallery_Adapter(getActivity(),Ride_Media_List,Measuredwidth/2);
-                            my_uploaded_list.setAdapter(ride_gallery_adapter);
+
+                            Filter_List(Ride_Media_List,new Session(getActivity()).get_LOGIN_USER_ID());
+
                         } else {
                             hide_ProgressDialog();
                         }
@@ -150,6 +152,18 @@ public class My_Media_Ride_Fragment extends Fragment {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hide_ProgressDialog(); }
         });
+    }
+
+    private void Filter_List(ArrayList<Ride_Media_Model> ride_media_list, String User_Id) {
+
+        for (int i=0 ; i<ride_media_list.size() ; i++)
+        { if (!ride_media_list.get(i).getUPLOADER_ID().equalsIgnoreCase(User_Id))
+            {ride_media_list.remove(i);}
+        }
+
+        ride_gallery_adapter = new Ride_Gallery_Adapter(getActivity(),Ride_Media_List,Measuredwidth/2);
+        my_uploaded_list.setAdapter(ride_gallery_adapter);
+
     }
 
 
