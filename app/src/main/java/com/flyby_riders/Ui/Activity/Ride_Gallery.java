@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -131,10 +132,11 @@ public class Ride_Gallery extends BaseActivity {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) &&
                 (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
                 && (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-
+            hide_ProgressDialog();
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE},
                     235);
         } else {
+            hide_ProgressDialog();
             Intent intent = new Intent(this, ImagePickerActivity.class);
             intent.putExtra("Class", getLocalClassName());
             startActivityForResult(intent, INTENT_REQUEST_GET_IMAGES);
@@ -203,7 +205,9 @@ public class Ride_Gallery extends BaseActivity {
                 if (response.isSuccessful()) {
                     JSONObject jsonObject = null;
                     try {
-                        jsonObject = new JSONObject(response.body().string());
+                        String output = Html.fromHtml(response.body().string()).toString();
+                        output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                        jsonObject = new JSONObject(output);
 
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
 

@@ -104,4 +104,55 @@ public interface RetrofitCallback {
                                         @Field("payment_id") String payment_id,
                                         @Field("payment_ref_no") String payment_ref_no,
                                         @Field("Ride_id") String order_id);
+
+   //--------------------------------------------------------------------------------------------//
+    @FormUrlEncoded
+    @POST("fetch_all_advertise")
+    Call<ResponseBody> fetch_all_advertise(@Field("bike_model_id") String bike_model_id,
+                                           @Field("bike_brand_id") String bike_brand_id,
+                                           @Field("city") String city);
+
+
+    @FormUrlEncoded
+    @POST("click_advertise")
+    Call<ResponseBody> click_advertise(@Field("userid") String userid,
+                                       @Field("advertisement_id") String advertisement_id);
+
+
+
+
+    @POST("location_tracker_start")
+    Call<ResponseBody> START_RIDE(
+            @Field("Ride_Id") String Ride_Id,
+            @Field("Admin_id") String Admin_id,
+            @Field("start_location_address") String start_location_address,
+            @Field("start_location_latitude") String start_location_latitude,
+            @Field("start_location_longitude") String start_location_longitude,
+            @Field("Ride_status") String Ride_status);
+
+
+    @POST("location_tracker_end")
+    Call<ResponseBody> END_RIDE(
+            @Field("Ride_Id") String Ride_Id,
+            @Field("Admin_id") String Admin_id,
+            @Field("end_location_address") String end_location_address,
+            @Field("end_location_latitude") String end_location_latitude,
+            @Field("end_location_longitude") String end_location_longitude,
+            @Field("Ride_status") String Ride_status);
+
+
+    @FormUrlEncoded
+    @POST("location_tracker")
+    Call<ResponseBody> location_tracker(@Field("longitude") String longitude,
+                                       @Field("latitude") String latitude,
+                                        @Field("Ride_id") String Ride_id,
+                                        @Field("member_id") String member_id,
+                                        @Field("avg_speed") String avg_speed,
+                                        @Field("top_speed") String top_speed,
+                                        @Field("spend_timestamp") String spend_timestamp);
+    @FormUrlEncoded
+    @POST("fetch_location_tracker")
+    Call<ResponseBody> fetch_location_tracker(@Field("Ride_id") String Ride_id,
+                                        @Field("member_id") String member_id);
+
 }

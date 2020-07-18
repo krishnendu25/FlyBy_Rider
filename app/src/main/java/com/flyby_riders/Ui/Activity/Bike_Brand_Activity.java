@@ -2,6 +2,7 @@ package com.flyby_riders.Ui.Activity;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -90,7 +91,9 @@ public class Bike_Brand_Activity extends BaseActivity {
 
                         JSONObject jsonObject = null;
                         try {
-                            jsonObject = new JSONObject(response.body().string());
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

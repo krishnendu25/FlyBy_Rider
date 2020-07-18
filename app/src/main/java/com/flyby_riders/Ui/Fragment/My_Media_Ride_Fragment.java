@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -111,7 +112,9 @@ public class My_Media_Ride_Fragment extends Fragment {
                     try {
                         JSONObject jsonObject = null;
                         try {
-                            jsonObject = new JSONObject(response.body().string());
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }Ride_Media_List.clear();

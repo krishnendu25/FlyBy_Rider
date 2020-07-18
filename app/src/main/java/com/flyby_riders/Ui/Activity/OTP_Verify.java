@@ -115,7 +115,7 @@ public class OTP_Verify extends BaseActivity implements IJSONParseListener {
 
     private void Verifotp(String otp) {
 
-        Call<ResponseBody> requestCall = retrofitCallback.validate_otp(Phone_Number,otp,"Device_Id");
+        Call<ResponseBody> requestCall = retrofitCallback.validate_otp(Phone_Number,otp,Device_Id);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -190,7 +190,9 @@ public class OTP_Verify extends BaseActivity implements IJSONParseListener {
                     try {
                         JSONObject jsonObject = null;
                         try {
-                            jsonObject = new JSONObject(response.body().string());
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -223,7 +225,8 @@ public class OTP_Verify extends BaseActivity implements IJSONParseListener {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 Device_Id = instanceIdResult.getToken();
-                System.out.println("Logic" + Device_Id);
+                if (Device_Id==null)
+                {Device_Id="Device_Id";}else if (Device_Id.equalsIgnoreCase("")){Device_Id="Device_Id";}
             }
         });
 

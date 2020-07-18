@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -256,7 +257,9 @@ public class Document_Album_Creator extends BaseActivity implements onClick {
                 if (response.isSuccessful()) {
                     JSONObject jsonObject = null;
                     try {
-                        jsonObject = new JSONObject(response.body().string());
+                        String output = Html.fromHtml(response.body().string()).toString();
+                        output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                        jsonObject = new JSONObject(output);
 
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             Constant.Show_Tos(getApplicationContext(), "Album Creation Complete");
@@ -305,7 +308,9 @@ public class Document_Album_Creator extends BaseActivity implements onClick {
                 if (response.isSuccessful()) {
                     JSONObject jsonObject = null;
                     try {
-                        jsonObject = new JSONObject(response.body().string());
+                        String output = Html.fromHtml(response.body().string()).toString();
+                        output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                        jsonObject = new JSONObject(output);
 
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             Constant.Show_Tos(getApplicationContext(), "Album updated successfully");

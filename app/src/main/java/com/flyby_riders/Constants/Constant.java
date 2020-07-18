@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -42,6 +43,7 @@ import java.net.URL;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -678,6 +680,43 @@ public class Constant
             /* Log.w("My Current loction address", "Canont get Address!");*/
         }
         return strAdd;
+    }
+
+    public static String getCompletecity(Context c,double LATITUDE, double LONGITUDE,boolean city,boolean address,boolean street_name) {
+        String cityName = "";
+        String address_st="";
+        String stateName="";
+        Geocoder geocoder = new Geocoder(c, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+                 address_st = addresses.get(0).getSubLocality().toLowerCase().trim();
+                 cityName = addresses.get(0).getLocality().toLowerCase().trim();
+                 stateName = addresses.get(0).getAdminArea().toLowerCase().trim();
+                /* Log.w("My Current loction address", strReturnedAddress.toString());*/
+            } else {
+                /*  Log.w("My Current loction address", "No Address returned!");*/
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            /* Log.w("My Current loction address", "Canont get Address!");*/
+        }
+
+        if (city)
+        { return cityName;
+        }else if (address) { return address_st;
+        }else{return stateName;}
+
+
+    }
+    public static ArrayList<String> splitByComma(String allIds, String imagepath) {
+        ArrayList<String> images = new ArrayList<>();
+        String[] allIdsArray = TextUtils.split(allIds, ",");
+        ArrayList<String> idsList = new ArrayList<String>(Arrays.asList(allIdsArray));
+        for (String element : idsList) {
+            if (!element.equalsIgnoreCase("")){images.add(imagepath + element);}
+        }
+        return images;
     }
     public static void showRateDialog(final Context context) {
         if (context != null) {

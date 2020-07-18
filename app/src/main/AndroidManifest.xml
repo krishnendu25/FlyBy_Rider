@@ -24,6 +24,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
@@ -48,7 +49,6 @@
         <activity android:name=".Ui.Activity.Ride_Members_Management" />
         <activity android:name=".Ui.Activity.Create_Group_Ride" />
         <activity android:name=".Ui.Activity.Album_Viewer" /> <!-- Add the service created in services package ! -->
-        <service android:name=".Ui.Service.LocationMonitoringService" />
 
         <activity android:name=".Ui.Activity.Document_Album_Creator" />
         <activity android:name=".Ui.Activity.Document_Locker" />
@@ -94,7 +94,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <service  android:name=".Ui.Service.LocationTrackerService"  android:enabled="true" android:exported="true"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBPY5WHNqIEGV2y6eNR4R5xCgzEh_kyYCY" />

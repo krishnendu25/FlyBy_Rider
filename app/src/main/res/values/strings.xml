@@ -72,4 +72,9 @@
     <string name="_2_gb_storage_per_ride">2 GB storage per ride</string>
     <string name="rs_999_lifetime">Rs. 999 / - Lifetime</string>
     <string name="premium_user">You are now premium user</string>
+    <string name="sub">You have added 5 of 5 members to this ride.\nUpgrade to PREMIUM to add upto 50 members\nto none ride.</string>
+    <string name="view_plan_details">VIEW PLAN DETAILS</string>
+    <string name="rupee">₹</string>
+    <string name="upgrades_for">Upgrades for</string>
+    <string name="upgrades_for_your_bike">Upgrades for\nYOUR BIKES</string>
 </resources>

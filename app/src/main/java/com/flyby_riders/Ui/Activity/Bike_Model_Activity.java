@@ -2,6 +2,7 @@ package com.flyby_riders.Ui.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -73,7 +74,9 @@ public class Bike_Model_Activity extends BaseActivity implements onClick {
                     hide_ProgressDialog();
                     JSONObject jsonObject = null;
                     try {
-                        jsonObject = new JSONObject(response.body().string());
+                        String output = Html.fromHtml(response.body().string()).toString();
+                        output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                        jsonObject = new JSONObject(output);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -123,7 +126,9 @@ public class Bike_Model_Activity extends BaseActivity implements onClick {
                     hide_ProgressDialog();
                     JSONObject jsonObject = null;
                     try {
-                        jsonObject = new JSONObject(response.body().string());
+                        String output = Html.fromHtml(response.body().string()).toString();
+                        output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                        jsonObject = new JSONObject(output);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

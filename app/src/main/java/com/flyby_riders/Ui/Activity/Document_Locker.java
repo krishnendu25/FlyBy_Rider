@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +43,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.flyby_riders.Constants.Constant.splitByComma;
 
 public class Document_Locker extends BaseActivity implements onClick {
 
@@ -160,7 +163,9 @@ public class Document_Locker extends BaseActivity implements onClick {
                     try {
                         JSONObject jsonObject = null;
                         try {
-                            jsonObject = new JSONObject(response.body().string());
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
                         } catch (Exception e) {
                             e.printStackTrace();
                         } Album_Content_list.clear();
@@ -219,15 +224,7 @@ public class Document_Locker extends BaseActivity implements onClick {
         }
         Album_Content_list.add(ab);
     }
-    public static ArrayList<String> splitByComma(String allIds, String imagepath) {
-        ArrayList<String> images = new ArrayList<>();
-        String[] allIdsArray = TextUtils.split(allIds, ",");
-        ArrayList<String> idsList = new ArrayList<String>(Arrays.asList(allIdsArray));
-        for (String element : idsList) {
-            images.add(imagepath + element);
-        }
-        return images;
-    }
+
 
 
     private void Hit_Rider_Details(String userid) {
@@ -242,7 +239,9 @@ public class Document_Locker extends BaseActivity implements onClick {
                     try {
                         JSONObject jsonObject = null;
                         try {
-                            jsonObject = new JSONObject(response.body().string());
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

@@ -77,10 +77,10 @@ public class Bike_Model_Adapter extends BaseAdapter {
         });
         try{
             Picasso.get()
-                    .load(data.get(position).getPIC()).placeholder(R.drawable.images)
+                    .load(data.get(position).getPIC()).placeholder(R.drawable.ic_emptybike)
                     .into(holder.brand_pic);
         }catch (Exception e)
-        {
+        {holder.brand_pic.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptybike));
         }
         return rowView;
     }

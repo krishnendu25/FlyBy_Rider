@@ -2,6 +2,7 @@ package com.flyby_riders.Ui.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.flyby_riders.Ui.Adapter.Ride_Members_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Ride_Member_model;
 import com.google.android.gms.auth.api.credentials.Credential;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -78,7 +80,9 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
                     try {
                         JSONObject jsonObject = null;
                         try {
-                            jsonObject = new JSONObject(response.body().string());
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -138,12 +142,9 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
                 finish();
                 break;
             case R.id.Buy_Subscption_tv:
-                Intent i = new Intent(getApplicationContext(),Upgrade_To_Premium.class);
-                i.putExtra("My_Ride_ID",My_Ride_ID);
-                startActivity(i);
+                hit_Payment_Bottomsheet();
                 break;
             case R.id.Add_member_btn:
-
                 if (new Session(this).get_LOGIN_USER_ID().equalsIgnoreCase(Admin_User_Id))
                 {
                     if (new Session(getApplicationContext()).get_MEMBER_STATUS().equalsIgnoreCase(PREMIUM))
@@ -164,12 +165,29 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
                     }
                 }else
                 {Constant.Show_Tos(getApplicationContext(),"You Not Admin Of This Group"); }
-
-
-
                 break;
         }
     }
+
+    private void hit_Payment_Bottomsheet() {
+        View dialogView = getLayoutInflater().inflate(R.layout.can_add_members, null);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(dialogView);
+        TextView view_plan_details = bottomSheetDialog.findViewById(R.id.view_plan_details);
+        view_plan_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),Upgrade_To_Premium.class);
+                i.putExtra("My_Ride_ID",My_Ride_ID);
+                startActivity(i);
+                bottomSheetDialog.hide();
+            }
+        });
+        bottomSheetDialog.show();
+    }
+
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -194,7 +212,9 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
                     try {
                         JSONObject jsonObject = null;
                         try {
-                            jsonObject = new JSONObject(response.body().string());
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
