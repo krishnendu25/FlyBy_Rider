@@ -417,40 +417,6 @@ public class Constant
 
     }
 
-  /*  public static void TakeImage(final Activity mActivity, final int CAMERA_REQUEST, final int PICK_IMAGE_REQUEST)
-
-    {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mActivity);
-        LayoutInflater inflater = (mActivity).getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.camera_alert_custom_view, null);
-        dialogBuilder.setView(dialogView);
-        ImageButton Open_Camera = dialogView.findViewById(R.id.Open_Camera);
-        ImageButton Open_Gallery = dialogView.findViewById(R.id.Open_Gallery);
-        final AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        Open_Camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                mActivity.startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                alertDialog.dismiss();
-            }
-        });
-        Open_Gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                mActivity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-                alertDialog.dismiss();
-            }
-        });
-
-
-
-        alertDialog.show();
-    }*/
 
     public static void Show_Tos(Context context, String MSG) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

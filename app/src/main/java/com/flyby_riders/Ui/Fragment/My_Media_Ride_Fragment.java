@@ -70,7 +70,7 @@ public class My_Media_Ride_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my__media__ride_, container, false);
         Instantiation(view);
-        Fetch_Media_Ride(My_Ride_ID);
+
         Point size = new Point();
         WindowManager w = getActivity().getWindowManager();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)    {
@@ -95,7 +95,7 @@ public class My_Media_Ride_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        Fetch_Media_Ride(My_Ride_ID);
     }
 
 

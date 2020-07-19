@@ -54,6 +54,7 @@
         android:weightSum="3">
 
         <TextView
+            android:id="@+id/Before_Header_tv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"

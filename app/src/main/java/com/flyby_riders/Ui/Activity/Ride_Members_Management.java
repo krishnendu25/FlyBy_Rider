@@ -97,14 +97,8 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
                                 rm.setPHONE(RIDERDETAILS_array.getJSONObject(i).getString("PHONE"));
                                 rm.setUSERID(RIDERDETAILS_array.getJSONObject(i).getString("USERID"));
                                 rm.setFULL_NAME(RIDERDETAILS_array.getJSONObject(i).getString("Full_Name"));
-                                Member_List.add(rm);
-                            }
-                            for (int i=0 ; i<ADMINDETAILS_array.length() ; i++) {
-                                Ride_Member_model rm = new Ride_Member_model();
-                                rm.setPHONE(ADMINDETAILS_array.getJSONObject(i).getString("PHONE"));
-                                rm.setUSERID(ADMINDETAILS_array.getJSONObject(i).getString("USERID"));
-                                rm.setFULL_NAME("ADMIN");
-                                rm.setAdmin(true);
+                                if (RIDERDETAILS_array.getJSONObject(i).getString("USERID").equalsIgnoreCase(RIDERDETAILS_array.getJSONObject(i).getString("admin_id")))
+                                {rm.setAdmin(true);}
                                 Member_List.add(rm);
                             }
                             if (new Session(getApplicationContext()).get_MEMBER_STATUS().equalsIgnoreCase(PREMIUM))

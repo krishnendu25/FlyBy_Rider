@@ -24,6 +24,7 @@ import com.flyby_riders.NetworkOperation.IJSONParseListener;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
+import com.flyby_riders.SQLite_DatabaseHelper.TestAdapter;
 import com.flyby_riders.Ui.Model.Contact_Model;
 
 import org.json.JSONArray;
@@ -40,6 +41,7 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
             ContactsContract.Contacts.DISPLAY_NAME,
             ContactsContract.CommonDataKinds.Phone.NUMBER
     };
+    TestAdapter testAdapter = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,18 +49,19 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = (this).getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.loading_page, null);
         dialogBuilder.setView(dialogView);
-        dialogBuilder.setCancelable(false);
+        //dialogBuilder.setCancelable(false);
         LottieAnimationView LottieAnimationView = dialogView.findViewById(R.id.LottieAnimationView);
         alertDialog_loader = dialogBuilder.create();
         alertDialog_loader.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         LottieAnimationView.setAnimation("bike_loader.json");
         LottieAnimationView.playAnimation();
-
+        testAdapter = new TestAdapter(this);
+        testAdapter.createDatabase();
+        testAdapter.open();
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
 
     }

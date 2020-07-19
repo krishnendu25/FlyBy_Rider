@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_base">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical"
+        android:weightSum="5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#2B2837"
+            android:weightSum="3"
+            android:orientation="vertical"
+            android:layout_weight="3.2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:drawableStart="@drawable/ic_toast"
+                android:drawablePadding="10dp"
+                android:paddingStart="20dp"
+                android:textSize="16dp"
+                android:gravity="center|start"
+                android:text="FLYBY"
+                android:fontFamily="@font/manropebold"
+                android:textColor="@color/light_green"
+                android:layout_weight="1.2"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:weightSum="2"
+                android:orientation="vertical"
+                android:layout_weight="1.8">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:drawablePadding="10dp"
+                    android:paddingStart="20dp"
+                    android:textSize="16dp"
+                    android:gravity="center|start"
+                    android:text="RIDE STARTED"
+                    android:fontFamily="@font/manropeextrabold"
+                    android:textColor="@color/white"
+                    android:layout_weight=".8"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_weight="1.2">
+
+        <TextView
+            android:id="@+id/total_duration_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:text="Duration : 00:00:10"
+            android:gravity="center|start"
+            android:textSize="14dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"/>
+
+
+                    <TextView
+                        android:id="@+id/Total_distance_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="Distance : 0.1 KM"
+                        android:gravity="center|start"
+                        android:textSize="14dp"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"/>
+
+
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.7">
+
+            <TextView
+                android:id="@+id/Notification_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="PAUSE RIDE"
+                android:textColor="@color/light_green"
+                android:textSize="18dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:fontFamily="@font/manropeextrabold"/>
+
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -147,8 +147,6 @@ public interface RetrofitCallback {
                                        @Field("latitude") String latitude,
                                         @Field("Ride_id") String Ride_id,
                                         @Field("member_id") String member_id,
-                                        @Field("avg_speed") String avg_speed,
-                                        @Field("top_speed") String top_speed,
                                         @Field("spend_timestamp") String spend_timestamp);
     @FormUrlEncoded
     @POST("fetch_location_tracker")
