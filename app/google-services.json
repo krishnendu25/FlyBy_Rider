@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "1090671758697",
+    "firebase_url": "https://flyby-riders.firebaseio.com",
+    "project_id": "flyby-riders",
+    "storage_bucket": "flyby-riders.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090671758697:android:f6be85403a53570ea501f8",
+        "android_client_info": {
+          "package_name": "com.flyby_riders"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090671758697-0c95uc3cfa17tus2o9knh022ihlpigst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flyby_riders",
+            "certificate_hash": "31415f5372a7112bc99eb7247cdc6f9b1b9196e8"
+          }
+        },
+        {
+          "client_id": "1090671758697-m2dn5c38schdfa206fek53icojg7fuai.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flyby_riders",
+            "certificate_hash": "f1ef98416dbabf80254cf6c41251c722e7d4a59e"
+          }
+        },
+        {
+          "client_id": "1090671758697-37mlko83d4b5bsp9kj0nn4edipj6ao6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAz31-r5TWDArCc02OcvzeaBPo8NKIiB6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1090671758697-37mlko83d4b5bsp9kj0nn4edipj6ao6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

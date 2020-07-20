@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/schedule_for_later_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/edittext_bg"
+            android:fontFamily="@font/avenirnextheavy"
+            android:gravity="center"
+            android:text="@string/schedule_for_later"
+            android:textColor="@color/light_green"
+            android:textSize="20dp"
+
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/start_ride_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/base_btn_ripple"
+            android:fontFamily="@font/avenirnextheavy"
+            android:gravity="center"
+            android:text="@string/start_ride"
+            android:textColor="@color/background_base"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    tools:context=".Ui.Fragment.My_Garage_Fragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/NestedScrollView_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarThumbHorizontal="@color/transparent"
+            android:scrollbarThumbVertical="@color/transparent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/My_Bike_Image_view"
+                        android:layout_width="1000px"
+                        android:layout_height="600px"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="50dp">
+                        <ImageView
+                            android:id="@+id/My_Bike_Image"
+                            android:src="@drawable/ic_emptybike"
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/bike_brand_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:ellipsize="marquee"
+                            android:fontFamily="@font/avenirnextbold"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:singleLine="true"
+                            android:text="DUCATI"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/bike_model_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:ellipsize="marquee"
+                            android:fontFamily="@font/avenirnextheavy"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:singleLine="true"
+                            android:text="DUCATI"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="30dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="start"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:id="@+id/Bike_Add_btn"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/add_bike_ic"
+                                android:fontFamily="@font/manropemedium"
+                                android:gravity="center|top"
+                                android:text="+"
+                                android:textSize="35dp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/My_Bike_list"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <com.flyby_riders.Utils.ShadowLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:shadowRadius="100dp"
+                        app:shadowShape="rectangle"
+                        app:shadowSide="bottom"
+                        app:sl_shadow_angle="270"
+                        app:sl_shadow_color="#33EDE9E9"
+                        app:sl_shadow_radius="8dp"
+                        app:sl_shadowed="true">
+
+                        <com.flyby_riders.Utils.ShadowLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_horizontal"
+                            app:shadowRadius="100dp"
+                            app:shadowShape="rectangle"
+                            app:shadowSide="top"
+                            app:sl_shadow_angle="90"
+                            app:sl_shadow_color="#000000"
+                            app:sl_shadow_radius="16dp"
+                            app:sl_shadowed="true">
+
+                            <RelativeLayout
+                                android:id="@+id/Document_Locker_btn"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:background="@drawable/locker_document_bg"
+                                android:clickable="true">
+
+                                <ImageButton
+                                    android:layout_width="130dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginEnd="25dp"
+                                    android:background="@drawable/bg_documentcard"
+                                    android:clickable="false" />
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginEnd="25dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/ic_nextscreen"
+                                    android:clickable="false"
+                                    android:padding="10dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="fill_parent"
+                                    android:clickable="false"
+                                    android:orientation="vertical"
+                                    android:weightSum="3">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1.8"
+                                        android:clickable="false"
+                                        android:fontFamily="@font/avenirnextbold"
+                                        android:gravity="center|start"
+                                        android:paddingStart="15dp"
+                                        android:text="@string/LOCKER"
+                                        android:textColor="@color/white"
+                                        android:textSize="25dp" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1.2"
+                                        android:clickable="false"
+                                        android:fontFamily="@font/avenirbextregular"
+                                        android:gravity="center|start"
+                                        android:paddingStart="15dp"
+                                        android:text="@string/Cards"
+                                        android:textColor="@color/white"
+                                        android:textSize="16dp" />
+
+
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+
+                        </com.flyby_riders.Utils.ShadowLayout>
+                    </com.flyby_riders.Utils.ShadowLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="#47424D" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/background_base"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/avenirnextbold"
+                            android:text="@string/upgrades_for"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="20dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/Advetisment_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <LinearLayout
+            android:id="@+id/collapse_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:background="@color/background_base"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/avenirnextbold"
+                android:text="@string/upgrades_for_your_bike"
+                android:textAllCaps="true"
+                android:textSize="18dp"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bg_logo"/>
+                <ImageView
+                    android:id="@+id/collapse_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_emptybike"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

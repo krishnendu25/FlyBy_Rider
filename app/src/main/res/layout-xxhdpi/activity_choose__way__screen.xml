@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg"
+    android:orientation="vertical"
+    android:weightSum="3"
+    tools:context=".Ui.Activity.Choose_Way_Screen">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.3"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:src="@drawable/logo_signin" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5"
+        android:orientation="vertical" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.2"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:layout_marginBottom="32dp"
+            android:orientation="vertical">
+
+
+            <Button
+                android:id="@+id/sign_in_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/sign_in"
+                android:textColor="@color/background_base"
+                android:textSize="16dp"
+                android:gravity="start|center"
+                android:paddingStart="24dp"
+                android:drawableEnd="@drawable/ic_nextarrowdark"
+                android:paddingEnd="24dp"
+                android:fontFamily="@font/blackhansansregular"
+                android:background="@drawable/base_btn_ripple" />
+            <TextView
+                android:id="@+id/trams_conition_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/manropemedium"
+                android:gravity="center"
+                android:layout_marginTop="24dp"
+                android:text="@string/by_signing_in_you_agree_to_all_the_terms_amp_conditions"
+                android:textColor="@color/white"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>
