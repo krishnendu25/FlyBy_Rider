@@ -1,16 +1,23 @@
 package com.flyby_riders.Ui.Activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.flyby_riders.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class Choose_Way_Screen extends BaseActivity {
 
@@ -24,6 +31,8 @@ public class Choose_Way_Screen extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose__way__screen);
         ButterKnife.bind(this);
+        //Fetch Location
+
 
     }
 

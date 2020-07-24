@@ -106,19 +106,21 @@ public class My_Ride_Fragment extends Fragment {
                             JSONArray RIDEDETAILS_LIST = jsonObject.getJSONArray("RIDEDETAILS");
                             for (int i = 0; i < RIDEDETAILS_LIST.length(); i++) {
                                 My_Ride_Model RD = new My_Ride_Model();
-
-                                RD.setRide_Name("Ride-"+String.valueOf(Constant.generateRandomNumber()));
-                                RD.setRide_Total_Member(String.valueOf(Constant.generateRandomNumber()));
-                                RD.setRide_Start_Date(RIDEDETAILS_LIST.getJSONObject(i).getString("RIDECREATION"));
-                                RD.setRide_Total_Distance("21KMs");
-                                RD.setRide_Cover_pic("https://firebasestorage.googleapis.com/v0/b/flyby-riders.appspot.com/o/images.jpg?alt=media&token=97270133-971a-429b-86e4-135ae75677ab");
-                                RD.setRide_Status("ACTIVE");
-                                RD.setRide_Admin_Id(RIDEDETAILS_LIST.getJSONObject(i).getString("ADMINID"));
-                                RD.setRide_ID(RIDEDETAILS_LIST.getJSONObject(i).getString("RIDEID"));
-                                RD.setTotal_media("23");
+                                JSONObject JS = RIDEDETAILS_LIST.getJSONObject(i);
+                                RD.setRide_Name(JS.getString("RIDENAME"));
+                                RD.setRide_Total_Member(JS.getString("RIDENAME"));
+                                RD.setRide_Start_Date(JS.getString("CREATIONDATE"));
+                                RD.setRide_Total_Distance(JS.getString("TOTALKM"));
+                                RD.setRide_Cover_pic(JS.getString("PICMEDIAFILE"));
+                                RD.setRide_Status(JS.getString("TRACKSTATUS"));
+                                RD.setRide_Admin_Id(JS.getString("ADMINUSERID"));
+                                RD.setRide_ID(JS.getString("RIDEID"));
+                                RD.setTotal_media(JS.getString("COUNTIMAGELIST"));
+                                RD.setADMIN_PLANNAME(JS.getString("PLANNAME"));
                                 MyRide_List.add(RD);
                             }
                             Collections.reverse(MyRide_List);
+
 
                             My_Ride_Adapter my_ride_adapter = new My_Ride_Adapter(getActivity(),MyRide_List);
                             MyRide_ListRecyclerView.setAdapter(my_ride_adapter);
@@ -128,7 +130,6 @@ public class My_Ride_Fragment extends Fragment {
                             hide_ProgressDialog();
                         }
                     } catch (Exception e) {
-                        Constant.Show_Tos(getContext(), "No Ride Found");
                         hide_ProgressDialog();
                         hide_ProgressDialog();
                     }

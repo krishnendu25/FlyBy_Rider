@@ -4,7 +4,17 @@ package com.flyby_riders.Ui.Model;
  */
 public class My_Ride_Model {
 
-    String Ride_ID,Ride_Name,Ride_Total_Member,Ride_Start_Date,Ride_Total_Distance,Ride_Total_Time,Ride_Cover_pic,Ride_Status,Ride_Admin_Id,Total_media;
+    String Ride_ID,Ride_Name,
+            Ride_Total_Member,
+            Ride_Start_Date,
+            Ride_Total_Distance,
+            Ride_Total_Time,
+            Ride_Cover_pic,
+            Ride_Status,
+            Ride_Admin_Id,
+            Total_media,
+            ADMIN_PLANNAME;
+    ;
 
     public My_Ride_Model() { }
 
@@ -86,5 +96,13 @@ public class My_Ride_Model {
 
     public void setTotal_media(String total_media) {
         Total_media = total_media;
+    }
+
+    public String getADMIN_PLANNAME() {
+        return ADMIN_PLANNAME;
+    }
+
+    public void setADMIN_PLANNAME(String ADMIN_PLANNAME) {
+        this.ADMIN_PLANNAME = ADMIN_PLANNAME;
     }
 }

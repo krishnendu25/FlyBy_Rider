@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.flyby_riders.R;
 import com.flyby_riders.Sharedpreferences.Session;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Splash_Screen extends BaseActivity {
+public class Splash_Screen extends AppCompatActivity {
 
     @BindView(R.id.ic_splash)
     ImageView icSplash;

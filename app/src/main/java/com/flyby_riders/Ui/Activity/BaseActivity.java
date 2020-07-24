@@ -1,9 +1,12 @@
 package com.flyby_riders.Ui.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -32,6 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class BaseActivity extends AppCompatActivity implements IJSONParseListener {
     AlertDialog alertDialog_loader =null;
@@ -63,6 +68,17 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
         testAdapter.createDatabase();
         testAdapter.open();
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
+
+
+
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(BaseActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        }
+
 
     }
     public  void show_ProgressDialog()

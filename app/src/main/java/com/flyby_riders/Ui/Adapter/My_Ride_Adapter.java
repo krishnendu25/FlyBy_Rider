@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.Create_Group_Ride;
 import com.flyby_riders.Ui.Model.My_Ride_Model;
@@ -41,6 +43,16 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
     @Override
     public void onBindViewHolder(My_Ride_Adapter.MyViewHolder holder, int position) {
 
+        holder.Ride_Title_tv.setSelected(true);
+        holder.Ride_Start_Date.setSelected(true);
+        holder.Ride_status.setSelected(true);
+        holder.Total_distance_tv.setSelected(true);
+        holder.Total_time_tv.setSelected(true);
+        holder.Total_Member_tv.setSelected(true);
+        holder.total_media_tv.setSelected(true);
+
+
+
         holder.my_ride_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,12 +70,12 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
         }
 
         holder.Ride_Title_tv.setText(data.get(position).getRide_Name());
-        holder.Ride_Start_Date.setText(data.get(position).getRide_Start_Date());
+        holder.Ride_Start_Date.setText(Constant.Get_back_date_and_time(data.get(position).getRide_Start_Date()));
         holder.Ride_status.setText(data.get(position).getRide_Status());
         holder.Total_distance_tv.setText(data.get(position).getRide_Total_Distance());
         holder.Total_time_tv.setText(data.get(position).getRide_Total_Time());
-        holder.Total_Member_tv.setText(data.get(position).getRide_Total_Member());
-        holder.total_media_tv.setText(data.get(position).getTotal_media());
+        holder.Total_Member_tv.setText(data.get(position).getRide_Total_Member()+" members");
+        holder.total_media_tv.setText(data.get(position).getTotal_media()+" media files");
 
 
 

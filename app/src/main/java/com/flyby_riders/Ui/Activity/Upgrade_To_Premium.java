@@ -56,7 +56,7 @@ public class Upgrade_To_Premium extends BaseActivity {
 
     private void hit_Subscrption(String login_user_id) {
         show_ProgressDialog();
-        Call<ResponseBody> requestCall = retrofitCallback.buy_subcription_plan(login_user_id,
+        Call<ResponseBody> requestCall = retrofitCallback.buy_subcription_plan(new Session(this).get_LOGIN_USER_ID(),
                 "Premium Account","FLYBY-Premium","999","FLYBY",
                 "XXXXXXX","XXXXXXX",My_Ride_ID);
         requestCall.enqueue(new Callback<ResponseBody>() {

@@ -1,6 +1,9 @@
 package com.flyby_riders.Ui.Activity;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -10,13 +13,19 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,11 +47,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -120,16 +133,20 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
     double Latitude_Start = 0, Longitude_Start = 0;
     private double mlattitude, mlongitude;
     ArrayList<Real_Time_Latlong> track_list = new ArrayList<>();
-    private String RIDE_STATUS = "", My_Ride_ID = "", Admin_User_Id = "";
+    public static String RIDE_STATUS = "", My_Ride_ID = "", Admin_User_Id = "";
     public static boolean I_AM_ADMIN = false, Location_Shearing_Service = false, Track_My_Location = false;
-    int Create_Ride_Count = 0,BackGround_Service_Count=0;
-    private Runnable updater;
+    int Create_Ride_Count = 0, BackGround_Service_Count = 0;
+    private Runnable updater,runnable;
+    Back_Ground_Service back_ground_service;
 
+    private ArrayList<LatLng> points; //added
+    Polyline line; //added
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create__group__ride);
         ButterKnife.bind(this);
+        points = new ArrayList<LatLng>(); //added
         try {
             My_Ride_ID = getIntent().getStringExtra("My_Ride_ID");
             Admin_User_Id = getIntent().getStringExtra("Admin_User_Id");
@@ -157,34 +174,6 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         Instantiation();
 
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        mlattitude = Double.parseDouble(intent.getStringExtra(LocationTrackerService.EXTRA_LATITUDE));
-                        mlongitude = Double.parseDouble(intent.getStringExtra(LocationTrackerService.EXTRA_LONGITUDE));
-                        if (My_Ride_ID != null) {
-                            if (!My_Ride_ID.equalsIgnoreCase("")) {
-                                if (Track_My_Location)
-                                {hit_update_My_Location(mlattitude, mlongitude);}
-                            }
-                        }
-
-                        if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
-                            if (Track_My_Location)
-                            { testAdapter.INSERT_REALTIMELOCATION(My_Ride_ID, new Session(getApplicationContext()).get_LOGIN_USER_ID(), String.valueOf(mlattitude), String.valueOf(mlongitude), GET_timeStamp()); } }
-
-
-
-                    }
-                }, new IntentFilter(LocationTrackerService.ACTION_LOCATION_BROADCAST)
-        );
-
-
-
-
-
-
     }
 
     private void Reload_Work() {
@@ -193,55 +182,88 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
             @Override
             public void run() {
                 View_Control();
-                //If RideStatus [RIDE_STARTED]
                 if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
                     if (Location_Shearing_Service) {
-                        if (BackGround_Service_Count==0){ TrackerService(true);}
+                        if (BackGround_Service_Count == 0) {
+                            TrackerService(true);
+                        }
                     } else {
-                        if (BackGround_Service_Count>0){TrackerService(false);}
+                        if (BackGround_Service_Count > 0) {
+                            TrackerService(false);
+                        }
                     }
                 }
                 timerHandler.postDelayed(updater, 2000);
             }
         };
         timerHandler.post(updater);
+
+
+
+        Handler timerHandlerE = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
+
+
+                    Cursor cursor = testAdapter.GET_REALTIMELOCATION(My_Ride_ID,  new Session(getApplicationContext()).get_LOGIN_USER_ID());
+
+                    if (cursor.getCount()!=0)
+                    {
+                        while (cursor.moveToNext())
+                        {
+                            SetMapView(cursor.getString(2),cursor.getString(3));
+                        }
+                    }
+                    Fetch_RealTime_Location( My_Ride_ID,  new Session(getApplicationContext()).get_LOGIN_USER_ID());
+                }
+
+
+                timerHandlerE.postDelayed(runnable, 5000);
+            }
+        };
+        timerHandler.post(runnable);
+
+
+
+
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (back_ground_service != null) {
+            back_ground_service.execute();
 
-/*    private double Calculation_Speed(ArrayList<Real_Time_Latlong> track_list) {
-        double Distance = 0;
-        if (track_list.size() > 1) {
-            Distance = distance(track_list.get(0).getLatitude_Start(), track_list.get(0).getLongitude_Start(),
-                    track_list.get(track_list.size() - 1).getLatitude_Start(), track_list.get(track_list.size() - 1).getLongitude_Start());
         } else {
-            Distance = 0;
+            new Back_Ground_Service().execute();
         }
 
-        return Distance;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            if (back_ground_service != null) {
+                if (back_ground_service.getStatus()== AsyncTask.Status.FINISHED)
+                {
+                    back_ground_service.execute();
+                }
+            } else {
+                new Back_Ground_Service().execute();
+            }
+        }catch (Exception e)
+        {
+
+        }
 
 
     }
 
-    private double distance(double lat1, double lon1, double lat2, double lon2) {
-        double theta = lon1 - lon2;
-        double dist = Math.sin(deg2rad(lat1))
-                * Math.sin(deg2rad(lat2))
-                + Math.cos(deg2rad(lat1))
-                * Math.cos(deg2rad(lat2))
-                * Math.cos(deg2rad(theta));
-        dist = Math.acos(dist);
-        dist = rad2deg(dist);
-        dist = dist * 60 * 1.1515;
-        return (dist);
-    }
-
-    private double deg2rad(double deg) {
-        return (deg * Math.PI / 180.0);
-    }
-
-    private double rad2deg(double rad) {
-        return (rad * 180.0 / Math.PI);
-    }*/
 
     private void View_Control() {
         if (I_AM_ADMIN) {
@@ -290,6 +312,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
     }
 
     private void Instantiation() {
+        back_ground_service = new Back_Ground_Service();
         Reload_Work();
         View_Control();
         TrackIV.setTag(RIDE_PLAY);
@@ -391,7 +414,6 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        show_ProgressDialog();
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         mMap.getUiSettings().setCompassEnabled(false);
@@ -411,33 +433,43 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                 (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 11111);
         } else {
+            if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED))
             Fetch_Location_With_RX();
         }
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
-                if (mCurrLocationMarker != null) {
-                    mCurrLocationMarker.remove();
-                    LatLng midLatLng = mMap.getCameraPosition().target;
-                    mCurrLocationMarker = mMap.addMarker(new MarkerOptions().
-                            position(midLatLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker)));
+                if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED))
+                {
+                    if (mCurrLocationMarker != null) {
+                        mCurrLocationMarker.remove();
+                        LatLng midLatLng = mMap.getCameraPosition().target;
+                        mCurrLocationMarker = mMap.addMarker(new MarkerOptions().
+                                position(midLatLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker)));
+                    }
                 }
+
+
+
             }
         });
 
         mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
-                if (mCurrLocationMarker != null) {
-                    mCurrLocationMarker.remove();
-                    LatLng position = mCurrLocationMarker.getPosition();
-                    Latitude_Start = position.latitude;
-                    Longitude_Start = position.longitude;
-                    mCurrLocationMarker = mMap.addMarker(new MarkerOptions().
-                            position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker)));
-                    ShowMyLocation.setText(Constant.getCompleteAddressString(getApplicationContext(), position.latitude, position.longitude));
-                }
 
+                if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED))
+                {
+                    if (mCurrLocationMarker != null) {
+                        mCurrLocationMarker.remove();
+                        LatLng position = mCurrLocationMarker.getPosition();
+                        Latitude_Start = position.latitude;
+                        Longitude_Start = position.longitude;
+                        mCurrLocationMarker = mMap.addMarker(new MarkerOptions().
+                                position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker)));
+                        ShowMyLocation.setText(Constant.getCompleteAddressString(getApplicationContext(), position.latitude, position.longitude));
+                    }
+                }
             }
         });
 
@@ -448,7 +480,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
             BackGround_Service_Count++;
             startService(new Intent(this, LocationTrackerService.class));
         } else {
-            BackGround_Service_Count=0;
+            BackGround_Service_Count = 0;
             stopService(new Intent(this, LocationTrackerService.class));
         }
 
@@ -630,9 +662,38 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         });
     }
 
-    private void hit_update_My_Location(double mlattitude, double mlongitude) {
-
+     void hit_update_My_Location(double mlattitude, double mlongitude) {
         Call<ResponseBody> requestCall = retrofitCallback.location_tracker(String.valueOf(mlattitude), String.valueOf(mlongitude), My_Ride_ID, new Session(this).get_LOGIN_USER_ID(), GET_timeStamp());
+        requestCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = null;
+                        try {
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                hide_ProgressDialog();
+            }
+        });
+
+
+    }
+
+    private void Fetch_RealTime_Location(String My_Ride_ID,String Member_ID) {
+
+        Call<ResponseBody> requestCall = retrofitCallback.fetch_location_tracker(My_Ride_ID,Member_ID);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -648,7 +709,21 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                         }
 
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
+                            track_list.clear();
+                            JSONArray TRACKDETAILS = jsonObject.getJSONArray("TRACKDETAILS");
 
+                            for (int i=0; i<TRACKDETAILS.length(); i++)
+                            {
+                                JSONObject JS = TRACKDETAILS.getJSONObject(i);
+                                Real_Time_Latlong real_time_latlong = new Real_Time_Latlong();
+                                real_time_latlong.setRider_Name(JS.getString("FULL_NAME"));
+                                real_time_latlong.setMEMBERID(JS.getString("MEMBERID"));
+                                real_time_latlong.setLongitude_Start(Double.valueOf(JS.getString("LONGTIUDE")));
+                                real_time_latlong.setLatitude_Start(Double.valueOf(JS.getString("LATITUDE")));
+                                track_list.add(real_time_latlong);
+                            }
+
+                          //  SetMapView(track_list);
 
                         } else {
                         }
@@ -665,19 +740,189 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
             }
         });
 
+    }
+
+    private void SetMapView(String LATITUDE,String LONGITUDE) {
+if (mMap!=null)
+{
+    LatLng currentPosition = new LatLng(Double.valueOf(LATITUDE),Double.valueOf(LONGITUDE));
+    MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.valueOf(LATITUDE),Double.valueOf(LONGITUDE)));
+    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
+    markerOptions.position(currentPosition);
+    markerOptions.draggable(false);
+
+    points.add(currentPosition); //added
+
+    mMap.clear();  //clears all Markers and Polylines
+
+    PolylineOptions options = new PolylineOptions().width(5).color(Color.YELLOW).geodesic(true);
+    for (int i = 0; i < points.size(); i++) {
+        LatLng point = points.get(i);
+        options.add(point);
+    }
+    mCurrLocationMarker = mMap.addMarker(markerOptions);
+    mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
+    mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+    line = mMap.addPolyline(options); //add Polyline
+}
+
 
     }
 
-    private void Fetch_RealTime_Location(String My_Ride_ID, String Member_ID) {
+
+
+
+
+
+    //Method for finding bearing between two points
+    private float getBearing(LatLng begin, LatLng end) {
+        double lat = Math.abs(begin.latitude - end.latitude);
+        double lng = Math.abs(begin.longitude - end.longitude);
+
+        if (begin.latitude < end.latitude && begin.longitude < end.longitude)
+            return (float) (Math.toDegrees(Math.atan(lng / lat)));
+        else if (begin.latitude >= end.latitude && begin.longitude < end.longitude)
+            return (float) ((90 - Math.toDegrees(Math.atan(lng / lat))) + 90);
+        else if (begin.latitude >= end.latitude && begin.longitude >= end.longitude)
+            return (float) (Math.toDegrees(Math.atan(lng / lat)) + 180);
+        else if (begin.latitude < end.latitude && begin.longitude >= end.longitude)
+            return (float) ((90 - Math.toDegrees(Math.atan(lng / lat))) + 270);
+        return -1;
     }
+
+
+
+
+
 
     private void hit_Start_End_Ride(boolean Start, boolean End) {
 
         if (Start) {
 
-        } else if (End) {
+            show_ProgressDialog();
+            Call<ResponseBody> requestCall = retrofitCallback.START_RIDE(My_Ride_ID,Admin_User_Id,Constant.getCompleteAddressString(Create_Group_Ride.this,Latitude_Start,Longitude_Start),String.valueOf(Latitude_Start), String.valueOf(Longitude_Start),"1");
+            requestCall.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    hide_ProgressDialog();
+                    if (response.isSuccessful()) {
+                        try {
+                            JSONObject jsonObject = null;
+                            try {
+                                String output = Html.fromHtml(response.body().string()).toString();
+                                output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                                jsonObject = new JSONObject(output);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
+                            if (jsonObject.getString("success").equalsIgnoreCase("1")) {
+
+
+
+
+                            } else {
+                                Constant.Show_Tos(getApplicationContext(), "Unsuccessful Request");
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            hide_ProgressDialog();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    hide_ProgressDialog();
+                }
+            });
+
+        } else if (End) {
+            show_ProgressDialog();
+            Call<ResponseBody> requestCall = retrofitCallback.END_RIDE(My_Ride_ID,Admin_User_Id,Constant.getCompleteAddressString(Create_Group_Ride.this,Latitude_Start,Longitude_Start),String.valueOf(Latitude_Start), String.valueOf(Longitude_Start),"0");
+            requestCall.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    hide_ProgressDialog();
+                    if (response.isSuccessful()) {
+                        try {
+                            JSONObject jsonObject = null;
+                            try {
+                                String output = Html.fromHtml(response.body().string()).toString();
+                                output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                                jsonObject = new JSONObject(output);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            if (jsonObject.getString("success").equalsIgnoreCase("1")) {
+
+
+
+
+                            } else {
+                                Constant.Show_Tos(getApplicationContext(), "Unsuccessful Request");
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            hide_ProgressDialog();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    hide_ProgressDialog();
+                }
+            });
         }
 
     }
+
+    class Back_Ground_Service extends AsyncTask<Void, Integer, String> {
+        String TAG = getClass().getSimpleName();
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        protected String doInBackground(Void... arg0) {
+            LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
+                    new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context context, Intent intent) {
+                            mlattitude = Double.parseDouble(intent.getStringExtra(LocationTrackerService.EXTRA_LATITUDE));
+                            mlongitude = Double.parseDouble(intent.getStringExtra(LocationTrackerService.EXTRA_LONGITUDE));
+                            Log.e("Back_Ground_Service",String.valueOf(mlattitude)+"<--lat long-->"+String.valueOf(mlongitude));
+                            if (My_Ride_ID != null) {
+                                if (!My_Ride_ID.equalsIgnoreCase("")) {
+                                    if (Track_My_Location) {
+                                        hit_update_My_Location(mlattitude, mlongitude);
+                                    }
+                                }
+                            }
+
+                            if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
+                                if (Track_My_Location) {
+                                    testAdapter.INSERT_REALTIMELOCATION(My_Ride_ID, new Session(getApplicationContext()).get_LOGIN_USER_ID(), String.valueOf(mlattitude), String.valueOf(mlongitude), GET_timeStamp());
+                                }
+                            }
+
+
+                        }
+                    }, new IntentFilter(LocationTrackerService.ACTION_LOCATION_BROADCAST)
+            );
+            return "";
+        }
+
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.d(TAG + " onPostExecute", "" + result);
+        }
+    }
+
+
 }

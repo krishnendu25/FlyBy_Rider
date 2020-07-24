@@ -93,7 +93,7 @@ public interface RetrofitCallback {
     Call<ResponseBody> fetch_ride_album(@Field("Ride_id") String admin_userid);
 
 
-
+    @FormUrlEncoded
     @POST("buy_subcription_plan")
     Call<ResponseBody> buy_subcription_plan(
             @Field("Userid") String Userid,
@@ -103,7 +103,7 @@ public interface RetrofitCallback {
                                         @Field("marchent_name") String marchent_name,
                                         @Field("payment_id") String payment_id,
                                         @Field("payment_ref_no") String payment_ref_no,
-                                        @Field("Ride_id") String order_id);
+                                        @Field("order_id") String order_id);
 
    //--------------------------------------------------------------------------------------------//
     @FormUrlEncoded
@@ -120,7 +120,7 @@ public interface RetrofitCallback {
 
 
 
-
+    @FormUrlEncoded
     @POST("location_tracker_start")
     Call<ResponseBody> START_RIDE(
             @Field("Ride_Id") String Ride_Id,
@@ -130,7 +130,7 @@ public interface RetrofitCallback {
             @Field("start_location_longitude") String start_location_longitude,
             @Field("Ride_status") String Ride_status);
 
-
+    @FormUrlEncoded
     @POST("location_tracker_end")
     Call<ResponseBody> END_RIDE(
             @Field("Ride_Id") String Ride_Id,

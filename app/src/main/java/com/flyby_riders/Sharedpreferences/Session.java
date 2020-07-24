@@ -21,6 +21,10 @@ public class Session {
     private static final String MEMBER_STATUS = BASIC;
 
 
+    private static final String TRACK_RIDE_ID = "";
+    private static final String RIDE_RECORD = "false";
+
+
     public static SharedPreferences sPrfed_State_Saver;
     SharedPreferences.Editor sPrfed_State_Saver_editor;
     Context _context;
@@ -93,6 +97,24 @@ public class Session {
     }
     public String get_MEMBER_STATUS() {
         return sPrfed_State_Saver.getString(MEMBER_STATUS, BASIC);
+    }
+
+
+
+    public void set_TRACK_RIDE_ID(String RIDE_ID) {
+        sPrfed_State_Saver_editor.putString(TRACK_RIDE_ID, RIDE_ID);
+        sPrfed_State_Saver_editor.commit();
+    }
+    public String get_TRACK_RIDE_ID() {
+        return sPrfed_State_Saver.getString(TRACK_RIDE_ID, "");
+    }
+
+    public void set_RIDE_RECORD(String STATUS) {
+        sPrfed_State_Saver_editor.putString(RIDE_RECORD, STATUS);
+        sPrfed_State_Saver_editor.commit();
+    }
+    public String get_RIDE_RECORD() {
+        return sPrfed_State_Saver.getString(RIDE_RECORD, "false");
     }
 
 }

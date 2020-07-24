@@ -2,6 +2,7 @@ package com.flyby_riders.Retrofit;
 
 
 import com.flyby_riders.Constants.Constant_url;
+import com.flyby_riders.Ui.Service.LocationTrackerService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -22,5 +23,9 @@ public class RetrofitClient {
         return retrofit;
 
     }
+
+
+
+
 
 }

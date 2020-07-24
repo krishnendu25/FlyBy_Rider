@@ -270,7 +270,11 @@ public class DashBoard extends BaseActivity {
                     } else if (jsonObject.getString("PLANNAME").equalsIgnoreCase("null")) {
                         new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);
                     } else {
-                        new Session(getApplicationContext()).set_MEMBER_STATUS(PREMIUM);
+                        if (jsonObject.getString("PLANNAME").equalsIgnoreCase(BASIC)) {
+                            new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);
+                        } else
+                        { new Session(getApplicationContext()).set_MEMBER_STATUS(PREMIUM);
+                        }
                     }
                 } else {
                     new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);

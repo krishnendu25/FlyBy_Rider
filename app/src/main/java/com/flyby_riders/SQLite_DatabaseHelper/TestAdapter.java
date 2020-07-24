@@ -54,17 +54,39 @@ public class TestAdapter {
     }
 
 
-    public boolean INSERT_REALTIMELOCATION(String RIDE_ID, String MEMBER_ID,
+    public boolean INSERT_REALTIMELOCATION(String RIDE_ID_, String MEMBER_ID_,
                                            String LATITUDE, String LONGITUDE,
                                            String TIMESTAMP) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("RIDE_ID", RIDE_ID);
-        contentValues.put("MEMBER_ID", MEMBER_ID);
-        contentValues.put("LATITUDE", LATITUDE);
-        contentValues.put("LONGITUDE", LONGITUDE);
-        contentValues.put("TIMESTAMP", TIMESTAMP);
-        mDb.insert("REALTIMELOCATION", null, contentValues);
-        return true;
+
+        Cursor cursor = mDb.rawQuery("Select * from REALTIMELOCATION" + " WHERE " + "RIDE_ID='" + RIDE_ID_ + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ + "'", null);
+
+        if (cursor.getCount() != 0) {
+            ContentValues args = new ContentValues();
+            if (!LATITUDE.equalsIgnoreCase("")) {
+                args.put("LATITUDE", LATITUDE);
+            }
+
+            if (!LONGITUDE.equalsIgnoreCase("")) {
+                args.put("LONGITUDE", LONGITUDE);
+            }
+
+            if (!TIMESTAMP.equalsIgnoreCase("")) {
+                args.put("TIMESTAMP", TIMESTAMP);
+            }
+
+            return mDb.update("REALTIMELOCATION", args, "RIDE_ID" + "=" + RIDE_ID_ + " AND " + "MEMBER_ID" + "=" + MEMBER_ID_, null) > 0;
+
+        } else {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("RIDE_ID", RIDE_ID_);
+            contentValues.put("MEMBER_ID", MEMBER_ID_);
+            contentValues.put("LATITUDE", LATITUDE);
+            contentValues.put("LONGITUDE", LONGITUDE);
+            contentValues.put("TIMESTAMP", TIMESTAMP);
+            mDb.insert("REALTIMELOCATION", null, contentValues);
+            return true;
+        }
+
     }
 
     public Cursor GET_REALTIMELOCATION(String RIDE_ID_ST, String MEMBER_ID_ST) {

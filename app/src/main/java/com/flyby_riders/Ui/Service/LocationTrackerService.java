@@ -1,4 +1,5 @@
 package com.flyby_riders.Ui.Service;
+
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -44,15 +45,17 @@ import com.google.android.gms.location.LocationServices;
  */
 
 
-
 public class LocationTrackerService extends Service {
 
     private static final String TAG = LocationTrackerService.class.getSimpleName();
     public static final String ACTION_LOCATION_BROADCAST = LocationTrackerService.class.getName() + "LocationBroadcast";
     public static final String EXTRA_LATITUDE = "extra_latitude";
     public static final String EXTRA_LONGITUDE = "extra_longitude";
+
     @Override
-    public IBinder onBind(Intent intent) {return null;}
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 
     @Override
     public void onCreate() {
@@ -63,12 +66,15 @@ public class LocationTrackerService extends Service {
 
     private void buildNotification() {
         String channel;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){channel = createChannel();}
-        else {channel = "";}
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channel = createChannel();
+        } else {
+            channel = "";
+        }
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_view_ride);
         Intent intent = new Intent(this, DashBoard.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,channel)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channel)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.app_name))
                 .setOngoing(true)
@@ -114,6 +120,8 @@ public class LocationTrackerService extends Service {
 
 
     private void requestLocationUpdates() {
+
+
         LocationRequest request = new LocationRequest();
         request.setInterval(5000);
         request.setFastestInterval(5000);
@@ -125,7 +133,7 @@ public class LocationTrackerService extends Service {
             client.requestLocationUpdates(request, new LocationCallback() {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
-                    Location location = locationResult.getLastLocation();
+             Location location = locationResult.getLastLocation();
                     Intent intent = new Intent(ACTION_LOCATION_BROADCAST);
                     intent.putExtra(EXTRA_LATITUDE, String.valueOf(location.getLatitude()));
                     intent.putExtra(EXTRA_LONGITUDE, String.valueOf(location.getLongitude()));

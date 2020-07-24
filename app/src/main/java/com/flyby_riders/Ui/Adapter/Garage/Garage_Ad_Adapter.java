@@ -24,7 +24,7 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
     Context context;
     private static LayoutInflater inflater = null;
     ArrayList<Garage_Ad> data;
-    Garage_add_click garage_add_click;
+
 
     public Garage_Ad_Adapter(Context context, ArrayList<Garage_Ad> data_d) {
         // TODO Auto-generated constructor stub
@@ -32,7 +32,7 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
         data = data_d;
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        garage_add_click = (My_Garage_Fragment)garage_add_click;
+
     }
 
     @Override
