@@ -74,7 +74,7 @@ public class DashBoard extends BaseActivity {
         ButterKnife.bind(this);
         Instantiation();
         Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
-        hit_my_ride(new Session(this).get_LOGIN_USER_ID());
+
     }
 
     private void Instantiation() {
@@ -104,6 +104,7 @@ public class DashBoard extends BaseActivity {
                 Tab_View_Adjust(ShadowLayoutMyGarage, ShadowLayoutRides, ShadowLayoutDiscover);
                 break;
             case R.id.rides_active:
+                hit_my_ride(new Session(this).get_LOGIN_USER_ID());
                 if (My_Ride_Attached != null) {
                     if (My_Ride_Attached.equalsIgnoreCase("0")) {
                         replaceFragment(new Ride_Add_Fragments());
@@ -187,6 +188,7 @@ public class DashBoard extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        hit_my_ride(new Session(this).get_LOGIN_USER_ID());
 
     }
 
@@ -331,5 +333,7 @@ public class DashBoard extends BaseActivity {
 
 
     }
+
+
 
 }

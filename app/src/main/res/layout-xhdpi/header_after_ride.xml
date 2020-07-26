@@ -103,6 +103,7 @@
                         android:id="@+id/location_switch"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|start"
+                        app:theme="@style/Color1SwitchStyle"
                         android:layout_width="wrap_content" />
                     <TextView
                         android:id="@+id/Location_status_tv"

@@ -51,6 +51,7 @@ public class LocationTrackerService extends Service {
     public static final String ACTION_LOCATION_BROADCAST = LocationTrackerService.class.getName() + "LocationBroadcast";
     public static final String EXTRA_LATITUDE = "extra_latitude";
     public static final String EXTRA_LONGITUDE = "extra_longitude";
+    public static final String EXTRA_SPEED = "EXTRA_SPEED";
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -137,6 +138,7 @@ public class LocationTrackerService extends Service {
                     Intent intent = new Intent(ACTION_LOCATION_BROADCAST);
                     intent.putExtra(EXTRA_LATITUDE, String.valueOf(location.getLatitude()));
                     intent.putExtra(EXTRA_LONGITUDE, String.valueOf(location.getLongitude()));
+                    intent.putExtra(EXTRA_SPEED, String.valueOf(location.getSpeed()));
                     LocalBroadcastManager.getInstance(LocationTrackerService.this).sendBroadcast(intent);
                 }
             }, null);

@@ -59,6 +59,7 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
                 Intent intent = new Intent(context, Create_Group_Ride.class);
                 intent.putExtra("My_Ride_ID",data.get(position).getRide_ID());
                 intent.putExtra("Admin_User_Id",data.get(position).getRide_Admin_Id());
+                intent.putExtra("TRACKSTATUS",data.get(position).getRide_Status());
                 context.startActivity(intent);
             }
         });

@@ -19,4 +19,8 @@
         <item name="android:textSize">25dp</item>
         <item name="android:textColor">#fff</item>
     </style>
+
+    <style name="Color1SwitchStyle">
+        <item name="colorControlActivated">@color/light_green</item>
+    </style>
 </resources>
