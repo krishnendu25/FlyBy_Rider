@@ -548,7 +548,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
             markerOptions.draggable(false);
             points.add(currentPosition); //added
             mMap.clear();  //clears all Markers and Polylines
-            PolylineOptions options = new PolylineOptions().width(20).color(Color.parseColor("#F7B500")).geodesic(true);
+            PolylineOptions options = new PolylineOptions().width(10).color(Color.parseColor("#F7B500")).geodesic(true);
             for (int i = 0; i < points.size(); i++) {
                 LatLng point = points.get(i);
                 options.add(point);
