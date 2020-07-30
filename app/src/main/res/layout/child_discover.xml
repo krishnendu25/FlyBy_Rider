@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    style="@style/discover_item">
+                    <RelativeLayout
+                      style="@style/discover_item_in">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_bikewash"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#BD8F71"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/manropeextrabold"
+                            android:text="Bike Servicing\n&amp; Repair"
+                            android:layout_alignParentBottom="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/discover_item"
+                    android:layout_alignParentEnd="true" >
+                    <RelativeLayout
+                        style="@style/discover_item_in">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_gears"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#59C6F1"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/manropeextrabold"
+                            android:text="Bike Servicing\n&amp;Repair"
+                            android:layout_alignParentBottom="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    style="@style/discover_item">
+                    <RelativeLayout
+                        style="@style/discover_item_in">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_bikeparts"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#7DB474"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/manropeextrabold"
+                            android:text="Bike Parts &amp;\nAccessories"
+                            android:layout_alignParentBottom="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/discover_item"
+                    android:layout_alignParentEnd="true">
+                    <RelativeLayout
+                        style="@style/discover_item_in">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_bikewash"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#B14848"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/manropeextrabold"
+                            android:text="Bike Wash"
+                            android:layout_alignParentBottom="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    style="@style/discover_item">
+                    <RelativeLayout
+                        style="@style/discover_item_in">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_tyres"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#CD9A0C"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/manropeextrabold"
+                            android:text="Tyres"
+                            android:layout_alignParentBottom="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/discover_item"
+                    android:layout_alignParentEnd="true">
+                    <RelativeLayout
+                        style="@style/discover_item_in">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_modifications"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#917FD1"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/manropeextrabold"
+                            android:text="Body Work &amp;\nModifications"
+                            android:layout_alignParentBottom="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    style="@style/discover_item">
+                    <RelativeLayout
+                        style="@style/discover_item_in">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_towing"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#E8E6EC"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/manropeextrabold"
+                            android:text="Towing"
+                            android:layout_alignParentBottom="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/discover_item"
+                    android:layout_alignParentEnd="true">
+                    <RelativeLayout
+                        style="@style/discover_item_in">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_showroom"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#61B89E"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/manropeextrabold"
+                            android:text="Bike\nShowroom"
+                            android:layout_alignParentBottom="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    style="@style/discover_item">
+                    <RelativeLayout
+                        style="@style/discover_item_in">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_racetrack"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#5AABCB"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/manropeextrabold"
+                            android:text="Race Track"
+                            android:layout_alignParentBottom="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/discover_item"
+                    android:layout_alignParentEnd="true">
+                    <RelativeLayout
+                        style="@style/discover_item_in">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_raceacadmey"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#AD8D31"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/manropeextrabold"
+                            android:text="Racing\nAcadmey"
+                            android:layout_alignParentBottom="true"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

@@ -196,7 +196,6 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
             Admin_User_Id = "";
             I_AM_ADMIN = false;
         }
-        RIDE_STATUS = RIDE_STARTED;
         back_ground_service = new Back_Ground_Service();
         Reload_Work();
         View_Control();
@@ -836,7 +835,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         if (Start) {
 
             show_ProgressDialog();
-            Call<ResponseBody> requestCall = retrofitCallback.START_RIDE(My_Ride_ID, Admin_User_Id, Constant.getCompleteAddressString(Create_Group_Ride.this, Latitude_Start, Longitude_Start), String.valueOf(Latitude_Start), String.valueOf(Longitude_Start), "1");
+            Call<ResponseBody> requestCall = retrofitCallback.START_RIDE(My_Ride_ID, Admin_User_Id, Constant.GET_timeStamp(),Constant.getCompleteAddressString(Create_Group_Ride.this, Latitude_Start, Longitude_Start), String.valueOf(Latitude_Start), String.valueOf(Longitude_Start), "1");
             requestCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -875,7 +874,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         }
         else if (End) {
             show_ProgressDialog();
-            Call<ResponseBody> requestCall = retrofitCallback.END_RIDE(My_Ride_ID, Admin_User_Id, Constant.getCompleteAddressString(Create_Group_Ride.this, Latitude_Start, Longitude_Start), String.valueOf(Latitude_Start), String.valueOf(Longitude_Start), "0");
+            Call<ResponseBody> requestCall = retrofitCallback.END_RIDE(My_Ride_ID, Admin_User_Id, Constant.GET_timeStamp(), Constant.getCompleteAddressString(Create_Group_Ride.this, Latitude_Start, Longitude_Start), String.valueOf(Latitude_Start), String.valueOf(Longitude_Start), "0");
             requestCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

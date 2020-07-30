@@ -3,22 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/transparent"
     tools:context=".Ui.Fragment.Discover_Fragment">
+
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/transparent"
         android:layout_height="match_parent">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="70dp"
-    android:src="@drawable/discover_demo"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manropeextrabold"
+                    android:text="@string/discover_top_service_providers_nin_these_categories"
+                    android:textColor="#DEDEDE"
+                    android:paddingStart="20dp"
+                    android:textSize="20dp" />
 
+                <include layout="@layout/child_discover"/>
 
-
+            </LinearLayout>
+        </ScrollView>
     </RelativeLayout>
-
 </FrameLayout>

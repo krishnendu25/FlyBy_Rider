@@ -23,4 +23,21 @@
     <style name="Color1SwitchStyle">
         <item name="colorControlActivated">@color/light_green</item>
     </style>
+   ]
+    <style name="discover_item">
+
+    <item name="android:layout_width">180dp</item>
+    <item name="android:layout_height">195dp</item>
+    <item name="android:orientation">vertical</item>
+    <item name="android:gravity">center</item>
+    <item name="android:background">@drawable/ic_categorycard</item>
+</style>
+    <style name="discover_item_in">
+
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginBottom">35dp</item>
+        <item name="android:layout_marginStart">30dp</item>
+    </style>
 </resources>

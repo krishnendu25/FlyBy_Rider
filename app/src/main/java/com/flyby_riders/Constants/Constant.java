@@ -37,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -57,6 +58,8 @@ public class Constant
 
 
     public static List<String> months = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+    public static List<String> categories = Arrays.asList("Bike Servicing & Repair","Gear & Accessory","Bike Parts & Accessories",
+        "Bike Wash","Tyres","Body Work & Modifications","Towing","Bike Showroom","Race Track","Racing Acadmey");
 
     public static String SET_TIME="set_time",SET_LOCATION_LAT="set_location_lat",SET_LOCATION_LON="set_location_lon",REVIEW="REVIEW";
     public static String Global_FCM_TOKEN;
