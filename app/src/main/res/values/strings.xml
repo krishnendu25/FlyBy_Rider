@@ -79,4 +79,16 @@
     <string name="upgrades_for_your_bike">Upgrades for\nYOUR BIKES</string>
     <string name="ENDING_POINT">ENDING POINT</string>
     <string name="discover_top_service_providers_nin_these_categories">Discover top service providers\nin these categories:</string>
+    <string name="bike_servicing_n_amp_repair"><![CDATA[Bike Servicing\n& Repair]]></string>
+    <string name="gears_amp_accessories"><![CDATA[Gears\n& Accessories]]></string>
+    <string name="bike_parts_amp_naccessories"><![CDATA[Bike Parts &\nAccessories]]></string>
+    <string name="bike_wash">Bike Wash</string>
+    <string name="tyres">Tyres</string>
+    <string name="body_work_amp_nmodifications"><![CDATA[Body Work &\nModifications]]></string>
+    <string name="towing">Towing</string>
+    <string name="bike_nshowroom">Bike\nShowroom</string>
+    <string name="race_track">Race Track</string>
+    <string name="racing_nacadmey">Racing\nAcadmey</string>
+    <string name="distance">Distance</string>
+    <string name="a_z">A-Z</string>
 </resources>

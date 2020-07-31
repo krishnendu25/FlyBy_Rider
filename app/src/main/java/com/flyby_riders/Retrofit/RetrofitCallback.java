@@ -155,4 +155,7 @@ public interface RetrofitCallback {
     Call<ResponseBody> fetch_location_tracker(@Field("Ride_id") String Ride_id,
                                         @Field("member_id") String member_id);
 
+    @GET("Get_all_garageowner")
+    Call<ResponseBody> Get_all_garageowner();
+
 }

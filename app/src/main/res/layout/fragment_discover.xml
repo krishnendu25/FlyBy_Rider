@@ -3,14 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
+    android:background="@color/background_base"
     tools:context=".Ui.Fragment.Discover_Fragment">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@color/background_base"
         android:layout_height="match_parent">
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/bg_logo"/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -18,7 +24,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -27,10 +32,19 @@
                     android:fontFamily="@font/manropeextrabold"
                     android:text="@string/discover_top_service_providers_nin_these_categories"
                     android:textColor="#DEDEDE"
+                    android:layout_marginTop="20dp"
                     android:paddingStart="20dp"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
-                <include layout="@layout/child_discover"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp">
+
+                    <include layout="@layout/child_discover"/>
+
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>

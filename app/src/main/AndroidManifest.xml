@@ -25,11 +25,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
+
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -43,13 +46,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".Ui.Activity.Ride_Gallery"></activity>
+        <activity android:name=".Ui.Activity.Garage_List"></activity>
+        <activity android:name=".Ui.Activity.Garage_Information" />
+        <activity android:name=".Ui.Activity.Ride_Gallery" />
         <activity android:name=".Ui.Activity.Upgrade_To_Premium" />
         <activity android:name=".Ui.Activity.Invite_new_member" />
         <activity android:name=".Ui.Activity.Ride_Members_Management" />
         <activity android:name=".Ui.Activity.Create_Group_Ride" />
         <activity android:name=".Ui.Activity.Album_Viewer" /> <!-- Add the service created in services package ! -->
-
         <activity android:name=".Ui.Activity.Document_Album_Creator" />
         <activity android:name=".Ui.Activity.Document_Locker" />
         <activity
@@ -94,7 +98,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service  android:name=".Ui.Service.LocationTrackerService"  android:enabled="true" android:exported="true"/>
+
+        <service
+            android:name=".Ui.Service.LocationTrackerService"
+            android:enabled="true"
+            android:exported="true" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBPY5WHNqIEGV2y6eNR4R5xCgzEh_kyYCY" />

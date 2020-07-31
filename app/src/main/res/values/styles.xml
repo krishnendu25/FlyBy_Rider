@@ -26,18 +26,30 @@
    ]
     <style name="discover_item">
 
-    <item name="android:layout_width">180dp</item>
-    <item name="android:layout_height">195dp</item>
+    <item name="android:layout_width">190dp</item>
+    <item name="android:layout_height">215sp</item>
     <item name="android:orientation">vertical</item>
     <item name="android:gravity">center</item>
     <item name="android:background">@drawable/ic_categorycard</item>
 </style>
+
+    <style name="discover_item_hdpi">
+
+        <item name="android:layout_width">160dp</item>
+        <item name="android:layout_height">175dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/ic_categorycard</item>
+    </style>
+
+
+
     <style name="discover_item_in">
 
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginTop">35dp</item>
         <item name="android:layout_marginBottom">35dp</item>
-        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:layout_marginStart">35dp</item>
     </style>
 </resources>

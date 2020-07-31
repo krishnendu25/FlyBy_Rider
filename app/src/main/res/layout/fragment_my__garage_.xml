@@ -36,16 +36,16 @@
 
                     <LinearLayout
                         android:id="@+id/My_Bike_Image_view"
-                        android:layout_width="1000px"
-                        android:layout_height="600px"
+                        android:layout_width="300dp"
+                        android:layout_height="200dp"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center"
                         android:layout_marginTop="50dp">
                         <ImageView
                             android:id="@+id/My_Bike_Image"
                             android:src="@drawable/ic_emptybike"
-                            android:layout_height="match_parent"
-                            android:layout_width="match_parent" />
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content" />
                     </LinearLayout>
 
 
