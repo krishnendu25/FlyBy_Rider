@@ -11,6 +11,11 @@ public class Category_Model implements Parcelable {
 
     }
 
+    public Category_Model(String name, String ID) {
+        Name = name;
+        this.ID = ID;
+    }
+
     @Override
     public String toString() {
         return "Category_Model{" +

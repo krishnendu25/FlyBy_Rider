@@ -1,24 +1,19 @@
-package com.flyby_riders.Ui.Adapter;
+package com.flyby_riders.Ui.Adapter.DocumentLocker;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.Album_Viewer;
-import com.flyby_riders.Ui.Activity.Document_Album_Creator;
-import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Album_Content_Model;
-import com.flyby_riders.Ui.Model.Media_Model;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

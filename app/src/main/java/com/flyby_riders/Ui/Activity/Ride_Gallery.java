@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,28 +19,20 @@ import androidx.viewpager.widget.ViewPager;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Adapter.Bike_Ride_Media_Adapter;
-import com.flyby_riders.Ui.Adapter.Doucment_Privew_Adapter;
-import com.flyby_riders.Ui.Adapter.Ride_Members_Adapter;
+import com.flyby_riders.Ui.Adapter.Ride.Bike_Ride_Media_Adapter;
 import com.flyby_riders.Ui.Fragment.All_Media_Ride_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Media_Ride_Fragment;
 import com.flyby_riders.Ui.Model.Media_Model;
-import com.flyby_riders.Ui.Model.Ride_Media_Model;
-import com.flyby_riders.Ui.Model.Ride_Member_model;
 import com.flyby_riders.Ui.PhotoPicker.ImagePickerActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -248,5 +238,9 @@ public class Ride_Gallery extends BaseActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

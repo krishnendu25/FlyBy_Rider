@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,23 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.R;
 import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Adapter.My_Album_View;
-import com.flyby_riders.Ui.Adapter.My_Bike_Adapter;
-import com.flyby_riders.Ui.Fragment.Bike_Add_Fragments;
-import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
+import com.flyby_riders.Ui.Adapter.DocumentLocker.My_Album_View;
+import com.flyby_riders.Ui.Adapter.Garage.My_Bike_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Album_Content_Model;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -2,33 +2,31 @@ package com.flyby_riders.Ui.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Adapter.Album_Image_Adapter;
-import com.flyby_riders.Ui.Adapter.My_Album_View;
+import com.flyby_riders.Ui.Adapter.DocumentLocker.Album_Image_Adapter;
 import com.flyby_riders.Ui.Model.Album_Content_Model;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +50,8 @@ public class Album_Viewer extends BaseActivity {
     @BindView(R.id.Album_name_ed)
     TextView AlbumNameEd;
     ArrayList<String> Photo_Link = new ArrayList<>();
+    int Measuredwidth = 0;
+    int Measuredheight = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +69,20 @@ public class Album_Viewer extends BaseActivity {
     }
 
     private void Initialization() {
+        Point size = new Point();
+        WindowManager w = this.getWindowManager();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)    {
+            w.getDefaultDisplay().getSize(size);
+            Measuredwidth = size.x;
+            Measuredheight = size.y;
+        }else{
+            Display d = w.getDefaultDisplay();
+            Measuredwidth = d.getWidth();
+            Measuredheight = d.getHeight();
+        }
         AlbumNameEd.setText(Album_Content_list.get(Position).getALBUM_NAME());
         MyAlbumList.setLayoutManager(new GridLayoutManager(this, 2));
-        album_image_adapter = new Album_Image_Adapter(Photo_Link,Album_Viewer.this);
+        album_image_adapter = new Album_Image_Adapter(Photo_Link,Album_Viewer.this,Measuredwidth/2);
         MyAlbumList.setAdapter(album_image_adapter);
     }
 

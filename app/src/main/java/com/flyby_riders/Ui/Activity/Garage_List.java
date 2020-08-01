@@ -1,23 +1,38 @@
 package com.flyby_riders.Ui.Activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
+import com.flyby_riders.Ui.Adapter.Discover.Garage_Owner_Adapter;
+import com.flyby_riders.Ui.Adapter.Discover.Garageownerclick;
+import com.flyby_riders.Ui.Model.Garage_Owner_Model;
 import com.flyby_riders.Utils.ShadowLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fr.quentinklein.slt.LocationTracker;
+import fr.quentinklein.slt.TrackerSettings;
 
-public class Garage_List extends BaseActivity  {
+public class Garage_List extends BaseActivity implements Garageownerclick {
 
     @BindView(R.id.Back_Btn)
     RelativeLayout BackBtn;
@@ -27,12 +42,69 @@ public class Garage_List extends BaseActivity  {
     RelativeLayout SortBtn;
     @BindView(R.id.garage_list)
     RecyclerView garageList;
-    boolean AtoZ_sort=false , Distance_sort=false;
+    boolean AtoZ_sort = false, Distance_sort = false;
+    ArrayList<Garage_Owner_Model> Garage_Owner_List = new ArrayList<>();
+    private double longitude=0,latitude=0;
+    Garage_Owner_Adapter garage_owner_adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_garage__list);
         ButterKnife.bind(this);
+        try {
+            Garage_Owner_List = getIntent().getParcelableArrayListExtra("List_Garage");
+        } catch (Exception E) {
+            Garage_Owner_List = new ArrayList<>();
+        }
+        show_ProgressDialog();
+        LocationTracker tracker = new LocationTracker(
+                this,
+                new TrackerSettings()
+                        .setUseGPS(true)
+                        .setUseNetwork(true)
+                        .setUsePassive(true)) {
+            @Override
+            public void onLocationFound(Location location) {
+                try {hide_ProgressDialog();
+                    Set_View(location.getLatitude(),location.getLongitude());
+                }catch (Exception e){}
+            }
+            @Override
+            public void onTimeout() {
+                hide_ProgressDialog();
+            }
+        };
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            hide_ProgressDialog();
+            return;
+        }
+        tracker.startListening();
+
+
+
+    }
+
+    private void Set_View(double latitude, double longitude) {
+
+        if (Garage_Owner_List.size()>0)
+        {
+            for (int i=0; i<Garage_Owner_List.size() ; i++)
+            {
+                Location startPoint=new Location("locationA");
+                startPoint.setLatitude(latitude);
+                startPoint.setLongitude(longitude);
+                Location endPoint=new Location("locationA");
+                endPoint.setLatitude(Double.valueOf(Garage_Owner_List.get(i).getLAT()));
+                endPoint.setLongitude(Double.valueOf(Garage_Owner_List.get(i).getLANG()));
+                Garage_Owner_List.get(i).setDISTANCE_FROM_ME(String.valueOf(startPoint.distanceTo(endPoint)));
+            }
+        }
+        try {
+            Set_LayoutManager(garageList,false,true);
+            garage_owner_adapter = new Garage_Owner_Adapter(Garage_Owner_List,this);
+            garageList.setAdapter(garage_owner_adapter);
+        }catch (Exception e)
+        { }
     }
 
     @OnClick({R.id.Back_Btn, R.id.Sort_Btn})
@@ -100,5 +172,19 @@ public class Garage_List extends BaseActivity  {
 
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void SelectOnClick(int Position) {
+        Intent intent = new Intent(this,Garage_Information.class);
+        intent.putExtra("List_Garage",Garage_Owner_List);
+        intent.putExtra("Position",String.valueOf(Position));
+        startActivity(intent);
     }
 }

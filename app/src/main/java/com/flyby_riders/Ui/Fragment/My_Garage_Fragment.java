@@ -41,7 +41,7 @@ import com.flyby_riders.Ui.Activity.Bike_Brand_Activity;
 import com.flyby_riders.Ui.Activity.Document_Locker;
 import com.flyby_riders.Ui.Adapter.Garage.Garage_Ad_Adapter;
 import com.flyby_riders.Ui.Adapter.Garage.Garage_add_click;
-import com.flyby_riders.Ui.Adapter.My_Bike_Adapter;
+import com.flyby_riders.Ui.Adapter.Garage.My_Bike_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Garage_Ad;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
@@ -214,6 +214,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     }
 
     private void Fetch_Location_With_RX() {
+        show_ProgressDialog();
         LocationTracker tracker = new LocationTracker(
                 getActivity(),
                 new TrackerSettings()
@@ -226,6 +227,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
             @Override
             public void onLocationFound(Location location) {
                 try {
+                    hide_ProgressDialog();
                     City_Name = Constant.getCompletecity(getActivity(), location.getLatitude(), location.getLongitude(), true, false, false);
                     if (City_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
                         if (!City_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
@@ -327,7 +329,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                                 garage_ads_list.add(garage_ad);
                             }
                             if (garage_ads_list.size() > 0) {
-                                garageAdAdapter = new Garage_Ad_Adapter(getActivity(), garage_ads_list);
+                                garageAdAdapter = new Garage_Ad_Adapter(getActivity(), garage_ads_list,My_Garage_Fragment.this);
                                 AdvetismentList.setAdapter(garageAdAdapter);
                             }
 

@@ -14,9 +14,11 @@ public class My_Ride_Model {
             Ride_Admin_Id,
             Total_media,
             ADMIN_PLANNAME;
-    ;
 
-    public My_Ride_Model() { }
+    String STARTLAT, STARTLANG,ENDLAT, ENDLANG;
+
+    public My_Ride_Model() {
+    }
 
     public String getRide_ID() {
         return Ride_ID;
@@ -104,5 +106,37 @@ public class My_Ride_Model {
 
     public void setADMIN_PLANNAME(String ADMIN_PLANNAME) {
         this.ADMIN_PLANNAME = ADMIN_PLANNAME;
+    }
+
+    public String getSTARTLAT() {
+        return STARTLAT;
+    }
+
+    public void setSTARTLAT(String STARTLAT) {
+        this.STARTLAT = STARTLAT;
+    }
+
+    public String getSTARTLANG() {
+        return STARTLANG;
+    }
+
+    public void setSTARTLANG(String STARTLANG) {
+        this.STARTLANG = STARTLANG;
+    }
+
+    public String getENDLAT() {
+        return ENDLAT;
+    }
+
+    public void setENDLAT(String ENDLAT) {
+        this.ENDLAT = ENDLAT;
+    }
+
+    public String getENDLANG() {
+        return ENDLANG;
+    }
+
+    public void setENDLANG(String ENDLANG) {
+        this.ENDLANG = ENDLANG;
     }
 }

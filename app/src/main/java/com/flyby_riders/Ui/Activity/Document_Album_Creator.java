@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
@@ -26,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Adapter.Doucment_Privew_Adapter;
+import com.flyby_riders.Ui.Adapter.DocumentLocker.Doucment_Privew_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Album_Content_Model;
 import com.flyby_riders.Ui.Model.Media_Model;
@@ -39,9 +38,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.BindView;

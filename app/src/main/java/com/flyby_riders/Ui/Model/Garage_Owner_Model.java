@@ -10,9 +10,12 @@ import java.util.ArrayList;
  */
 public class Garage_Owner_Model implements Parcelable
 {
-    private String GARAGEID,OWNERNAME,STORENAME,PHONE,ADDRESS,CITY,LAT,LANG;
+    private String GARAGEID,OWNERNAME,STORENAME,PHONE,ADDRESS,CITY,LAT,LANG,DISTANCE_FROM_ME,PROFILEPIC;
+
     private ArrayList<Category_Model> category_models = new ArrayList<>();
 
+    public Garage_Owner_Model() {
+    }
 
     protected Garage_Owner_Model(Parcel in) {
         GARAGEID = in.readString();
@@ -23,10 +26,29 @@ public class Garage_Owner_Model implements Parcelable
         CITY = in.readString();
         LAT = in.readString();
         LANG = in.readString();
+        DISTANCE_FROM_ME = in.readString();
+        PROFILEPIC = in.readString();
         category_models = in.createTypedArrayList(Category_Model.CREATOR);
     }
 
-    public Garage_Owner_Model() {
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(GARAGEID);
+        dest.writeString(OWNERNAME);
+        dest.writeString(STORENAME);
+        dest.writeString(PHONE);
+        dest.writeString(ADDRESS);
+        dest.writeString(CITY);
+        dest.writeString(LAT);
+        dest.writeString(LANG);
+        dest.writeString(DISTANCE_FROM_ME);
+        dest.writeString(PROFILEPIC);
+        dest.writeTypedList(category_models);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Garage_Owner_Model> CREATOR = new Creator<Garage_Owner_Model>() {
@@ -105,44 +127,27 @@ public class Garage_Owner_Model implements Parcelable
         this.LANG = LANG;
     }
 
+    public String getDISTANCE_FROM_ME() {
+        return DISTANCE_FROM_ME;
+    }
+
+    public void setDISTANCE_FROM_ME(String DISTANCE_FROM_ME) {
+        this.DISTANCE_FROM_ME = DISTANCE_FROM_ME;
+    }
+
+    public String getPROFILEPIC() {
+        return PROFILEPIC;
+    }
+
+    public void setPROFILEPIC(String PROFILEPIC) {
+        this.PROFILEPIC = PROFILEPIC;
+    }
+
     public ArrayList<Category_Model> getCategory_models() {
         return category_models;
     }
 
     public void setCategory_models(ArrayList<Category_Model> category_models) {
         this.category_models = category_models;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(GARAGEID);
-        dest.writeString(OWNERNAME);
-        dest.writeString(STORENAME);
-        dest.writeString(PHONE);
-        dest.writeString(ADDRESS);
-        dest.writeString(CITY);
-        dest.writeString(LAT);
-        dest.writeString(LANG);
-        dest.writeTypedList(category_models);
-    }
-
-    @Override
-    public String toString() {
-        return "Garage_Owner_Model{" +
-                "GARAGEID='" + GARAGEID + '\'' +
-                ", OWNERNAME='" + OWNERNAME + '\'' +
-                ", STORENAME='" + STORENAME + '\'' +
-                ", PHONE='" + PHONE + '\'' +
-                ", ADDRESS='" + ADDRESS + '\'' +
-                ", CITY='" + CITY + '\'' +
-                ", LAT='" + LAT + '\'' +
-                ", LANG='" + LANG + '\'' +
-                ", category_models=" + category_models +
-                '}';
     }
 }

@@ -1,7 +1,5 @@
 package com.flyby_riders.Ui.Activity;
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -10,7 +8,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -18,16 +15,14 @@ import android.widget.RelativeLayout;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Adapter.Contact_Adapter;
-import com.flyby_riders.Ui.Adapter.FlyBy_Contact_Adapter;
+import com.flyby_riders.Ui.Adapter.Ride.Contact_Adapter;
+import com.flyby_riders.Ui.Adapter.Ride.FlyBy_Contact_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Contact_Model;
 import com.flyby_riders.Ui.Model.FlyBy_Contact_Model;
 import com.flyby_riders.Utils.ListUtils;
-import com.flyby_riders.Utils.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

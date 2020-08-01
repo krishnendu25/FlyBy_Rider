@@ -1,4 +1,4 @@
-package com.flyby_riders.Ui.Adapter;
+package com.flyby_riders.Ui.Adapter.Ride;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,14 +13,11 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Invite_new_member;
 import com.flyby_riders.Ui.Activity.Ride_Members_Management;
 import com.flyby_riders.Ui.Listener.onClick;
-import com.flyby_riders.Ui.Model.FlyBy_Contact_Model;
 import com.flyby_riders.Ui.Model.Ride_Member_model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by KRISHNENDU MANNA on 11,July,2020

@@ -10,15 +10,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Retrofit.RetrofitCallback;
-import com.flyby_riders.Ui.Adapter.Bike_Brand_Adapter;
+import com.flyby_riders.Ui.Adapter.Garage.Bike_Brand_Adapter;
 import com.flyby_riders.Ui.Model.BIKE_BRAND;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;

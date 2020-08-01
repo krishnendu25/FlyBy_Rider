@@ -1,53 +1,53 @@
-package com.flyby_riders.Ui.Adapter;
+package com.flyby_riders.Ui.Adapter.Ride;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Album_Viewer;
-import com.flyby_riders.Ui.Model.Album_Content_Model;
+import com.flyby_riders.Ui.Model.Ride_Media_Model;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
-/**
- * Created by KRISHNENDU MANNA on 04,July,2020
- */
-public class Album_Image_Adapter extends RecyclerView.Adapter<Album_Image_Adapter.MyViewHolder>  {
+public class Ride_Gallery_Adapter extends RecyclerView.Adapter<Ride_Gallery_Adapter.MyViewHolder>  {
     Context context;
     private static LayoutInflater inflater=null;
-    ArrayList<String> Album_Content_list ;
-    public Album_Image_Adapter(ArrayList<String> data, Context context) {
+    ArrayList<Ride_Media_Model> data ;
+    int Measuredwidth=0;
+    public Ride_Gallery_Adapter( Context context,ArrayList<Ride_Media_Model> data_d,int Measuredwidth_g) {
+        // TODO Auto-generated constructor stub
         this.context=context;
-        Album_Content_list = data;
-        inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.Measuredwidth = Measuredwidth_g;
+        data = data_d;
+        inflater = ( LayoutInflater )context.
+                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     @Override
-    public Album_Image_Adapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.child_image_album, parent, false);
-        return new Album_Image_Adapter.MyViewHolder(v);
+    public Ride_Gallery_Adapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(context).inflate(R.layout.chid_ride_gallery, parent, false);
+        return new Ride_Gallery_Adapter.MyViewHolder(v);
     }
     @Override
-    public void onBindViewHolder(Album_Image_Adapter.MyViewHolder holder,int i) {
+    public void onBindViewHolder(Ride_Gallery_Adapter.MyViewHolder holder,int i) {
+        int Width = Measuredwidth ;
+        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(Width,Width);
+        holder.imageview.setLayoutParams(parms);
         try{
-            Picasso.get().load(Album_Content_list.get(i)).placeholder(R.drawable.images).into(holder.Album_images_tv);
+            Picasso.get().load(data.get(i).getMEDIAFILE_URL()).placeholder(R.drawable.images)
+                    .into(holder.imageview);
         }catch (Exception e)
         {
-            holder.Album_images_tv.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
+            holder.imageview.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
         }
 
-        holder.Album_images_tv.setOnClickListener(new View.OnClickListener() {
+        holder.imageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
@@ -60,10 +60,10 @@ public class Album_Image_Adapter extends RecyclerView.Adapter<Album_Image_Adapte
                     final AlertDialog alertDialog = dialogBuilder.create();
                     alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     try{
-                        Picasso.get().load(Album_Content_list.get(i)).placeholder(R.drawable.images).into(ImageView_d);
+                        Picasso.get().load(data.get(i).getMEDIAFILE_URL()).placeholder(R.drawable.images).into(ImageView_d);
                     }catch (Exception e)
                     {
-                       ImageView_d.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
+                        ImageView_d.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
                     }
                     Close_Image_view.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -73,20 +73,22 @@ public class Album_Image_Adapter extends RecyclerView.Adapter<Album_Image_Adapte
                     });
                     alertDialog.show();
                 }catch (Exception e)
-                {Constant.Show_Tos(context,"Something Wrong."); }
-
+                {
+                    Constant.Show_Tos(context,"Something Wrong."); }
             }
         });
+
+
     }
     @Override
     public int getItemCount() {
-        return Album_Content_list.size();
+        return data.size();
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView Album_images_tv;
+        ImageView imageview;
         public MyViewHolder(View itemView) {
             super(itemView);
-            Album_images_tv = (ImageView) itemView.findViewById(R.id.Album_images_tv);
+            imageview = (ImageView) itemView.findViewById(R.id.imageview);
         }
     }
 }

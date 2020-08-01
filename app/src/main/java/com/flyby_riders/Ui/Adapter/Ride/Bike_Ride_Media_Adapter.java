@@ -1,4 +1,4 @@
-package com.flyby_riders.Ui.Adapter;
+package com.flyby_riders.Ui.Adapter.Ride;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

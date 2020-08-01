@@ -1,4 +1,4 @@
-package com.flyby_riders.Ui.Adapter;
+package com.flyby_riders.Ui.Adapter.Ride;
 
 import android.content.Context;
 import android.content.Intent;

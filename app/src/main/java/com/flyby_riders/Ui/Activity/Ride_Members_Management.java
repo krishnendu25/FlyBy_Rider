@@ -6,17 +6,15 @@ import android.text.Html;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Adapter.Ride_Members_Adapter;
+import com.flyby_riders.Ui.Adapter.Ride.Ride_Members_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Ride_Member_model;
-import com.google.android.gms.auth.api.credentials.Credential;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONArray;

@@ -22,11 +22,8 @@ import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
 import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Activity.Create_Group_Ride;
-import com.flyby_riders.Ui.Activity.Ride_Members_Management;
-import com.flyby_riders.Ui.Adapter.My_Ride_Adapter;
-import com.flyby_riders.Ui.Adapter.Ride_Members_Adapter;
+import com.flyby_riders.Ui.Adapter.Ride.My_Ride_Adapter;
 import com.flyby_riders.Ui.Model.My_Ride_Model;
-import com.flyby_riders.Ui.Model.Ride_Member_model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,8 +39,9 @@ import retrofit2.Response;
 public class My_Ride_Fragment extends Fragment {
     public RetrofitCallback retrofitCallback;
     ArrayList<My_Ride_Model> MyRide_List = new ArrayList<>();
-    private AlertDialog alertDialog_loader = null;
     RecyclerView MyRide_ListRecyclerView;
+    private AlertDialog alertDialog_loader = null;
+
     public My_Ride_Fragment() {
     }
 
@@ -65,7 +63,7 @@ public class My_Ride_Fragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_my__ride, container, false);
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
         TextView Create_Ride_tv = (TextView) v.findViewById(R.id.Create_Ride_tv);
-         MyRide_ListRecyclerView = (RecyclerView) v.findViewById(R.id.MyRide_List);
+        MyRide_ListRecyclerView = (RecyclerView) v.findViewById(R.id.MyRide_List);
         MyRide_ListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         Create_Ride_tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +106,7 @@ public class My_Ride_Fragment extends Fragment {
                                 My_Ride_Model RD = new My_Ride_Model();
                                 JSONObject JS = RIDEDETAILS_LIST.getJSONObject(i);
                                 RD.setRide_Name(JS.getString("RIDENAME"));
-                                RD.setRide_Total_Member(JS.getString("RIDENAME"));
+                                RD.setRide_Total_Member(JS.getString("TOTMEMBER"));
                                 RD.setRide_Start_Date(JS.getString("CREATIONDATE"));
                                 RD.setRide_Total_Distance(JS.getString("TOTALKM"));
                                 RD.setRide_Cover_pic(JS.getString("PICMEDIAFILE"));
@@ -117,12 +115,17 @@ public class My_Ride_Fragment extends Fragment {
                                 RD.setRide_ID(JS.getString("RIDEID"));
                                 RD.setTotal_media(JS.getString("COUNTIMAGELIST"));
                                 RD.setADMIN_PLANNAME(JS.getString("PLANNAME"));
+                                RD.setSTARTLANG(JS.getString("STARTLANG"));
+                                RD.setSTARTLAT(JS.getString("STARTLAT"));
+                                RD.setENDLANG(JS.getString("ENDLANG"));
+                                RD.setENDLAT(JS.getString("ENDLAT"));
+
                                 MyRide_List.add(RD);
                             }
                             Collections.reverse(MyRide_List);
 
 
-                            My_Ride_Adapter my_ride_adapter = new My_Ride_Adapter(getActivity(),MyRide_List);
+                            My_Ride_Adapter my_ride_adapter = new My_Ride_Adapter(getActivity(), MyRide_List);
                             MyRide_ListRecyclerView.setAdapter(my_ride_adapter);
 
                         } else {

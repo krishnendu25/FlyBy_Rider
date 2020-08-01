@@ -7,21 +7,17 @@ import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.IntentCompat;
-
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Adapter.Bike_Model_Adapter;
+import com.flyby_riders.Ui.Adapter.Garage.Bike_Model_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.BIKE_BRAND;
-import java.io.IOException;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;

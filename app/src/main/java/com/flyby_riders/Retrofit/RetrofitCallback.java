@@ -158,4 +158,13 @@ public interface RetrofitCallback {
     @GET("Get_all_garageowner")
     Call<ResponseBody> Get_all_garageowner();
 
+    @GET("http://flybyapp.com/flybyapp/StoreApi/getAllServices")
+    Call<ResponseBody> getAllServices();
+
+    @FormUrlEncoded
+    @POST("http://flybyapp.com/flybyapp/StoreApi/ad_post_fetch")
+    Call<ResponseBody> ad_post_fetch(@Field("Userid") String Userid);
+
+
+
 }

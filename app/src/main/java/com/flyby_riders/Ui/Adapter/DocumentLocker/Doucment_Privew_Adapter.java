@@ -1,4 +1,4 @@
-package com.flyby_riders.Ui.Adapter;
+package com.flyby_riders.Ui.Adapter.DocumentLocker;
 
 import android.content.Context;
 import android.view.LayoutInflater;

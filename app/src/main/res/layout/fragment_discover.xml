@@ -6,47 +6,39 @@
     android:background="@color/background_base"
     tools:context=".Ui.Fragment.Discover_Fragment">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/background_base"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/background_base">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:src="@drawable/bg_logo"/>
-        <ScrollView
+            android:src="@drawable/bg_logo" />
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/transparent"
+                android:fontFamily="@font/manropeextrabold"
+                android:text="@string/discover_top_service_providers_nin_these_categories"
+                android:textColor="#DEDEDE"
+                android:textSize="18dp" />
+            <GridView
+                android:id="@+id/Services_List"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/manropeextrabold"
-                    android:text="@string/discover_top_service_providers_nin_these_categories"
-                    android:textColor="#DEDEDE"
-                    android:layout_marginTop="20dp"
-                    android:paddingStart="20dp"
-                    android:textSize="18dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp">
-
-                    <include layout="@layout/child_discover"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-        </ScrollView>
+                android:layout_margin="20dp"
+                android:horizontalSpacing="10dp"
+                android:numColumns="2"
+                android:verticalSpacing="10dp" />
+        </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

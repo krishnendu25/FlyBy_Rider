@@ -87,7 +87,10 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
             try {
                 if (alertDialog_loader !=null)
                 {
-                    alertDialog_loader.show();
+                    try{
+                        alertDialog_loader.show();
+                    }catch (Exception e){}
+
                 } else {
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
                     LayoutInflater inflater = (this).getLayoutInflater();
@@ -99,7 +102,9 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
                     alertDialog_loader.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     LottieAnimationView.setAnimation("bike_loader.json");
                     LottieAnimationView.playAnimation();
-                    alertDialog_loader.show();
+                    try{
+                        alertDialog_loader.show();
+                    }catch (Exception e){}
                 }
             } catch (WindowManager.BadTokenException e) {
                 //use a log message

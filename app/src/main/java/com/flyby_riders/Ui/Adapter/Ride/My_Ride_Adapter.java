@@ -1,4 +1,4 @@
-package com.flyby_riders.Ui.Adapter;
+package com.flyby_riders.Ui.Adapter.Ride;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,6 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.Create_Group_Ride;
 import com.flyby_riders.Ui.Model.My_Ride_Model;
-import com.flyby_riders.Ui.Model.Ride_Member_model;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -60,6 +59,10 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
                 intent.putExtra("My_Ride_ID",data.get(position).getRide_ID());
                 intent.putExtra("Admin_User_Id",data.get(position).getRide_Admin_Id());
                 intent.putExtra("TRACKSTATUS",data.get(position).getRide_Status());
+                intent.putExtra("STARTLAT",data.get(position).getSTARTLAT());
+                intent.putExtra("STARTLANG",data.get(position).getSTARTLANG());
+                intent.putExtra("ENDLAT",data.get(position).getENDLAT());
+                intent.putExtra("ENDLANG",data.get(position).getENDLANG());
                 context.startActivity(intent);
             }
         });

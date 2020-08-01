@@ -20,6 +20,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -85,7 +87,25 @@ public class Constant
 
     }
 
+    public static void openWhatsApp(String numero, String mensaje, Context context){
 
+        try{
+            PackageManager packageManager = context.getPackageManager();
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            String url = "https://api.whatsapp.com/send?phone="+ numero +"&text=" + URLEncoder.encode(mensaje, "UTF-8");
+            i.setPackage("com.whatsapp");
+            i.setData(Uri.parse(url));
+            if (i.resolveActivity(packageManager) != null) {
+                context.startActivity(i);
+            }else {
+                Constant.Show_Tos(context,"No not found");
+            }
+        } catch(Exception e) {
+            Log.e("ERROR WHATSAPP",e.toString());
+            Constant.Show_Tos(context,"No not found");
+        }
+
+    }
 
 
 

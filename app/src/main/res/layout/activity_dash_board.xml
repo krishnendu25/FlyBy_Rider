@@ -18,7 +18,7 @@
     <com.flyby_riders.Utils.ShadowLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:sl_shadow_color="#33EDE9E9"
+        app:sl_shadow_color="#51FFFFFF"
         app:shadowRadius="100dp"
         app:shadowShape="oval"
         app:sl_shadow_angle="270"

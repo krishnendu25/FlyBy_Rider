@@ -16,15 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
 import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Activity.Ride_Gallery;
-import com.flyby_riders.Ui.Adapter.Ride_Gallery_Adapter;
+import com.flyby_riders.Ui.Adapter.Ride.Ride_Gallery_Adapter;
 import com.flyby_riders.Ui.Model.Ride_Media_Model;
 
 import org.json.JSONArray;
@@ -43,6 +43,7 @@ public class My_Media_Ride_Fragment extends Fragment {
     private RetrofitCallback retrofitCallback;
     RecyclerView my_uploaded_list;
     static My_Media_Ride_Fragment fragment;
+    ImageView Empty_View;
     String My_Ride_ID = "", Admin_User_Id = "";
     Ride_Gallery_Adapter ride_gallery_adapter;
     ArrayList<Ride_Media_Model> Ride_Media_List = new ArrayList<>();
@@ -85,6 +86,7 @@ public class My_Media_Ride_Fragment extends Fragment {
         return view;
     }
     private void Instantiation(View view) {
+        Empty_View = view.findViewById(R.id.Empty_View);
         My_Ride_ID= Ride_Gallery.My_Ride_ID;
         Admin_User_Id=Ride_Gallery.Admin_User_Id;
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
@@ -166,6 +168,8 @@ public class My_Media_Ride_Fragment extends Fragment {
 
         ride_gallery_adapter = new Ride_Gallery_Adapter(getActivity(),Ride_Media_List,Measuredwidth/2);
         my_uploaded_list.setAdapter(ride_gallery_adapter);
+        if (Ride_Media_List.size()>0)
+        { Empty_View.setVisibility(View.GONE); }
 
     }
 
