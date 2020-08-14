@@ -55,7 +55,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -135,25 +139,25 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
     /*@BindView(R.id.Swipe_Refresh_tv)
     SwipeRefreshLayout SwipeRefreshTv;*/
     ArrayList<My_Ride_Model> MyRide_List = new ArrayList<>();
+    double STARTLAT = 0, STARTLANG = 0, ENDLAT = 0, ENDLANG = 0;
     private Marker mCurrLocationMarker;
     private double mlattitude, mlongitude;
     private Runnable updater, runnable;
     private ArrayList<LatLng> points; //added
-    double STARTLAT=0,STARTLANG=0,ENDLAT=0,ENDLANG=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create__group__ride);
         ButterKnife.bind(this);
-       try{
-           STARTLAT = Double.parseDouble(getIntent().getStringExtra("STARTLAT"));
-           STARTLANG = Double.parseDouble(getIntent().getStringExtra("STARTLANG"));
-           ENDLAT = Double.parseDouble(getIntent().getStringExtra("ENDLAT"));
-           ENDLANG = Double.parseDouble(getIntent().getStringExtra("ENDLANG"));
-       }catch (Exception e)
-       {
+        try {
+            STARTLAT = Double.parseDouble(getIntent().getStringExtra("STARTLAT"));
+            STARTLANG = Double.parseDouble(getIntent().getStringExtra("STARTLANG"));
+            ENDLAT = Double.parseDouble(getIntent().getStringExtra("ENDLAT"));
+            ENDLANG = Double.parseDouble(getIntent().getStringExtra("ENDLANG"));
+        } catch (Exception e) {
 
-       }
+        }
         Instantiation();
 
 
@@ -168,6 +172,8 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
     }
 
     private void Instantiation() {
+        rideTimeTv.setSelected(true);
+
         points = new ArrayList<LatLng>(); //added
         try {
             My_Ride_ID = getIntent().getStringExtra("My_Ride_ID");
@@ -184,9 +190,8 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                 RIDE_STATUS = RIDE_STARTED;
             } else if (TRACKSTATUS.equalsIgnoreCase("END")) {
                 RIDE_STATUS = RIDE_ENDED;
-                End_Ride_Poly(STARTLAT,STARTLANG,ENDLAT,ENDLANG);
+                End_Ride_Poly(STARTLAT, STARTLANG, ENDLAT, ENDLANG);
             }
-
             Cursor cursor = testAdapter.GET_RIDE_DATA(My_Ride_ID, new Session(this).get_LOGIN_USER_ID());
             if (cursor.getCount() == 0) {
                 testAdapter.INSERT_RIDE_DATA(My_Ride_ID, new Session(getApplicationContext()).get_LOGIN_USER_ID(), "", "", "", String.valueOf(Track_My_Location));
@@ -258,7 +263,6 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
 
                 if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
 
-
                     Cursor cursor = testAdapter.GET_REALTIMELOCATION(My_Ride_ID, new Session(getApplicationContext()).get_LOGIN_USER_ID());
 
                     if (cursor.getCount() != 0) {
@@ -267,8 +271,16 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                         }
                     }
                     Fetch_RealTime_Location(My_Ride_ID, new Session(getApplicationContext()).get_LOGIN_USER_ID());
-                }
+                    //-------------------------------------------------------------------------------------------------///
 
+                    try {
+                        averageSpeedTv.setText(new DecimalFormat("##.##").format(Double.valueOf(testAdapter.GET_AVERAGE_SPEED(My_Ride_ID, new Session(getApplicationContext()).get_LOGIN_USER_ID()))) + "km/h");
+
+
+                    } catch (Exception e) {
+
+                    }
+                }
 
                 timerHandlerE.postDelayed(runnable, 10000);
             }
@@ -293,8 +305,8 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                 BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
                 AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
                 BeforeHeaderTv.setText(getString(R.string.ENDING_POINT));
-                End_Ride_Poly(STARTLAT,STARTLANG,ENDLAT,ENDLANG);
-                ShowMyLocation.setText(Constant.getCompleteAddressString(this,STARTLAT,STARTLANG));
+                End_Ride_Poly(STARTLAT, STARTLANG, ENDLAT, ENDLANG);
+                ShowMyLocation.setText(Constant.getCompleteAddressString(this, STARTLAT, STARTLANG));
             } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED)) {
                 BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.VISIBLE);
                 AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
@@ -335,7 +347,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                 tooltip2.setVisibility(View.GONE);
             }
         };
-        handler.postDelayed(runnable, 2500);
+        handler.postDelayed(runnable, 5000);
 
 
     }
@@ -400,7 +412,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         super.onResume();
         if (back_ground_service != null) {
             back_ground_service.execute();
-
+            Auto_Hide_ToolTip();
         } else {
             new Back_Ground_Service().execute();
         }
@@ -434,20 +446,19 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                 finish();
                 break;
             case R.id.addmedia_btn:
-                 Intent addmedia = new Intent(getApplicationContext(), Ride_Gallery.class);
-                    addmedia.putExtra("My_Ride_ID", My_Ride_ID);
-                    addmedia.putExtra("Admin_User_Id", Admin_User_Id);
-                    startActivity(addmedia);
+                Intent addmedia = new Intent(getApplicationContext(), Ride_Gallery.class);
+                addmedia.putExtra("My_Ride_ID", My_Ride_ID);
+                addmedia.putExtra("Admin_User_Id", Admin_User_Id);
+                startActivity(addmedia);
                 break;
             case R.id.addmembers_btn:
-                if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED)||RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED))
-                {Intent Ride_Members_Management = new Intent(getApplicationContext(), Ride_Members_Management.class);
+                if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED) || RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
+                    Intent Ride_Members_Management = new Intent(getApplicationContext(), Ride_Members_Management.class);
                     Ride_Members_Management.putExtra("My_Ride_ID", My_Ride_ID);
                     Ride_Members_Management.putExtra("Admin_User_Id", Admin_User_Id);
                     startActivity(Ride_Members_Management);
-                }else
-                {
-                    Constant.Show_Tos(getApplicationContext(),"Ride End So You Can't Access Member Management");
+                } else {
+                    Constant.Show_Tos(getApplicationContext(), "Ride End So You Can't Access Member Management");
                 }
 
 
@@ -588,6 +599,25 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         }
     }
 
+    void Other_Location_View(ArrayList<Real_Time_Latlong> track_list) {
+        mMap.clear();
+        for (int i = 0; i < track_list.size(); i++) {
+            if (!track_list.get(i).getMEMBERID().equalsIgnoreCase(new Session(getApplicationContext()).get_LOGIN_USER_ID())) {
+                if (mMap != null) {
+                    LatLng currentPosition = new LatLng(Double.valueOf(track_list.get(i).getLatitude_Start()), Double.valueOf(track_list.get(i).getLongitude_Start()));
+                    MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.valueOf(track_list.get(i).getLatitude_Start()), Double.valueOf(track_list.get(i).getLongitude_Start())));
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
+                    markerOptions.position(currentPosition);
+                    markerOptions.title(track_list.get(i).getRider_Name());
+                    markerOptions.draggable(false);
+                    points.add(currentPosition);
+                    mMap.addMarker(markerOptions);
+                }
+            }
+        }
+    }
+
+
     private void Fetch_Location_With_RX() {
         show_ProgressDialog();
         if (mMap != null) {
@@ -721,8 +751,8 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                                 RIDE_STATUS = RIDE_STARTED;
                             } else if (MyRide_List.get(0).getRide_Status().equalsIgnoreCase("END")) {
                                 RIDE_STATUS = RIDE_ENDED;
-                                End_Ride_Poly(Double.valueOf(MyRide_List.get(0).getSTARTLAT()),Double.valueOf(MyRide_List.get(0).getSTARTLANG())
-                                        ,Double.valueOf(MyRide_List.get(0).getENDLAT()),Double.valueOf(MyRide_List.get(0).getENDLANG()));
+                                End_Ride_Poly(Double.valueOf(MyRide_List.get(0).getSTARTLAT()), Double.valueOf(MyRide_List.get(0).getSTARTLANG())
+                                        , Double.valueOf(MyRide_List.get(0).getENDLAT()), Double.valueOf(MyRide_List.get(0).getENDLANG()));
                             }
                             RideNameTv.setText(MyRide_List.get(0).getRide_Name());
 
@@ -784,7 +814,12 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                                 track_list.add(real_time_latlong);
                             }
 
-                            //  SetMapView(track_list);
+                            try {
+
+                            } catch (Exception e) {
+                                Other_Location_View(track_list);
+                            }
+
 
                         } else {
                         }
@@ -898,6 +933,8 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
 
                             if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                                 Constant.Show_Tos(getApplicationContext(), "Ride Started Successfully");
+                                View_Control();
+                                RIDE_STATUS = RIDE_STARTED;
                                 hit_my_ride(new Session(Create_Group_Ride.this).get_LOGIN_USER_ID());
 
                             } else {
@@ -937,7 +974,9 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                             if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                                 Constant.Show_Tos(getApplicationContext(), "Ride Ended Successfully");
                                 hit_my_ride(new Session(Create_Group_Ride.this).get_LOGIN_USER_ID());
+                                RIDE_STATUS = RIDE_ENDED;
                                 BackGround_Service_Count = 0;
+                                View_Control();
                                 stopService(new Intent(Create_Group_Ride.this, LocationTrackerService.class));
                             } else {
                             }
@@ -957,6 +996,38 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         }
     }
 
+    void End_Ride_Poly(double st_lat, double st_long, double end_lat, double end_long) {
+        try {
+            ArrayList<LatLng> points = new ArrayList<>();
+            LatLng Start = new LatLng(st_lat, st_long);
+            LatLng END = new LatLng(end_lat, end_long);
+            points.add(Start);
+            points.add(END);
+            if (mMap != null) {
+                mMap.clear();  //clears all Markers and Polylines
+                PolylineOptions options = new PolylineOptions().width(10).color(Color.parseColor("#F7B500")).geodesic(true);
+                for (int i = 0; i < points.size(); i++) {
+                    LatLng point = points.get(i);
+                    options.add(point);
+                }
+                MarkerOptions markerOptions = new MarkerOptions().position(Start);
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
+                markerOptions.position(Start);
+                mMap.addMarker(markerOptions);
+                MarkerOptions markerOptionss = new MarkerOptions().position(END);
+                markerOptionss.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
+                markerOptionss.position(END);
+                markerOptionss.draggable(false);
+                mMap.addMarker(markerOptionss);
+                mCurrLocationMarker = mMap.addMarker(markerOptions);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(Start));
+                mCurrLocationMarker.showInfoWindow();
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(7));
+                line = mMap.addPolyline(options); //add Polyline
+            }
+        } catch (Exception e) {
+        }
+    }
 
     class Back_Ground_Service extends AsyncTask<Void, Integer, String> {
         String TAG = getClass().getSimpleName();
@@ -984,20 +1055,26 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                             if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
                                 if (Track_My_Location) {
                                     testAdapter.INSERT_REALTIMELOCATION(My_Ride_ID, new Session(getApplicationContext()).get_LOGIN_USER_ID(), String.valueOf(mlattitude), String.valueOf(mlongitude), GET_timeStamp());
-                                    averageSpeedTv.setText(new DecimalFormat("##.##").format(Double.valueOf(intent.getStringExtra(LocationTrackerService.EXTRA_SPEED))) + "km/h");
-                                    topSpeedTv.setText(new DecimalFormat("##.##").format(Double.valueOf(intent.getStringExtra(LocationTrackerService.EXTRA_SPEED))) + "km/h");
-                                    Location startPoint=new Location("locationA");
+
+                                    double Real_Time_Speed = Double.valueOf(intent.getStringExtra(LocationTrackerService.EXTRA_SPEED));//meters/second
+                                    double Real_Time_Speed_kmph = Real_Time_Speed * 3.6;
+
+                                    //  averageSpeedTv.setText(new DecimalFormat("##.##").format(Real_Time_Speed_kmph) + "km/h");
+                                    topSpeedTv.setText(new DecimalFormat("##.##").format(Real_Time_Speed_kmph) + "km/h");
+                                    Location startPoint = new Location("locationA");
                                     startPoint.setLatitude(STARTLAT);
                                     startPoint.setLongitude(STARTLANG);
-                                    Location endPoint=new Location("locationA");
+                                    Location endPoint = new Location("locationb");
                                     endPoint.setLatitude(mlattitude);
                                     endPoint.setLongitude(mlongitude);
-                                    double dis = startPoint.distanceTo(endPoint);
-                                    double Dis = Double.valueOf(dis)/1000;
-                                    distanceCoveredTv.setText(new DecimalFormat("##.##").format(Dis)+ "km");
+                                    double Dis = Double.valueOf(startPoint.distanceTo(endPoint)) * 0.001;
+                                    distanceCoveredTv.setText(new DecimalFormat("##.##").format(Dis) + "km");
+                                    testAdapter.INSERT_RIDE_DATA(My_Ride_ID, new Session(getApplicationContext()).get_LOGIN_USER_ID(),
+                                            String.valueOf(Real_Time_Speed_kmph), String.valueOf(Real_Time_Speed_kmph), GET_timeStamp(), RIDE_STATUS);
 
 
-
+                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:MM:SS");
+                                    rideTimeTv.setText(sdf.format(new Date()));
                                 }
                             }
 
@@ -1013,44 +1090,5 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
             super.onPostExecute(result);
             Log.d(TAG + " onPostExecute", "" + result);
         }
-    }
-
-    void End_Ride_Poly(double st_lat,double st_long,double end_lat,double end_long)
-    {
-        try {
-            ArrayList<LatLng> points = new ArrayList<>();
-            LatLng Start = new LatLng(st_lat,st_long);
-            LatLng END = new LatLng(end_lat,end_long);
-            points.add(Start); points.add(END);
-            if (mMap!=null)
-            {
-                mMap.clear();  //clears all Markers and Polylines
-                PolylineOptions options = new PolylineOptions().width(10).color(Color.parseColor("#F7B500")).geodesic(true);
-                for (int i = 0; i < points.size(); i++) {
-                    LatLng point = points.get(i);
-                    options.add(point);
-                }
-                MarkerOptions markerOptions = new MarkerOptions().position(Start);
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
-                markerOptions.position(Start);
-                mMap.addMarker(markerOptions);
-                MarkerOptions markerOptionss = new MarkerOptions().position(END);
-                markerOptionss.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
-                markerOptionss.position(END);
-                markerOptionss.draggable(false);
-                mMap.addMarker(markerOptionss);
-                mCurrLocationMarker = mMap.addMarker(markerOptions);
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(Start));
-                mCurrLocationMarker.showInfoWindow();
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(7));
-                line = mMap.addPolyline(options); //add Polyline
-            }
-        }catch (Exception e)
-        {
-
-        }
-
-
-
     }
 }

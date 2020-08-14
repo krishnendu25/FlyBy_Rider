@@ -99,7 +99,7 @@ public class Garage_Information extends BaseActivity implements ADDClickListener
             }
         }
         GarageDescrption.setText(stringBuilder.toString());
-        double Dis = Double.valueOf(Garage_Owner_List.get(Position).getDISTANCE_FROM_ME())/1000;
+        double Dis = Double.valueOf(Garage_Owner_List.get(Position).getDISTANCE_FROM_ME())* 0.001;
         GarageDistanceUnit.setText(new DecimalFormat("##.##").format(Dis)+ "km/h");
     }
 

@@ -100,7 +100,7 @@ public class TestAdapter {
                                     String TOTAL_TIME, String TRACKING_STATUS) {
 
 
-        Cursor cursor = mDb.rawQuery("Select * from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
+      /*  Cursor cursor = mDb.rawQuery("Select * from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
 
         if (cursor.getCount() != 0) {
             ContentValues args = new ContentValues();
@@ -122,7 +122,7 @@ public class TestAdapter {
 
             return mDb.update("RIDE_DATA", args, "RIDE_ID" + "=" + RIDE_ID_ST + " AND " + "MEMBER_ID" + "=" + MEMBER_ID_ST, null) > 0;
 
-        } else {
+        } else {*/
             ContentValues contentValues = new ContentValues();
             contentValues.put("RIDE_ID", RIDE_ID_ST);
             contentValues.put("MEMBER_ID", MEMBER_ID_ST);
@@ -132,7 +132,7 @@ public class TestAdapter {
             contentValues.put("TRACKING_STATUS", TRACKING_STATUS);
             mDb.insert("RIDE_DATA", null, contentValues);
             return true;
-        }
+        /*}*/
 
 
     }
@@ -144,7 +144,18 @@ public class TestAdapter {
     }
 
 
+    public String GET_AVERAGE_SPEED(String RIDE_ID_ST, String MEMBER_ID_ST) {
+        String Average = "";
+        Cursor cursor = mDb.rawQuery("Select  AVG(TOP_SPEED) from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
+        if (cursor.getCount() != 0) {
 
+            while (cursor.moveToNext()) {
+                Average=  cursor.getString(0);
+            }
+        }
+
+        return Average;
+    }
 
 
 

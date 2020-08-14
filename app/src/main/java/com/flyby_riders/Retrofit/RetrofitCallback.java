@@ -150,10 +150,19 @@ public interface RetrofitCallback {
                                         @Field("Ride_id") String Ride_id,
                                         @Field("member_id") String member_id,
                                         @Field("spend_timestamp") String spend_timestamp);
+
+
+
     @FormUrlEncoded
     @POST("fetch_location_tracker")
     Call<ResponseBody> fetch_location_tracker(@Field("Ride_id") String Ride_id,
                                         @Field("member_id") String member_id);
+
+
+    @FormUrlEncoded
+    @POST("fetch_location_tracker")
+    Call<ResponseBody> fetch_location_tracker(@Field("Ride_id") String Ride_id);
+
 
     @GET("Get_all_garageowner")
     Call<ResponseBody> Get_all_garageowner();

@@ -54,7 +54,7 @@ public class Garage_Owner_Adapter extends RecyclerView.Adapter<Garage_Owner_Adap
         holder.Garage_NAME.setText(Garage_list.get(i).getOWNERNAME());
         holder.Garage_CITY.setText(Garage_list.get(i).getCITY());
 
-        double Dis = Double.valueOf(Garage_list.get(i).getDISTANCE_FROM_ME())/1000;
+        double Dis = Double.valueOf(Garage_list.get(i).getDISTANCE_FROM_ME())* 0.001;
 
 
         holder.Garage_distance_unit.setText(new DecimalFormat("##.##").format(Dis)+ "km");
