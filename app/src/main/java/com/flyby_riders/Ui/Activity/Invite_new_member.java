@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Adapter.Ride.Contact_Adapter;
 import com.flyby_riders.Ui.Adapter.Ride.FlyBy_Contact_Adapter;
@@ -169,6 +170,8 @@ public class Invite_new_member extends BaseActivity implements onClick {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hide_ProgressDialog();
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
+
             }
         });
     }

@@ -133,17 +133,25 @@ public class DashBoard extends BaseActivity {
 
     private void replaceFragment(Fragment fragment) {
         try {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            Fragment oldFragment = fragmentManager.findFragmentByTag(fragment.getClass().getName());
-            if (oldFragment != null) {
-                fragment = oldFragment;
+            try {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment oldFragment = fragmentManager.findFragmentByTag(fragment.getClass().getName());
+                if (oldFragment != null) {
+                    fragment = oldFragment;
+                }
+                fragmentTransaction.replace(R.id.fragment_container, fragment, fragment.getClass().getName());
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                fragmentTransaction.commit();
+            } catch (IllegalStateException e) {
+                Constant.Show_Tos_Error(getApplicationContext(),false,true);
             }
-            fragmentTransaction.replace(R.id.fragment_container, fragment, fragment.getClass().getName());
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            fragmentTransaction.commit();
         } catch (Exception e) {
+            Constant.Show_Tos_Error(getApplicationContext(),false,true);
         }
+
+
+
     }
 
     private void Tab_View_Adjust(View view, View view1, View view2) {
@@ -207,7 +215,7 @@ public class DashBoard extends BaseActivity {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            Constant.Show_Tos_Error(getApplicationContext(),false,true);
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             JSONArray BIKEBRANDDETAILS = null;
@@ -215,6 +223,7 @@ public class DashBoard extends BaseActivity {
                                 BIKEBRANDDETAILS = jsonObject.getJSONObject("ALLRIDERDETAILS").getJSONArray("BIKEBRANDDETAILS");
                                 Check_Payment(jsonObject.getJSONObject("ALLRIDERDETAILS").getJSONObject("USERDETAILS"));
                             } catch (Exception E) {
+                                Constant.Show_Tos_Error(getApplicationContext(),false,true);
                             }
 
                             if (BIKEBRANDDETAILS != null) {
@@ -249,7 +258,7 @@ public class DashBoard extends BaseActivity {
 
 
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Constant.Show_Tos_Error(getApplicationContext(),false,true);
                         hide_ProgressDialog();
                     }
                 }
@@ -257,6 +266,7 @@ public class DashBoard extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
                 hide_ProgressDialog();
             }
         });
@@ -281,8 +291,8 @@ public class DashBoard extends BaseActivity {
                 } else {
                     new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                Constant.Show_Tos_Error(getApplicationContext(),false,true);
             }
         }
 
@@ -303,7 +313,7 @@ public class DashBoard extends BaseActivity {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            Constant.Show_Tos_Error(getApplicationContext(),false,true);
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
 
@@ -327,6 +337,7 @@ public class DashBoard extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
                 My_Ride_Attached = String.valueOf(0);
             }
         });

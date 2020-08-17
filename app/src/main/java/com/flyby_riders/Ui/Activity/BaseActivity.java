@@ -23,6 +23,7 @@ import android.widget.ListView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.VolleyError;
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.NetworkOperation.IJSONParseListener;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
@@ -89,7 +90,8 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
                 {
                     try{
                         alertDialog_loader.show();
-                    }catch (Exception e){}
+                    }catch (Exception e){
+                      }
 
                 } else {
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);

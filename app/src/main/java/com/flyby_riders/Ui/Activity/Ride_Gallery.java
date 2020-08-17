@@ -152,7 +152,8 @@ public class Ride_Gallery extends BaseActivity {
                             Constant.get_random_String(), bitmap, Ride_Gallery.this));
                     media_models.add(mm);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Constant.Show_Tos_Error(getApplicationContext(),false,true);
+
                 }
             }
             hit_upload_media(media_models, My_Ride_ID);
@@ -217,7 +218,7 @@ public class Ride_Gallery extends BaseActivity {
                         }
 
                     } catch (IOException | JSONException e) {
-                        e.printStackTrace();
+                        Constant.Show_Tos_Error(getApplicationContext(),false,true);
                     }
 
                 }
@@ -227,7 +228,8 @@ public class Ride_Gallery extends BaseActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hide_ProgressDialog();
-                Constant.Show_Tos(getApplicationContext(), "Media Upload Failed");
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
+
             }
         });
     }

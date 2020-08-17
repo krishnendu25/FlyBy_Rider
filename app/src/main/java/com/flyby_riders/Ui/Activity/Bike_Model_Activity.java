@@ -104,6 +104,7 @@ public class Bike_Model_Activity extends BaseActivity implements onClick {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
                 hide_ProgressDialog();
             }
         });
@@ -148,6 +149,7 @@ public class Bike_Model_Activity extends BaseActivity implements onClick {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
                 hide_ProgressDialog();
             }
         });

@@ -93,7 +93,8 @@ public class Upgrade_To_Premium extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog();
+                hide_ProgressDialog();Constant.Show_Tos_Error(getApplicationContext(),true,false);
+
             }
         });
 

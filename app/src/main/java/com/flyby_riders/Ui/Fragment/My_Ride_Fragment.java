@@ -142,7 +142,7 @@ public class My_Ride_Fragment extends Fragment {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hide_ProgressDialog();
-                Constant.Show_Tos(getContext(), "Something Wrong");
+                Constant.Show_Tos_Error(getActivity(),true,false);
             }
         });
 

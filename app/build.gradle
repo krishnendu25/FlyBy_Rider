@@ -107,6 +107,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     //Recyclerviewmergeadapter
     implementation 'me.mvdw.recyclerviewmergeadapter:recyclerviewmergeadapter:2.1.0'
+    implementation 'com.linsea:universalvideoview:1.1.0@aar'
 
 }
 apply plugin: 'com.jakewharton.butterknife'

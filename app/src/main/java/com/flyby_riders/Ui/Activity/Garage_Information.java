@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,7 +21,10 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Adapter.Discover.ADDClickListener;
 import com.flyby_riders.Ui.Adapter.Discover.Advertisement_Adapter;
+import com.flyby_riders.Ui.Adapter.Discover.Image_Silder_Adapter;
+import com.flyby_riders.Ui.Adapter.Discover.Media_Slider_Click;
 import com.flyby_riders.Ui.Model.ADD_MODEL;
+import com.flyby_riders.Ui.Model.Garage_Media_Model;
 import com.flyby_riders.Ui.Model.Garage_Owner_Model;
 import com.squareup.picasso.Picasso;
 
@@ -32,6 +36,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,7 +48,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Garage_Information extends BaseActivity implements ADDClickListener {
+public class Garage_Information extends BaseActivity implements ADDClickListener, Media_Slider_Click {
 
     @BindView(R.id.Back_Btn)
     RelativeLayout BackBtn;
@@ -67,9 +72,16 @@ public class Garage_Information extends BaseActivity implements ADDClickListener
     TextView GarageDistanceUnit;
     ArrayList<Garage_Owner_Model> Garage_Owner_List = new ArrayList<>();
     ArrayList<ADD_MODEL> add_fetch = new ArrayList<>();
+    ArrayList<Garage_Media_Model> Garage_Media_List = new ArrayList<>();
     @BindView(R.id.Garage_Advetisment_list)
     ListView GarageAdvetismentList;
     int Position;
+    Image_Silder_Adapter image_silder_adapter;
+    @BindView(R.id.Empty_no_media_file)
+    TextView EmptyNoMediaFile;
+    @BindView(R.id.Empty_no_advertisement)
+    TextView EmptyNoAdvertisement;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +93,16 @@ public class Garage_Information extends BaseActivity implements ADDClickListener
         } catch (Exception E) {
             Garage_Owner_List = new ArrayList<>();
         }
+        Instantiation();
+
+    }
+
+    private void Instantiation() {
+        Set_LayoutManager(GarageImageSlider, true, false);
+        Set_Grage_View();
+    }
+
+    private void Set_Grage_View() {
         Hit_Add_Fetch(Garage_Owner_List.get(Position).getGARAGEID());
         GarageNAME.setText(Garage_Owner_List.get(Position).getSTORENAME());
         GarageCITY.setText(Garage_Owner_List.get(Position).getCITY());
@@ -99,29 +121,30 @@ public class Garage_Information extends BaseActivity implements ADDClickListener
             }
         }
         GarageDescrption.setText(stringBuilder.toString());
-        double Dis = Double.valueOf(Garage_Owner_List.get(Position).getDISTANCE_FROM_ME())* 0.001;
-        GarageDistanceUnit.setText(new DecimalFormat("##.##").format(Dis)+ "km/h");
+        double Dis = Double.valueOf(Garage_Owner_List.get(Position).getDISTANCE_FROM_ME()) * 0.001;
+        GarageDistanceUnit.setText(new DecimalFormat("##.##").format(Dis) + "km");
     }
 
     private void Hit_Add_Fetch(String login_user_id) {
         show_ProgressDialog();
         Call<ResponseBody> requestCall = retrofitCallback.ad_post_fetch(login_user_id);
-
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 hide_ProgressDialog();
                 if (response.isSuccessful()) {
                     try {
+
                         JSONObject jsonObject = null;
                         try {
                             String output = Html.fromHtml(response.body().string()).toString();
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Constant.Show_Tos_Error(getApplicationContext(), false, true);
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
+                            Hit_Grage_Owner_Details(Garage_Owner_List.get(Position).getGARAGEID());
                             add_fetch.clear();
                             JSONArray Add_List = jsonObject.getJSONArray("ALLPOST");
 
@@ -208,25 +231,121 @@ public class Garage_Information extends BaseActivity implements ADDClickListener
                                 }
                                 add_fetch.add(add_model);
                             }
+                            if (add_fetch.size()>0){EmptyNoAdvertisement.setVisibility(View.GONE);}else{EmptyNoAdvertisement.setVisibility(View.VISIBLE);};
                             Advertisement_Adapter advertisement_adapter = new Advertisement_Adapter(Garage_Information.this, add_fetch,
                                     Garage_Owner_List.get(Position).getOWNERNAME());
                             GarageAdvetismentList.setAdapter(advertisement_adapter);
                             advertisement_adapter.notifyDataSetChanged();
-                        } else { }
+                        } else {
+                            EmptyNoAdvertisement.setVisibility(View.VISIBLE);
+                            Hit_Grage_Owner_Details(Garage_Owner_List.get(Position).getGARAGEID());
+                        }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        EmptyNoAdvertisement.setVisibility(View.VISIBLE);
+                        Hit_Grage_Owner_Details(Garage_Owner_List.get(Position).getGARAGEID());
                         hide_ProgressDialog();
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hide_ProgressDialog();
+                EmptyNoAdvertisement.setVisibility(View.VISIBLE);
+                Constant.Show_Tos_Error(getApplicationContext(), true, false);
+
             }
         });
 
 
     }
+
+    private void Hit_Grage_Owner_Details(String login_user_id) {
+        show_ProgressDialog();
+        Call<ResponseBody> requestCall = retrofitCallback.Getgarageownerdetails(login_user_id);
+
+        requestCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                hide_ProgressDialog();
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = null;
+                        try {
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Garage_Media_List.clear();
+                        if (jsonObject.getString("success").equalsIgnoreCase("1")) {
+                            ArrayList<String> Images = new ArrayList<>();
+                            String Video_URL = "";
+                            JSONArray USERDETAILS_Sub = jsonObject.getJSONArray("USERDETAILS").getJSONArray(0);
+                            JSONObject media_list = USERDETAILS_Sub.getJSONObject(2);
+                            if (!media_list.getString("STORE_PIC").equalsIgnoreCase("") || !media_list.getString("STORE_PIC").equalsIgnoreCase("null")) {
+                                Images = splitByComma(media_list.getString("STORE_PIC"), jsonObject.getString("IMAGEPATH"));
+                            }
+                            if (!media_list.getString("STORE_VIDEO").equalsIgnoreCase("") || media_list.getString("STORE_VIDEO").equalsIgnoreCase("null")) {
+                                Video_URL = jsonObject.getString("VIDEOPATH") + media_list.getString("STORE_VIDEO");
+                            }
+                            try{
+                                if (!Video_URL.equalsIgnoreCase("") && Images.size() != 0) {
+                                    EmptyNoMediaFile.setVisibility(View.GONE);
+                                    for (int i = 0; i < Images.size(); i++) {
+                                        Garage_Media_Model garage_media_model = new Garage_Media_Model();
+                                        garage_media_model.setFile_Type("IMAGES");
+                                        garage_media_model.setFile_Url(Images.get(i));
+                                        Garage_Media_List.add(garage_media_model);
+                                    }
+                                    Garage_Media_Model garage_media_model = new Garage_Media_Model();
+                                    garage_media_model.setFile_Type("VIDEO");
+                                    garage_media_model.setFile_Url(Video_URL);
+                                    Garage_Media_List.add(garage_media_model);
+                                    Set_Media_To_Store(Garage_Media_List);
+                                }else{EmptyNoMediaFile.setVisibility(View.VISIBLE);}
+                            }catch (Exception e){EmptyNoMediaFile.setVisibility(View.VISIBLE);}
+
+                        } else {
+                            EmptyNoMediaFile.setVisibility(View.VISIBLE);
+                        }
+                    } catch (Exception e) {
+                        EmptyNoMediaFile.setVisibility(View.VISIBLE);
+                        Constant.Show_Tos_Error(getApplicationContext(), false, true);
+                        hide_ProgressDialog();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                EmptyNoMediaFile.setVisibility(View.VISIBLE);
+                hide_ProgressDialog();
+                Constant.Show_Tos_Error(getApplicationContext(), true, false);
+            }
+        });
+    }
+
+    private void Set_Media_To_Store(ArrayList<Garage_Media_Model> media_list) {
+        if (media_list.size() != 0) {
+            Collections.reverse(media_list);
+            image_silder_adapter = new Image_Silder_Adapter(this, media_list);
+            GarageImageSlider.setAdapter(image_silder_adapter);
+
+        }
+    }
+
+    public static ArrayList<String> splitByComma(String allIds, String imagepath) {
+        ArrayList<String> images = new ArrayList<>();
+        String[] allIdsArray = TextUtils.split(allIds, ",");
+        ArrayList<String> idsList = new ArrayList<String>(Arrays.asList(allIdsArray));
+        for (String element : idsList) {
+            images.add(imagepath + element);
+        }
+        return images;
+    }
+
 
     @OnClick({R.id.Back_Btn, R.id.Garage_Call, R.id.Garage_Whatsapp, R.id.Garage_Map_Dirtions})
     public void onViewClicked(View view) {
@@ -235,24 +354,35 @@ public class Garage_Information extends BaseActivity implements ADDClickListener
                 finish();
                 break;
             case R.id.Garage_Call:
-                if (ActivityCompat.checkSelfPermission(this,
-                        Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    final String[] PERMISSIONS_STORAGE = {Manifest.permission.CALL_PHONE};
-                    ActivityCompat.requestPermissions((Activity) this, PERMISSIONS_STORAGE, 9);
-                } else {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:" + Garage_Owner_List.get(Position).getPHONE()));
-                    startActivity(callIntent);
+                try {
+                    if (ActivityCompat.checkSelfPermission(this,
+                            Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        final String[] PERMISSIONS_STORAGE = {Manifest.permission.CALL_PHONE};
+                        ActivityCompat.requestPermissions((Activity) this, PERMISSIONS_STORAGE, 9);
+                    } else {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" + Garage_Owner_List.get(Position).getPHONE()));
+                        startActivity(callIntent);
+                    }
+                } catch (Exception E) {
+                    Constant.Show_Tos_Error(this, false, true);
                 }
                 break;
             case R.id.Garage_Whatsapp:
-                Constant.openWhatsApp(Garage_Owner_List.get(Position).getPHONE(), "", this);
+                try {
+                    Constant.openWhatsApp(Garage_Owner_List.get(Position).getPHONE(), "", this);
+                } catch (Exception E) {
+                    Constant.Show_Tos_Error(this, false, true);
+                }
                 break;
             case R.id.Garage_Map_Dirtions:
-                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Garage_Owner_List.get(Position).getLAT() + "," + Garage_Owner_List.get(0).getLANG());
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
+                try {
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Garage_Owner_List.get(Position).getLAT() + "," + Garage_Owner_List.get(0).getLANG());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    startActivity(mapIntent);
+                } catch (Exception e) {
+                }
                 break;
         }
     }
@@ -260,6 +390,14 @@ public class Garage_Information extends BaseActivity implements ADDClickListener
 
     @Override
     public void setOnAdapterClick(int position) {
+
+    }
+
+    @Override
+    public void MediaItemClick(int position) {
+        Intent intent = new Intent(this, VideoPlayer.class);
+        intent.putExtra("mVideo_url", Garage_Media_List.get(position).getFile_Url());
+        startActivity(intent);
 
     }
 }

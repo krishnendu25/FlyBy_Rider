@@ -175,5 +175,10 @@ public interface RetrofitCallback {
     Call<ResponseBody> ad_post_fetch(@Field("Userid") String Userid);
 
 
+    @FormUrlEncoded
+    @POST("http://flybyapp.com/flybyapp/StoreApi/Getgarageownerdetails")
+    Call<ResponseBody> Getgarageownerdetails(@Field("user_id") String user_id);
+
+
 
 }

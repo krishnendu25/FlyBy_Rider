@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
@@ -155,7 +156,9 @@ public class My_Media_Ride_Fragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog(); }
+                hide_ProgressDialog();
+                Constant.Show_Tos_Error(getActivity(),true,false);
+            }
         });
     }
 

@@ -46,7 +46,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".Ui.Activity.Garage_List"></activity>
+        <activity android:name=".Ui.Activity.VideoPlayer"></activity>
+        <activity android:name=".Ui.Activity.Garage_List" />
         <activity android:name=".Ui.Activity.Garage_Information" />
         <activity android:name=".Ui.Activity.Ride_Gallery" />
         <activity android:name=".Ui.Activity.Upgrade_To_Premium" />

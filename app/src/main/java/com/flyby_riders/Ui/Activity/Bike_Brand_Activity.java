@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Adapter.Garage.Bike_Brand_Adapter;
 import com.flyby_riders.Ui.Model.BIKE_BRAND;
@@ -124,6 +125,7 @@ public class Bike_Brand_Activity extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
                 hide_ProgressDialog();
             }
         });

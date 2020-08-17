@@ -62,7 +62,7 @@ public class Album_Viewer extends BaseActivity {
             Album_Content_list = getIntent().getParcelableArrayListExtra("list");
             Photo_Link.clear();
             Photo_Link = Album_Content_list.get(Position).getBIKEIDocMAGES();
-        } catch (Exception e) {
+        } catch (Exception e) {Constant.Show_Tos_Error(getApplicationContext(),false,true);
         }
         Initialization();
 
@@ -104,14 +104,16 @@ public class Album_Viewer extends BaseActivity {
                             try{
                                 Update_album(Album_Content_list,Position);
                             }catch (Exception e)
-                            {  return true; }
+                            {  Constant.Show_Tos_Error(getApplicationContext(),false,true);
+                            return true; }
                             return true;
                         } else if (i == R.id.Delete_album) {
                             try{
                           popup.dismiss();
                           Delete_Album(Album_Content_list.get(Position).getALBUM_ID());
                             }catch (Exception e)
-                            {return true; }
+                            {Constant.Show_Tos_Error(getApplicationContext(),false,true);
+                            return true; }
                             return true;
                         } else {
                             return onMenuItemClick(item);
@@ -148,7 +150,7 @@ public class Album_Viewer extends BaseActivity {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            Constant.Show_Tos_Error(getApplicationContext(),false,true);
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             Constant.Show_Tos(getApplicationContext(),"Album Deleted Successfully");
@@ -158,13 +160,14 @@ public class Album_Viewer extends BaseActivity {
                             hide_ProgressDialog();
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Constant.Show_Tos_Error(getApplicationContext(),false,true);
                         hide_ProgressDialog();
                     }
                 }
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
                 hide_ProgressDialog();
             }
         });

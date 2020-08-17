@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Adapter.DocumentLocker.My_Album_View;
@@ -99,6 +100,7 @@ public class Document_Locker extends BaseActivity implements onClick {
                 hit_get_my_album(my_bike_els.get(i).getMY_BIKE_ID());
             }catch (Exception e)
             {
+                Constant.Show_Tos_Error(getApplicationContext(),false,true);
 
             }
         }
@@ -199,6 +201,8 @@ public class Document_Locker extends BaseActivity implements onClick {
                 if (mb!=null){
                     mb.notifyDataSetChanged();}
                 hide_ProgressDialog();
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
+
             }
         });
 
@@ -289,7 +293,8 @@ public class Document_Locker extends BaseActivity implements onClick {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog();
+                hide_ProgressDialog();Constant.Show_Tos_Error(getApplicationContext(),true,false);
+
             }
         });
     }

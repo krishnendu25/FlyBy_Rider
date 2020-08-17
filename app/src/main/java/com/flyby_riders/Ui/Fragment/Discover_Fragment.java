@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.GridView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
@@ -138,6 +139,8 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hide_ProgressDialog();
+                Constant.Show_Tos_Error(getActivity(),true,false);
+
             }
         });
     }
@@ -183,7 +186,8 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog();
+                hide_ProgressDialog();Constant.Show_Tos_Error(getActivity(),true,false);
+
             }
         });
     }

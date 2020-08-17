@@ -81,7 +81,6 @@ public class Constant
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // the format of your date
             return sdf.format(date);
         } catch (Exception e) {
-            e.printStackTrace();
             return "";
         }
 
@@ -101,8 +100,8 @@ public class Constant
                 Constant.Show_Tos(context,"No not found");
             }
         } catch(Exception e) {
-            Log.e("ERROR WHATSAPP",e.toString());
-            Constant.Show_Tos(context,"No not found");
+            Constant.Show_Tos_Error(context,true,false);
+
         }
 
     }
@@ -313,7 +312,6 @@ public class Constant
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return " ";
         }
     }
@@ -442,15 +440,45 @@ public class Constant
 
 
     public static void Show_Tos(Context context, String MSG) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.toast_custom, null);
-        TextView text = (TextView) layout.findViewById(R.id.text);
-        text.setText(MSG);
-        Toast toast = new Toast(context);
-        toast.setGravity(Gravity.BOTTOM, 0, 300);
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setView(layout);
-        toast.show();
+        try{
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.toast_custom, null);
+            TextView text = (TextView) layout.findViewById(R.id.text);
+            text.setText(MSG);
+            Toast toast = new Toast(context);
+            toast.setGravity(Gravity.BOTTOM, 0, 300);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(layout);
+            toast.show();
+        }catch (Exception e)
+        {
+
+        }
+
+    }
+    public static void Show_Tos_Error(Context context, boolean NetWork,boolean Exception_) {
+        try{
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.toast_custom_error, null);
+            TextView text = (TextView) layout.findViewById(R.id.text_ER);
+            if (NetWork)
+            {
+                text.setText("Network error");
+
+            }  if (Exception_)
+            {
+                text.setText("An error occurred");
+            }
+            Toast toast = new Toast(context);
+            toast.setGravity(Gravity.BOTTOM, 0, 300);
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setView(layout);
+            toast.show();
+        }catch (Exception e)
+        {
+
+        }
+
     }
     public static void Show_Tos_Long(Context context, String MSG) {
         Toast.makeText(context,MSG,Toast.LENGTH_LONG).show();

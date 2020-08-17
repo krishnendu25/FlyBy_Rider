@@ -169,7 +169,7 @@ public class Document_Album_Creator extends BaseActivity implements onClick {
                             Constant.get_random_String(), bitmap, Document_Album_Creator.this));
                     media_models.add(mm);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Constant.Show_Tos_Error(getApplicationContext(),false,true);
                 }
             }
             doucment_privew_adapter = new Doucment_Privew_Adapter(media_models, this);
@@ -267,7 +267,7 @@ public class Document_Album_Creator extends BaseActivity implements onClick {
 
 
                     } catch (IOException | JSONException e) {
-                        e.printStackTrace();
+                        Constant.Show_Tos_Error(getApplicationContext(),false,true);
                     }
 
                 }
@@ -277,7 +277,7 @@ public class Document_Album_Creator extends BaseActivity implements onClick {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hide_ProgressDialog();
-                Constant.Show_Tos(getApplicationContext(), "Album Creation Failed");
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
             }
         });
 
@@ -319,7 +319,7 @@ public class Document_Album_Creator extends BaseActivity implements onClick {
 
 
                     } catch (IOException | JSONException e) {
-                        e.printStackTrace();
+                        Constant.Show_Tos_Error(getApplicationContext(),false,true);
                     }
 
                 }
@@ -329,7 +329,7 @@ public class Document_Album_Creator extends BaseActivity implements onClick {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hide_ProgressDialog();
-                Constant.Show_Tos(getApplicationContext(), "Album Creation Failed");
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
             }
         });
 
@@ -352,7 +352,7 @@ public class Document_Album_Creator extends BaseActivity implements onClick {
                 mm.setFile_Name(file_name.get(i));
                 media_models.add(mm);
             } catch (Exception e) {
-                e.printStackTrace();
+                Constant.Show_Tos_Error(getApplicationContext(),false,true);
             }
         }
         doucment_privew_adapter = new Doucment_Privew_Adapter(media_models, this);
@@ -384,7 +384,7 @@ public class Document_Album_Creator extends BaseActivity implements onClick {
            return bitmap_[0];
 
         } catch (Exception e) {
-            // Log exception
+            Constant.Show_Tos_Error(getApplicationContext(),false,true);
             return null;
         }
     }

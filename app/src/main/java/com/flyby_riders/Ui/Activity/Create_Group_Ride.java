@@ -291,49 +291,55 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
     }
 
     private void View_Control() {
-        if (I_AM_ADMIN) {
-            if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
-                BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
-                AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.VISIBLE);
-                BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
-                AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
-                endMyRide.setVisibility(View.VISIBLE);
-            } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
-                TrackRecord.setVisibility(View.GONE);
-                BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
-                AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
-                BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
-                AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
-                BeforeHeaderTv.setText(getString(R.string.ENDING_POINT));
-                End_Ride_Poly(STARTLAT, STARTLANG, ENDLAT, ENDLANG);
-                ShowMyLocation.setText(Constant.getCompleteAddressString(this, STARTLAT, STARTLANG));
-            } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED)) {
-                BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.VISIBLE);
-                AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
-                BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
-                AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
+        try{
+            if (I_AM_ADMIN) {
+                if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
+                    BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
+                    AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.VISIBLE);
+                    BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
+                    AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
+                    endMyRide.setVisibility(View.VISIBLE);
+                } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
+                    TrackRecord.setVisibility(View.GONE);
+                    BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
+                    AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
+                    BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
+                    AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
+                    BeforeHeaderTv.setText(getString(R.string.ENDING_POINT));
+                    End_Ride_Poly(STARTLAT, STARTLANG, ENDLAT, ENDLANG);
+                    ShowMyLocation.setText(Constant.getCompleteAddressString(this, STARTLAT, STARTLANG));
+                } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED)) {
+                    BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.VISIBLE);
+                    AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
+                    BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
+                    AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
+                }
+            } else {
+                if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
+                    BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
+                    AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.VISIBLE);
+                    BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
+                    AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
+                    endMyRide.setVisibility(View.GONE);
+                } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
+                    TrackRecord.setVisibility(View.GONE);
+                    BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
+                    AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
+                    BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
+                    AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
+                    BeforeHeaderTv.setText(getString(R.string.ENDING_POINT));
+                } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED)) {
+                    BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
+                    AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
+                    BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
+                    AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
+                }
             }
-        } else {
-            if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
-                BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
-                AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.VISIBLE);
-                BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
-                AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
-                endMyRide.setVisibility(View.GONE);
-            } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
-                TrackRecord.setVisibility(View.GONE);
-                BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
-                AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
-                BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
-                AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
-                BeforeHeaderTv.setText(getString(R.string.ENDING_POINT));
-            } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED)) {
-                BEFORERIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
-                AFTERRIDESTARTLAYOUTFOOTER.setVisibility(View.GONE);
-                BEFORERIDESTARTLAYOUTHEADER.setVisibility(View.VISIBLE);
-                AFTERRIDESTARTLAYOUTHEADER.setVisibility(View.GONE);
-            }
+        }catch (Exception e)
+        {
+
         }
+
 
 
     }
@@ -776,6 +782,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
                 hide_ProgressDialog();
             }
         });
@@ -832,6 +839,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
                 hide_ProgressDialog();
             }
         });
@@ -860,6 +868,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
                 hide_ProgressDialog();
             }
         });
@@ -906,6 +915,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
                 hide_ProgressDialog();
             }
         });
@@ -949,6 +959,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Constant.Show_Tos_Error(getApplicationContext(),true,false);
                     hide_ProgressDialog();
                 }
             });
@@ -990,6 +1001,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Constant.Show_Tos_Error(getApplicationContext(),true,false);
                     hide_ProgressDialog();
                 }
             });

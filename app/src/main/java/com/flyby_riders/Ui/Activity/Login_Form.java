@@ -151,7 +151,8 @@ public class Login_Form extends BaseActivity  implements IJSONParseListener, Goo
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    hide_ProgressDialog();
+                    hide_ProgressDialog();Constant.Show_Tos_Error(getApplicationContext(),true,false);
+
                 }
             });
 

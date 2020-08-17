@@ -91,4 +91,6 @@
     <string name="racing_nacadmey">Racing\nAcadmey</string>
     <string name="distance">Distance</string>
     <string name="a_z">A-Z</string>
+    <string name="no_advertisement_found">No Advertisement Found</string>
+    <string name="no_media_file_found">No Media File Found</string>
 </resources>

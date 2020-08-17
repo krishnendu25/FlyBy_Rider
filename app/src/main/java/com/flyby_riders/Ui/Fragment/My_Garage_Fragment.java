@@ -234,7 +234,9 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                             hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
                         }
                     }
-                }catch (Exception e){}
+                }catch (Exception e){
+                    Constant.Show_Tos_Error(getActivity(),false,true);
+                }
 
             }
 
@@ -286,7 +288,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                 }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { Constant.Show_Tos_Error(getActivity(),false,true);
         }
 
     }
@@ -306,7 +308,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            Constant.Show_Tos_Error(getActivity(),false,true);
                         }
                         garage_ads_list.clear();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
@@ -339,6 +341,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
 
                     } catch (Exception e) {
+                        Constant.Show_Tos_Error(getActivity(),false,true);
                         hide_ProgressDialog();
                     }
                 }
@@ -346,6 +349,8 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getActivity(),true,false);
+
                 hide_ProgressDialog();
             }
         });
@@ -490,6 +495,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getActivity(),true,false);
                 hide_ProgressDialog();
             }
         });

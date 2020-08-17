@@ -119,7 +119,8 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog();Constant.Show_Tos(getApplicationContext(),"Something Wrong");
+                hide_ProgressDialog();Constant.Show_Tos_Error(getApplicationContext(),true,false);
+
             }
         });
 
@@ -225,7 +226,8 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog();
+                hide_ProgressDialog();Constant.Show_Tos_Error(getApplicationContext(),true,false);
+
             }
         });
 

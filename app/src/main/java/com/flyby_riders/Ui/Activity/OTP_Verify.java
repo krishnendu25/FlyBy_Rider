@@ -153,7 +153,8 @@ public class OTP_Verify extends BaseActivity implements IJSONParseListener {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog();
+                hide_ProgressDialog();Constant.Show_Tos_Error(getApplicationContext(),true,false);
+
             }
         });
 
@@ -213,7 +214,8 @@ public class OTP_Verify extends BaseActivity implements IJSONParseListener {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog();
+                hide_ProgressDialog();Constant.Show_Tos_Error(getApplicationContext(),true,false);
+
             }
         });
     }
