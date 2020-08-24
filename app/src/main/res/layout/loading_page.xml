@@ -3,56 +3,27 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:gravity="center"
     android:layout_height="wrap_content">
 
 
 
-    <com.lijiankun24.shadowlayout.ShadowLayout
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center_horizontal"
-        app:shadowColor="#10FFFFFF"
-        app:shadowShape="rectangle"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:background="@color/transparent"
-        app:shadowDx="0dp"
-        app:shadowDy="3dp"
-        app:shadowRadius="20dp"
-        app:shadowSide="all">
-
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:background="@drawable/round_progress"
             android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/LottieAnimationView"
-                    android:layout_width="100dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="100dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
+                    android:scaleType="fitXY"
                     android:layout_gravity="center"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"/>
 
-
-
-            </RelativeLayout>
-
-
         </RelativeLayout>
-    </com.lijiankun24.shadowlayout.ShadowLayout>
-
-
 </LinearLayout>

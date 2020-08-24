@@ -17,6 +17,7 @@ public class Session {
     private static final String IsLogin="";
     private static final String Is_onBoarding_visit = "false";
     private static final String GRAGE_PHOTO = "GRAGE_PHOTO";
+    private static final String Latlong = "latlong";
 
     private static final String MEMBER_STATUS = BASIC;
 
@@ -115,6 +116,16 @@ public class Session {
     }
     public String get_RIDE_RECORD() {
         return sPrfed_State_Saver.getString(RIDE_RECORD, "false");
+    }
+
+
+
+    public void set_mylocation(String latlong) {
+        sPrfed_State_Saver_editor.putString(Latlong, latlong);
+        sPrfed_State_Saver_editor.commit();
+    }
+    public String get_mylocation() {
+        return sPrfed_State_Saver.getString(Latlong, "");
     }
 
 }

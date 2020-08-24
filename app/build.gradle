@@ -89,6 +89,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     //RxLocation
     implementation 'com.github.quentin7b:android-location-tracker:3.2'
+    implementation 'net.kjulio.RxLocation:rxlocation:0.11.0-beta'
     //retrofit
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'

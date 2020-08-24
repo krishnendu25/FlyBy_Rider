@@ -78,6 +78,7 @@ public class DashBoard extends BaseActivity {
     }
 
     private void Instantiation() {
+        new Session(this).set_mylocation("");
         Tab_View_Adjust(ShadowLayoutMyGarage, ShadowLayoutDiscover, ShadowLayoutRides);
     }
 

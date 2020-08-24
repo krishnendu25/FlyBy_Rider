@@ -153,8 +153,19 @@ public class TestAdapter {
                 Average=  cursor.getString(0);
             }
         }
-
         return Average;
+    }
+
+    public String GET_TOP_SPEED(String RIDE_ID_ST, String MEMBER_ID_ST) {
+        String MAX = "";
+        Cursor cursor = mDb.rawQuery("Select  MAX(TOP_SPEED) from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
+        if (cursor.getCount() != 0) {
+
+            while (cursor.moveToNext()) {
+                MAX=  cursor.getString(0);
+            }
+        }
+        return MAX;
     }
 
 

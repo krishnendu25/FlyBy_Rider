@@ -17,12 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
+import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Adapter.Discover.Garage_Owner_Adapter;
 import com.flyby_riders.Ui.Adapter.Discover.Garageownerclick;
 import com.flyby_riders.Ui.Model.Garage_Owner_Model;
 import com.flyby_riders.Utils.ShadowLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -57,35 +61,58 @@ public class Garage_List extends BaseActivity implements Garageownerclick {
             Garage_Owner_List = new ArrayList<>();
         }
         show_ProgressDialog();
-        LocationTracker tracker = new LocationTracker(
-                this,
-                new TrackerSettings()
-                        .setUseGPS(true)
-                        .setUseNetwork(true)
-                        .setUsePassive(true)) {
-            @Override
-            public void onLocationFound(Location location) {
-                try {hide_ProgressDialog();
-                    Set_View(location.getLatitude(),location.getLongitude());
-                }catch (Exception e){}
-            }
-            @Override
-            public void onTimeout() {
+
+        if (new Session(this).get_mylocation().equalsIgnoreCase(""))
+        {
+            LocationTracker tracker = new LocationTracker(
+                    this,
+                    new TrackerSettings()
+                            .setUseGPS(true)
+                            .setUseNetwork(true)
+                            .setUsePassive(true)) {
+                @Override
+                public void onLocationFound(Location location) {
+
+                    try {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("lat",location.getLatitude());
+                        jsonObject.put("long",location.getLongitude());
+                        new Session(getApplicationContext()).set_mylocation(jsonObject.toString());
+                        hide_ProgressDialog();
+                        Set_View(location.getLatitude(),location.getLongitude());
+                    }catch (Exception e){}
+                }
+                @Override
+                public void onTimeout() {
+                    hide_ProgressDialog();
+                }
+            };
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 hide_ProgressDialog();
+                return;
             }
-        };
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            hide_ProgressDialog();
-            return;
+            tracker.startListening();
+        }else
+        {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(new Session(this).get_mylocation());
+                Set_View(Double.parseDouble(jsonObject.getString("lat")),Double.parseDouble(jsonObject.getString("long")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
-        tracker.startListening();
+
+
+
+
 
 
 
     }
 
     private void Set_View(double latitude, double longitude) {
-
+        hide_ProgressDialog();
         if (Garage_Owner_List.size()>0)
         {
             for (int i=0; i<Garage_Owner_List.size() ; i++)

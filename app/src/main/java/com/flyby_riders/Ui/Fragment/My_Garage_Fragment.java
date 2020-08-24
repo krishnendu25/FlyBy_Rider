@@ -2,6 +2,7 @@ package com.flyby_riders.Ui.Fragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -57,18 +58,24 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.squareup.picasso.Picasso;
 
+import net.kjulio.rxlocation.RxLocation;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import fr.quentinklein.slt.LocationTracker;
 import fr.quentinklein.slt.TrackerSettings;
+import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
+import static android.content.Context.LOCATION_SERVICE;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
 
@@ -89,6 +96,9 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     String BIKE_MODEL_ID, BIKE_BRAND_ID;
     private AlertDialog alertDialog_loader = null;
     private LocationManager locationManager;
+    boolean isGPS = false;
+    boolean isNetwork = false;
+    boolean canGetLocation = true;
     private GoogleApiClient googleApiClient;
     private String City_Name = "";
     NestedScrollView NestedScrollView_view;
@@ -120,7 +130,6 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my__garage_, container, false);
         Instantiation(view);
-
         BikeAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,44 +150,6 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                 startActivity(new Intent(getActivity(), Document_Locker.class));
             }
         });
-
-        return view;
-    }
-
-    private void Instantiation(View view) {
-        NestedScrollView_view = view.findViewById(R.id.NestedScrollView_view);
-        collapse_view = view.findViewById(R.id.collapse_view);
-        My_Bike_Image_view = view.findViewById(R.id.My_Bike_Image_view);
-        collapse_image_view = view.findViewById(R.id.collapse_image_view);
-        bikeBrandName = view.findViewById(R.id.bike_brand_name);
-        bikeModelName = view.findViewById(R.id.bike_model_name);
-        BikeAddBtn = view.findViewById(R.id.Bike_Add_btn);
-        DocumentLockerBtn = view.findViewById(R.id.Document_Locker_btn);
-        AdvetismentList = view.findViewById(R.id.Advetisment_list);
-        MyBikeList = view.findViewById(R.id.My_Bike_list);
-        MyBikeImage = view.findViewById(R.id.My_Bike_Image);
-        MyBikeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        AdvetismentList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
-        //Fetch Location
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
-                PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) ==
-                        PERMISSION_GRANTED) {
-
-            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                enableLoc();
-            } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                //Fetch Location And Set Marker
-                Fetch_Location_With_RX();
-            }
-
-        } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        }
-
-
         NestedScrollView_view.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -209,46 +180,127 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
             }
         });
+        return view;
+    }
+
+    private void Instantiation(View view) {
+        NestedScrollView_view = view.findViewById(R.id.NestedScrollView_view);
+        collapse_view = view.findViewById(R.id.collapse_view);
+        My_Bike_Image_view = view.findViewById(R.id.My_Bike_Image_view);
+        collapse_image_view = view.findViewById(R.id.collapse_image_view);
+        bikeBrandName = view.findViewById(R.id.bike_brand_name);
+        bikeModelName = view.findViewById(R.id.bike_model_name);
+        BikeAddBtn = view.findViewById(R.id.Bike_Add_btn);
+        DocumentLockerBtn = view.findViewById(R.id.Document_Locker_btn);
+        AdvetismentList = view.findViewById(R.id.Advetisment_list);
+        MyBikeList = view.findViewById(R.id.My_Bike_list);
+        MyBikeImage = view.findViewById(R.id.My_Bike_Image);
+        MyBikeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        AdvetismentList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
+        locationManager = (LocationManager) getActivity().getSystemService(Service.LOCATION_SERVICE);
+    }
+    private void getLocation() {
+        try {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                    (getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 199);
+
+            } else {
+                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
 
+                if (location != null) {
+                    try {
+                        FetchMyAdd(location);
+                    } catch (NullPointerException e) {
+
+                    }
+
+                } else if (location1 != null) {
+                    try {
+                        FetchMyAdd(location1);
+
+                    } catch (NullPointerException e) {
+
+                    }
+                } else if (location2 != null) {
+                    try {
+                        FetchMyAdd(location2);
+                    } catch (NullPointerException e) {
+
+                    }
+                } else {
+                    //Secound try
+                    RxLocation.locationUpdates(getContext(), defaultLocationRequest)
+                            .firstElement()
+                            .subscribe(new Consumer<Location>() {
+                                @Override
+                                public void accept(Location location) throws Exception {
+                                    FetchMyAdd(location);
+                                }
+                            }, new Consumer<Throwable>() {
+                                @Override
+                                public void accept(Throwable throwable) throws Exception {
+
+                                }
+                            });
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void Fetch_Location_With_RX() {
-        show_ProgressDialog();
-        LocationTracker tracker = new LocationTracker(
-                getActivity(),
-                new TrackerSettings()
-                        .setUseGPS(true)
-                        .setUseNetwork(true)
-                        .setUsePassive(true)
 
-        ) {
+        if (new Session(getContext()).get_mylocation().equalsIgnoreCase(""))
+        {
+            LocationTracker tracker = new LocationTracker(
+                    getActivity(),
+                    new TrackerSettings()
+                            .setUseGPS(true)
+                            .setUseNetwork(true)
+                            .setUsePassive(true)
 
-            @Override
-            public void onLocationFound(Location location) {
-                try {
-                    hide_ProgressDialog();
-                    City_Name = Constant.getCompletecity(getActivity(), location.getLatitude(), location.getLongitude(), true, false, false);
-                    if (City_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
-                        if (!City_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
-                            hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
-                        }
+            ) {
+
+                @Override
+                public void onLocationFound(Location location) {
+                    try {
+                        FetchMyAdd(location);
+                    }catch (Exception e){
+                        Constant.Show_Tos_Error(getActivity(),false,true);
                     }
-                }catch (Exception e){
-                    Constant.Show_Tos_Error(getActivity(),false,true);
+
                 }
 
+                @Override
+                public void onTimeout() {
+                }
+            };
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            tracker.startListening();
+            getLocation();
+        }else
+        {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(new Session(getContext()).get_mylocation());
+                FetchMyAdd(jsonObject.getString("lat"),jsonObject.getString("long"));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-            @Override
-            public void onTimeout() {
-            }
-        };
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
         }
-        tracker.startListening();
-
     }
 
 
@@ -294,7 +346,6 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     }
 
     private void hit_Fetch_add(String bike_brand_id, String bike_model_id) {
-        show_ProgressDialog();
         Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(bike_model_id, bike_brand_id, City_Name);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -422,8 +473,45 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
         if (requestCode == REQUEST_LOCATION) {
 
-            Fetch_Location_With_RX();
+            if (new Session(getContext()).get_mylocation().equalsIgnoreCase(""))
+            {
+                Fetch_Location_With_RX();
+            }else
+            {
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(new Session(getContext()).get_mylocation());
+                    FetchMyAdd(jsonObject.getString("lat"),jsonObject.getString("long"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
         }
+    }
+
+    void FetchMyAdd(Location location) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("lat",location.getLatitude());
+        jsonObject.put("long",location.getLongitude());
+        new Session(getContext()).set_mylocation(jsonObject.toString());
+        City_Name = Constant.getCompletecity(getActivity(), location.getLatitude(), location.getLongitude(), true, false, false);
+        if (City_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
+            if (!City_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
+                hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
+            }
+        }
+
+    }
+    void FetchMyAdd(String Latitude,String Longitude) throws JSONException {
+        City_Name = Constant.getCompletecity(getActivity(),Double.parseDouble(Latitude),Double.parseDouble(Longitude), true, false, false);
+        if (City_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
+            if (!City_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
+                hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
+            }
+        }
+
     }
 
     private void Hit_Rider_Details(String userid) {
@@ -432,7 +520,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                hide_ProgressDialog();
+                hide_ProgressDialog();  Fetch_Location_With_RX();
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject = null;
