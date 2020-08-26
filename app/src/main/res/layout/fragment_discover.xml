@@ -37,6 +37,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="20dp"
                 android:horizontalSpacing="10dp"
+                android:scrollbars="none"
                 android:numColumns="2"
                 android:verticalSpacing="10dp" />
         </LinearLayout>

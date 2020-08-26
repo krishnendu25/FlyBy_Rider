@@ -62,7 +62,7 @@ public class LocationTrackerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        buildNotification();
+       // buildNotification();
         requestLocationUpdates();
     }
 

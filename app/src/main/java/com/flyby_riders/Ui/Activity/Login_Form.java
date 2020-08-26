@@ -137,7 +137,6 @@ public class Login_Form extends BaseActivity  implements IJSONParseListener, Goo
                                 Intent intent = new Intent(Login_Form.this, OTP_Verify.class);
                                 intent.putExtra(PHONE_NO, toString);
                                 startActivity(intent);
-                                Toast.makeText(Login_Form.this, "YOUR OTP- "+jsonObject.getString("otp"), Toast.LENGTH_LONG).show();
                             } else {
                                 Constant.Show_Tos(getApplicationContext(), jsonObject.getString("msg"));
                                 hide_ProgressDialog();

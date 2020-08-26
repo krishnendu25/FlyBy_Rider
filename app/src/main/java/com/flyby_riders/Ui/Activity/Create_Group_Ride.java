@@ -72,6 +72,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Field;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.flyby_riders.Constants.Constant.GET_timeStamp;
@@ -207,7 +208,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         } catch (Exception e) {
             My_Ride_ID = "";
             Admin_User_Id = "";
-            I_AM_ADMIN = false;
+            I_AM_ADMIN = false;RIDE_STATUS = RIDE_NOT_STARTED;
         }
         back_ground_service = new Back_Ground_Service();
         Reload_Work();
@@ -419,10 +420,16 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
     protected void onResume() {
         super.onResume();
         if (back_ground_service != null) {
-            back_ground_service.execute();
+            try{
+                back_ground_service.execute();
+            }catch (IllegalStateException e){}catch (Exception e){}
+
             Auto_Hide_ToolTip();
         } else {
-            new Back_Ground_Service().execute();
+            try{
+                new Back_Ground_Service().execute();
+            }catch (IllegalStateException e){}catch (Exception e){}
+
         }
 
     }
@@ -451,7 +458,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         topSpeedTv.setText(new DecimalFormat("##.##").format(Double.valueOf(testAdapter.GET_TOP_SPEED(Ride_id, Member_id))) + "km/h");
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:MM:SS");
         rideTimeTv.setText(sdf.format(new Date()));
-
+        hit_my_ride_update(averageSpeedTv.getText().toString(),topSpeedTv.getText().toString());
 
         if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
             Location startPoint = new Location("locationA");
@@ -528,11 +535,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         mMap.getUiSettings().setCompassEnabled(false);
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
         try {
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
-            boolean success = googleMap.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
-                            this, R.raw.map_style));
+          googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
         } catch (Resources.NotFoundException e) {
         }
 
@@ -595,7 +598,6 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
             }
         }
     }
-
 
     private void TrackerService(boolean track_My_Location) {
         if (track_My_Location) {
@@ -703,7 +705,6 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                         latti = location.getLatitude();
                         longi = location.getLongitude();
                         locationFetched(location);
-                        /*  progressDialog.dismiss();*/
                     } catch (NullPointerException e) {
 
                     }
@@ -794,12 +795,38 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         }
 
     }
-
-
     //Hit_Api
     private void hit_Update_name(String GroupName) {
 
 
+    }
+
+    private void hit_my_ride_update(String Average_Speed,String Top_Speed)
+    {
+        Call<ResponseBody> requestCall = retrofitCallback.my_ride_update(My_Ride_ID,new Session(this).get_LOGIN_USER_ID(),
+                Average_Speed,Top_Speed,Constant.GET_timeStamp());
+        requestCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = null;
+                        try {
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        MyRide_List.clear();
+                    } catch (Exception e) {
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
     }
 
     private void hit_my_ride(String user_id) {
@@ -912,8 +939,8 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                                 Real_Time_Latlong real_time_latlong = new Real_Time_Latlong();
                                 real_time_latlong.setRider_Name(JS.getString("FULL_NAME"));
                                 real_time_latlong.setMEMBERID(JS.getString("MEMBERID"));
-                                real_time_latlong.setLongitude_Start(Double.valueOf(JS.getString("LONGTIUDE")));
-                                real_time_latlong.setLatitude_Start(Double.valueOf(JS.getString("LATITUDE")));
+                                real_time_latlong.setLongitude_Start(Double.parseDouble(JS.getString("LONGTIUDE")));
+                                real_time_latlong.setLatitude_Start(Double.parseDouble(JS.getString("LATITUDE")));
                                 track_list.add(real_time_latlong);
                             }
 
@@ -1071,7 +1098,7 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
         if (Start) {
 
             show_ProgressDialog();
-            Call<ResponseBody> requestCall = retrofitCallback.START_RIDE(My_Ride_ID, Admin_User_Id, Constant.GET_timeStamp(), Constant.getCompleteAddressString(Create_Group_Ride.this, Latitude_Start, Longitude_Start), String.valueOf(Latitude_Start), String.valueOf(Longitude_Start), "1");
+            Call<ResponseBody> requestCall = retrofitCallback.START_RIDE(My_Ride_ID, new Session(this).get_LOGIN_USER_ID(), Constant.GET_timeStamp(), Constant.getCompleteAddressString(Create_Group_Ride.this, Latitude_Start, Longitude_Start), String.valueOf(Latitude_Start), String.valueOf(Longitude_Start), "1");
             requestCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -1091,8 +1118,8 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                                 Constant.Show_Tos(getApplicationContext(), "Ride Started Successfully");
                                 STARTLAT = Latitude_Start;
                                 STARTLANG = Longitude_Start;
-                                View_Control();
                                 RIDE_STATUS = RIDE_STARTED;
+                                View_Control();
                                 hit_my_ride(new Session(Create_Group_Ride.this).get_LOGIN_USER_ID());
 
                             } else {
