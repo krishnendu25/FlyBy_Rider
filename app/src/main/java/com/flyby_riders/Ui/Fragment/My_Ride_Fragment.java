@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -124,8 +125,10 @@ public class My_Ride_Fragment extends Fragment {
                             }
                             Collections.reverse(MyRide_List);
 
+                            HashSet<My_Ride_Model> listToSet = new HashSet<My_Ride_Model>(MyRide_List);
+                            ArrayList<My_Ride_Model> listWithoutDuplicates = new ArrayList<My_Ride_Model>(listToSet);
 
-                            My_Ride_Adapter my_ride_adapter = new My_Ride_Adapter(getActivity(), MyRide_List);
+                            My_Ride_Adapter my_ride_adapter = new My_Ride_Adapter(getActivity(), listWithoutDuplicates);
                             MyRide_ListRecyclerView.setAdapter(my_ride_adapter);
 
                         } else {
@@ -142,7 +145,7 @@ public class My_Ride_Fragment extends Fragment {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hide_ProgressDialog();
-                Constant.Show_Tos_Error(getActivity(),true,false);
+                Constant.Show_Tos_Error(getActivity(), true, false);
             }
         });
 

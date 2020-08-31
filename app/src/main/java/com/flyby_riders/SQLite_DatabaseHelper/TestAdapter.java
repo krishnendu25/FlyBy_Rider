@@ -95,34 +95,7 @@ public class TestAdapter {
     }
 
 
-    public boolean INSERT_RIDE_DATA(String RIDE_ID_ST, String MEMBER_ID_ST,
-                                    String TOP_SPEED, String AVG_SPEED,
-                                    String TOTAL_TIME, String TRACKING_STATUS) {
-
-
-      /*  Cursor cursor = mDb.rawQuery("Select * from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
-
-        if (cursor.getCount() != 0) {
-            ContentValues args = new ContentValues();
-            if (!TOP_SPEED.equalsIgnoreCase("")) {
-                args.put("TOP_SPEED", TOP_SPEED);
-            }
-
-            if (!AVG_SPEED.equalsIgnoreCase("")) {
-                args.put("AVG_SPEED", AVG_SPEED);
-            }
-
-            if (!TOTAL_TIME.equalsIgnoreCase("")) {
-                args.put("TOTAL_TIME", TOTAL_TIME);
-            }
-
-            if (!TRACKING_STATUS.equalsIgnoreCase("")) {
-                args.put("TRACKING_STATUS", TRACKING_STATUS);
-            }
-
-            return mDb.update("RIDE_DATA", args, "RIDE_ID" + "=" + RIDE_ID_ST + " AND " + "MEMBER_ID" + "=" + MEMBER_ID_ST, null) > 0;
-
-        } else {*/
+    public boolean INSERT_RIDE_DATA(String RIDE_ID_ST, String MEMBER_ID_ST, String TOP_SPEED, String AVG_SPEED, String TOTAL_TIME, String TRACKING_STATUS) {
             ContentValues contentValues = new ContentValues();
             contentValues.put("RIDE_ID", RIDE_ID_ST);
             contentValues.put("MEMBER_ID", MEMBER_ID_ST);
@@ -132,9 +105,6 @@ public class TestAdapter {
             contentValues.put("TRACKING_STATUS", TRACKING_STATUS);
             mDb.insert("RIDE_DATA", null, contentValues);
             return true;
-        /*}*/
-
-
     }
 
 
@@ -158,7 +128,7 @@ public class TestAdapter {
 
     public String GET_TOP_SPEED(String RIDE_ID_ST, String MEMBER_ID_ST) {
         String MAX = "";
-        Cursor cursor = mDb.rawQuery("Select  MAX(TOP_SPEED) from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
+        Cursor cursor = mDb.rawQuery("Select  max(TOP_SPEED) from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
         if (cursor.getCount() != 0) {
 
             while (cursor.moveToNext()) {

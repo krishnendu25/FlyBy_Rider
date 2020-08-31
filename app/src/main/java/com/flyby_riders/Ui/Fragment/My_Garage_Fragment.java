@@ -190,6 +190,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         collapse_image_view = view.findViewById(R.id.collapse_image_view);
         bikeBrandName = view.findViewById(R.id.bike_brand_name);
         bikeModelName = view.findViewById(R.id.bike_model_name);
+        bikeModelName.setSelected(true);
         BikeAddBtn = view.findViewById(R.id.Bike_Add_btn);
         DocumentLockerBtn = view.findViewById(R.id.Document_Locker_btn);
         AdvetismentList = view.findViewById(R.id.Advetisment_list);
@@ -320,7 +321,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     private void Set_View(ArrayList<My_Bike_Model> my_bike, int i) {
 
         try {
-            Picasso.get().load(my_bike.get(i).getMODELPIC()).placeholder(R.drawable.ic_emptybike).into(MyBikeImage);
+            Picasso.get().load(my_bike.get(i).getMODELPIC()).placeholder(R.drawable.ic_emptybike).fit().into(MyBikeImage);
         } catch (Exception e) {
             MyBikeImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_emptybike));
         }
@@ -414,57 +415,6 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     public void onResume() {
         super.onResume();
         Hit_Rider_Details(new Session(getContext()).get_LOGIN_USER_ID());
-    }
-
-    private void enableLoc() {
-        if (googleApiClient == null) {
-            googleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .addApi(LocationServices.API)
-                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                        @Override
-                        public void onConnected(Bundle bundle) {
-                        }
-
-                        @Override
-                        public void onConnectionSuspended(int i) {
-                            googleApiClient.connect();
-                        }
-                    })
-                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-                        @Override
-                        public void onConnectionFailed(ConnectionResult connectionResult) {
-                            Log.d("Location error", "Location error " + connectionResult.getErrorCode());
-                        }
-                    }).build();
-            googleApiClient.connect();
-
-            LocationRequest locationRequest = LocationRequest.create();
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            locationRequest.setInterval(30 * 1000);
-            locationRequest.setFastestInterval(5 * 1000);
-            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                    .addLocationRequest(locationRequest);
-
-            builder.setAlwaysShow(true);
-
-            PendingResult<LocationSettingsResult> result =
-                    LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
-            result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-                @Override
-                public void onResult(LocationSettingsResult result) {
-                    final Status status = result.getStatus();
-                    switch (status.getStatusCode()) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            try {
-                                status.startResolutionForResult(getActivity(), REQUEST_LOCATION);
-                            } catch (IntentSender.SendIntentException e) {
-                            }
-                            break;
-                    }
-                }
-            });
-        }
-
     }
 
     @Override

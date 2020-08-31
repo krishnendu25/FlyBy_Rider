@@ -18,6 +18,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_ENDED;
+import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_NOT_STARTED;
+import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_STARTED;
+
 
 /**
  * Created by KRISHNENDU MANNA on 12,July,2020
@@ -56,9 +60,17 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Create_Group_Ride.class);
+                intent.putExtra("My_Ride_Name",data.get(position).getRide_Name());
                 intent.putExtra("My_Ride_ID",data.get(position).getRide_ID());
                 intent.putExtra("Admin_User_Id",data.get(position).getRide_Admin_Id());
-                intent.putExtra("TRACKSTATUS",data.get(position).getRide_Status());
+
+                if (data.get(position).getRide_Status().equalsIgnoreCase("NOT STARTED"))
+                { intent.putExtra("TRACKSTATUS",RIDE_NOT_STARTED);
+                 }else if (data.get(position).getRide_Status().equalsIgnoreCase("STARTED"))
+                { intent.putExtra("TRACKSTATUS",RIDE_STARTED);
+                }else if (data.get(position).getRide_Status().equalsIgnoreCase("END"))
+                { intent.putExtra("TRACKSTATUS",RIDE_ENDED);
+                }
                 intent.putExtra("STARTLAT",data.get(position).getSTARTLAT());
                 intent.putExtra("STARTLANG",data.get(position).getSTARTLANG());
                 intent.putExtra("ENDLAT",data.get(position).getENDLAT());

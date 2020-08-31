@@ -19,6 +19,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Base64;
@@ -32,8 +33,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flyby_riders.R;
+import com.flyby_riders.Ui.Listener.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -62,6 +67,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 
@@ -466,8 +474,14 @@ public class Constant
         }
 
     }
+
+
+
+
+
+
     public static void Show_Tos_Error(Context context, boolean NetWork,boolean Exception_) {
-        try{
+     /*   try{
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.toast_custom_error, null);
             TextView text = (TextView) layout.findViewById(R.id.text_ER);
@@ -488,7 +502,7 @@ public class Constant
         {
 
         }
-
+*/
     }
     public static void Show_Tos_Long(Context context, String MSG) {
         Toast.makeText(context,MSG,Toast.LENGTH_LONG).show();

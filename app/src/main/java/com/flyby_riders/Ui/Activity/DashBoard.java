@@ -1,5 +1,8 @@
 package com.flyby_riders.Ui.Activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -66,7 +69,7 @@ public class DashBoard extends BaseActivity {
     ShadowLayout ShadowLayoutRides;
     public static ArrayList<My_Bike_Model> My_Bike = new ArrayList<>();
     private String My_Ride_Attached;
-
+  String Current_Fagment_Name="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +145,7 @@ public class DashBoard extends BaseActivity {
                     fragment = oldFragment;
                 }
                 fragmentTransaction.replace(R.id.fragment_container, fragment, fragment.getClass().getName());
+                Current_Fagment_Name = fragment.getClass().getName();
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 fragmentTransaction.commit();
             } catch (IllegalStateException e) {
@@ -155,9 +159,14 @@ public class DashBoard extends BaseActivity {
 
     }
 
+
+
+
+
     private void Tab_View_Adjust(View view, View view1, View view2) {
 
         if (view.getId() == R.id.ShadowLayout_discover) {
+
             if (view.getVisibility() == View.GONE) {
                 view.setVisibility(View.VISIBLE);
                 discoverInactive.setVisibility(View.GONE);
@@ -198,6 +207,25 @@ public class DashBoard extends BaseActivity {
     protected void onResume() {
         super.onResume();
         hit_my_ride(new Session(this).get_LOGIN_USER_ID());
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            {
+                Intent intent = new Intent(this, Gps_Trun_On.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+            }
+        }
+
+
+
+        if (My_Ride_Attached != null) {
+            if (!My_Ride_Attached.equalsIgnoreCase("0")) {
+               if (Current_Fagment_Name.contains("Ride_Add_Fragments"))
+                replaceFragment(new My_Ride_Fragment());
+            }
+        }
+
+
 
     }
 
@@ -343,7 +371,12 @@ public class DashBoard extends BaseActivity {
             }
         });
 
-
+        if (My_Ride_Attached != null) {
+            if (!My_Ride_Attached.equalsIgnoreCase("0")) {
+                if (Current_Fagment_Name.contains("Ride_Add_Fragments"))
+                    replaceFragment(new My_Ride_Fragment());
+            }
+        }
     }
 
 

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.Bike_Model_Activity;
 import com.flyby_riders.Ui.Model.BIKE_BRAND;
@@ -74,8 +75,8 @@ public class Bike_Brand_Adapter extends BaseAdapter {
             }
         });
         try{
-            Picasso.get().load(data.get(position).getPIC()).placeholder(R.drawable.images)
-                    .into(holder.brand_pic);
+            Glide.with(context).load(data.get(position).getPIC()).placeholder(R.drawable.images).into(holder.brand_pic);
+
         }catch (Exception e)
         {}
        return rowView;

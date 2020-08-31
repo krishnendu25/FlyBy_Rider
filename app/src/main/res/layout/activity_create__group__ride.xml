@@ -73,7 +73,6 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="10dp"
                             android:orientation="vertical">
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -105,7 +104,6 @@
                                         android:src="@drawable/ic_addmedia" />
                                 </LinearLayout>
                             </LinearLayout>
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -136,6 +134,29 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:src="@drawable/ic_addmembers" />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:gravity="center|end"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:id="@+id/track_location_btn"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:background="@drawable/base_round_ripple"
+                                    android:gravity="center">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/track_gps_ic" />
                                 </LinearLayout>
 
 

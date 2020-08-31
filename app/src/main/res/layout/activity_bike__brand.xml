@@ -43,6 +43,7 @@
                     android:drawableStart="@drawable/ic_search"
                     android:drawablePadding="20dp"
                     android:paddingStart="20dp"
+                    android:textSize="14dp"
                     android:hint="Search for a brands"
                     android:fontFamily="@font/manropesemibold"
                     android:layout_height="?actionBarSize"

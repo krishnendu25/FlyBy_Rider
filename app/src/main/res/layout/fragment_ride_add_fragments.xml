@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:background="@color/transparent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="100dp">
+      >
         <ScrollView
             android:layout_width="match_parent"
             android:background="@color/transparent"
@@ -25,7 +25,7 @@
                     android:src="@drawable/ride_empty_bg"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:layout_marginTop="70dp"/>
+                    android:layout_marginTop="50dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -34,17 +34,17 @@
                     android:textColor="#F0EEF5"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/avenirnextheavy"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="One place to manage all your rides, fellow riders &amp;\ntheir location, media and trip information"
-                    android:textSize="16dp"
+                    android:text="@string/one_place_to_manage_all_your_rides_fellow_riders_amp_ntheir_location_media_and_trip_information"
+                    android:textSize="14dp"
                     android:textColor="#AAAAAA"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_margin="10dp"
                     android:fontFamily="@font/avenirbextregular"/>
                 <Button
                     android:id="@+id/Add_my_ride"

@@ -157,6 +157,7 @@ public interface RetrofitCallback {
                                         @Field("member_id") String member_id,
                                         @Field("avg_speed") String avg_speed,
                                         @Field("top_speed") String top_speed,
+                                        @Field("total_distance") String total_distance,
                                         @Field("spend_timestamp") String spend_timestamp);
 
     @FormUrlEncoded
@@ -185,6 +186,8 @@ public interface RetrofitCallback {
     @POST("http://flybyapp.com/flybyapp/StoreApi/Getgarageownerdetails")
     Call<ResponseBody> Getgarageownerdetails(@Field("user_id") String user_id);
 
-
+    @FormUrlEncoded
+    @POST("Update_ride_name")
+    Call<ResponseBody> Update_ride_name(@Field("Rideid") String Rideid,@Field("Ridename") String Ridename);
 
 }

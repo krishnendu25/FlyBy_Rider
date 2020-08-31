@@ -33,9 +33,15 @@ public class Session {
     int PRIVATE_MODE = 0;
 
     public Session(Context context) {
-        this._context = context;
-        sPrfed_State_Saver = _context.getSharedPreferences("State_Saver", PRIVATE_MODE);
-        sPrfed_State_Saver_editor = sPrfed_State_Saver.edit();
+        try {
+            this._context = context;
+            sPrfed_State_Saver = _context.getSharedPreferences("State_Saver", PRIVATE_MODE);
+            sPrfed_State_Saver_editor = sPrfed_State_Saver.edit();
+        }catch (Exception e)
+        {
+
+        }
+
     }
 
     //LogOut
