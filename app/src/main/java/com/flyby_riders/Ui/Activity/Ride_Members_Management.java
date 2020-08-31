@@ -14,6 +14,7 @@ import com.flyby_riders.R;
 import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Adapter.Ride.Ride_Members_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
+import com.flyby_riders.Ui.Model.Real_Time_Latlong;
 import com.flyby_riders.Ui.Model.Ride_Member_model;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -241,7 +242,30 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
 
     private void hit_remove_member(String userid)
     {
-        Hit_Fetch_Member(My_Ride_ID);
+        show_ProgressDialog();
+        Call<ResponseBody> requestCall = retrofitCallback.remove_member(My_Ride_ID,userid);
+        requestCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    hide_ProgressDialog();
+                    try {
+                        JSONObject jsonObject = null;
+                        try {
+                            String output = Html.fromHtml(response.body().string()).toString();
+                            output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
+                            jsonObject = new JSONObject(output);
+                        } catch (Exception e) {}
+                        if (jsonObject.getString("success").equalsIgnoreCase("1")) {
+                            Constant.Show_Tos(getApplicationContext(),"Member Removed Successfully");
+                            Hit_Fetch_Member(My_Ride_ID);
+                        }
+                    } catch (Exception e) {hide_ProgressDialog();}
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {hide_ProgressDialog();}
+        });
     }
 
     @Override

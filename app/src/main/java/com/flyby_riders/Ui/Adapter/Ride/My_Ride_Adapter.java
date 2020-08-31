@@ -75,6 +75,7 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
                 intent.putExtra("STARTLANG",data.get(position).getSTARTLANG());
                 intent.putExtra("ENDLAT",data.get(position).getENDLAT());
                 intent.putExtra("ENDLANG",data.get(position).getENDLANG());
+
                 context.startActivity(intent);
             }
         });

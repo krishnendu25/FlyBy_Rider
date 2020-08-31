@@ -190,4 +190,9 @@ public interface RetrofitCallback {
     @POST("Update_ride_name")
     Call<ResponseBody> Update_ride_name(@Field("Rideid") String Rideid,@Field("Ridename") String Ridename);
 
+    @FormUrlEncoded
+    @POST("remove_member")
+    Call<ResponseBody> remove_member(@Field("Ride_id") String Ride_id,
+                                              @Field("member_userid") String member_userid);
+
 }
