@@ -116,7 +116,7 @@ public class TestAdapter {
 
     public String GET_AVERAGE_SPEED(String RIDE_ID_ST, String MEMBER_ID_ST) {
         String Average = "";
-        Cursor cursor = mDb.rawQuery("Select  AVG(TOP_SPEED) from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
+        Cursor cursor = mDb.rawQuery("Select AVG(CAST(TOP_SPEED AS INT)) from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
         if (cursor.getCount() != 0) {
 
             while (cursor.moveToNext()) {
@@ -128,7 +128,7 @@ public class TestAdapter {
 
     public String GET_TOP_SPEED(String RIDE_ID_ST, String MEMBER_ID_ST) {
         String MAX = "";
-        Cursor cursor = mDb.rawQuery("Select  max(TOP_SPEED) from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
+        Cursor cursor = mDb.rawQuery("Select  Max(CAST(TOP_SPEED AS INT)) from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
         if (cursor.getCount() != 0) {
 
             while (cursor.moveToNext()) {
