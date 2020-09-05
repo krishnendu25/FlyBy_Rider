@@ -452,15 +452,6 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
                 String Start_Address = Constant.getCompleteAddressString(this, currentPosition.latitude, currentPosition.longitude);
                 SetText(Start_Address, "", "");
-                //If A user Start A Ride and Close A application and Then Open this Ride Show Privious Path.
-                if (Latitude_Start != 0 && Longitude_Start != 0) {
-                    new GetPathFromLocation(new LatLng(Latitude_Start, Longitude_Start), currentPosition, new DirectionPointListener() {
-                        @Override
-                        public void onPath(PolylineOptions polyLine) {
-                            mMap.addPolyline(polyLine);
-                        }
-                    }).execute();
-                }
             }
             if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
                 LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
@@ -1016,12 +1007,14 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
             distanceCoveredTv.setText(Distance + " km");
             try {
 
-                Double Total_Time = Double.parseDouble(Distance) / Double.parseDouble(testAdapter.GET_TOP_SPEED(My_Ride_ID, new Session(Create_Group_Ride.this).get_LOGIN_USER_ID()));
+
+                Double Total_Time = Double.parseDouble(Distance) / Double.parseDouble(testAdapter.GET_AVERAGE_SPEED(My_Ride_ID, new Session(Create_Group_Ride.this).get_LOGIN_USER_ID()));
                 Double Tota_Secound = Total_Time * 3600;
-                Double hours = Tota_Secound / 3600;
+                Double hours =  Tota_Secound / 3600;
                 Double minutes = (Tota_Secound % 3600) / 60;
                 Double seconds = Tota_Secound % 60;
-                rideTimeTv.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+                rideTimeTv.setText(new DecimalFormat("##").format(hours)+":"+new DecimalFormat("##").format(minutes)+":"+new DecimalFormat("##").format(seconds));
+
             } catch (Exception e) {
             }
 
@@ -1037,6 +1030,16 @@ public class Create_Group_Ride extends BaseActivity implements OnMapReadyCallbac
             } catch (Exception e) {
             }
             distanceCoveredTv.setText(Distance + " km");
+            try {
+
+                Double Total_Time = Double.parseDouble(Distance) / Double.parseDouble(testAdapter.GET_AVERAGE_SPEED(My_Ride_ID, new Session(Create_Group_Ride.this).get_LOGIN_USER_ID()));
+                Double Tota_Secound = Total_Time * 3600;
+                Double hours =  Tota_Secound / 3600;
+                Double minutes = (Tota_Secound % 3600) / 60;
+                Double seconds = Tota_Secound % 60;
+                rideTimeTv.setText(new DecimalFormat("##").format(hours)+":"+new DecimalFormat("##").format(minutes)+":"+new DecimalFormat("##").format(seconds));
+            } catch (Exception e) {
+            }
         }
     }
 
