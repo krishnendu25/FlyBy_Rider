@@ -22,8 +22,7 @@
             android:gravity="center"
             android:text="@string/schedule_for_later"
             android:textColor="@color/light_green"
-            android:textSize="20dp"
-
+            android:textSize="18dp"
             />
 
     </LinearLayout>
@@ -47,7 +46,7 @@
             android:gravity="center"
             android:text="@string/start_ride"
             android:textColor="@color/background_base"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
 
     </LinearLayout>
 </LinearLayout>

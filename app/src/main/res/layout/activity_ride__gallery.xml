@@ -64,7 +64,7 @@
             android:singleLine="true"
             android:text="Ride Gallery"
             android:textColor="#fff"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/storage_info_tv"
@@ -78,7 +78,7 @@
             android:singleLine="true"
             android:text="90% of .5GB used"
             android:textColor="#fff"
-            android:textSize="16dp" />
+            android:textSize="14sp" />
     </LinearLayout>
 <RelativeLayout
     android:layout_width="match_parent"

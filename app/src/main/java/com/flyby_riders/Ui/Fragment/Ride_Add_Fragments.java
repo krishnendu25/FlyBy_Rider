@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Create_Group_Ride;
+import com.flyby_riders.Ui.Activity.RideMapView;
 
 public class Ride_Add_Fragments extends Fragment {
 
@@ -39,7 +39,7 @@ Button Add_my_ride;
         Add_my_ride.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), Create_Group_Ride.class));
+                startActivity(new Intent(getActivity(), RideMapView.class));
             }
         });
 

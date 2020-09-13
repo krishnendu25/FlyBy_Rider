@@ -70,7 +70,7 @@
                 android:gravity="center_vertical"
                 android:hint="@string/invite_new_member"
                 android:fontFamily="@font/avenirnextbold"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:maxLines="1"
@@ -91,6 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
+            android:scrollbars="none"
             android:scrollbarThumbVertical="@color/transparent">
 
             <LinearLayout
@@ -100,7 +101,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:layout_marginTop="10dp"
                     android:textColor="#fff"
                     android:fontFamily="@font/avenirnextbold"
@@ -111,12 +112,13 @@
                     android:id="@+id/Flyby_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:scrollbars="none"
                     android:layout_marginTop="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:textColor="#fff"
                     android:fontFamily="@font/avenirnextbold"
                     android:layout_marginStart="25dp"
@@ -127,6 +129,7 @@
                     android:id="@+id/Not_Flyby_user"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
+                    android:scrollbars="none"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 

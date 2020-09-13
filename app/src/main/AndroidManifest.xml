@@ -54,7 +54,7 @@
         <activity android:name=".Ui.Activity.Upgrade_To_Premium" />
         <activity android:name=".Ui.Activity.Invite_new_member" />
         <activity android:name=".Ui.Activity.Ride_Members_Management" />
-        <activity android:name=".Ui.Activity.Create_Group_Ride" />
+        <activity android:name=".Ui.Activity.RideMapView" />
         <activity android:name=".Ui.Activity.Album_Viewer" /> <!-- Add the service created in services package ! -->
         <activity android:name=".Ui.Activity.Document_Album_Creator" />
         <activity android:name=".Ui.Activity.Document_Locker" />

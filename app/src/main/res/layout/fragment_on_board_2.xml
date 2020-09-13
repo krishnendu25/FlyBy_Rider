@@ -34,7 +34,7 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/avenirnextheavy"
                 android:gravity="center"
-                android:textSize="16dp"/>
+                android:textSize="14sp"/>
 
 
         </LinearLayout>

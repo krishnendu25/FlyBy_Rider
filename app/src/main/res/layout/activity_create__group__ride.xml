@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_base"
     android:orientation="vertical"
-    tools:context=".Ui.Activity.Create_Group_Ride">
+    tools:context=".Ui.Activity.RideMapView">
 
 
     <!--<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -63,7 +63,7 @@
                             android:name="com.google.android.gms.maps.SupportMapFragment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            tools:context=".Ui.Activity.Create_Group_Ride" />
+                            tools:context=".Ui.Activity.RideMapView" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

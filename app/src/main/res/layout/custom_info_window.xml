@@ -23,7 +23,7 @@
             android:layout_marginTop="5dp"
             android:textColor="@color/light_green"
             android:fontFamily="@font/avenirnextheavy"
-            android:textSize="16dp"/>
+            android:textSize="14sp"/>
 
         <TextView
             android:layout_width="wrap_content"

@@ -37,7 +37,7 @@
         android:layout_centerVertical="true"
         android:textAllCaps="true"
         android:textColor="@color/background_base"
-        android:textSize="20dp"/>
+        android:textSize="18dp"/>
 
 
 </RelativeLayout>

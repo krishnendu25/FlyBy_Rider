@@ -9,7 +9,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,7 +101,7 @@
                             android:singleLine="true"
                             android:text="Zeus Motorcycle Gear"
                             android:textColor="@color/white"
-                            android:textSize="20dp" />
+                            android:textSize="18dp" />
 
                         <TextView
                             android:id="@+id/Garage_CITY"
@@ -114,7 +115,7 @@
                             android:singleLine="true"
                             android:text="Kolkata"
                             android:textColor="#AEACB5"
-                            android:textSize="16dp" />
+                            android:textSize="14sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -232,6 +233,7 @@
                                 android:layout_height="match_parent">
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/Garage_Image_Slider"
+                                    android:scrollbars="none"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent" />
                           <TextView
@@ -241,7 +243,7 @@
                               android:layout_centerHorizontal="true"
                               android:layout_centerVertical="true"
                               android:text="@string/no_media_file_found"
-                              android:textSize="20dp"
+                              android:textSize="18dp"
                               android:textColor="#EEEFF5"
                               android:fontFamily="@font/manroperegular"/>
                             </RelativeLayout>
@@ -264,7 +266,7 @@
                                 android:marqueeRepeatLimit="marquee_forever"
                                 android:text="Servicing &amp; Repair | Gears &amp; Accessories | Bike Parts &amp; Accessories | Bike Wash | Tyres | Body Work &amp; Modifications”"
                                 android:textColor="#EEEFF5"
-                                android:textSize="16dp"
+                                android:textSize="14sp"
                                 android:visibility="visible" />
 
                             <RelativeLayout
@@ -294,7 +296,7 @@
                                         android:gravity="center"
                                         android:text="GET DIRECTIONS"
                                         android:textColor="@color/light_green"
-                                        android:textSize="16dp" />
+                                        android:textSize="14sp" />
 
 
                                     <TextView
@@ -346,6 +348,7 @@
                                     android:id="@+id/Garage_Advetisment_list"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:scrollbars="none"
                                     android:visibility="visible" />
                                 <TextView
                                     android:id="@+id/Empty_no_advertisement"
@@ -354,7 +357,7 @@
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
                                     android:text="@string/no_advertisement_found"
-                                    android:textSize="20dp"
+                                    android:textSize="18dp"
                                     android:textColor="#EEEFF5"
                                     android:fontFamily="@font/manroperegular"/>
                             </RelativeLayout>

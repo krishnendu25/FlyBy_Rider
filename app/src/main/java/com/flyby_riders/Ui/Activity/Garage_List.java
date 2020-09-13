@@ -29,6 +29,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -102,13 +104,6 @@ public class Garage_List extends BaseActivity implements Garageownerclick {
                 e.printStackTrace();
             }
         }
-
-
-
-
-
-
-
     }
 
     private void Set_View(double latitude, double longitude) {
@@ -196,15 +191,44 @@ public class Garage_List extends BaseActivity implements Garageownerclick {
     }
 
     private void Sorting_Post(boolean distance_sort, boolean atoZ_sort) {
-
-
-
+        if (atoZ_sort && Garage_Owner_List.size()>0)
+        {
+            Collections.sort(Garage_Owner_List, new Comparator() {
+                @Override
+                public int compare(Object o1, Object o2) {
+                    Garage_Owner_Model p1 = (Garage_Owner_Model) o1;
+                    Garage_Owner_Model p2 = (Garage_Owner_Model) o2;
+                    return p1.getSTORENAME().compareToIgnoreCase(p2.getSTORENAME());
+                }
+            });
+            try{
+                garage_owner_adapter = new Garage_Owner_Adapter(Garage_Owner_List,this);
+                garageList.setAdapter(garage_owner_adapter);
+                garage_owner_adapter.notifyDataSetChanged();
+            }catch (Exception e)
+            { }
+        }else if (distance_sort && Garage_Owner_List.size()>0)
+        {
+            Collections.sort(Garage_Owner_List, new Comparator() {
+                @Override
+                public int compare(Object o1, Object o2) {
+                    Garage_Owner_Model p1 = (Garage_Owner_Model) o1;
+                    Garage_Owner_Model p2 = (Garage_Owner_Model) o2;
+                    return Double.compare(Double.parseDouble(p1.getDISTANCE_FROM_ME()),Double.parseDouble(p2.getDISTANCE_FROM_ME()));
+                }
+            });
+            try{
+                garage_owner_adapter = new Garage_Owner_Adapter(Garage_Owner_List,this);
+                garageList.setAdapter(garage_owner_adapter);
+                garage_owner_adapter.notifyDataSetChanged();
+            }catch (Exception e)
+            { }
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override

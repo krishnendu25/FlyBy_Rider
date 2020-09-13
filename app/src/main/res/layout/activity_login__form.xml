@@ -11,7 +11,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,7 +57,7 @@
                 android:layout_marginTop="20dp"
                 android:text="Mobile number"
                 android:textColor="@color/white"
-                android:textSize="16dp" />
+                android:textSize="14sp" />
 
 
             <LinearLayout
@@ -104,7 +105,7 @@
                         android:textColor="@color/white"
                         android:maxLength="10"
                         android:fontFamily="@font/manropelight"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:letterSpacing="0.1"
                         android:gravity="left|center"
                         android:paddingStart="16dp"
@@ -155,7 +156,7 @@
         android:paddingEnd="24dp"
         android:text="VERIFY &amp; CONTINUE"
         android:textColor="@color/background_base"
-        android:textSize="16dp" />
+        android:textSize="14sp" />
 
 
 </RelativeLayout>

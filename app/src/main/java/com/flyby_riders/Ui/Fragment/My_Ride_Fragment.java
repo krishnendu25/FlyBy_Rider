@@ -21,7 +21,7 @@ import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
 import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Activity.Create_Group_Ride;
+import com.flyby_riders.Ui.Activity.RideMapView;
 import com.flyby_riders.Ui.Adapter.Ride.My_Ride_Adapter;
 import com.flyby_riders.Ui.Model.My_Ride_Model;
 
@@ -69,7 +69,7 @@ public class My_Ride_Fragment extends Fragment {
         Create_Ride_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), Create_Group_Ride.class));
+                startActivity(new Intent(getActivity(), RideMapView.class));
             }
         });
 

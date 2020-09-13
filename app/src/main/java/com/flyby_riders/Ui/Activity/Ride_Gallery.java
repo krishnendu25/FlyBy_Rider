@@ -204,15 +204,12 @@ public class Ride_Gallery extends BaseActivity {
 
                             Constant.Show_Tos(getApplicationContext(), "Media Upload successfully");
                             if (mSelectedTabPosition==0)
-                            {
-                                All_Media_Ride_Fragment ab=All_Media_Ride_Fragment.newInstance();
+                            { All_Media_Ride_Fragment ab=All_Media_Ride_Fragment.newInstance();
                                 ab.Fetch_Media_Ride(My_Ride_ID);
                             }else if(mSelectedTabPosition==1)
                             { My_Media_Ride_Fragment mb= My_Media_Ride_Fragment.newInstance();
                                 mb.Fetch_Media_Ride(My_Ride_ID);
                             }
-
-
                         } else {
                             Constant.Show_Tos(getApplicationContext(), "Media Upload Failed");
                         }

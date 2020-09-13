@@ -45,8 +45,9 @@
         android:id="@+id/ACTIVITY_TITEL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:singleLine="true"
+        android:gravity="center|start"
         android:textColor="#fff"
         android:fontFamily="@font/avenirnextheavy"/>
 </LinearLayout>

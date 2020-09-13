@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Create_Group_Ride;
+import com.flyby_riders.Ui.Activity.RideMapView;
 import com.flyby_riders.Ui.Model.My_Ride_Model;
 import com.squareup.picasso.Picasso;
 
@@ -59,7 +59,7 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
         holder.my_ride_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Create_Group_Ride.class);
+                Intent intent = new Intent(context, RideMapView.class);
                 intent.putExtra("My_Ride_Name",data.get(position).getRide_Name());
                 intent.putExtra("My_Ride_ID",data.get(position).getRide_ID());
                 intent.putExtra("Admin_User_Id",data.get(position).getRide_Admin_Id());

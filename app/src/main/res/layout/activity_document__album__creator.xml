@@ -15,7 +15,8 @@
         android:layout_height="match_parent">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
             <LinearLayout
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
@@ -26,7 +27,7 @@
                     android:id="@+id/Bike_Document_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:text="Add a title for this document"
                     android:textColor="@color/white"
                     android:fontFamily="@font/avenirnextbold"/>
@@ -72,6 +73,7 @@
                     android:id="@+id/My_Photo_list"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
+                    android:scrollbars="none"
                     android:layout_marginTop="5dp"/>
 
             </LinearLayout>
@@ -113,7 +115,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/save_document"
                 android:textColor="@color/background_base"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:gravity="center"
                 android:paddingEnd="24dp"
                 android:fontFamily="@font/avenirnextheavy"

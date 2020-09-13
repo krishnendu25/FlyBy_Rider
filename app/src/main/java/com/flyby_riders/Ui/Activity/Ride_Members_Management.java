@@ -55,19 +55,14 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
         try {
             My_Ride_ID = getIntent().getStringExtra("My_Ride_ID");
             Admin_User_Id = getIntent().getStringExtra("Admin_User_Id");
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {My_Ride_ID = "0";Admin_User_Id="0";}
         Instantiation();
-
-
     }
-
     private void Instantiation() {
         Set_LayoutManager(RideMemberList,false,true);
         Hit_Fetch_Member(My_Ride_ID);
         BuySubscptionTv.setSelected(true);
     }
-
     private void Hit_Fetch_Member(String my_ride_id) {
         show_ProgressDialog();
         Call<ResponseBody> requestCall = retrofitCallback.fetch_member_to_ride(my_ride_id);
@@ -106,7 +101,6 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
                             {memberCountTv.setText(String.valueOf(Member_List.size()) +" of 5 members added");}
                             ride_members_adapter = new Ride_Members_Adapter(Ride_Members_Management.this,Member_List);
                             RideMemberList.setAdapter(ride_members_adapter);
-
                         } else {
                             Constant.Show_Tos(getApplicationContext(),"No Members Found");
                             hide_ProgressDialog();
@@ -114,14 +108,13 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
                     } catch (Exception e) {
                         Constant.Show_Tos(getApplicationContext(),"Something Wrong");
                         hide_ProgressDialog();
-                        hide_ProgressDialog();
                     }
                 }
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog();Constant.Show_Tos_Error(getApplicationContext(),true,false);
-
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
+                hide_ProgressDialog();
             }
         });
 
@@ -139,8 +132,6 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
                 hit_Payment_Bottomsheet();
                 break;
             case R.id.Add_member_btn:
-                if (new Session(this).get_LOGIN_USER_ID().equalsIgnoreCase(Admin_User_Id))
-                {
                     if (new Session(getApplicationContext()).get_MEMBER_STATUS().equalsIgnoreCase(PREMIUM))
                     {
                         if (Member_List.size()<=50)
@@ -157,8 +148,6 @@ public class Ride_Members_Management extends BaseActivity implements onClick {
                         }else{Constant.Show_Tos(getApplicationContext(),"This Ride Reach Maximum Member Number");}
 
                     }
-                }else
-                {Constant.Show_Tos(getApplicationContext(),"You Not Admin Of This Group"); }
                 break;
         }
     }

@@ -64,7 +64,7 @@
             android:fontFamily="@font/manropebold"
             android:text="Select one or more brands"
             android:textColor="#EEEFF5"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
 
         <GridView
             android:id="@+id/bike_brand_list"
