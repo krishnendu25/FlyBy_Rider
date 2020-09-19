@@ -11,7 +11,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Can’t Add Any More Members"
+            android:text="Can’t Add Any More Bike"
             android:textSize="18dp"
             android:drawablePadding="10dp"
             android:fontFamily="@font/manropeextrabold"
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/manroperegular"
-                    android:text="@string/sub"
+                    android:text="@string/sub_"
                     android:textColor="#AEACB5"
                     android:textSize="15dp"/>
 

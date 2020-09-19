@@ -25,37 +25,26 @@ public class Advertisement_Adapter extends BaseAdapter {
     ADDClickListener itemClickListener;
     String ownername;
     public Advertisement_Adapter(Context context, ArrayList<ADD_MODEL> data, String ownername) {
-        // TODO Auto-generated constructor stub
         this.data = data;
         this.mcontext = context;
         this.ownername = ownername;
-        inflater = (LayoutInflater) context.
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         itemClickListener = (Garage_Information) context;
     }
-
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return data.size();
-
     }
-
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
-
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
-
     @Override
     public View getView(final int i, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
         Holder holder = new Holder();
         View rowView;
         rowView = inflater.inflate(R.layout.child_ad_view, null);

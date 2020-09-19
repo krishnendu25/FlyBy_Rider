@@ -24,13 +24,13 @@
 
 
     <string-array name="tab_titles">
-        <item>Camera</item>
-        <item>Gallery</item>
+        <item>PHOTO</item>
+        <item>GALLERY</item>
     </string-array>
 
 
     <string name="toolbar_title">Choice Image</string>
-    <string name="no_image">No Image</string>
+    <string name="no_image">No Documents</string>
 
     <string name="selected_image">Selected Image</string>
 
@@ -73,11 +73,12 @@
     <string name="_2_gb_storage_per_ride">2 GB storage per ride</string>
     <string name="rs_999_lifetime">Rs. 999 / - Lifetime</string>
     <string name="premium_user">You are now premium user</string>
-    <string name="sub">You have added 5 of 5 members to this ride.\nUpgrade to PREMIUM to add upto 50 members\nto none ride.</string>
+    <string name="sub">You Have Added 5 Of 5 Members To This Ride.Upgrade To PREMIUM To Add Up To 50 Members To Ride.</string>
+    <string name="sub_">You Have Added 1 Bike To Your Garage.Upgrade To PREMIUM To Add Up To Unlimited Bike To Garage.</string>
     <string name="view_plan_details">VIEW PLAN DETAILS</string>
     <string name="rupee">₹</string>
     <string name="upgrades_for">Upgrades for</string>
-    <string name="upgrades_for_your_bike">Upgrades for\nYOUR BIKES</string>
+    <string name="upgrades_for_your_bike">Upgrades For\nYour Bike(s)</string>
     <string name="ENDING_POINT">ENDING POINT</string>
     <string name="discover_top_service_providers_nin_these_categories">Discover top service providers\nin these categories:</string>
     <string name="bike_servicing_n_amp_repair"><![CDATA[Bike Servicing\n& Repair]]></string>

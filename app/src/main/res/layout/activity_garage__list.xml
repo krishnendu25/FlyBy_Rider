@@ -53,11 +53,14 @@
             </com.flyby_riders.Utils.ShadowLayout>
         </com.flyby_riders.Utils.ShadowLayout>
 <TextView
+    android:id="@+id/categoryTitle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
     android:text="Gears &amp; Accessories"
     android:textSize="18dp"
+    android:marqueeRepeatLimit="marquee_forever"
+    android:ellipsize="marquee"
     android:gravity="center|start"
     android:fontFamily="@font/avenirnextbold"
     android:textColor="@color/white"

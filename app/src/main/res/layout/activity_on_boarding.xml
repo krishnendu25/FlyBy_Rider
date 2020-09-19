@@ -29,7 +29,7 @@
             android:id="@+id/Title_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/manropeextrabold"
+            android:fontFamily="@font/blackhansansregular"
             android:textColor="@color/white"
             android:paddingStart="22dp"
             android:gravity="center|start"
@@ -52,6 +52,36 @@
         android:layout_height="90dp"
         android:layout_alignParentBottom="true"
         android:background="@color/transparent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/pageInd1"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+               />
+            <ImageView
+                android:id="@+id/pageInd2"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="5dp" />
+            <ImageView
+                android:id="@+id/pageInd3"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="5dp" />
+            <ImageView
+                android:id="@+id/pageInd4"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="5dp" />
+        </LinearLayout>
+
+
         <TextView
             android:id="@+id/next_tv"
             android:layout_width="150dp"
@@ -65,7 +95,7 @@
             android:textColor="@color/background_base"
             android:drawableEnd="@drawable/ic_next_frf"
             android:drawableTint="@color/background_base"
-            android:fontFamily="@font/manropeextrabold"
+            android:fontFamily="@font/blackhansansregular"
             android:layout_marginEnd="20dp"
             android:textSize="18dp"
             />

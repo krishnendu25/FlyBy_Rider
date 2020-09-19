@@ -40,6 +40,7 @@ import com.flyby_riders.Retrofit.RetrofitClient;
 import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Activity.Bike_Brand_Activity;
 import com.flyby_riders.Ui.Activity.Document_Locker;
+import com.flyby_riders.Ui.Activity.Upgrade_To_Premium;
 import com.flyby_riders.Ui.Adapter.Garage.Garage_Ad_Adapter;
 import com.flyby_riders.Ui.Adapter.Garage.Garage_add_click;
 import com.flyby_riders.Ui.Adapter.Garage.My_Bike_Adapter;
@@ -56,6 +57,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
 
 import net.kjulio.rxlocation.RxLocation;
@@ -137,7 +139,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                     startActivity(new Intent(getActivity(), Bike_Brand_Activity.class));
                 } else {
                     if (My_Bike_els.size() == 1) {
-                        Constant.Show_Tos(getActivity(), "Basic User Add Only 1 Bike");
+                        hit_Payment_Bottomsheet();
                     } else {
                         startActivity(new Intent(getActivity(), Bike_Brand_Activity.class));
                     }
@@ -181,6 +183,23 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
             }
         });
         return view;
+    }
+
+    private void hit_Payment_Bottomsheet() {
+        View dialogView = getLayoutInflater().inflate(R.layout.can_add_bike, null);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity());
+        bottomSheetDialog.setContentView(dialogView);
+        TextView view_plan_details = bottomSheetDialog.findViewById(R.id.view_plan_details);
+        view_plan_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), Upgrade_To_Premium.class);
+                i.putExtra("My_Ride_ID",new Session(getActivity()).get_LOGIN_USER_ID());
+                startActivity(i);
+                bottomSheetDialog.hide();
+            }
+        });
+        bottomSheetDialog.show();
     }
 
     private void Instantiation(View view) {

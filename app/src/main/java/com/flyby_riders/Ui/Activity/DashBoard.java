@@ -22,6 +22,7 @@ import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Ride_Fragment;
 import com.flyby_riders.Ui.Fragment.Ride_Add_Fragments;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
+import com.flyby_riders.Utils.OnSwipeTouchListener;
 import com.flyby_riders.Utils.ShadowLayout;
 
 import org.json.JSONArray;
@@ -77,6 +78,7 @@ public class DashBoard extends BaseActivity {
         ButterKnife.bind(this);
         Instantiation();
         Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
+
 
     }
 

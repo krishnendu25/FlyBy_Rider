@@ -1,7 +1,7 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="90dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background_base"
+    android:background="#9F17131D"
     android:layout_alignParentBottom="true"
     android:orientation="horizontal"
     android:weightSum="3"
@@ -44,15 +44,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_discoveractive"
-                    android:drawablePadding="4dp"
+                    android:drawablePadding="2dp"
                     android:background="@drawable/tab_selected"
-                    android:padding="10dp"
+                    android:padding="8dp"
                     android:visibility="visible"
                     android:fontFamily="@font/manropemedium"
                     android:gravity="center"
                     android:text="@string/discover"
                     android:textColor="@color/light_green"
-                    android:textSize="8dp" />
+                    android:textSize="12dp" />
             </com.flyby_riders.Utils.ShadowLayout>
         </com.flyby_riders.Utils.ShadowLayout>
         <TextView
@@ -61,12 +61,12 @@
             android:layout_marginStart="30dp"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_discoverinactive"
-            android:drawablePadding="4dp"
+            android:drawablePadding="2dp"
             android:fontFamily="@font/manropemedium"
             android:gravity="center"
             android:text="@string/discover"
             android:textColor="@color/white"
-            android:textSize="8dp" />
+            android:textSize="12dp" />
 
     </LinearLayout>
 
@@ -109,15 +109,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_mygarageactive"
-                    android:drawablePadding="4dp"
+                    android:drawablePadding="2dp"
                     android:background="@drawable/tab_selected"
-                    android:padding="10dp"
+                    android:padding="8dp"
                     android:visibility="visible"
                     android:fontFamily="@font/manropemedium"
                     android:gravity="center"
                     android:text="@string/my_garage"
                     android:textColor="@color/light_green"
-                    android:textSize="8dp" />
+                    android:textSize="12dp" />
             </com.flyby_riders.Utils.ShadowLayout>
         </com.flyby_riders.Utils.ShadowLayout>
         <TextView
@@ -125,14 +125,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_mygarageinactive"
-            android:drawablePadding="4dp"
+            android:drawablePadding="2dp"
             android:padding="10dp"
             android:visibility="visible"
             android:fontFamily="@font/manropemedium"
             android:gravity="center"
             android:text="@string/my_garage"
             android:textColor="@color/white"
-            android:textSize="8dp" />
+            android:textSize="12dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -173,15 +173,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_tripsactive"
-                    android:drawablePadding="4dp"
+                    android:drawablePadding="2dp"
                     android:background="@drawable/tab_selected"
-                    android:padding="10dp"
+                    android:padding="8dp"
                     android:visibility="visible"
                     android:fontFamily="@font/manropemedium"
                     android:gravity="center"
                     android:text="@string/rides"
                     android:textColor="@color/light_green"
-                    android:textSize="8dp" />
+                    android:textSize="12dp" />
             </com.flyby_riders.Utils.ShadowLayout>
         </com.flyby_riders.Utils.ShadowLayout>
         <TextView
@@ -189,13 +189,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_tripsinactive"
-            android:drawablePadding="4dp"
+            android:drawablePadding="2dp"
             android:fontFamily="@font/manropemedium"
             android:gravity="center"
             android:layout_marginEnd="30dp"
             android:text="@string/rides"
             android:textColor="#fff"
-            android:textSize="8dp" />
+            android:textSize="12dp" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -267,12 +267,11 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
         try {
             Intent intent = new Intent(getActivity(), com.flyby_riders.Ui.Activity.Garage_List.class);
             intent.putExtra("List_Garage",temp_list);
+            intent.putExtra("categoryTitle",Catagory);
             startActivity(intent);
         }catch (Exception e)
         {
-            Intent intent = new Intent(getActivity(), com.flyby_riders.Ui.Activity.Garage_List.class);
-            intent.putExtra("List_Garage",Garage_List);
-            startActivity(intent);
+
         }
 
 

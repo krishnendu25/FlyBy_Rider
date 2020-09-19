@@ -63,7 +63,6 @@
                             android:fontFamily="@font/avenirnextbold"
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
-                            android:textAllCaps="true"
                             android:textColor="@color/white"
                             android:textSize="18dp" />
 
@@ -71,14 +70,12 @@
                             android:id="@+id/bike_model_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
                             android:ellipsize="marquee"
                             android:fontFamily="@font/avenirnextheavy"
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
-                            android:textAllCaps="true"
                             android:textColor="@color/white"
-                            android:textSize="18dp" />
+                            android:textSize="25dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -128,7 +125,7 @@
                             <RelativeLayout
                                 android:id="@+id/Document_Locker_btn"
                                 android:layout_width="match_parent"
-                                android:layout_height="150dp"
+                                android:layout_height="120dp"
                                 android:background="@drawable/locker_document_bg"
                                 android:clickable="true">
 
@@ -194,7 +191,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_height="8dp"
                     android:background="#47424D" />
 
                 <LinearLayout
