@@ -1,111 +1,149 @@
 package com.flyby_riders.Ui.Model;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by KRISHNENDU MANNA on 12,July,2020
  */
-public class My_Ride_Model {
+public class My_Ride_Model implements Parcelable {
 
-    String Ride_ID,Ride_Name,
-            Ride_Total_Member,
-            Ride_Start_Date,
-            Ride_Total_Distance,
-            Ride_Total_Time,
-            Ride_Cover_pic,
-            Ride_Status,
-            Ride_Admin_Id,
-            Total_media,
-            ADMIN_PLANNAME;
 
-    String STARTLAT, STARTLANG,ENDLAT, ENDLANG;
+
+
+    private String RIDEID,RIDENAME,ADMINUSERID,CREATIONDATE,AVG_SPEED,
+            TOP_SPEED,TOTALKM,TOTALTIME,COUNTIMAGELIST,PICMEDIAFILE
+            ,PLANNAME,TRACKSTATUS,STARTLAT,STARTLANG,ENDLAT,ENDLANG,TOTMEMBER;
 
     public My_Ride_Model() {
     }
 
-    public String getRide_ID() {
-        return Ride_ID;
+    protected My_Ride_Model(Parcel in) {
+        RIDEID = in.readString();
+        RIDENAME = in.readString();
+        ADMINUSERID = in.readString();
+        CREATIONDATE = in.readString();
+        AVG_SPEED = in.readString();
+        TOP_SPEED = in.readString();
+        TOTALKM = in.readString();
+        TOTALTIME = in.readString();
+        COUNTIMAGELIST = in.readString();
+        PICMEDIAFILE = in.readString();
+        PLANNAME = in.readString();
+        TRACKSTATUS = in.readString();
+        STARTLAT = in.readString();
+        STARTLANG = in.readString();
+        ENDLAT = in.readString();
+        ENDLANG = in.readString();
+        TOTMEMBER = in.readString();
     }
 
-    public void setRide_ID(String ride_ID) {
-        Ride_ID = ride_ID;
+    public static final Creator<My_Ride_Model> CREATOR = new Creator<My_Ride_Model>() {
+        @Override
+        public My_Ride_Model createFromParcel(Parcel in) {
+            return new My_Ride_Model(in);
+        }
+
+        @Override
+        public My_Ride_Model[] newArray(int size) {
+            return new My_Ride_Model[size];
+        }
+    };
+
+    public String getRIDEID() {
+        return RIDEID;
     }
 
-    public String getRide_Name() {
-        return Ride_Name;
+    public void setRIDEID(String RIDEID) {
+        this.RIDEID = RIDEID;
     }
 
-    public void setRide_Name(String ride_Name) {
-        Ride_Name = ride_Name;
+    public String getRIDENAME() {
+        return RIDENAME;
     }
 
-    public String getRide_Total_Member() {
-        return Ride_Total_Member;
+    public void setRIDENAME(String RIDENAME) {
+        this.RIDENAME = RIDENAME;
     }
 
-    public void setRide_Total_Member(String ride_Total_Member) {
-        Ride_Total_Member = ride_Total_Member;
+    public String getADMINUSERID() {
+        return ADMINUSERID;
     }
 
-    public String getRide_Start_Date() {
-        return Ride_Start_Date;
+    public void setADMINUSERID(String ADMINUSERID) {
+        this.ADMINUSERID = ADMINUSERID;
     }
 
-    public void setRide_Start_Date(String ride_Start_Date) {
-        Ride_Start_Date = ride_Start_Date;
+    public String getCREATIONDATE() {
+        return CREATIONDATE;
     }
 
-    public String getRide_Total_Distance() {
-        return Ride_Total_Distance;
+    public void setCREATIONDATE(String CREATIONDATE) {
+        this.CREATIONDATE = CREATIONDATE;
     }
 
-    public void setRide_Total_Distance(String ride_Total_Distance) {
-        Ride_Total_Distance = ride_Total_Distance;
+    public String getAVG_SPEED() {
+        return AVG_SPEED;
     }
 
-    public String getRide_Total_Time() {
-        return Ride_Total_Time;
+    public void setAVG_SPEED(String AVG_SPEED) {
+        this.AVG_SPEED = AVG_SPEED;
     }
 
-    public void setRide_Total_Time(String ride_Total_Time) {
-        Ride_Total_Time = ride_Total_Time;
+    public String getTOP_SPEED() {
+        return TOP_SPEED;
     }
 
-    public String getRide_Cover_pic() {
-        return Ride_Cover_pic;
+    public void setTOP_SPEED(String TOP_SPEED) {
+        this.TOP_SPEED = TOP_SPEED;
     }
 
-    public void setRide_Cover_pic(String ride_Cover_pic) {
-        Ride_Cover_pic = ride_Cover_pic;
+    public String getTOTALKM() {
+        return TOTALKM;
     }
 
-    public String getRide_Status() {
-        return Ride_Status;
+    public void setTOTALKM(String TOTALKM) {
+        this.TOTALKM = TOTALKM;
     }
 
-    public void setRide_Status(String ride_Status) {
-        Ride_Status = ride_Status;
+    public String getTOTALTIME() {
+        return TOTALTIME;
     }
 
-    public String getRide_Admin_Id() {
-        return Ride_Admin_Id;
+    public void setTOTALTIME(String TOTALTIME) {
+        this.TOTALTIME = TOTALTIME;
     }
 
-    public void setRide_Admin_Id(String ride_Admin_Id) {
-        Ride_Admin_Id = ride_Admin_Id;
+    public String getCOUNTIMAGELIST() {
+        return COUNTIMAGELIST;
     }
 
-    public String getTotal_media() {
-        return Total_media;
+    public void setCOUNTIMAGELIST(String COUNTIMAGELIST) {
+        this.COUNTIMAGELIST = COUNTIMAGELIST;
     }
 
-    public void setTotal_media(String total_media) {
-        Total_media = total_media;
+    public String getPICMEDIAFILE() {
+        return PICMEDIAFILE;
     }
 
-    public String getADMIN_PLANNAME() {
-        return ADMIN_PLANNAME;
+    public void setPICMEDIAFILE(String PICMEDIAFILE) {
+        this.PICMEDIAFILE = PICMEDIAFILE;
     }
 
-    public void setADMIN_PLANNAME(String ADMIN_PLANNAME) {
-        this.ADMIN_PLANNAME = ADMIN_PLANNAME;
+    public String getPLANNAME() {
+        return PLANNAME;
+    }
+
+    public void setPLANNAME(String PLANNAME) {
+        this.PLANNAME = PLANNAME;
+    }
+
+    public String getTRACKSTATUS() {
+        return TRACKSTATUS;
+    }
+
+    public void setTRACKSTATUS(String TRACKSTATUS) {
+        this.TRACKSTATUS = TRACKSTATUS;
     }
 
     public String getSTARTLAT() {
@@ -138,5 +176,39 @@ public class My_Ride_Model {
 
     public void setENDLANG(String ENDLANG) {
         this.ENDLANG = ENDLANG;
+    }
+
+    public String getTOTMEMBER() {
+        return TOTMEMBER;
+    }
+
+    public void setTOTMEMBER(String TOTMEMBER) {
+        this.TOTMEMBER = TOTMEMBER;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(RIDEID);
+        dest.writeString(RIDENAME);
+        dest.writeString(ADMINUSERID);
+        dest.writeString(CREATIONDATE);
+        dest.writeString(AVG_SPEED);
+        dest.writeString(TOP_SPEED);
+        dest.writeString(TOTALKM);
+        dest.writeString(TOTALTIME);
+        dest.writeString(COUNTIMAGELIST);
+        dest.writeString(PICMEDIAFILE);
+        dest.writeString(PLANNAME);
+        dest.writeString(TRACKSTATUS);
+        dest.writeString(STARTLAT);
+        dest.writeString(STARTLANG);
+        dest.writeString(ENDLAT);
+        dest.writeString(ENDLANG);
+        dest.writeString(TOTMEMBER);
     }
 }

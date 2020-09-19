@@ -7,6 +7,13 @@ import android.content.SharedPreferences;
 
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.Choose_Way_Screen;
+import com.flyby_riders.Ui.Model.Contact_Model;
+import com.flyby_riders.Ui.Model.FlyBy_Contact_Model;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 import static com.flyby_riders.Ui.Listener.StringUtils.BASIC;
 
@@ -24,6 +31,11 @@ public class Session {
 
     private static final String TRACK_RIDE_ID = "";
     private static final String RIDE_RECORD = "false";
+
+
+    private static final String LOCAL_ALL_CONTACT="localallcontact";
+    private static final String FLYBY_CONTACT="flybycontact";
+
 
 
     public static SharedPreferences sPrfed_State_Saver;
@@ -55,6 +67,37 @@ public class Session {
         activity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
     }
+
+    public List<Contact_Model> getAllContact() {
+        Gson gson = new Gson();
+        String json = sPrfed_State_Saver.getString(LOCAL_ALL_CONTACT, "");
+        Type type = new TypeToken<List<Contact_Model>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+
+    }
+    public void setAllContact(List<Contact_Model> value) {
+        Gson gson = new Gson();
+        String json = gson.toJson(value);
+        sPrfed_State_Saver_editor.putString(LOCAL_ALL_CONTACT,json).apply();
+    }
+
+
+    public List<FlyBy_Contact_Model> getFlybyContact() {
+        Gson gson = new Gson();
+        String json = sPrfed_State_Saver.getString(FLYBY_CONTACT, "");
+        Type type = new TypeToken<List<FlyBy_Contact_Model>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+
+    }
+    public void setFlybyContact(List<FlyBy_Contact_Model> value) {
+        Gson gson = new Gson();
+        String json = gson.toJson(value);
+        sPrfed_State_Saver_editor.putString(FLYBY_CONTACT,json).apply();
+    }
+
+
 
 
     public String get_LOGIN_PHONE_NO() {

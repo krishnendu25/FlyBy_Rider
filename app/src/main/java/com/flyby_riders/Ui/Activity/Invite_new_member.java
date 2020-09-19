@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
+import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Adapter.Ride.Contact_Adapter;
 import com.flyby_riders.Ui.Adapter.Ride.FlyBy_Contact_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
@@ -66,6 +67,9 @@ public class Invite_new_member extends BaseActivity implements onClick {
         ButterKnife.bind(this);
         Instantiation();
         Hit_Get_FlyBy_User();
+
+
+
         searchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -232,9 +236,15 @@ public class Invite_new_member extends BaseActivity implements onClick {
         }
 
         protected String doInBackground(Void... arg0) {
-            local_contact.clear();
-            local_contact = getContactsForm_Phone(Invite_new_member.this);
-            Filter_Contact();
+
+
+
+                local_contact.clear();
+                local_contact = getContactsForm_Phone(Invite_new_member.this);
+                Filter_Contact();
+
+
+
             return "You are at PostExecute";
         }
 
@@ -248,6 +258,8 @@ public class Invite_new_member extends BaseActivity implements onClick {
             ListUtils.setDynamicHeight(NotFlybyUser);
             setListViewHeightBasedOnItems(FlybyUser);
             setListViewHeightBasedOnItems(NotFlybyUser);
+            new Session(getApplicationContext()).setAllContact(local_contact);
+            new Session(getApplicationContext()).setFlybyContact(FlyBy_local_contact);
             hide_ProgressDialog();
 
         }
@@ -268,10 +280,10 @@ public class Invite_new_member extends BaseActivity implements onClick {
                             PERMISSIONS_REQUEST_READ_CONTACTS);
                 }
             } else {
-                new TestAsync().execute();
+                mannageOfflineContac();
             }
         } else {
-            new TestAsync().execute();
+            mannageOfflineContac();
         }
     }
 
@@ -288,6 +300,26 @@ public class Invite_new_member extends BaseActivity implements onClick {
                 }
                 return;
             }
+        }
+    }
+
+
+    void mannageOfflineContac()
+    {
+        if (new Session(getApplicationContext()).getAllContact().size()>0) {
+            local_contact = new Session(getApplicationContext()).getAllContact();
+            FlyBy_local_contact = new Session(getApplicationContext()).getFlybyContact();
+            contact_adapter = new Contact_Adapter(Invite_new_member.this, local_contact);
+            NotFlybyUser.setAdapter(contact_adapter);
+            flyBy_contact_adapter = new FlyBy_Contact_Adapter(Invite_new_member.this, FlyBy_local_contact);
+            FlybyUser.setAdapter(flyBy_contact_adapter);
+            ListUtils.setDynamicHeight(FlybyUser);
+            ListUtils.setDynamicHeight(NotFlybyUser);
+            setListViewHeightBasedOnItems(FlybyUser);
+            setListViewHeightBasedOnItems(NotFlybyUser);
+            hide_ProgressDialog();
+        }else {
+            new TestAsync().execute();
         }
     }
 

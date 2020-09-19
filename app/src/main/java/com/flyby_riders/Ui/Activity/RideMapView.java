@@ -86,7 +86,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
             ADMIN_PREMIUM_STATUS = false;
     private final LocationRequest defaultLocationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     public String RIDE_STATUS = RIDE_NOT_STARTED, My_Ride_ID = "", My_Ride_Name = "",
-            Admin_User_Id = "", TRACKSTATUS = "";
+            Admin_User_Id = "";
     @BindView(R.id.Back_Btn)
     RelativeLayout BackBtn;
     @BindView(R.id.Before_Header_tv)
@@ -148,7 +148,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     private Runnable updater, runnable, locupdate;
     private ArrayList<LatLng> points;
     private Location_Track_Service location_track_service;
-
+    String TOP_SPEED="",AVG_SPEED="",TOTALKM="",TOTALTIME="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,6 +172,17 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 Longitude_End = Double.parseDouble(Objects.requireNonNull(getIntent().getStringExtra("ENDLANG")));
             if (getIntent().getStringExtra("My_Ride_Name") != null)
                 My_Ride_Name = Objects.requireNonNull(getIntent().getStringExtra("My_Ride_Name"));
+
+            if (getIntent().getStringExtra("TOP_SPEED") != null)
+                TOP_SPEED = Objects.requireNonNull(getIntent().getStringExtra("TOP_SPEED"));
+            if (getIntent().getStringExtra("AVG_SPEED") != null)
+                AVG_SPEED = Objects.requireNonNull(getIntent().getStringExtra("AVG_SPEED"));
+            if (getIntent().getStringExtra("TOTALKM") != null)
+                TOTALKM = Objects.requireNonNull(getIntent().getStringExtra("TOTALKM"));
+            if (getIntent().getStringExtra("TOTALTIME") != null)
+                TOTALTIME = Objects.requireNonNull(getIntent().getStringExtra("TOTALTIME"));
+
+
         } catch (Exception e) {
         }
         try {
@@ -766,6 +777,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
             show_ProgressDialog();
             requestCall = retrofitCallback.fetch_fetch_my_ride(new Session(RideMapView.this).get_LOGIN_USER_ID());
         } else if (create_ride) {
+            show_ProgressDialog();
             Create_Ride_Flag = Create_Ride_Flag + 1;
             requestCall = retrofitCallback.create_bike_ride(new Session(this).get_LOGIN_USER_ID()
                     , Ride_Name, ShowMyLocation.getText().toString(), String.valueOf(Latitude_Start), String.valueOf(Longitude_Start));
@@ -844,29 +856,32 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 for (int i = 0; i < RIDEDETAILS_LIST.length(); i++) {
                     JSONObject JS = RIDEDETAILS_LIST.getJSONObject(i);
                     if (JS.getString("RIDEID").equalsIgnoreCase(My_Ride_ID)) {
-                        My_Ride_Model RD = new My_Ride_Model();
-                        RD.setRide_Name(JS.getString("RIDENAME"));
-                        RD.setRide_Total_Member(JS.getString("RIDENAME"));
-                        RD.setRide_Start_Date(JS.getString("CREATIONDATE"));
-                        RD.setRide_Total_Distance(JS.getString("TOTALKM"));
-                        RD.setRide_Cover_pic(JS.getString("PICMEDIAFILE"));
-                        RD.setRide_Status(JS.getString("TRACKSTATUS"));
-                        RD.setRide_Admin_Id(JS.getString("ADMINUSERID"));
-                        RD.setRide_ID(JS.getString("RIDEID"));
-                        RD.setTotal_media(JS.getString("COUNTIMAGELIST"));
-                        RD.setADMIN_PLANNAME(JS.getString("PLANNAME"));
-                        RD.setSTARTLANG(JS.getString("STARTLANG"));
-                        RD.setSTARTLAT(JS.getString("STARTLAT"));
-                        RD.setENDLANG(JS.getString("ENDLANG"));
-                        RD.setENDLAT(JS.getString("ENDLAT"));
-                        MyRide_List.add(RD);
+                        My_Ride_Model myRideModel = new My_Ride_Model();
+                        myRideModel.setRIDEID(JS.getString("RIDEID"));
+                        myRideModel.setRIDENAME(JS.getString("RIDENAME"));
+                        myRideModel.setADMINUSERID(JS.getString("ADMINUSERID"));
+                        myRideModel.setCREATIONDATE(JS.getString("CREATIONDATE"));
+                        myRideModel.setAVG_SPEED(JS.getString("AVG_SPEED"));
+                        myRideModel.setTOP_SPEED(JS.getString("TOP_SPEED"));
+                        myRideModel.setTOTALKM(JS.getString("TOTALKM"));
+                        myRideModel.setTOTALTIME(JS.getString("TOTALTIME"));
+                        myRideModel.setCOUNTIMAGELIST(JS.getString("COUNTIMAGELIST"));
+                        myRideModel.setPICMEDIAFILE(JS.getString("PICMEDIAFILE"));
+                        myRideModel.setPLANNAME(JS.getString("PLANNAME"));
+                        myRideModel.setTRACKSTATUS(JS.getString("TRACKSTATUS"));
+                        myRideModel.setSTARTLAT(JS.getString("STARTLAT"));
+                        myRideModel.setSTARTLANG(JS.getString("STARTLANG"));
+                        myRideModel.setENDLAT(JS.getString("ENDLAT"));
+                        myRideModel.setENDLANG(JS.getString("ENDLANG"));
+                        myRideModel.setTOTMEMBER(JS.getString("TOTMEMBER"));
+                        MyRide_List.add(myRideModel);
                     }
                 }
-                if (MyRide_List.get(0).getRide_Status().equalsIgnoreCase(RIDE_NOT_STARTED)) {
+                if (MyRide_List.get(0).getTRACKSTATUS().equalsIgnoreCase(RIDE_NOT_STARTED)) {
                     Change_Status(true, RIDE_NOT_STARTED, false, "");
-                } else if (MyRide_List.get(0).getRide_Status().equalsIgnoreCase(RIDE_STARTED)) {
+                } else if (MyRide_List.get(0).getTRACKSTATUS().equalsIgnoreCase(RIDE_STARTED)) {
                     Change_Status(true, RIDE_STARTED, false, "");
-                } else if (MyRide_List.get(0).getRide_Status().equalsIgnoreCase(RIDE_ENDED)) {
+                } else if (MyRide_List.get(0).getTRACKSTATUS().equalsIgnoreCase(RIDE_ENDED)) {
                     if (String.valueOf(MyRide_List.get(0).getSTARTLAT()).isEmpty() && String.valueOf(MyRide_List.get(0).getSTARTLAT()).equals(""))
                         Latitude_Start = Double.parseDouble(MyRide_List.get(0).getSTARTLAT());
                     if (String.valueOf(MyRide_List.get(0).getSTARTLANG()).isEmpty() && String.valueOf(MyRide_List.get(0).getSTARTLANG()).equals(""))
@@ -879,8 +894,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     String End_Address = Constant.getCompleteAddressString(getApplicationContext(), Latitude_End, Longitude_End);
                     SetText("", End_Address, "");
                 }
-                SetText("", "", MyRide_List.get(0).getRide_Name());
-                if (MyRide_List.get(0).getADMIN_PLANNAME().equalsIgnoreCase("Premium Account")) {
+                SetText("", "", MyRide_List.get(0).getRIDENAME());
+                if (MyRide_List.get(0).getPLANNAME().equalsIgnoreCase("Premium Account")) {
                     ADMIN_PREMIUM_STATUS = true;
                 } else {
                     ADMIN_PREMIUM_STATUS = false;
@@ -908,17 +923,14 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         });
     }
 
-    private void hit_update_ride_data(String Average_Speed, String Top_Speed, String Distance) {
+    private void hit_update_ride_data(String Average_Speed, String Top_Speed, String Distance,String time) {
         Call<ResponseBody> requestCall = retrofitCallback.my_ride_update(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID(),
-                Average_Speed, Top_Speed, Distance, Constant.GET_timeStamp());
+                Average_Speed,Top_Speed,Distance,time);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-            }
-
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { }
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-            }
+            public void onFailure(Call<ResponseBody> call, Throwable t) { }
         });
     }
 
@@ -1036,11 +1048,12 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
 
             } catch (Exception e) {
             }
-
-
-            if (averageSpeedTv.getText().toString() != null) {
+            if (!averageSpeedTv.getText().toString().equalsIgnoreCase("") &&
+                    !topSpeedTv.getText().toString().equalsIgnoreCase("") &&
+                    !rideTimeTv.getText().toString().equalsIgnoreCase("") &&
+                    !distanceCoveredTv.getText().toString().equalsIgnoreCase("")) {
                 hit_update_ride_data(averageSpeedTv.getText().toString().replaceAll("km/h", "").trim(),
-                        topSpeedTv.getText().toString().replaceAll("km/h", "").trim(), Distance);
+                        topSpeedTv.getText().toString().replaceAll("km/h", "").trim(),Distance,rideTimeTv.getText().toString().trim());
             }
         } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
             try {

@@ -60,15 +60,15 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RideMapView.class);
-                intent.putExtra("My_Ride_Name",data.get(position).getRide_Name());
-                intent.putExtra("My_Ride_ID",data.get(position).getRide_ID());
-                intent.putExtra("Admin_User_Id",data.get(position).getRide_Admin_Id());
+                intent.putExtra("My_Ride_Name",data.get(position).getRIDENAME());
+                intent.putExtra("My_Ride_ID",data.get(position).getRIDEID());
+                intent.putExtra("Admin_User_Id",data.get(position).getADMINUSERID());
 
-                if (data.get(position).getRide_Status().equalsIgnoreCase("NOT STARTED"))
+                if (data.get(position).getTRACKSTATUS().equalsIgnoreCase("NOT STARTED"))
                 { intent.putExtra("TRACKSTATUS",RIDE_NOT_STARTED);
-                 }else if (data.get(position).getRide_Status().equalsIgnoreCase("STARTED"))
+                 }else if (data.get(position).getTRACKSTATUS().equalsIgnoreCase("STARTED"))
                 { intent.putExtra("TRACKSTATUS",RIDE_STARTED);
-                }else if (data.get(position).getRide_Status().equalsIgnoreCase("END"))
+                }else if (data.get(position).getTRACKSTATUS().equalsIgnoreCase("END"))
                 { intent.putExtra("TRACKSTATUS",RIDE_ENDED);
                 }
                 intent.putExtra("STARTLAT",data.get(position).getSTARTLAT());
@@ -76,23 +76,32 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
                 intent.putExtra("ENDLAT",data.get(position).getENDLAT());
                 intent.putExtra("ENDLANG",data.get(position).getENDLANG());
 
+                intent.putExtra("TOP_SPEED",data.get(position).getTOP_SPEED());
+                intent.putExtra("AVG_SPEED",data.get(position).getAVG_SPEED());
+                intent.putExtra("TOTALKM",data.get(position).getTOTALKM());
+                intent.putExtra("TOTALTIME",data.get(position).getTOTALTIME());
+
                 context.startActivity(intent);
             }
         });
         try{
-            Picasso.get().load(data.get(position).getRide_Cover_pic()).placeholder(R.drawable.images).into(holder.Ride_Image);
+            Picasso.get().load(data.get(position).getPICMEDIAFILE()).placeholder(R.drawable.images).into(holder.Ride_Image);
         }catch (Exception e)
         {
             holder.Ride_Image.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
         }
 
-        holder.Ride_Title_tv.setText(data.get(position).getRide_Name());
-        holder.Ride_Start_Date.setText(Constant.Get_back_date_and_time(data.get(position).getRide_Start_Date()));
-        holder.Ride_status.setText(data.get(position).getRide_Status());
-        holder.Total_distance_tv.setText(data.get(position).getRide_Total_Distance());
-        holder.Total_time_tv.setText(data.get(position).getRide_Total_Time());
-        holder.Total_Member_tv.setText(data.get(position).getRide_Total_Member()+" members");
-        holder.total_media_tv.setText(data.get(position).getTotal_media()+" media files");
+        holder.Ride_Title_tv.setText(data.get(position).getRIDENAME());
+        holder.Ride_Start_Date.setText(Constant.Get_back_date_and_time(data.get(position).getCREATIONDATE()));
+        holder.Ride_status.setText("RIDE "+data.get(position).getTRACKSTATUS());
+        if (!data.get(position).getTOTALKM().equalsIgnoreCase("null"))
+        { holder.Total_distance_tv.setText(data.get(position).getTOTALKM()+" km"); }else
+        {holder.Total_distance_tv.setText("0 km");}
+        if (!data.get(position).getTOTALTIME().equalsIgnoreCase("null"))
+        { holder.Total_time_tv.setText(data.get(position).getTOTALTIME()); }else
+        {holder.Total_time_tv.setText("00:00:00");}
+        holder.Total_Member_tv.setText(data.get(position).getTOTMEMBER()+" members");
+        holder.total_media_tv.setText(data.get(position).getCOUNTIMAGELIST()+" media files");
 
 
 

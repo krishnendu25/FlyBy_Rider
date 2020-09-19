@@ -67,7 +67,11 @@ public class Bike_Model_Adapter extends BaseAdapter {
         View rowView;
         rowView = inflater.inflate(R.layout.child_bike_model, null);
         holder.brand_pic=rowView.findViewById(R.id.brand_pic);
+        holder.brand_name=rowView.findViewById(R.id.brand_name);
         holder.brand_clickview=rowView.findViewById(R.id.brand_clickview);
+        holder.brand_name.setSelected(true);
+
+        holder.brand_name.setText(data.get(position).getNAME());
 
         holder.brand_clickview.setOnClickListener(new View.OnClickListener() {
             @Override

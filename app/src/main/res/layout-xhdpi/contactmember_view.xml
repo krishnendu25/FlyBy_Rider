@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/option_menu_ic"/>
+            android:src="@drawable/ic_invite"/>
 
     </RelativeLayout>
 

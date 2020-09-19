@@ -60,7 +60,7 @@ public class Ride_Gallery_Adapter extends RecyclerView.Adapter<Ride_Gallery_Adap
                     final AlertDialog alertDialog = dialogBuilder.create();
                     alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     try{
-                        Picasso.get().load(data.get(i).getMEDIAFILE_URL()).placeholder(R.drawable.images).into(ImageView_d);
+                        Picasso.get().load(data.get(i).getMEDIAFILE_URL()).placeholder(R.drawable.place_holder_gallery).into(ImageView_d);
                     }catch (Exception e)
                     {
                         ImageView_d.setImageDrawable(context.getResources().getDrawable(R.drawable.images));

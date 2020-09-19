@@ -104,24 +104,26 @@ public class My_Ride_Fragment extends Fragment {
 
                             JSONArray RIDEDETAILS_LIST = jsonObject.getJSONArray("RIDEDETAILS");
                             for (int i = 0; i < RIDEDETAILS_LIST.length(); i++) {
-                                My_Ride_Model RD = new My_Ride_Model();
+                                My_Ride_Model myRideModel = new My_Ride_Model();
                                 JSONObject JS = RIDEDETAILS_LIST.getJSONObject(i);
-                                RD.setRide_Name(JS.getString("RIDENAME"));
-                                RD.setRide_Total_Member(JS.getString("TOTMEMBER"));
-                                RD.setRide_Start_Date(JS.getString("CREATIONDATE"));
-                                RD.setRide_Total_Distance(JS.getString("TOTALKM"));
-                                RD.setRide_Cover_pic(JS.getString("PICMEDIAFILE"));
-                                RD.setRide_Status(JS.getString("TRACKSTATUS"));
-                                RD.setRide_Admin_Id(JS.getString("ADMINUSERID"));
-                                RD.setRide_ID(JS.getString("RIDEID"));
-                                RD.setTotal_media(JS.getString("COUNTIMAGELIST"));
-                                RD.setADMIN_PLANNAME(JS.getString("PLANNAME"));
-                                RD.setSTARTLANG(JS.getString("STARTLANG"));
-                                RD.setSTARTLAT(JS.getString("STARTLAT"));
-                                RD.setENDLANG(JS.getString("ENDLANG"));
-                                RD.setENDLAT(JS.getString("ENDLAT"));
-
-                                MyRide_List.add(RD);
+                                myRideModel.setRIDEID(JS.getString("RIDEID"));
+                                myRideModel.setRIDENAME(JS.getString("RIDENAME"));
+                                myRideModel.setADMINUSERID(JS.getString("ADMINUSERID"));
+                                myRideModel.setCREATIONDATE(JS.getString("CREATIONDATE"));
+                                myRideModel.setAVG_SPEED(JS.getString("AVG_SPEED"));
+                                myRideModel.setTOP_SPEED(JS.getString("TOP_SPEED"));
+                                myRideModel.setTOTALKM(JS.getString("TOTALKM"));
+                                myRideModel.setTOTALTIME(JS.getString("TOTALTIME"));
+                                myRideModel.setCOUNTIMAGELIST(JS.getString("COUNTIMAGELIST"));
+                                myRideModel.setPICMEDIAFILE(JS.getString("PICMEDIAFILE"));
+                                myRideModel.setPLANNAME(JS.getString("PLANNAME"));
+                                myRideModel.setTRACKSTATUS(JS.getString("TRACKSTATUS"));
+                                myRideModel.setSTARTLAT(JS.getString("STARTLAT"));
+                                myRideModel.setSTARTLANG(JS.getString("STARTLANG"));
+                                myRideModel.setENDLAT(JS.getString("ENDLAT"));
+                                myRideModel.setENDLANG(JS.getString("ENDLANG"));
+                                myRideModel.setTOTMEMBER(JS.getString("TOTMEMBER"));
+                                MyRide_List.add(myRideModel);
                             }
                             Collections.reverse(MyRide_List);
 
