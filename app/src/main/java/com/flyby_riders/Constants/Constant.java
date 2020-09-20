@@ -718,7 +718,7 @@ public class Constant
 
 
     public static String getCompleteAddressString(Context c,double LATITUDE, double LONGITUDE) {
-        String strAdd = "";
+        String strAdd = "address_Error";
         Geocoder geocoder = new Geocoder(c, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
@@ -742,7 +742,7 @@ public class Constant
     }
 
     public static String getCompletecity(Context c,double LATITUDE, double LONGITUDE,boolean city,boolean address,boolean street_name) {
-        String cityName = "";
+        String cityName = "Kolkata";
         String address_st="";
         String stateName="";
         Geocoder geocoder = new Geocoder(c, Locale.getDefault());
@@ -763,7 +763,8 @@ public class Constant
 
         if (city)
         { return cityName;
-        }else if (address) { return address_st;
+        }else if (address)
+        { return address_st;
         }else{return stateName;}
 
 

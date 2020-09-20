@@ -3,10 +3,7 @@ package com.flyby_riders.Ui.Fragment;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -14,7 +11,6 @@ import android.text.Html;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,16 +43,12 @@ import com.flyby_riders.Ui.Adapter.Garage.My_Bike_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Garage_Ad;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
 
@@ -68,16 +60,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import fr.quentinklein.slt.LocationTracker;
-import fr.quentinklein.slt.TrackerSettings;
 import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.content.ContentValues.TAG;
-import static android.content.Context.LOCATION_SERVICE;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
 
@@ -108,7 +96,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     Garage_Ad_Adapter garageAdAdapter;
     LinearLayout collapse_view,My_Bike_Image_view;
     ImageView collapse_image_view;
-
+    private FusedLocationProviderClient mFusedLocationProviderClient;
     public My_Garage_Fragment() {
     }
 
@@ -203,6 +191,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     }
 
     private void Instantiation(View view) {
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
         NestedScrollView_view = view.findViewById(R.id.NestedScrollView_view);
         collapse_view = view.findViewById(R.id.collapse_view);
         My_Bike_Image_view = view.findViewById(R.id.My_Bike_Image_view);
@@ -278,38 +267,31 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         }
     }
 
-    private void Fetch_Location_With_RX() {
+    private void fetchRiderLocation() {
 
         if (new Session(getContext()).get_mylocation().equalsIgnoreCase(""))
-        {
-            LocationTracker tracker = new LocationTracker(
-                    getActivity(),
-                    new TrackerSettings()
-                            .setUseGPS(true)
-                            .setUseNetwork(true)
-                            .setUsePassive(true)
-
-            ) {
-
+        {show_ProgressDialog();
+            mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                 @Override
-                public void onLocationFound(Location location) {
-                    try {
-                        FetchMyAdd(location);
-                    }catch (Exception e){
-                        Constant.Show_Tos_Error(getActivity(),false,true);
+                public void onSuccess(Location location) {
+
+                    if (location != null) {
+                        hide_ProgressDialog();
+                        try {
+                            FetchMyAdd(location);
+                        }catch (Exception e){
+                            Constant.Show_Tos_Error(getActivity(),false,true);
+                        }
+                    } else {
+                        getLocation();
                     }
-
                 }
 
+            }).addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onTimeout() {
+                public void onFailure(@NonNull Exception e) {
                 }
-            };
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            tracker.startListening();
-            getLocation();
+            });
         }else
         {
             JSONObject jsonObject = null;
@@ -444,7 +426,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
             if (new Session(getContext()).get_mylocation().equalsIgnoreCase(""))
             {
-                Fetch_Location_With_RX();
+                fetchRiderLocation();
             }else
             {
                 JSONObject jsonObject = null;
@@ -489,7 +471,8 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                hide_ProgressDialog();  Fetch_Location_With_RX();
+                hide_ProgressDialog();
+                fetchRiderLocation();
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject = null;

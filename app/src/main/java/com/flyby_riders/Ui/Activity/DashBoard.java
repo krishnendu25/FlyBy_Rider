@@ -1,14 +1,17 @@
 package com.flyby_riders.Ui.Activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -42,6 +45,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.flyby_riders.Ui.Listener.StringUtils.BASIC;
 import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
 
@@ -217,7 +221,11 @@ public class DashBoard extends BaseActivity {
                 startActivity(intent);
             }
         }
-
+        if (ContextCompat.checkSelfPermission(DashBoard.this, Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
+        } else {
+            Intent i = new Intent(getApplicationContext(), Location_Permission.class);
+            startActivityForResult(i, 365);
+        }
 
 
         if (My_Ride_Attached != null) {
@@ -381,6 +389,14 @@ public class DashBoard extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
 
+        if (resultCode == RESULT_OK && requestCode == 365) {
+            Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
+            hit_my_ride(new Session(this).get_LOGIN_USER_ID());
+        }
+    }
 }

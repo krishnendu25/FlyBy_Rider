@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    tools:context=".Ui.Activity.Location_Permission">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?actionBarSize"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:layout_marginTop="120dp"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/bg_nomedia"
+            />
+
+        <TextView
+            android:id="@+id/Text_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="22dp"
+            android:gravity="center"
+            android:fontFamily="@font/manropeextrabold"
+            android:text="@string/grant_location_permission"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/text_subtitle_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:text="We need your location access to give you the best experience"
+            android:fontFamily="@font/manroperegular"
+            android:textColor="@color/white"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/Setting_Overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="16dp"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@string/go_to_settings_app_permissions_and_grant_location_access_to_tropogo"
+                android:fontFamily="@font/manroperegular"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+    <TextView
+        android:id="@+id/allow_access_TV"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/light_green"
+        android:text="ALLOW ACCESS"
+        android:gravity="left|center"
+        android:textSize="17dp"
+        android:padding="10dp"
+        android:textColor="@color/background_base"
+        android:layout_alignParentBottom="true"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:fontFamily="@font/avenirnextbold"
+        android:drawableEnd="@drawable/ic_next_frf"
+        android:drawableRight="@drawable/ic_next_frf" />
+
+
+
+
+
+</RelativeLayout>

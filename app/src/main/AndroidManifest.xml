@@ -46,7 +46,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".Ui.Activity.Gps_Trun_On"></activity>
+        <activity android:name=".Ui.Activity.Location_Permission"></activity>
+        <activity android:name=".Ui.Activity.Gps_Trun_On" />
         <activity android:name=".Ui.Activity.VideoPlayer" />
         <activity android:name=".Ui.Activity.Garage_List" />
         <activity android:name=".Ui.Activity.Garage_Information" />

@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -39,7 +40,9 @@ import com.flyby_riders.Ui.Model.Real_Time_Latlong;
 import com.flyby_riders.Ui.Service.LocationTrackerService;
 import com.flyby_riders.Utils.DistanceCalculator;
 import com.flyby_riders.Utils.GetPathFromLocation;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -51,6 +54,8 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import net.kjulio.rxlocation.RxLocation;
 
@@ -149,6 +154,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     private ArrayList<LatLng> points;
     private Location_Track_Service location_track_service;
     String TOP_SPEED="",AVG_SPEED="",TOTALKM="",TOTALTIME="";
+    private FusedLocationProviderClient mFusedLocationProviderClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -208,6 +214,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     }
 
     private void Instantiation() {
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         location_track_service = new Location_Track_Service();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -357,22 +364,28 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 11111);
             } else {
+
                 show_ProgressDialog();
                 if (mMap != null) {
-                    LocationTracker tracker = new LocationTracker(
-                            this, new TrackerSettings().setUseGPS(true).setUseNetwork(true).setUsePassive(true)) {
-                        @Override
-                        public void onLocationFound(Location location) {
-                            locationFetched(location);
-                        }
+                    if (mFusedLocationProviderClient==null){
+                        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+                    }
+                mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
 
-                        @Override
-                        public void onTimeout() {
+                        if (location != null) {
                             hide_ProgressDialog();
+                            locationFetched(location);
+                        } else {
+                            mannagerGetMyCurrentLocation();
                         }
-                    };
-                    tracker.startListening();
-                    Get_Manual_Gps();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) { mannagerGetMyCurrentLocation();
+                    }
+                });
                 }
             }
         }else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED))
@@ -381,7 +394,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         }
     }
 
-    private void Get_Manual_Gps() {
+    private void mannagerGetMyCurrentLocation() {
         try {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
@@ -710,7 +723,10 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 break;
             case R.id.end_my_ride:
                 if (I_AM_ADMIN) {
-                    hit_Ride_api(false, false, true, false, false, false);
+                    if (Latitude_End==0.0 ||  Longitude_End==0.0 || Longitude_End==0 || Latitude_End==0)
+                    {getForceFullEnd();
+                    }else
+                    {hit_Ride_api(false, false, true, false, false, false);}
                 } else {
                     Constant.Show_Tos(this, "Only Admin Can End This Ride");
                 }
@@ -755,6 +771,28 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 Fetch_My_Location();
                 break;
         }
+    }
+
+    private void getForceFullEnd() {
+
+        if (mFusedLocationProviderClient==null){
+            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        }
+
+            show_ProgressDialog();
+            mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    Latitude_End = location.getLatitude();
+                    Longitude_End = location.getLongitude();
+                    hit_Ride_api(false, false, true, false, false, false);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                   hide_ProgressDialog();
+                }
+            });
     }
 
 
@@ -1092,7 +1130,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                             currentLongitude = Double.parseDouble(intent.getStringExtra(LocationTrackerService.EXTRA_LONGITUDE));
                             Latitude_End = currentLatitude;
                             Longitude_End = currentLongitude;
-                            if (My_Ride_ID != null) {
+                             if (My_Ride_ID != null) {
                                 if (!My_Ride_ID.equalsIgnoreCase("")) {
                                     if (Track_My_Location) {
                                         hit_update_My_Location(currentLatitude, currentLongitude);

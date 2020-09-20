@@ -18,8 +18,6 @@
     <string name="you_can_add_documents_for_your_bike_here_n_but_first_you_need_to_add_a_bike_to_your_garage">You can add documents for your bike here.\n But first you need to add a bike to your garage.</string>
     <string name="save_document">SAVE DOCUMENT</string>
     <string name="progress_title">Processing..</string>
-    <string name="go_to_settings_app_permissions_and_grant_location_access_to_tropogo"><![CDATA[Go to SETTINGS>APP PERMISSIONS, and grant location access to TropoGo]]></string>
-
     <string name="done">NEXT</string>
 
 
@@ -32,8 +30,6 @@
     <string name="toolbar_title">Choice Image</string>
     <string name="no_image">No Documents</string>
 
-    <string name="selected_image">Selected Image</string>
-
 
     <string name="max_count_msg">%1$d images selected already</string>
     <string name="min_count_msg">you have to choice %1$d images</string>
@@ -43,7 +39,6 @@
 
     <string name="default_directory">Pictures</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="share_photos_and_videos_of_this_ride">Share photos and videos of this ride</string>
     <string name="add_members_to_this_ride">Add members to this ride</string>
     <string name="schedule_for_later">SCHEDULE FOR LATER</string>
@@ -81,19 +76,15 @@
     <string name="upgrades_for_your_bike">Upgrades For\nYour Bike(s)</string>
     <string name="ENDING_POINT">ENDING POINT</string>
     <string name="discover_top_service_providers_nin_these_categories">Discover top service providers\nin these categories:</string>
-    <string name="bike_servicing_n_amp_repair"><![CDATA[Bike Servicing\n& Repair]]></string>
-    <string name="gears_amp_accessories"><![CDATA[Gears\n& Accessories]]></string>
-    <string name="bike_parts_amp_naccessories"><![CDATA[Bike Parts &\nAccessories]]></string>
-    <string name="bike_wash">Bike Wash</string>
-    <string name="tyres">Tyres</string>
-    <string name="body_work_amp_nmodifications"><![CDATA[Body Work &\nModifications]]></string>
-    <string name="towing">Towing</string>
-    <string name="bike_nshowroom">Bike\nShowroom</string>
-    <string name="race_track">Race Track</string>
-    <string name="racing_nacadmey">Racing\nAcadmey</string>
     <string name="distance">Distance</string>
     <string name="a_z">A-Z</string>
     <string name="no_advertisement_found">No Advertisement Found</string>
     <string name="no_media_file_found">No Media File Found</string>
+    <string name="grant_location_permission">Grant Location Permission</string>
+    <string name="go_to_settings_app_permissions_and_grant_location_access_to_tropogo"><![CDATA[Go to SETTINGS>APP PERMISSIONS, and grant location access to TropoGo]]></string>
+    <string name="unable_to_proceed">Sorry, we were unable to proceed</string>
+    <string name="just_a_minute">We need your location access to give you the best quotes. It’ll take just a minute.</string>
+    <string name="SETTINGS">SETTINGS</string>
+
     <string name="one_place_to_manage_all_your_rides_fellow_riders_amp_ntheir_location_media_and_trip_information"><![CDATA[One place to manage all your rides, fellow riders & their location, media and trip information]]></string>
 </resources>

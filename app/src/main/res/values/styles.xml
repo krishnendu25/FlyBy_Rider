@@ -14,42 +14,11 @@
         <attr name="sl_shadow_radius" format="dimension"/>
         <attr name="sl_shadow_color" format="color"/>
     </declare-styleable>
-    <style name="TextAppearance" parent="android:TextAppearance">
-        <item name="android:fontFamily">font/avenirnextheavy</item>
-        <item name="android:textSize">25dp</item>
-        <item name="android:textColor">#fff</item>
-    </style>
 
     <style name="Color1SwitchStyle">
         <item name="colorControlActivated">@color/light_green</item>
     </style>
-   ]
-    <style name="discover_item">
-
-    <item name="android:layout_width">190dp</item>
-    <item name="android:layout_height">215sp</item>
-    <item name="android:orientation">vertical</item>
-    <item name="android:gravity">center</item>
-    <item name="android:background">@drawable/ic_categorycard</item>
-</style>
-
-    <style name="discover_item_hdpi">
-
-        <item name="android:layout_width">160dp</item>
-        <item name="android:layout_height">175dp</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/ic_categorycard</item>
-    </style>
+    ]
 
 
-
-    <style name="discover_item_in">
-
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_marginTop">35dp</item>
-        <item name="android:layout_marginBottom">35dp</item>
-        <item name="android:layout_marginStart">35dp</item>
-    </style>
 </resources>
