@@ -80,6 +80,7 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
                 intent.putExtra("AVG_SPEED",data.get(position).getAVG_SPEED());
                 intent.putExtra("TOTALKM",data.get(position).getTOTALKM());
                 intent.putExtra("TOTALTIME",data.get(position).getTOTALTIME());
+                intent.putExtra("RIDE_START_TIME",data.get(position).getSTARTTIME());
 
                 context.startActivity(intent);
             }

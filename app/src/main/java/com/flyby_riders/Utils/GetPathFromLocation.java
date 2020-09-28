@@ -117,7 +117,7 @@ public class GetPathFromLocation extends AsyncTask<String, Void, PolylineOptions
                     }
                     lineOptions.addAll(points);
                     lineOptions.width(10);
-                    lineOptions.color(Color.parseColor("#F7B500"));
+                    lineOptions.color(Color.parseColor("#FF97FD86"));
 
                 }
 

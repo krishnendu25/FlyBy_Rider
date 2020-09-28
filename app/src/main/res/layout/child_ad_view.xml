@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -18,9 +19,9 @@
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/transparent"
             app:cardCornerRadius="15dp"
-            app:cardElevation="5dp"
+            app:cardElevation="20dp"
             android:layout_gravity="center"
-            app:cardMaxElevation="5dp">
+            app:cardMaxElevation="20dp">
             <ImageView
                 android:id="@+id/Cover_pic_tv"
                 android:layout_width="350dp"
@@ -32,8 +33,8 @@
             android:id="@+id/Add_title_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="18dp"
+            android:layout_marginTop="10dp"
+            android:textSize="22dp"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
             android:singleLine="true"
@@ -44,24 +45,36 @@
             android:id="@+id/price_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="18dp"
+            android:textSize="16sp"
             android:singleLine="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
-            android:fontFamily="@font/manroperegular"
+            android:fontFamily="@font/helveticabold"
             android:textColor="@color/white"/>
-        <TextView
-            android:id="@+id/vendor_name_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="18dp"
-            android:drawableLeft="@drawable/ic_toast"
-            android:drawablePadding="10dp"
-            android:singleLine="true"
-            android:fontFamily="@font/manroperegular"
-            android:textColor="@color/white"/>
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:gravity="center|start"
+         android:layout_marginTop="10dp">
+         <de.hdodenhof.circleimageview.CircleImageView
+             android:id="@+id/venderPhoto"
+             android:layout_width="40dp"
+             android:layout_height="40dp"/>
+         <TextView
+             android:id="@+id/vendor_name_tv"
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:textSize="18dp"
+             android:gravity="center"
+             android:paddingStart="10dp"
+             android:singleLine="true"
+             android:fontFamily="@font/helveticabold"
+             android:textColor="@color/white"/>
+
+
+
+     </LinearLayout>
 
 
     </LinearLayout>

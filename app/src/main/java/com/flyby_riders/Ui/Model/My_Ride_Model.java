@@ -13,7 +13,7 @@ public class My_Ride_Model implements Parcelable {
 
     private String RIDEID,RIDENAME,ADMINUSERID,CREATIONDATE,AVG_SPEED,
             TOP_SPEED,TOTALKM,TOTALTIME,COUNTIMAGELIST,PICMEDIAFILE
-            ,PLANNAME,TRACKSTATUS,STARTLAT,STARTLANG,ENDLAT,ENDLANG,TOTMEMBER;
+            ,PLANNAME,TRACKSTATUS,STARTLAT,STARTLANG,ENDLAT,ENDLANG,TOTMEMBER,STARTTIME;
 
     public My_Ride_Model() {
     }
@@ -36,6 +36,34 @@ public class My_Ride_Model implements Parcelable {
         ENDLAT = in.readString();
         ENDLANG = in.readString();
         TOTMEMBER = in.readString();
+        STARTTIME = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(RIDEID);
+        dest.writeString(RIDENAME);
+        dest.writeString(ADMINUSERID);
+        dest.writeString(CREATIONDATE);
+        dest.writeString(AVG_SPEED);
+        dest.writeString(TOP_SPEED);
+        dest.writeString(TOTALKM);
+        dest.writeString(TOTALTIME);
+        dest.writeString(COUNTIMAGELIST);
+        dest.writeString(PICMEDIAFILE);
+        dest.writeString(PLANNAME);
+        dest.writeString(TRACKSTATUS);
+        dest.writeString(STARTLAT);
+        dest.writeString(STARTLANG);
+        dest.writeString(ENDLAT);
+        dest.writeString(ENDLANG);
+        dest.writeString(TOTMEMBER);
+        dest.writeString(STARTTIME);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<My_Ride_Model> CREATOR = new Creator<My_Ride_Model>() {
@@ -186,29 +214,11 @@ public class My_Ride_Model implements Parcelable {
         this.TOTMEMBER = TOTMEMBER;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getSTARTTIME() {
+        return STARTTIME;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(RIDEID);
-        dest.writeString(RIDENAME);
-        dest.writeString(ADMINUSERID);
-        dest.writeString(CREATIONDATE);
-        dest.writeString(AVG_SPEED);
-        dest.writeString(TOP_SPEED);
-        dest.writeString(TOTALKM);
-        dest.writeString(TOTALTIME);
-        dest.writeString(COUNTIMAGELIST);
-        dest.writeString(PICMEDIAFILE);
-        dest.writeString(PLANNAME);
-        dest.writeString(TRACKSTATUS);
-        dest.writeString(STARTLAT);
-        dest.writeString(STARTLANG);
-        dest.writeString(ENDLAT);
-        dest.writeString(ENDLANG);
-        dest.writeString(TOTMEMBER);
+    public void setSTARTTIME(String STARTTIME) {
+        this.STARTTIME = STARTTIME;
     }
 }

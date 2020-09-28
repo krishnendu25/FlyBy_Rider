@@ -8,13 +8,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.DashBoard;
 import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
-import com.flyby_riders.Ui.Model.Garage_Ad;
+import com.flyby_riders.Ui.Model.Garage_Advertisement;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,17 +22,14 @@ import java.util.ArrayList;
 public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.MyViewHolder> {
     Context context;
     private static LayoutInflater inflater = null;
-    ArrayList<Garage_Ad> data;
+    ArrayList<Garage_Advertisement> data;
     Garage_add_click garage_add_click;
 
-    public Garage_Ad_Adapter(Context context, ArrayList<Garage_Ad> data_d, My_Garage_Fragment fragment) {
-        // TODO Auto-generated constructor stub
+    public Garage_Ad_Adapter(Context context, ArrayList<Garage_Advertisement> data_d, My_Garage_Fragment fragment) {
         this.context = context;
         data = data_d;
-        inflater = (LayoutInflater) context.
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setClickListener(fragment);
-
     }
 
     @Override
@@ -44,17 +40,30 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
 
     @Override
     public void onBindViewHolder(Garage_Ad_Adapter.MyViewHolder holder, int i) {
-
         holder.Add_title_tv.setSelected(true);
-        holder.Add_title_tv.setText(data.get(i).getADTITLE());
-        holder.vendor_name_tv.setText(data.get(i).getADVID());
-        holder.price_add.setText(context.getString(R.string.rupee)+" "+data.get(i).getADCOSTPRICE());
+        holder.Add_title_tv.setText(Constant.wordFirstCap(data.get(i).getAdvertising_Title().toLowerCase()));
+        if (data.get(i).getGarageOwnerDetails().size()>0)
+        holder.vendor_name_tv.setText(Constant.wordFirstCap(data.get(i).getGarageOwnerDetails().get(0).getGarageName().toLowerCase()));
+
+        if (data.get(i).getAdvertising_costPrice().equalsIgnoreCase("NA"))
+            holder.price_add.setText("Not Disclosed");
+        else if (data.get(i).getAdvertising_costPrice().equalsIgnoreCase("POR"))
+            holder.price_add.setText("Price On Request");
+        else
+            holder.price_add.setText(context.getString(R.string.rupee)+" "+data.get(i).getAdvertising_costPrice());
 
         try{
-            Picasso.get().load(data.get(i).getADCOVERIMAGES()).placeholder(R.drawable.images).into(holder.Cover_pic_tv);
+            Picasso.get().load(data.get(i).getAdvertising_CoverPic()).placeholder(R.drawable.images).into(holder.Cover_pic_tv);
         }catch (Exception e)
         {
             holder.Cover_pic_tv.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
+        }
+        try{
+            if (data.get(i).getGarageOwnerDetails().size()>0)
+            Picasso.get().load("https://flybyapp.com/flybyapp/images/"+data.get(i).getGarageOwnerDetails().get(0).getProfilePicture()).placeholder(R.drawable.images).into(holder.venderPhoto);
+        }catch (Exception e)
+        {
+            holder.venderPhoto.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
         }
         holder.Add_view_click.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +71,6 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
               garage_add_click.SetOnClick(i);
             }
         });
-
     }
 
     @Override
@@ -72,14 +80,14 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout Add_view_click;
-        ImageView Cover_pic_tv;
+        ImageView Cover_pic_tv,venderPhoto;
         TextView Add_title_tv;
         TextView price_add;
         TextView vendor_name_tv;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-
+            venderPhoto= (ImageView) itemView.findViewById(R.id.venderPhoto);
             Add_view_click = (LinearLayout) itemView.findViewById(R.id.Add_view_click);
             Cover_pic_tv = (ImageView) itemView.findViewById(R.id.Cover_pic_tv);
             Add_title_tv = (TextView) itemView.findViewById(R.id.Add_title_tv);
@@ -87,8 +95,6 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
             vendor_name_tv = (TextView) itemView.findViewById(R.id.vendor_name_tv);
         }
     }
-
-
     void setClickListener(Garage_add_click itemClickListener) {
         this.garage_add_click = itemClickListener;
     }

@@ -60,7 +60,7 @@ public class TestAdapter {
 
         Cursor cursor = mDb.rawQuery("Select * from REALTIMELOCATION" + " WHERE " + "RIDE_ID='" + RIDE_ID_ + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ + "'", null);
 
-        if (cursor.getCount() != 0) {
+       /* if (cursor.getCount() != 0) {
             ContentValues args = new ContentValues();
             if (!LATITUDE.equalsIgnoreCase("")) {
                 args.put("LATITUDE", LATITUDE);
@@ -76,7 +76,7 @@ public class TestAdapter {
 
             return mDb.update("REALTIMELOCATION", args, "RIDE_ID" + "=" + RIDE_ID_ + " AND " + "MEMBER_ID" + "=" + MEMBER_ID_, null) > 0;
 
-        } else {
+        } else {*/
             ContentValues contentValues = new ContentValues();
             contentValues.put("RIDE_ID", RIDE_ID_);
             contentValues.put("MEMBER_ID", MEMBER_ID_);
@@ -85,7 +85,7 @@ public class TestAdapter {
             contentValues.put("TIMESTAMP", TIMESTAMP);
             mDb.insert("REALTIMELOCATION", null, contentValues);
             return true;
-        }
+      /*  }*/
 
     }
 

@@ -37,6 +37,7 @@ import com.flyby_riders.Ui.Adapter.CustomInfoWindowAdapter;
 import com.flyby_riders.Ui.Listener.DirectionPointListener;
 import com.flyby_riders.Ui.Model.My_Ride_Model;
 import com.flyby_riders.Ui.Model.Real_Time_Latlong;
+import com.flyby_riders.Ui.Model.TeamMateLocation;
 import com.flyby_riders.Ui.Service.LocationTrackerService;
 import com.flyby_riders.Utils.DistanceCalculator;
 import com.flyby_riders.Utils.GetPathFromLocation;
@@ -120,8 +121,6 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     TextView tooltip2;
     @BindView(R.id.addmembers_btn)
     LinearLayout addmembersBtn;
-    @BindView(R.id.schedule_for_later_btn)
-    TextView scheduleForLaterBtn;
     @BindView(R.id.start_ride_btn)
     TextView startRideBtn;
     @BindView(R.id.BEFORE_RIDE_START_LAYOUT_FOOTER)
@@ -143,6 +142,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     @BindView(R.id.track_location_btn)
     LinearLayout trackLocationBtn;
     ArrayList<Real_Time_Latlong> team_mate_Loc;
+    String TOP_SPEED = "", AVG_SPEED = "", TOTALKM = "", TOTALTIME = "",RIDE_START_TIME="";
     private GoogleMap mMap;
     private Session session;
     private ArrayList<My_Ride_Model> MyRide_List = new ArrayList<>();
@@ -153,15 +153,16 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     private Runnable updater, runnable, locupdate;
     private ArrayList<LatLng> points;
     private Location_Track_Service location_track_service;
-    String TOP_SPEED="",AVG_SPEED="",TOTALKM="",TOTALTIME="";
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    private ArrayList<TeamMateLocation> teamMateLocationArrayList = new ArrayList<>();
+    ArrayList<Marker> memberMarker = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create__group__ride);
         ButterKnife.bind(this);
-        GetIntent();
         Instantiation();
+        GetIntent();
 
 
     }
@@ -187,6 +188,10 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 TOTALKM = Objects.requireNonNull(getIntent().getStringExtra("TOTALKM"));
             if (getIntent().getStringExtra("TOTALTIME") != null)
                 TOTALTIME = Objects.requireNonNull(getIntent().getStringExtra("TOTALTIME"));
+            if (getIntent().getStringExtra("RIDE_START_TIME") != null)
+                RIDE_START_TIME = Objects.requireNonNull(getIntent().getStringExtra("RIDE_START_TIME"));
+
+
 
 
         } catch (Exception e) {
@@ -247,6 +252,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
             }
         };
         timerHandler.post(updater);
+
+
         Handler timerHandlerE = new Handler();
         runnable = new Runnable() {
             @Override
@@ -254,15 +261,19 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
                     Cursor cursor = testAdapter.GET_REALTIMELOCATION(My_Ride_ID, new Session(getApplicationContext()).get_LOGIN_USER_ID());
                     if (cursor.getCount() != 0) {
+                        points.clear();
                         while (cursor.moveToNext()) {
-                            SetMapView(cursor.getString(2), cursor.getString(3));
+                            LatLng currentPosition = new LatLng(Double.parseDouble(cursor.getString(2)), Double.parseDouble(cursor.getString(3)));
+                            points.add(currentPosition);
                         }
+
+                        SetMapView(currentLatitude, currentLongitude);
                     }
                 }
                 timerHandlerE.postDelayed(runnable, 3000);
             }
         };
-        timerHandler.post(runnable);
+        timerHandlerE.post(runnable);
 
         Handler timermember = new Handler();
         locupdate = new Runnable() {
@@ -271,7 +282,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
                     hit_member_location_fetch(My_Ride_ID, new Session(getApplicationContext()).get_LOGIN_USER_ID());
                 }
-                timermember.postDelayed(runnable, 10000);
+                timermember.postDelayed(locupdate, 7000);
             }
         };
         timermember.post(locupdate);
@@ -283,6 +294,11 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 RIDE_STATUS = RIDE_NOT_STARTED;
             } else if (Ride_State.equalsIgnoreCase(RIDE_STARTED)) {
                 RIDE_STATUS = RIDE_STARTED;
+                Location_Shearing_Service = true;
+                Track_My_Location = true;
+                TrackIV.setTag(RIDE_PAUSE);
+                TrackIV.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_pause));
+                locationSwitch.setChecked(true);
             } else if (Ride_State.equalsIgnoreCase(RIDE_ENDED)) {
                 RIDE_STATUS = RIDE_ENDED;
                 EndRideView();
@@ -357,8 +373,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     }
 
     private void Fetch_My_Location() {
-        if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED)||RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED))
-        {
+        if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED) || RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
                     (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
@@ -367,29 +382,29 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
 
                 show_ProgressDialog();
                 if (mMap != null) {
-                    if (mFusedLocationProviderClient==null){
+                    if (mFusedLocationProviderClient == null) {
                         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
                     }
-                mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
+                    mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
 
-                        if (location != null) {
-                            hide_ProgressDialog();
-                            locationFetched(location);
-                        } else {
+                            if (location != null) {
+                                hide_ProgressDialog();
+                                locationFetched(location);
+                            } else {
+                                mannagerGetMyCurrentLocation();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
                             mannagerGetMyCurrentLocation();
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) { mannagerGetMyCurrentLocation();
-                    }
-                });
+                    });
                 }
             }
-        }else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED))
-        {
+        } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
             EndRideView();
         }
     }
@@ -513,7 +528,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
             MarkerOptions markerStart = new MarkerOptions().position(StartPosition);
             markerStart.icon(BitmapDescriptorFactory.fromResource(R.drawable.startflag_ic));
             markerStart.position(StartPosition);
-            markerStart.title("Ride Start");
+            markerStart.title("Ride Start From");
+            markerStart.snippet(Constant.getCompleteAddressString(this, Latitude_Start, Longitude_Start));
             markerStart.draggable(false);
             Marker Start = mMap.addMarker(markerStart);
             Start.showInfoWindow();
@@ -522,7 +538,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
             markerEnd.icon(BitmapDescriptorFactory.fromResource(R.drawable.endflag_ic));
             markerEnd.position(EndPosition);
             markerEnd.draggable(false);
-            markerEnd.title("Ride End");
+            markerEnd.title("Ride End To");
+            markerEnd.snippet(Constant.getCompleteAddressString(this, Latitude_End, Longitude_End));
             Marker End = mMap.addMarker(markerEnd);
             End.showInfoWindow();
             LatLngBounds bounds = new LatLngBounds.Builder()
@@ -530,8 +547,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     .include(EndPosition).build();
             Point displaySize = new Point();
             getWindowManager().getDefaultDisplay().getSize(displaySize);
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, displaySize.x, 270, 50));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, displaySize.x, 300, 80));
             /*Start Point To End Point Path Draw*/
             show_ProgressDialog();
             new GetPathFromLocation(StartPosition, EndPosition, new DirectionPointListener() {
@@ -547,7 +564,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         String End_Address = Constant.getCompleteAddressString(getApplicationContext(), Latitude_End, Longitude_End);
         SetText("", End_Address, "");
         //Set Ride_Data
-        String Distance = DistanceCalculator.distance(Latitude_Start, Longitude_Start, Latitude_End, Longitude_End);
+        String Distance = DistanceCalculator.getDistance(Latitude_Start, Longitude_Start, Latitude_End, Longitude_End);
         RideData_analytics(Distance);
 
 
@@ -591,43 +608,48 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
 
     }
 
-    private void Record_Btn() {
+    private boolean Record_Btn() {
         if (TrackIV.getTag().equals(RIDE_PLAY)) {
             TrackIV.setTag(RIDE_PAUSE);
             TrackIV.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_pause));
             Track_My_Location = true;
+            return Track_My_Location;
 
-
-        } else if (TrackIV.getTag().equals(RIDE_PAUSE)) {
+        }
+        if (TrackIV.getTag().equals(RIDE_PAUSE)) {
             TrackIV.setTag(RIDE_PLAY);
             TrackIV.setImageDrawable(this.getResources().getDrawable(R.drawable.play_rc));
             Track_My_Location = false;
-
+            return Track_My_Location;
         }
-
+        return false;
     }
 
-    private void SetMapView(String LATITUDE, String LONGITUDE) {
+
+    private void SetMapView(double LATITUDE, double LONGITUDE) {
         if (mMap != null) {
             mMap.clear();
-            LatLng currentPosition = new LatLng(Double.parseDouble(LATITUDE), Double.parseDouble(LONGITUDE));
-            MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.parseDouble(LATITUDE), Double.parseDouble(LONGITUDE)));
+            LatLng currentPosition = new LatLng(LATITUDE, LONGITUDE);
+            MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(LATITUDE, LONGITUDE));
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
             markerOptions.position(currentPosition);
             markerOptions.title("Me");
             markerOptions.draggable(false);
-            points.add(currentPosition); //added
-             //clears all Markers and Polylines
             PolylineOptions options = new PolylineOptions().width(8).color(Color.parseColor("#F7B500")).geodesic(true);
             for (int i = 0; i < points.size(); i++) {
                 LatLng point = points.get(i);
                 options.add(point);
             }
+            mMap.addPolyline(options);
             mCurrLocationMarker = mMap.addMarker(markerOptions);
-            //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
             mCurrLocationMarker.showInfoWindow();
-            //mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
-            mMap.addPolyline(options); //add Polyline
+            //If Marker Move Out To Map
+            boolean contains = mMap.getProjection().getVisibleRegion().latLngBounds.contains(currentPosition);
+            if (!contains) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            }
+
         }
     }
 
@@ -642,18 +664,38 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     }
 
     void Members_Live_Location(ArrayList<Real_Time_Latlong> track_list) {
-        mMap.clear();
+        teamMateLocationArrayList.clear();
         for (int i = 0; i < track_list.size(); i++) {
             if (!track_list.get(i).getMEMBERID().equalsIgnoreCase(new Session(getApplicationContext()).get_LOGIN_USER_ID())) {
-                if (mMap != null) {
-                    LatLng currentPosition = new LatLng(track_list.get(i).getLatitude_Start(), track_list.get(i).getLongitude_Start());
-                    MarkerOptions markerOptions = new MarkerOptions().position(currentPosition);
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
-                    markerOptions.position(currentPosition);
-                    markerOptions.title(track_list.get(i).getRider_Name());
-                    markerOptions.draggable(false);
-                    mMap.addMarker(markerOptions);
+                TeamMateLocation teamMateLocation = new TeamMateLocation();
+                teamMateLocation.setLocation(new LatLng(track_list.get(i).getLatitude_Start(), track_list.get(i).getLongitude_Start()));
+                teamMateLocation.setName(track_list.get(i).getRider_Name());
+                teamMateLocation.setUserID(track_list.get(i).getMEMBERID());
+                teamMateLocationArrayList.add(teamMateLocation);
+            }
+        }
+
+        if (memberMarker.size()>0)
+        {
+            for (int j=0; j<teamMateLocationArrayList.size(); j++)
+            {
+                for (Marker marker : memberMarker) {
+                    if (marker.getTag().equals(teamMateLocationArrayList.get(j).getUserID())) {
+                        marker.setPosition(teamMateLocationArrayList.get(j).getLocation());
+                    }
                 }
+            }
+
+        }else
+        {
+            for (int j=0; j<teamMateLocationArrayList.size(); j++)
+            {
+                Marker mnMarker = mMap.addMarker(new MarkerOptions().
+                        position(teamMateLocationArrayList.get(j).getLocation())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker)));
+
+                mnMarker.setTag(teamMateLocationArrayList.get(j).getUserID());
+                memberMarker.add(mnMarker);
             }
         }
     }
@@ -709,7 +751,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     }
 
 
-    @OnClick({R.id.track_location_btn, R.id.Back_Btn, R.id.Back_Btn_ex, R.id.Ride_name_tv, R.id.end_my_ride, R.id.addmedia_btn, R.id.addmembers_btn, R.id.schedule_for_later_btn, R.id.start_ride_btn, R.id.Track_record})
+    @OnClick({R.id.track_location_btn, R.id.Back_Btn, R.id.Back_Btn_ex, R.id.Ride_name_tv, R.id.end_my_ride, R.id.addmedia_btn, R.id.addmembers_btn, R.id.start_ride_btn, R.id.Track_record})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.Back_Btn:
@@ -723,10 +765,11 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 break;
             case R.id.end_my_ride:
                 if (I_AM_ADMIN) {
-                    if (Latitude_End==0.0 ||  Longitude_End==0.0 || Longitude_End==0 || Latitude_End==0)
-                    {getForceFullEnd();
-                    }else
-                    {hit_Ride_api(false, false, true, false, false, false);}
+                    if (Latitude_End == 0.0 || Longitude_End == 0.0 || Longitude_End == 0 || Latitude_End == 0) {
+                        getForceFullEnd();
+                    } else {
+                        hit_Ride_api(false, false, true, false, false, false);
+                    }
                 } else {
                     Constant.Show_Tos(this, "Only Admin Can End This Ride");
                 }
@@ -739,31 +782,28 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 break;
             case R.id.addmembers_btn:
 
-                    if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED) || RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
-                        Intent Ride_Members_Management = new Intent(getApplicationContext(), Ride_Members_Management.class);
-                        Ride_Members_Management.putExtra("My_Ride_ID", My_Ride_ID);
-                        Ride_Members_Management.putExtra("Admin_User_Id", Admin_User_Id);
-                        startActivity(Ride_Members_Management);
-                    } else {
-                        Constant.Show_Tos(getApplicationContext(), "Ride End So You Can't Access Member Management");
-                    }
-                break;
-            case R.id.schedule_for_later_btn:
-                //hit_Ride_api(false, false, false, true, false, false);
+                if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED) || RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
+                    Intent Ride_Members_Management = new Intent(getApplicationContext(), Ride_Members_Management.class);
+                    Ride_Members_Management.putExtra("My_Ride_ID", My_Ride_ID);
+                    Ride_Members_Management.putExtra("Admin_User_Id", Admin_User_Id);
+                    startActivity(Ride_Members_Management);
+                } else {
+                    Constant.Show_Tos(getApplicationContext(), "Ride End So You Can't Access Member Management");
+                }
                 break;
             case R.id.start_ride_btn:
-                if (My_Ride_ID!=null)
-                {if (!My_Ride_ID.equalsIgnoreCase(""))
-                { hit_Ride_api(false, true, false, false, false, false);
-                }else
-                {Constant.Show_Tos(this,"Wait Ride Create Processing");
+                if (My_Ride_ID != null) {
+                    if (!My_Ride_ID.equalsIgnoreCase("")) {
+                        hit_Ride_api(false, true, false, false, false, false);
+                    } else {
+                        Constant.Show_Tos(this, "Wait Ride Create Processing");
+                        hit_Ride_api(false, false, false, false, false, true);
+                    }
+                } else {
+                    Constant.Show_Tos(this, "Wait Ride Create Processing");
                     hit_Ride_api(false, false, false, false, false, true);
                 }
-                }else
-                {Constant.Show_Tos(this,"Wait Ride Create Processing");
-                    hit_Ride_api(false, false, false, false, false, true);
-                }
-                 break;
+                break;
             case R.id.Track_record:
                 Record_Btn();
                 break;
@@ -775,24 +815,24 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
 
     private void getForceFullEnd() {
 
-        if (mFusedLocationProviderClient==null){
+        if (mFusedLocationProviderClient == null) {
             mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         }
 
-            show_ProgressDialog();
-            mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    Latitude_End = location.getLatitude();
-                    Longitude_End = location.getLongitude();
-                    hit_Ride_api(false, false, true, false, false, false);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                   hide_ProgressDialog();
-                }
-            });
+        show_ProgressDialog();
+        mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                Latitude_End = location.getLatitude();
+                Longitude_End = location.getLongitude();
+                hit_Ride_api(false, false, true, false, false, false);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                hide_ProgressDialog();
+            }
+        });
     }
 
 
@@ -805,9 +845,6 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         } else if (End_ride) {
             show_ProgressDialog();
             requestCall = retrofitCallback.END_RIDE(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID(), GET_timeStamp(), Constant.getCompleteAddressString(RideMapView.this, Latitude_End, Longitude_End), String.valueOf(Latitude_End), String.valueOf(Longitude_End), "0");
-        } else if (schedule) {
-            show_ProgressDialog();
-
         } else if (Update_Name) {
             show_ProgressDialog();
             requestCall = retrofitCallback.Update_ride_name(My_Ride_ID, RideNameTv.getText().toString().trim());
@@ -838,7 +875,6 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                         if (Start_ride) {
                             if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                                 Constant.Show_Tos(getApplicationContext(), "Ride Started Successfully");
-                                //Ride Start
                                 Change_Status(true, RIDE_STARTED, false, "");
                                 hit_Ride_api(false, false, false, false, true, false);
                             } else {
@@ -883,7 +919,6 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
 
 
                     } catch (Exception e) {
-                        e.printStackTrace();
                         hide_ProgressDialog();
                     }
                 }
@@ -912,6 +947,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                         myRideModel.setENDLAT(JS.getString("ENDLAT"));
                         myRideModel.setENDLANG(JS.getString("ENDLANG"));
                         myRideModel.setTOTMEMBER(JS.getString("TOTMEMBER"));
+                        myRideModel.setSTARTTIME(JS.getString("STARTTIME"));
                         MyRide_List.add(myRideModel);
                     }
                 }
@@ -919,6 +955,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     Change_Status(true, RIDE_NOT_STARTED, false, "");
                 } else if (MyRide_List.get(0).getTRACKSTATUS().equalsIgnoreCase(RIDE_STARTED)) {
                     Change_Status(true, RIDE_STARTED, false, "");
+                    RIDE_START_TIME = MyRide_List.get(0).getSTARTTIME();
                 } else if (MyRide_List.get(0).getTRACKSTATUS().equalsIgnoreCase(RIDE_ENDED)) {
                     if (String.valueOf(MyRide_List.get(0).getSTARTLAT()).isEmpty() && String.valueOf(MyRide_List.get(0).getSTARTLAT()).equals(""))
                         Latitude_Start = Double.parseDouble(MyRide_List.get(0).getSTARTLAT());
@@ -961,14 +998,17 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         });
     }
 
-    private void hit_update_ride_data(String Average_Speed, String Top_Speed, String Distance,String time) {
+    private void hit_update_ride_data(String Average_Speed, String Top_Speed, String Distance, String time) {
         Call<ResponseBody> requestCall = retrofitCallback.my_ride_update(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID(),
-                Average_Speed,Top_Speed,Distance,time);
+                Average_Speed, Top_Speed, Distance, time);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { }
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            }
+
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) { }
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
         });
     }
 
@@ -1069,20 +1109,29 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     void RideData_analytics(String Distance) {
         if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
             try {
-                averageSpeedTv.setText(new DecimalFormat("##.##").format(Double.parseDouble(testAdapter.GET_AVERAGE_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()))) + "km/h");
-                topSpeedTv.setText(new DecimalFormat("##.##").format(Double.parseDouble(testAdapter.GET_TOP_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()))) + "km/h");
+                averageSpeedTv.setText(new DecimalFormat("##").format(Double.parseDouble(testAdapter.GET_AVERAGE_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()))) + "km/h");
+                topSpeedTv.setText(new DecimalFormat("##").format(Double.parseDouble(testAdapter.GET_TOP_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()))) + "km/h");
             } catch (Exception e) {
             }
             distanceCoveredTv.setText(Distance + " km");
             try {
-
-
                 Double Total_Time = Double.parseDouble(Distance) / Double.parseDouble(testAdapter.GET_AVERAGE_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()));
                 Double Tota_Secound = Total_Time * 3600;
-                Double hours =  Tota_Secound / 3600;
+                Double hours = Tota_Secound / 3600;
                 Double minutes = (Tota_Secound % 3600) / 60;
                 Double seconds = Tota_Secound % 60;
-                rideTimeTv.setText(new DecimalFormat("##").format(hours)+":"+new DecimalFormat("##").format(minutes)+":"+new DecimalFormat("##").format(seconds));
+
+                if (RIDE_START_TIME!=null)
+                {
+                    if (!RIDE_START_TIME.equalsIgnoreCase(""))
+                    {
+                        String CurrentTimeDate = Constant.Get_back_date_and_time(Constant.GET_timeStamp());
+                        String RideStartDateTime = Constant.Get_back_date_and_time(RIDE_START_TIME);
+                        rideTimeTv.setText(Constant.getDiferceDteTime(RideStartDateTime,CurrentTimeDate));
+                    }
+
+                }
+
 
             } catch (Exception e) {
             }
@@ -1091,23 +1140,22 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     !rideTimeTv.getText().toString().equalsIgnoreCase("") &&
                     !distanceCoveredTv.getText().toString().equalsIgnoreCase("")) {
                 hit_update_ride_data(averageSpeedTv.getText().toString().replaceAll("km/h", "").trim(),
-                        topSpeedTv.getText().toString().replaceAll("km/h", "").trim(),Distance,rideTimeTv.getText().toString().trim());
+                        topSpeedTv.getText().toString().replaceAll("km/h", "").trim(), Distance, rideTimeTv.getText().toString().trim());
             }
         } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
             try {
-                averageSpeedTv.setText(new DecimalFormat("##.##").format(Double.parseDouble(testAdapter.GET_AVERAGE_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()))) + "km/h");
-                topSpeedTv.setText(new DecimalFormat("##.##").format(Double.parseDouble(testAdapter.GET_TOP_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()))) + "km/h");
+                averageSpeedTv.setText(AVG_SPEED + "km/h");
+                topSpeedTv.setText(TOP_SPEED + "km/h");
+                distanceCoveredTv.setText(TOTALKM + "km");
+                rideTimeTv.setText(TOTALTIME);
             } catch (Exception e) {
             }
-            distanceCoveredTv.setText(Distance + " km");
+        } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED)) {
             try {
-
-                Double Total_Time = Double.parseDouble(Distance) / Double.parseDouble(testAdapter.GET_AVERAGE_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()));
-                Double Tota_Secound = Total_Time * 3600;
-                Double hours =  Tota_Secound / 3600;
-                Double minutes = (Tota_Secound % 3600) / 60;
-                Double seconds = Tota_Secound % 60;
-                rideTimeTv.setText(new DecimalFormat("##").format(hours)+":"+new DecimalFormat("##").format(minutes)+":"+new DecimalFormat("##").format(seconds));
+                averageSpeedTv.setText("0km/h");
+                topSpeedTv.setText("0km/h");
+                distanceCoveredTv.setText("0km");
+                rideTimeTv.setText("00:00:00");
             } catch (Exception e) {
             }
         }
@@ -1130,7 +1178,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                             currentLongitude = Double.parseDouble(intent.getStringExtra(LocationTrackerService.EXTRA_LONGITUDE));
                             Latitude_End = currentLatitude;
                             Longitude_End = currentLongitude;
-                             if (My_Ride_ID != null) {
+                            if (My_Ride_ID != null) {
                                 if (!My_Ride_ID.equalsIgnoreCase("")) {
                                     if (Track_My_Location) {
                                         hit_update_My_Location(currentLatitude, currentLongitude);
@@ -1143,7 +1191,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                                             String.valueOf(currentLatitude), String.valueOf(currentLongitude), GET_timeStamp());
                                     double Real_Time_Speed = Double.parseDouble(intent.getStringExtra(LocationTrackerService.EXTRA_SPEED));//meters/second
                                     double Real_Time_Speed_kmph = Real_Time_Speed * 3.6;
-                                    String Distance = DistanceCalculator.distance(Latitude_Start, Longitude_Start, currentLatitude, currentLongitude);
+
+                                    String Distance = DistanceCalculator.getDistance(Latitude_Start, Longitude_Start, currentLatitude, currentLongitude);
                                     RideData_analytics(Distance);
                                     testAdapter.INSERT_RIDE_DATA(My_Ride_ID, new Session(getApplicationContext()).get_LOGIN_USER_ID(),
                                             String.valueOf(Real_Time_Speed_kmph), String.valueOf(Real_Time_Speed_kmph), GET_timeStamp(), RIDE_STATUS);

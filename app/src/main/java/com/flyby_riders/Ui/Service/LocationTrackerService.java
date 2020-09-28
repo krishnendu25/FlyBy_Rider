@@ -2,7 +2,6 @@ package com.flyby_riders.Ui.Service;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,32 +9,23 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.DashBoard;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
@@ -122,11 +112,9 @@ public class LocationTrackerService extends Service {
 
 
     private void requestLocationUpdates() {
-
-
         LocationRequest request = new LocationRequest();
-        request.setInterval(5000);
-        request.setFastestInterval(5000);
+        request.setInterval(2000);
+        request.setFastestInterval(2000);
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
         int permission = ContextCompat.checkSelfPermission(this,

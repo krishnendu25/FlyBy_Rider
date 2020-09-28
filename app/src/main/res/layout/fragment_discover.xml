@@ -43,6 +43,9 @@
                 android:scrollbars="none"
                 android:numColumns="2"
                 android:verticalSpacing="10dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

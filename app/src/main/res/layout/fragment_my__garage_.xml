@@ -207,19 +207,43 @@
                         android:layout_marginTop="30dp"
                         android:layout_marginEnd="25dp"
                         android:orientation="vertical">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenirnextbold"
+                                android:text="@string/upgrades_for_your_bike"
+                                android:textAllCaps="true"
+                                android:singleLine="false"
+                                android:textColor="@color/white"
+                                android:textSize="18dp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenirnextbold"
-                            android:text="@string/upgrades_for"
-                            android:textAllCaps="true"
-                            android:textColor="@color/white"
-                            android:textSize="18dp" />
+
+<TextView
+    android:id="@+id/newADIndicator"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:background="@drawable/newad_bg"
+    android:paddingTop="4dp"
+    android:paddingEnd="6dp"
+    android:paddingStart="6dp"
+    android:paddingBottom="4dp"
+    android:gravity="center"
+    android:textSize="16sp"
+    android:textColor="@color/white"
+    android:fontFamily="@font/avenirnextbold"/>
+
+                        </RelativeLayout>
+
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:orientation="vertical"
                             android:layout_marginTop="20dp">
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -228,6 +252,9 @@
                                 android:layout_height="wrap_content"
                                 android:scrollbars="none"
                                 android:visibility="visible" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"/>
                         </LinearLayout>
 
                     </LinearLayout>

@@ -123,6 +123,7 @@ public class My_Ride_Fragment extends Fragment {
                                 myRideModel.setENDLAT(JS.getString("ENDLAT"));
                                 myRideModel.setENDLANG(JS.getString("ENDLANG"));
                                 myRideModel.setTOTMEMBER(JS.getString("TOTMEMBER"));
+                                myRideModel.setSTARTTIME(JS.getString("STARTTIME"));
                                 MyRide_List.add(myRideModel);
                             }
                             Collections.reverse(MyRide_List);
