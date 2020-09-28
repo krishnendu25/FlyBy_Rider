@@ -1109,18 +1109,12 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     void RideData_analytics(String Distance) {
         if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
             try {
-                averageSpeedTv.setText(new DecimalFormat("##").format(Double.parseDouble(testAdapter.GET_AVERAGE_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()))) + "km/h");
-                topSpeedTv.setText(new DecimalFormat("##").format(Double.parseDouble(testAdapter.GET_TOP_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()))) + "km/h");
+                averageSpeedTv.setText(new DecimalFormat("##").format(Double.parseDouble(testAdapter.GET_AVERAGE_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()))) + " KMPH");
+                topSpeedTv.setText(new DecimalFormat("##").format(Double.parseDouble(testAdapter.GET_TOP_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()))) + " KMPH");
             } catch (Exception e) {
             }
             distanceCoveredTv.setText(Distance + " km");
             try {
-                Double Total_Time = Double.parseDouble(Distance) / Double.parseDouble(testAdapter.GET_AVERAGE_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()));
-                Double Tota_Secound = Total_Time * 3600;
-                Double hours = Tota_Secound / 3600;
-                Double minutes = (Tota_Secound % 3600) / 60;
-                Double seconds = Tota_Secound % 60;
-
                 if (RIDE_START_TIME!=null)
                 {
                     if (!RIDE_START_TIME.equalsIgnoreCase(""))
@@ -1139,22 +1133,22 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     !topSpeedTv.getText().toString().equalsIgnoreCase("") &&
                     !rideTimeTv.getText().toString().equalsIgnoreCase("") &&
                     !distanceCoveredTv.getText().toString().equalsIgnoreCase("")) {
-                hit_update_ride_data(averageSpeedTv.getText().toString().replaceAll("km/h", "").trim(),
-                        topSpeedTv.getText().toString().replaceAll("km/h", "").trim(), Distance, rideTimeTv.getText().toString().trim());
+                hit_update_ride_data(averageSpeedTv.getText().toString().replaceAll(" KMPH", "").trim(),
+                        topSpeedTv.getText().toString().replaceAll(" KMPH", "").trim(), Distance, rideTimeTv.getText().toString().trim());
             }
         } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
             try {
-                averageSpeedTv.setText(AVG_SPEED + "km/h");
-                topSpeedTv.setText(TOP_SPEED + "km/h");
-                distanceCoveredTv.setText(TOTALKM + "km");
+                averageSpeedTv.setText(AVG_SPEED + " KMPH");
+                topSpeedTv.setText(TOP_SPEED + " KMPH");
+                distanceCoveredTv.setText(TOTALKM + " KM");
                 rideTimeTv.setText(TOTALTIME);
             } catch (Exception e) {
             }
         } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED)) {
             try {
-                averageSpeedTv.setText("0km/h");
-                topSpeedTv.setText("0km/h");
-                distanceCoveredTv.setText("0km");
+                averageSpeedTv.setText("0 KMPH");
+                topSpeedTv.setText("0 KMPH");
+                distanceCoveredTv.setText("0 KM");
                 rideTimeTv.setText("00:00:00");
             } catch (Exception e) {
             }

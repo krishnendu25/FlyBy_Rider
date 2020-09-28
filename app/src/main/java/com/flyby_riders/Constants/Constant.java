@@ -871,11 +871,7 @@ public class Constant {
         different = different % minutesInMilli;
 
         long elapsedSeconds = different / secondsInMilli;
-
-        System.out.printf(
-                "%d days, %d hours, %d minutes, %d seconds%n",
-                elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds);
-        return elapsedDays + ":" + elapsedHours + ":"+elapsedMinutes + ":"+elapsedSeconds;
+        return elapsedDays + ":" + elapsedHours + ":"+elapsedMinutes;
     }
 
     public static String getCountOfDays(String createdDateString, String expireDateString) {

@@ -45,7 +45,7 @@
     <string name="start_ride">START RIDE</string>
     <string name="starting_point">Starting Point</string>
     <string name="average_speed">Average Speed</string>
-    <string name="ride_time">Ride Time</string>
+    <string name="ride_time">Ride Time [DD:HH:MM]</string>
     <string name="top_speed">Top Speed</string>
     <string name="distance_covered">Distance Covered</string>
     <string name="end_ride">END RIDE</string>
