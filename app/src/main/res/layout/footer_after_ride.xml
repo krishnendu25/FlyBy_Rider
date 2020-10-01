@@ -33,6 +33,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/distance_covered"
                         android:gravity="center"
+                        android:singleLine="true"
                         android:textSize="14dp"
                         android:fontFamily="@font/avenirbextregular"
                         android:textColor="#AEACB5"/>
@@ -60,6 +61,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/top_speed"
                         android:gravity="center"
+                        android:singleLine="true"
                         android:textSize="14dp"
                         android:fontFamily="@font/avenirbextregular"
                         android:textColor="#AEACB5"/>
@@ -69,6 +71,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textSize="16sp"
+
                         android:ellipsize="marquee"
                         android:singleLine="true"
                         android:marqueeRepeatLimit="marquee_forever"
@@ -95,6 +98,7 @@
                         android:text="@string/ride_time"
                         android:gravity="center"
                         android:textSize="14dp"
+                        android:singleLine="true"
                         android:fontFamily="@font/avenirbextregular"
                         android:textColor="#AEACB5"/>
                     <TextView
@@ -121,6 +125,7 @@
                         android:text="@string/average_speed"
                         android:gravity="center"
                         android:textSize="14dp"
+                        android:singleLine="true"
                         android:fontFamily="@font/avenirbextregular"
                         android:textColor="#AEACB5"/>
                     <TextView

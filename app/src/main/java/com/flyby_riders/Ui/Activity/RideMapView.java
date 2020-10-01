@@ -954,8 +954,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 if (MyRide_List.get(0).getTRACKSTATUS().equalsIgnoreCase(RIDE_NOT_STARTED)) {
                     Change_Status(true, RIDE_NOT_STARTED, false, "");
                 } else if (MyRide_List.get(0).getTRACKSTATUS().equalsIgnoreCase(RIDE_STARTED)) {
-                    Change_Status(true, RIDE_STARTED, false, "");
                     RIDE_START_TIME = MyRide_List.get(0).getSTARTTIME();
+                    Change_Status(true, RIDE_STARTED, false, "");
                 } else if (MyRide_List.get(0).getTRACKSTATUS().equalsIgnoreCase(RIDE_ENDED)) {
                     if (String.valueOf(MyRide_List.get(0).getSTARTLAT()).isEmpty() && String.valueOf(MyRide_List.get(0).getSTARTLAT()).equals(""))
                         Latitude_Start = Double.parseDouble(MyRide_List.get(0).getSTARTLAT());
@@ -965,11 +965,21 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                         Latitude_End = Double.parseDouble(MyRide_List.get(0).getENDLAT());
                     if (String.valueOf(MyRide_List.get(0).getENDLANG()).isEmpty() && String.valueOf(MyRide_List.get(0).getENDLANG()).equals(""))
                         Longitude_End = Double.parseDouble(MyRide_List.get(0).getENDLANG());
+                    if (String.valueOf(MyRide_List.get(0).getSTARTTIME()).isEmpty() && String.valueOf(MyRide_List.get(0).getSTARTTIME()).equals(""))
+                        RIDE_START_TIME = MyRide_List.get(0).getSTARTTIME();
+                    if (String.valueOf(MyRide_List.get(0).getTOTALKM()).isEmpty() && String.valueOf(MyRide_List.get(0).getTOTALKM()).equals(""))
+                        TOTALKM = MyRide_List.get(0).getTOTALKM();
+                    if (String.valueOf(MyRide_List.get(0).getTOP_SPEED()).isEmpty() && String.valueOf(MyRide_List.get(0).getTOP_SPEED()).equals(""))
+                        TOP_SPEED = MyRide_List.get(0).getTOP_SPEED();
+                    if (String.valueOf(MyRide_List.get(0).getAVG_SPEED()).isEmpty() && String.valueOf(MyRide_List.get(0).getAVG_SPEED()).equals(""))
+                        AVG_SPEED = MyRide_List.get(0).getAVG_SPEED();
+                    rideTimeTv.setText(TOTALTIME);
                     Change_Status(true, RIDE_ENDED, false, "");
                     String End_Address = Constant.getCompleteAddressString(getApplicationContext(), Latitude_End, Longitude_End);
                     SetText("", End_Address, "");
                 }
                 SetText("", "", MyRide_List.get(0).getRIDENAME());
+                Admin_User_Id = String.valueOf(MyRide_List.get(0).getADMINUSERID());
                 if (MyRide_List.get(0).getPLANNAME().equalsIgnoreCase("Premium Account")) {
                     ADMIN_PREMIUM_STATUS = true;
                 } else {
@@ -1113,30 +1123,34 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 topSpeedTv.setText(new DecimalFormat("##").format(Double.parseDouble(testAdapter.GET_TOP_SPEED(My_Ride_ID, new Session(RideMapView.this).get_LOGIN_USER_ID()))) + " KMPH");
             } catch (Exception e) {
             }
-            distanceCoveredTv.setText(Distance + " km");
+            distanceCoveredTv.setText(Distance + " KM");
             try {
-                if (RIDE_START_TIME!=null)
-                {
-                    if (!RIDE_START_TIME.equalsIgnoreCase(""))
-                    {
+                if (RIDE_START_TIME != null) {
+                    if (!RIDE_START_TIME.equalsIgnoreCase("")) {
                         String CurrentTimeDate = Constant.Get_back_date_and_time(Constant.GET_timeStamp());
                         String RideStartDateTime = Constant.Get_back_date_and_time(RIDE_START_TIME);
-                        rideTimeTv.setText(Constant.getDiferceDteTime(RideStartDateTime,CurrentTimeDate));
-                    }
+                        rideTimeTv.setText(Constant.getDiferceDteTime(RideStartDateTime, CurrentTimeDate));
+                    }else
+                    {RIDE_START_TIME=Constant.Get_back_date_and_time(Constant.GET_timeStamp()); }
 
                 }
 
 
             } catch (Exception e) {
             }
-            if (!averageSpeedTv.getText().toString().equalsIgnoreCase("") &&
-                    !topSpeedTv.getText().toString().equalsIgnoreCase("") &&
-                    !rideTimeTv.getText().toString().equalsIgnoreCase("") &&
-                    !distanceCoveredTv.getText().toString().equalsIgnoreCase("")) {
-                hit_update_ride_data(averageSpeedTv.getText().toString().replaceAll(" KMPH", "").trim(),
-                        topSpeedTv.getText().toString().replaceAll(" KMPH", "").trim(), Distance, rideTimeTv.getText().toString().trim());
+            try {
+                if (!averageSpeedTv.getText().toString().equalsIgnoreCase("") &&
+                        !topSpeedTv.getText().toString().equalsIgnoreCase("") &&
+                        !rideTimeTv.getText().toString().equalsIgnoreCase("") &&
+                        !distanceCoveredTv.getText().toString().equalsIgnoreCase("")) {
+                    hit_update_ride_data(averageSpeedTv.getText().toString().replaceAll(" KMPH", "").trim(),
+                            topSpeedTv.getText().toString().replaceAll(" KMPH", "").trim(), Distance, rideTimeTv.getText().toString().trim());
+                }
+            } catch (Exception e) {
             }
-        } else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
+        }
+        //End Ride
+        else if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
             try {
                 averageSpeedTv.setText(AVG_SPEED + " KMPH");
                 topSpeedTv.setText(TOP_SPEED + " KMPH");
