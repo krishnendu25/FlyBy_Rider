@@ -63,25 +63,16 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
                 intent.putExtra("My_Ride_Name",data.get(position).getRIDENAME());
                 intent.putExtra("My_Ride_ID",data.get(position).getRIDEID());
                 intent.putExtra("Admin_User_Id",data.get(position).getADMINUSERID());
-
-                if (data.get(position).getTRACKSTATUS().equalsIgnoreCase("NOT STARTED"))
-                { intent.putExtra("TRACKSTATUS",RIDE_NOT_STARTED);
-                 }else if (data.get(position).getTRACKSTATUS().equalsIgnoreCase("STARTED"))
-                { intent.putExtra("TRACKSTATUS",RIDE_STARTED);
-                }else if (data.get(position).getTRACKSTATUS().equalsIgnoreCase("END"))
-                { intent.putExtra("TRACKSTATUS",RIDE_ENDED);
-                }
+                intent.putExtra("TRACKSTATUS",data.get(position).getTRACKSTATUS());
                 intent.putExtra("STARTLAT",data.get(position).getSTARTLAT());
                 intent.putExtra("STARTLANG",data.get(position).getSTARTLANG());
                 intent.putExtra("ENDLAT",data.get(position).getENDLAT());
                 intent.putExtra("ENDLANG",data.get(position).getENDLANG());
-
                 intent.putExtra("TOP_SPEED",data.get(position).getTOP_SPEED());
                 intent.putExtra("AVG_SPEED",data.get(position).getAVG_SPEED());
                 intent.putExtra("TOTALKM",data.get(position).getTOTALKM());
                 intent.putExtra("TOTALTIME",data.get(position).getTOTALTIME());
                 intent.putExtra("RIDE_START_TIME",data.get(position).getSTARTTIME());
-
                 context.startActivity(intent);
             }
         });
@@ -94,7 +85,7 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
 
         holder.Ride_Title_tv.setText(data.get(position).getRIDENAME());
         holder.Ride_Start_Date.setText(Constant.Get_back_date_and_time(data.get(position).getCREATIONDATE()));
-        holder.Ride_status.setText("RIDE "+data.get(position).getTRACKSTATUS());
+        holder.Ride_status.setText(data.get(position).getTRACKSTATUS().replaceAll("_"," "));
         if (!data.get(position).getTOTALKM().equalsIgnoreCase("null"))
         { holder.Total_distance_tv.setText(data.get(position).getTOTALKM()+" km"); }else
         {holder.Total_distance_tv.setText("0 km");}

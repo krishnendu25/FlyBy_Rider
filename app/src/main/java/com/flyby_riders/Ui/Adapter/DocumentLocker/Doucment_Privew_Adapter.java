@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Document_Album_Creator;
+import com.flyby_riders.Ui.Activity.DocumentAlbumMaker;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Media_Model;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class Doucment_Privew_Adapter extends RecyclerView.Adapter<Doucment_Prive
         // TODO Auto-generated constructor stub
         this.data=data;
         this.context=context;
-        onClick = (Document_Album_Creator)context;
+        onClick = (DocumentAlbumMaker)context;
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

@@ -23,8 +23,8 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
-import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Activity.Ride_Gallery;
+import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Ui.Activity.RideGalleryView;
 import com.flyby_riders.Ui.Adapter.Ride.Ride_Gallery_Adapter;
 import com.flyby_riders.Ui.Model.Ride_Media_Model;
 
@@ -88,8 +88,8 @@ public class My_Media_Ride_Fragment extends Fragment {
     }
     private void Instantiation(View view) {
         Empty_View = view.findViewById(R.id.Empty_View);
-        My_Ride_ID= Ride_Gallery.My_Ride_ID;
-        Admin_User_Id=Ride_Gallery.Admin_User_Id;
+        My_Ride_ID= RideGalleryView.My_Ride_ID;
+        Admin_User_Id= RideGalleryView.Admin_User_Id;
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
         my_uploaded_list= view.findViewById(R.id.my_uploaded_list);
         my_uploaded_list.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -142,7 +142,7 @@ public class My_Media_Ride_Fragment extends Fragment {
                                 }
                             }
 
-                            Filter_List(Ride_Media_List,new Session(getActivity()).get_LOGIN_USER_ID());
+                            Filter_List(Ride_Media_List,new Prefe(getActivity()).getUserID());
 
                         } else {
                             hide_ProgressDialog();

@@ -9,10 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
-
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Garage_Information;
+import com.flyby_riders.Ui.Activity.GarageDetailsView;
 import com.flyby_riders.Ui.Model.ADD_MODEL;
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +27,7 @@ public class Advertisement_Adapter extends BaseAdapter {
         this.mcontext = context;
         this.ownername = ownername;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        itemClickListener = (Garage_Information) context;
+        itemClickListener = (GarageDetailsView) context;
     }
     @Override
     public int getCount() {

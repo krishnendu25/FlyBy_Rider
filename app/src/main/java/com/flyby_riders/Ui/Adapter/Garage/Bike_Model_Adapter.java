@@ -1,7 +1,6 @@
 package com.flyby_riders.Ui.Adapter.Garage;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Bike_Model_Activity;
+import com.flyby_riders.Ui.Activity.BikeModelView;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.BIKE_BRAND;
 import com.squareup.picasso.Picasso;
@@ -29,7 +28,7 @@ public class Bike_Model_Adapter extends BaseAdapter {
     private static LayoutInflater inflater=null;
     public Bike_Model_Adapter(Context context, ArrayList<BIKE_BRAND> data) {
         // TODO Auto-generated constructor stub
-        onClick = (Bike_Model_Activity) context;
+        onClick = (BikeModelView) context;
         this.data=data;
         this.context=context;
         inflater = ( LayoutInflater )context.

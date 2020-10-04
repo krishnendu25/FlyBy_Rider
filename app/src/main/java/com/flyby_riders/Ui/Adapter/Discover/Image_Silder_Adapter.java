@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Garage_Information;
+import com.flyby_riders.Ui.Activity.GarageDetailsView;
 import com.flyby_riders.Ui.Model.Garage_Media_Model;
 import com.squareup.picasso.Picasso;
 
@@ -28,7 +28,7 @@ public class Image_Silder_Adapter extends RecyclerView.Adapter<Image_Silder_Adap
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
-        this.media_slider_click = (Garage_Information)context;
+        this.media_slider_click = (GarageDetailsView)context;
     }
 
     // inflates the row layout from xml when needed

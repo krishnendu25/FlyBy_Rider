@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_base"
     android:orientation="vertical"
-    tools:context=".Ui.Activity.Garage_List">
+    tools:context=".Ui.Activity.AllGarageList">
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">

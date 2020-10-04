@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Ride_Members_Management;
+import com.flyby_riders.Ui.Activity.RideMembersManage;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Ride_Member_model;
 
@@ -33,7 +33,7 @@ public class Ride_Members_Adapter extends RecyclerView.Adapter<Ride_Members_Adap
         // TODO Auto-generated constructor stub
         this.data=data;
         this.context=context;
-        onclick = (Ride_Members_Management)context;
+        onclick = (RideMembersManage)context;
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 
-import com.flyby_riders.Ui.Activity.Gps_Trun_On;
+import com.flyby_riders.Ui.Activity.GpsTrunOnWarning;
 
 
 /**
@@ -35,7 +35,7 @@ public class GPSManager extends BroadcastReceiver {
         } else {
             if (Count==0)
             {Count++;
-                Intent intent = new Intent(context, Gps_Trun_On.class);
+                Intent intent = new Intent(context, GpsTrunOnWarning.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 context.startActivity(intent);
             }

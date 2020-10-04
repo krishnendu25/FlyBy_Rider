@@ -20,9 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Session;
+import com.flyby_riders.Sharedpreferences.Prefe;
 import com.flyby_riders.Ui.Adapter.DocumentLocker.Album_Image_Adapter;
 import com.flyby_riders.Ui.Model.Album_Content_Model;
+import com.flyby_riders.Utils.BaseActivity;
 
 import org.json.JSONObject;
 
@@ -128,7 +129,7 @@ public class Album_Viewer extends BaseActivity {
 
     private void Update_album(ArrayList<Album_Content_Model> album_content_list, int position)
     {
-        Intent intent = new Intent(this,Document_Album_Creator.class);
+        Intent intent = new Intent(this, DocumentAlbumMaker.class);
         intent.putExtra("position",String.valueOf(position));
         intent.putExtra("list",album_content_list);
         startActivityForResult(intent,559);
@@ -137,7 +138,7 @@ public class Album_Viewer extends BaseActivity {
     private void Delete_Album(String album_id)
     {
         show_ProgressDialog();
-        Call<ResponseBody> requestCall = retrofitCallback.Delete_Album(new Session(this).get_LOGIN_USER_ID(),album_id);
+        Call<ResponseBody> requestCall = retrofitCallback.Delete_Album(new Prefe(this).getUserID(),album_id);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

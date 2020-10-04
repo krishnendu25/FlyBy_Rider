@@ -26,8 +26,8 @@ import com.commonsware.cwac.camera.CameraHost;
 import com.commonsware.cwac.camera.CameraHostProvider;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.BaseActivity;
-import com.flyby_riders.Ui.Activity.Document_Locker;
+import com.flyby_riders.Utils.BaseActivity;
+import com.flyby_riders.Ui.Activity.DocumentLockerView;
 import com.flyby_riders.Ui.PhotoPicker.custom.adapter.SpacesItemDecoration;
 import com.flyby_riders.Ui.PhotoPicker.util.Util;
 import com.google.android.material.tabs.TabLayout;
@@ -195,7 +195,7 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
                 finish();
             }
         } else {
-            startActivity(new Intent(this, Document_Locker.class));
+            startActivity(new Intent(this, DocumentLockerView.class));
             finish();
         }
 
@@ -343,7 +343,7 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
                         finish();
                     }
                 } else {
-                    startActivity(new Intent(this, Document_Locker.class));
+                    startActivity(new Intent(this, DocumentLockerView.class));
                     finish();
                 }
                 break;

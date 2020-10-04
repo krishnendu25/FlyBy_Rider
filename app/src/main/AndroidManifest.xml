@@ -46,24 +46,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".Ui.Activity.Location_Permission"></activity>
-        <activity android:name=".Ui.Activity.Gps_Trun_On" />
+        <activity android:name=".Ui.Activity.AvertisementView"></activity>
+        <activity android:name=".Ui.Activity.MyAccount" />
+        <activity android:name=".Ui.Activity.LocationPermissionsWindow" />
+        <activity android:name=".Ui.Activity.GpsTrunOnWarning" />
         <activity android:name=".Ui.Activity.VideoPlayer" />
-        <activity android:name=".Ui.Activity.Garage_List" />
-        <activity android:name=".Ui.Activity.Garage_Information" />
-        <activity android:name=".Ui.Activity.Ride_Gallery" />
-        <activity android:name=".Ui.Activity.Upgrade_To_Premium" />
-        <activity android:name=".Ui.Activity.Invite_new_member" />
-        <activity android:name=".Ui.Activity.Ride_Members_Management" />
+        <activity android:name=".Ui.Activity.AllGarageList" />
+        <activity android:name=".Ui.Activity.GarageDetailsView" />
+        <activity android:name=".Ui.Activity.RideGalleryView" />
+        <activity android:name=".Ui.Activity.UpgradeAccountPlan" />
+        <activity android:name=".Ui.Activity.InviteNewMember" />
+        <activity android:name=".Ui.Activity.RideMembersManage" />
         <activity android:name=".Ui.Activity.RideMapView" />
         <activity android:name=".Ui.Activity.Album_Viewer" /> <!-- Add the service created in services package ! -->
-        <activity android:name=".Ui.Activity.Document_Album_Creator" />
-        <activity android:name=".Ui.Activity.Document_Locker" />
+        <activity android:name=".Ui.Activity.DocumentAlbumMaker" />
+        <activity android:name=".Ui.Activity.DocumentLockerView" />
         <activity
-            android:name=".Ui.Activity.Bike_Brand_Activity"
+            android:name=".Ui.Activity.BikeBrandView"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".Ui.Activity.Bike_Model_Activity"
+            android:name=".Ui.Activity.BikeModelView"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".Ui.Activity.DashBoard"
@@ -72,17 +74,17 @@
             android:name=".Ui.Activity.Legal"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".Ui.Activity.Choose_Way_Screen"
+            android:name=".Ui.Activity.AppLandingView"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".Ui.Activity.Verification_Successful"
+            android:name=".Ui.Activity.VerificationSuccessful"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".Ui.Activity.OTP_Verify"
+            android:name=".Ui.Activity.OTPVerification"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".Ui.Activity.Login_Form"
+            android:name=".Ui.Activity.LoginView"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -92,9 +94,9 @@
             android:name=".Ui.Activity.OnBoarding"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".Ui.Activity.BaseActivity"
+            android:name=".Utils.BaseActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".Ui.Activity.Splash_Screen">
+        <activity android:name=".Ui.Activity.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

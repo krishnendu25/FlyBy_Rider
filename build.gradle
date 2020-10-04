@@ -5,6 +5,9 @@ buildscript {
         google()
         jcenter()
     }
+    repositories {
+        mavenCentral()
+    }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.1'
@@ -27,6 +30,9 @@ allprojects {
         maven { url "https://jitpack.io" }
 
 
+    }
+    repositories {
+        mavenCentral()
     }
 }
 

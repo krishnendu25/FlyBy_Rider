@@ -8,22 +8,29 @@
 
 
 
-        <RelativeLayout
-            android:layout_width="80dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="80dp"
+            android:gravity="center"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
             android:background="@drawable/round_progress"
-            android:orientation="vertical">
-                <com.airbnb.lottie.LottieAnimationView
+            android:orientation="horizontal">
+                <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/LottieAnimationView"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:scaleType="fitXY"
-                    android:layout_gravity="center"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"/>
+                    android:src="@drawable/loader_bg"
+                    android:background="@drawable/loader_bg"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                        android:text="  Hold On! Warming Up.."
+                        android:textSize="14sp"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/manropeextrabold"/>
 
-        </RelativeLayout>
+        </LinearLayout>
 </LinearLayout>

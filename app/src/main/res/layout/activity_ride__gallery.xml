@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_base"
-    tools:context=".Ui.Activity.Ride_Gallery">
+    tools:context=".Ui.Activity.RideGalleryView">
 
 
     <LinearLayout

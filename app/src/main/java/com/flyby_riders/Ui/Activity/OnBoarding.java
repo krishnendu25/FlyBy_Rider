@@ -7,7 +7,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Session;
+import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.BaseActivity;
 import com.flyby_riders.Utils.OnSwipeTouchListener;
 
 import java.util.Arrays;
@@ -132,8 +133,8 @@ public class OnBoarding extends BaseActivity {
             return;
         }
         if (count == 3 && nextTv.getText().toString().trim().equalsIgnoreCase("SIGN IN")) {
-            startActivity(new Intent(this, Choose_Way_Screen.class));
-            new Session(this).set_onBoarding("true");
+            startActivity(new Intent(this, AppLandingView.class));
+            new Prefe(this).set_onBoarding("true");
             finish();
         }
     }

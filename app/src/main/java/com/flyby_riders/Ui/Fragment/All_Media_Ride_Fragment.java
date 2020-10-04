@@ -23,7 +23,7 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
-import com.flyby_riders.Ui.Activity.Ride_Gallery;
+import com.flyby_riders.Ui.Activity.RideGalleryView;
 import com.flyby_riders.Ui.Adapter.Ride.Ride_Gallery_Adapter;
 import com.flyby_riders.Ui.Model.Ride_Media_Model;
 
@@ -93,8 +93,8 @@ public class All_Media_Ride_Fragment extends Fragment {
 
     private void Instantiation(View v) {
         Empty_View = v.findViewById(R.id.Empty_View);
-        My_Ride_ID=Ride_Gallery.My_Ride_ID;
-        Admin_User_Id=Ride_Gallery.Admin_User_Id;
+        My_Ride_ID= RideGalleryView.My_Ride_ID;
+        Admin_User_Id= RideGalleryView.Admin_User_Id;
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
         all_uploaded_list = v.findViewById(R.id.all_uploaded_list);
         all_uploaded_list.setLayoutManager(new GridLayoutManager(getActivity(), 2));

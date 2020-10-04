@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,24 +17,20 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Session;
+import com.flyby_riders.Sharedpreferences.Prefe;
 import com.flyby_riders.Ui.Fragment.Bike_Add_Fragments;
 import com.flyby_riders.Ui.Fragment.Discover_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Ride_Fragment;
 import com.flyby_riders.Ui.Fragment.Ride_Add_Fragments;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
-import com.flyby_riders.Utils.OnSwipeTouchListener;
+import com.flyby_riders.Utils.BaseActivity;
 import com.flyby_riders.Utils.ShadowLayout;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,8 +45,6 @@ import static com.flyby_riders.Ui.Listener.StringUtils.BASIC;
 import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
 
 public class DashBoard extends BaseActivity {
-    @BindView(R.id.Account_Btn)
-    RelativeLayout AccountBtn;
     @BindView(R.id.fragment_container)
     RelativeLayout fragmentContainer;
     @BindView(R.id.discover_active)
@@ -81,22 +74,19 @@ public class DashBoard extends BaseActivity {
         setContentView(R.layout.activity_dash_board);
         ButterKnife.bind(this);
         Instantiation();
-        Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
+        Hit_Rider_Details(new Prefe(this).getUserID());
 
 
     }
 
     private void Instantiation() {
-        new Session(this).set_mylocation("");
+        new Prefe(this).set_mylocation("");
         Tab_View_Adjust(ShadowLayoutMyGarage, ShadowLayoutDiscover, ShadowLayoutRides);
     }
 
-    @OnClick({R.id.Account_Btn, R.id.discover_active, R.id.discover_inactive, R.id.my_garage_active, R.id.my_garage_inactive, R.id.rides_active, R.id.rides_inactive})
+    @OnClick({R.id.discover_active, R.id.discover_inactive, R.id.my_garage_active, R.id.my_garage_inactive, R.id.rides_active, R.id.rides_inactive})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.Account_Btn:
-                Constant.Show_Tos(this, "NOT IMPLEMENTED");
-                break;
             case R.id.discover_active:
                 replaceFragment(new Discover_Fragment());
                 Tab_View_Adjust(ShadowLayoutDiscover, ShadowLayoutMyGarage, ShadowLayoutRides);
@@ -106,15 +96,15 @@ public class DashBoard extends BaseActivity {
                 Tab_View_Adjust(ShadowLayoutDiscover, ShadowLayoutMyGarage, ShadowLayoutRides);
                 break;
             case R.id.my_garage_active:
-                Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
+                Hit_Rider_Details(new Prefe(this).getUserID());
                 Tab_View_Adjust(ShadowLayoutMyGarage, ShadowLayoutRides, ShadowLayoutDiscover);
                 break;
             case R.id.my_garage_inactive:
-                Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
+                Hit_Rider_Details(new Prefe(this).getUserID());
                 Tab_View_Adjust(ShadowLayoutMyGarage, ShadowLayoutRides, ShadowLayoutDiscover);
                 break;
             case R.id.rides_active:
-                hit_my_ride(new Session(this).get_LOGIN_USER_ID());
+                hit_my_ride(new Prefe(this).getUserID());
                 if (My_Ride_Attached != null) {
                     if (My_Ride_Attached.equalsIgnoreCase("0")) {
                         replaceFragment(new Ride_Add_Fragments());
@@ -212,18 +202,18 @@ public class DashBoard extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        hit_my_ride(new Session(this).get_LOGIN_USER_ID());
+        hit_my_ride(new Prefe(this).getUserID());
         LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             {
-                Intent intent = new Intent(this, Gps_Trun_On.class);
+                Intent intent = new Intent(this, GpsTrunOnWarning.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         }
         if (ContextCompat.checkSelfPermission(DashBoard.this, Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
         } else {
-            Intent i = new Intent(getApplicationContext(), Location_Permission.class);
+            Intent i = new Intent(getApplicationContext(), LocationPermissionsWindow.class);
             startActivityForResult(i, 365);
         }
 
@@ -317,18 +307,18 @@ public class DashBoard extends BaseActivity {
             try {
                 if (jsonObject.getString("PLANNAME") != null) {
                     if (jsonObject.getString("PLANNAME").equalsIgnoreCase("")) {
-                        new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);
+                        new Prefe(getApplicationContext()).setAccountPlanStatus(BASIC);
                     } else if (jsonObject.getString("PLANNAME").equalsIgnoreCase("null")) {
-                        new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);
+                        new Prefe(getApplicationContext()).setAccountPlanStatus(BASIC);
                     } else {
                         if (jsonObject.getString("PLANNAME").equalsIgnoreCase(BASIC)) {
-                            new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);
+                            new Prefe(getApplicationContext()).setAccountPlanStatus(BASIC);
                         } else
-                        { new Session(getApplicationContext()).set_MEMBER_STATUS(PREMIUM);
+                        { new Prefe(getApplicationContext()).setAccountPlanStatus(PREMIUM);
                         }
                     }
                 } else {
-                    new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);
+                    new Prefe(getApplicationContext()).setAccountPlanStatus(BASIC);
                 }
             } catch (Exception e) {
                 Constant.Show_Tos_Error(getApplicationContext(),false,true);
@@ -395,8 +385,11 @@ public class DashBoard extends BaseActivity {
 
 
         if (resultCode == RESULT_OK && requestCode == 365) {
-            Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
-            hit_my_ride(new Session(this).get_LOGIN_USER_ID());
+            Hit_Rider_Details(new Prefe(this).getUserID());
+            hit_my_ride(new Prefe(this).getUserID());
         }
     }
+
+
+
 }

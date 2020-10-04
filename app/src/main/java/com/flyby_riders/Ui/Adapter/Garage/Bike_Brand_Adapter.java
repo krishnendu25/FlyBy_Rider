@@ -12,9 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Bike_Model_Activity;
+import com.flyby_riders.Ui.Activity.BikeModelView;
 import com.flyby_riders.Ui.Model.BIKE_BRAND;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -68,7 +67,7 @@ public class Bike_Brand_Adapter extends BaseAdapter {
         holder.brand_clickview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Bike_Model_Activity.class);
+                Intent intent = new Intent(context, BikeModelView.class);
                 intent.putExtra("ID",data.get(position).getID());
                 intent.putExtra("NAME",data.get(position).getNAME());
                 context.startActivity(intent);

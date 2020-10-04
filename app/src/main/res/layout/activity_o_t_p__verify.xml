@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_base"
-    tools:context=".Ui.Activity.OTP_Verify">
+    tools:context=".Ui.Activity.OTPVerification">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

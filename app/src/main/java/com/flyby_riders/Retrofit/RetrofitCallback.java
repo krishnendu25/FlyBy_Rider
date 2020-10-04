@@ -16,7 +16,7 @@ public interface RetrofitCallback {
 
     @FormUrlEncoded
     @POST("getRiderLogin")
-    Call<ResponseBody> RiderLogin(@Field("mobile_no") String contact);
+    Call<ResponseBody> LoginApi(@Field("mobile_no") String contact);
 
     @FormUrlEncoded
     @POST("validate_otp")
@@ -194,5 +194,10 @@ public interface RetrofitCallback {
     @POST("remove_member")
     Call<ResponseBody> remove_member(@Field("Ride_id") String Ride_id,
                                               @Field("member_userid") String member_userid);
+
+    @FormUrlEncoded
+    @POST("Deletemybike")
+    Call<ResponseBody> deleteMyBike(@Field("userid") String userid,
+                                     @Field("bikeid") String bikeid);
 
 }

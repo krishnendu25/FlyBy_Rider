@@ -154,7 +154,7 @@ public class Garage_Advertisement implements Parcelable {
         this.garageOwnerDetails = garageOwnerDetails;
     }
 
-    public static class Advertising_UserAction {
+    public static class Advertising_UserAction  {
         public String ByeNow,ContactStore,NoUserAction;
 
         public String getByeNow() {
@@ -182,8 +182,32 @@ public class Garage_Advertisement implements Parcelable {
         }
     }
 
-    public static class GarageOwnerDetails {
+    public static class GarageOwnerDetails implements Parcelable {
         public String ID,UserName,GarageName,Address,ProfilePicture,city;
+
+        public GarageOwnerDetails() {
+        }
+
+        public GarageOwnerDetails(Parcel in) {
+            ID = in.readString();
+            UserName = in.readString();
+            GarageName = in.readString();
+            Address = in.readString();
+            ProfilePicture = in.readString();
+            city = in.readString();
+        }
+
+        public static final Creator<GarageOwnerDetails> CREATOR = new Creator<GarageOwnerDetails>() {
+            @Override
+            public GarageOwnerDetails createFromParcel(Parcel in) {
+                return new GarageOwnerDetails(in);
+            }
+
+            @Override
+            public GarageOwnerDetails[] newArray(int size) {
+                return new GarageOwnerDetails[size];
+            }
+        };
 
         public String getID() {
             return ID;
@@ -231,6 +255,21 @@ public class Garage_Advertisement implements Parcelable {
 
         public void setCity(String city) {
             this.city = city;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(ID);
+            dest.writeString(UserName);
+            dest.writeString(GarageName);
+            dest.writeString(Address);
+            dest.writeString(ProfilePicture);
+            dest.writeString(city);
         }
     }
 

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_base"
-    tools:context=".Ui.Activity.Bike_Model_Activity">
+    tools:context=".Ui.Activity.BikeModelView">
     <include layout="@layout/toolbar_layout"/>
 
     <LinearLayout

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Garage_List;
+import com.flyby_riders.Ui.Activity.AllGarageList;
 import com.flyby_riders.Ui.Model.Garage_Owner_Model;
 import com.squareup.picasso.Picasso;
 
@@ -40,7 +40,7 @@ public class Garage_Owner_Adapter extends RecyclerView.Adapter<Garage_Owner_Adap
         this.context=context;
         Garage_list = data;
         inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        garageownerclick = (Garage_List)context;
+        garageownerclick = (AllGarageList)context;
     }
     @Override
     public Garage_Owner_Adapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

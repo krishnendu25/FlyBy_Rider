@@ -109,6 +109,8 @@ dependencies {
     //Recyclerviewmergeadapter
     implementation 'me.mvdw.recyclerviewmergeadapter:recyclerviewmergeadapter:2.1.0'
     implementation 'com.linsea:universalvideoview:1.1.0@aar'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+    implementation 'com.github.smarteist:autoimageslider:1.3.9'
 
 }
 apply plugin: 'com.jakewharton.butterknife'

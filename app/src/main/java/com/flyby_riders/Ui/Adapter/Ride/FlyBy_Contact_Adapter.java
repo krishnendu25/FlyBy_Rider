@@ -1,7 +1,6 @@
 package com.flyby_riders.Ui.Adapter.Ride;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.recyclerview.widget.RecyclerView;
+
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Invite_new_member;
+import com.flyby_riders.Ui.Activity.InviteNewMember;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.FlyBy_Contact_Model;
 import java.util.List;
@@ -30,7 +29,7 @@ public class FlyBy_Contact_Adapter extends BaseAdapter
         // TODO Auto-generated constructor stub
         this.data=data;
         this.context=context;
-        onclick = (Invite_new_member)context;
+        onclick = (InviteNewMember)context;
     }
 
     @Override

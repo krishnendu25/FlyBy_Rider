@@ -35,16 +35,19 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
-import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Activity.Bike_Brand_Activity;
-import com.flyby_riders.Ui.Activity.Document_Locker;
-import com.flyby_riders.Ui.Activity.Upgrade_To_Premium;
+import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Ui.Activity.AvertisementView;
+import com.flyby_riders.Ui.Activity.BikeBrandView;
+import com.flyby_riders.Ui.Activity.DocumentLockerView;
+import com.flyby_riders.Ui.Activity.MyAccount;
+import com.flyby_riders.Ui.Activity.UpgradeAccountPlan;
 import com.flyby_riders.Ui.Adapter.Garage.Garage_Ad_Adapter;
 import com.flyby_riders.Ui.Adapter.Garage.Garage_add_click;
 import com.flyby_riders.Ui.Adapter.Garage.My_Bike_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Garage_Advertisement;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
+import com.flyby_riders.Utils.ShadowLayout;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -78,6 +81,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     public RetrofitCallback retrofitCallback;
     TextView bikeBrandName, newADIndicator;
     TextView bikeModelName;
+    ShadowLayout AccountBtn;
     ImageButton BikeAddBtn;
     RelativeLayout DocumentLockerBtn;
     RecyclerView AdvetismentList;
@@ -91,7 +95,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     boolean isNetwork = false;
     boolean canGetLocation = true;
     NestedScrollView NestedScrollView_view;
-    ArrayList<Garage_Advertisement> garage_ads_list = new ArrayList<>();
+   public static ArrayList<Garage_Advertisement> garage_ads_list = new ArrayList<>();
     Garage_Ad_Adapter garageAdAdapter;
     LinearLayout collapse_view, My_Bike_Image_view;
     ImageView collapse_image_view;
@@ -131,13 +135,13 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         BikeAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (new Session(mActivity).get_MEMBER_STATUS().equalsIgnoreCase(PREMIUM)) {
-                    startActivity(new Intent(mActivity, Bike_Brand_Activity.class));
+                if (new Prefe(mActivity).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)) {
+                    startActivity(new Intent(mActivity, BikeBrandView.class));
                 } else {
                     if (My_Bike_els.size() == 1) {
                         hit_Payment_Bottomsheet();
                     } else {
-                        startActivity(new Intent(mActivity, Bike_Brand_Activity.class));
+                        startActivity(new Intent(mActivity, BikeBrandView.class));
                     }
                 }
             }
@@ -145,7 +149,13 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         DocumentLockerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mActivity, Document_Locker.class));
+                startActivity(new Intent(mActivity, DocumentLockerView.class));
+            }
+        });
+        AccountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MyAccount.class));
             }
         });
         NestedScrollView_view.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -189,8 +199,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         view_plan_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mActivity, Upgrade_To_Premium.class);
-                i.putExtra("My_Ride_ID", new Session(mActivity).get_LOGIN_USER_ID());
+                Intent i = new Intent(mActivity, UpgradeAccountPlan.class);
                 startActivity(i);
                 bottomSheetDialog.hide();
             }
@@ -207,6 +216,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         My_Bike_Image_view = view.findViewById(R.id.My_Bike_Image_view);
         collapse_image_view = view.findViewById(R.id.collapse_image_view);
         bikeBrandName = view.findViewById(R.id.bike_brand_name);
+        AccountBtn= view.findViewById(R.id.Account_Btn);
         bikeModelName = view.findViewById(R.id.bike_model_name);
         newADIndicator = view.findViewById(R.id.newADIndicator);
         bikeModelName.setSelected(true);
@@ -283,7 +293,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
     private void fetchRiderLocation() {
 
-        if (new Session(mContext).get_mylocation().equalsIgnoreCase("")) {
+        if (new Prefe(mContext).get_mylocation().equalsIgnoreCase("")) {
             show_ProgressDialog();
             mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(mActivity, new OnSuccessListener<Location>() {
                 @Override
@@ -309,7 +319,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         } else {
             JSONObject jsonObject = null;
             try {
-                jsonObject = new JSONObject(new Session(mContext).get_mylocation());
+                jsonObject = new JSONObject(new Prefe(mContext).get_mylocation());
                 FetchMyAdd(jsonObject.getString("lat"), jsonObject.getString("long"));
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -354,11 +364,9 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                     hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
                 }
             }
-
         } catch (Exception e) {
             Constant.Show_Tos_Error(mActivity, false, true);
         }
-
     }
 
     private void hit_Fetch_add(String bike_brand_id, String bike_model_id) {
@@ -469,7 +477,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     @Override
     public void onResume() {
         super.onResume();
-        Hit_Rider_Details(new Session(mContext).get_LOGIN_USER_ID());
+        Hit_Rider_Details(new Prefe(mContext).getUserID());
     }
 
     @Override
@@ -478,12 +486,12 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
         if (requestCode == REQUEST_LOCATION) {
 
-            if (new Session(mContext).get_mylocation().equalsIgnoreCase("")) {
+            if (new Prefe(mContext).get_mylocation().equalsIgnoreCase("")) {
                 fetchRiderLocation();
             } else {
                 JSONObject jsonObject = null;
                 try {
-                    jsonObject = new JSONObject(new Session(mContext).get_mylocation());
+                    jsonObject = new JSONObject(new Prefe(mContext).get_mylocation());
                     FetchMyAdd(jsonObject.getString("lat"), jsonObject.getString("long"));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -498,7 +506,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("lat", location.getLatitude());
         jsonObject.put("long", location.getLongitude());
-        new Session(mContext).set_mylocation(jsonObject.toString());
+        new Prefe(mContext).set_mylocation(jsonObject.toString());
         City_Name = Constant.getCompletecity(mActivity, location.getLatitude(), location.getLongitude(), true, false, false);
         if (City_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
             if (!City_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
@@ -639,5 +647,8 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     @Override
     public void SetOnClick(int Position) {
 
+        Intent intent = new Intent(getActivity(), AvertisementView.class);
+        intent.putExtra("Position",Position);
+        startActivity(intent);
     }
 }

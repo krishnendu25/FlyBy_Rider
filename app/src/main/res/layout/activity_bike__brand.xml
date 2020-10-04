@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_base"
     android:orientation="vertical"
-    tools:context=".Ui.Activity.Bike_Brand_Activity">
+    tools:context=".Ui.Activity.BikeBrandView">
 
    <include layout="@layout/toolbar_layout"/>
     <com.flyby_riders.Utils.ShadowLayout

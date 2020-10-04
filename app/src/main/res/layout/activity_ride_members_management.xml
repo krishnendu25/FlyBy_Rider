@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_base"
     android:orientation="vertical"
-    tools:context=".Ui.Activity.Ride_Members_Management">
+    tools:context=".Ui.Activity.RideMembersManage">
 
 
     <LinearLayout

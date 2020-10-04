@@ -7,7 +7,7 @@
     android:background="@drawable/login_bg"
     android:orientation="vertical"
     android:weightSum="3"
-    tools:context=".Ui.Activity.Choose_Way_Screen">
+    tools:context=".Ui.Activity.AppLandingView">
 
     <RelativeLayout
         android:layout_width="match_parent"

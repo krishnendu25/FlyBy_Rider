@@ -2,6 +2,7 @@ package com.flyby_riders.Constants;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -770,22 +771,15 @@ public class Constant {
         return images;
     }
 
-    public static void showRateDialog(final Context context) {
-        if (context != null) {
-            String link = "market://details?id=";
+    public static void showRateDialog( Context context) {
+        try {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse((true ? "market://details?id=" : "amzn://apps/android?p=") +context.getPackageName())));
+        } catch (ActivityNotFoundException e1) {
             try {
-                // play market available
-                context.getPackageManager()
-                        .getPackageInfo("com.android.vending", 0);
-                // not available
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-                // should use browser
-                link = "https://play.google.com/store/apps/details?id=";
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse((true ? "http://play.google.com/store/apps/details?id=" : "http://www.amazon.com/gp/mas/dl/android?p=") +context.getPackageName())));
+            } catch (ActivityNotFoundException e2) {
+                Constant.Show_Tos(context, "You don't have any app that can open this link");
             }
-            // starts external action
-            context.startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(link + context.getPackageName())));
         }
     }
 

@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Document_Locker;
+import com.flyby_riders.Ui.Activity.DocumentLockerView;
 import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
@@ -38,7 +38,7 @@ public class My_Bike_Adapter extends RecyclerView.Adapter<My_Bike_Adapter.MyView
         // TODO Auto-generated constructor stub
         this.data=data;
         this.context=context;
-        onClick = (Document_Locker)context;
+        onClick = (DocumentLockerView)context;
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

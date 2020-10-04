@@ -20,7 +20,7 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
-import com.flyby_riders.Sharedpreferences.Session;
+import com.flyby_riders.Sharedpreferences.Prefe;
 import com.flyby_riders.Ui.Activity.RideMapView;
 import com.flyby_riders.Ui.Adapter.Ride.My_Ride_Adapter;
 import com.flyby_riders.Ui.Model.My_Ride_Model;
@@ -36,6 +36,10 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_ENDED;
+import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_NOT_STARTED;
+import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_STARTED;
 
 public class My_Ride_Fragment extends Fragment {
     public RetrofitCallback retrofitCallback;
@@ -79,7 +83,7 @@ public class My_Ride_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        hit_my_ride(new Session(getContext()).get_LOGIN_USER_ID());
+        hit_my_ride(new Prefe(getContext()).getUserID());
     }
 
     private void hit_my_ride(String user_id) {
@@ -117,7 +121,13 @@ public class My_Ride_Fragment extends Fragment {
                                 myRideModel.setCOUNTIMAGELIST(JS.getString("COUNTIMAGELIST"));
                                 myRideModel.setPICMEDIAFILE(JS.getString("PICMEDIAFILE"));
                                 myRideModel.setPLANNAME(JS.getString("PLANNAME"));
-                                myRideModel.setTRACKSTATUS(JS.getString("TRACKSTATUS"));
+                                if (JS.getString("TRACKSTATUS").equalsIgnoreCase("NOT STARTED"))
+                                { myRideModel.setTRACKSTATUS(RIDE_NOT_STARTED);
+                                }else if (JS.getString("TRACKSTATUS").equalsIgnoreCase("STARTED"))
+                                {myRideModel.setTRACKSTATUS(RIDE_STARTED);
+                                }else if (JS.getString("TRACKSTATUS").equalsIgnoreCase("END"))
+                                {myRideModel.setTRACKSTATUS(RIDE_ENDED);
+                                }
                                 myRideModel.setSTARTLAT(JS.getString("STARTLAT"));
                                 myRideModel.setSTARTLANG(JS.getString("STARTLANG"));
                                 myRideModel.setENDLAT(JS.getString("ENDLAT"));

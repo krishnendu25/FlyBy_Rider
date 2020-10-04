@@ -18,10 +18,9 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
-import com.flyby_riders.Ui.Activity.Garage_List;
+import com.flyby_riders.Ui.Activity.AllGarageList;
 import com.flyby_riders.Ui.Adapter.Discover.Catagoryonclick;
 import com.flyby_riders.Ui.Adapter.Discover.Category_Adapter;
-import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Category_Model;
 import com.flyby_riders.Ui.Model.Garage_Owner_Model;
 
@@ -265,7 +264,7 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
         temp_list.addAll(hashSet);
 
         try {
-            Intent intent = new Intent(getActivity(), com.flyby_riders.Ui.Activity.Garage_List.class);
+            Intent intent = new Intent(getActivity(), AllGarageList.class);
             intent.putExtra("List_Garage",temp_list);
             intent.putExtra("categoryTitle",Catagory);
             startActivity(intent);
