@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_base"
     tools:context=".Ui.Fragment.Discover_Fragment">
 
@@ -47,5 +48,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"/>
         </LinearLayout>
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/shimmerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:duration="800"
+                android:background="@color/background_base">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shimmer_discover"/>
+            </RelativeLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </RelativeLayout>
 </FrameLayout>

@@ -23,7 +23,7 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
     Context context;
     private static LayoutInflater inflater = null;
     ArrayList<Garage_Advertisement> data;
-    Garage_add_click garage_add_click;
+    GarageAddClick garage_addClick;
 
     public Garage_Ad_Adapter(Context context, ArrayList<Garage_Advertisement> data_d, My_Garage_Fragment fragment) {
         this.context = context;
@@ -68,7 +68,7 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
         holder.Add_view_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              garage_add_click.SetOnClick(i);
+              garage_addClick.setOnClick(i);
             }
         });
     }
@@ -95,7 +95,7 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
             vendor_name_tv = (TextView) itemView.findViewById(R.id.vendor_name_tv);
         }
     }
-    void setClickListener(Garage_add_click itemClickListener) {
-        this.garage_add_click = itemClickListener;
+    void setClickListener(GarageAddClick itemClickListener) {
+        this.garage_addClick = itemClickListener;
     }
 }

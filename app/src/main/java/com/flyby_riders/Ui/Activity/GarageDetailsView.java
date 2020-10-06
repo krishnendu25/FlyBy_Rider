@@ -342,8 +342,9 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
         String[] allIdsArray = TextUtils.split(allIds, ",");
         ArrayList<String> idsList = new ArrayList<String>(Arrays.asList(allIdsArray));
         for (String element : idsList) {
-            images.add(imagepath + element);
-        }
+            String url = imagepath + element;
+            if (!url.trim().equalsIgnoreCase(imagepath))
+            { images.add(url); } }
         return images;
     }
 

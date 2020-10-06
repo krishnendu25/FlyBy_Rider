@@ -1,6 +1,5 @@
 package com.flyby_riders.Ui.Adapter.Discover;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -8,16 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Adapter.Garage.Garage_add_click;
 import com.flyby_riders.Ui.Fragment.Discover_Fragment;
-import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Category_Model;
 
 import java.util.ArrayList;

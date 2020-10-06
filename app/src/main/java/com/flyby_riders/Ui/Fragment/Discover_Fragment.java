@@ -12,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
@@ -46,6 +48,8 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
     ArrayList<Garage_Owner_Model> Garage_List = new ArrayList<>();
     private ArrayList<Category_Model> Category_List = new ArrayList<>();
     Category_Adapter category_adapter;
+    ShimmerFrameLayout shimmer_view_container;
+    RelativeLayout shimmerView;
     public Discover_Fragment() {
     }
 
@@ -75,6 +79,8 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
     private void Instantiation(View v) {
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
         Services_List = v.findViewById(R.id.Services_List);
+        shimmer_view_container = v.findViewById(R.id.shimmer_view_container);
+        shimmerView = v.findViewById(R.id.shimmerView);
 
     }
 
@@ -144,22 +150,21 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
         });
     }
     private void hit_service() {
-
         show_ProgressDialog();
         Call<ResponseBody> requestCall = retrofitCallback.getAllServices();
 
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                hide_ProgressDialog();
+
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response.body().string());
                         } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                            hide_ProgressDialog();
+                        } hide_ProgressDialog();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             Hit_Get_FlyBy_User();
                             Category_List.clear();
@@ -181,7 +186,8 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
                         e.printStackTrace();
                         hide_ProgressDialog();
                     }
-                }
+                }else
+                    hide_ProgressDialog();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -194,48 +200,6 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
     public void onResume() {
         super.onResume();
         hit_service();
-    }
-
-    public void show_ProgressDialog() {
-        try {
-            try {
-                if (alertDialog_loader != null) {
-                    alertDialog_loader.show();
-                } else {
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-                    LayoutInflater inflater = (this).getLayoutInflater();
-                    View dialogView = inflater.inflate(R.layout.loading_page, null);
-                    dialogBuilder.setView(dialogView);
-                    dialogBuilder.setCancelable(false);
-                    LottieAnimationView LottieAnimationView = dialogView.findViewById(R.id.LottieAnimationView);
-                    alertDialog_loader = dialogBuilder.create();
-                    alertDialog_loader.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    LottieAnimationView.setAnimation("bike_loader.json");
-                    LottieAnimationView.playAnimation();
-                    alertDialog_loader.show();
-                }
-            } catch (WindowManager.BadTokenException e) {
-                //use a log message
-            }
-        } catch (Exception e) {
-
-        }
-
-
-    }
-
-    public void hide_ProgressDialog() {
-        try {
-            try {
-                if (alertDialog_loader != null) {
-                    alertDialog_loader.hide();
-                }
-            } catch (WindowManager.BadTokenException e) {
-                //use a log message
-            }
-        } catch (Exception e) {
-
-        }
     }
 
 
@@ -272,8 +236,15 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
         {
 
         }
-
-
-
     }
+    public void show_ProgressDialog() {
+        shimmer_view_container.startShimmer();
+        shimmerView.setVisibility(View.VISIBLE);
+    }
+
+    public void hide_ProgressDialog() {
+        shimmer_view_container.stopShimmer();
+        shimmerView.setVisibility(View.GONE);
+    }
+
 }

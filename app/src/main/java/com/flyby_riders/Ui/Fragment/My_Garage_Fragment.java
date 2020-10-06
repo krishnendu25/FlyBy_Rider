@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.text.Html;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
@@ -42,13 +45,12 @@ import com.flyby_riders.Ui.Activity.DocumentLockerView;
 import com.flyby_riders.Ui.Activity.MyAccount;
 import com.flyby_riders.Ui.Activity.UpgradeAccountPlan;
 import com.flyby_riders.Ui.Adapter.Garage.Garage_Ad_Adapter;
-import com.flyby_riders.Ui.Adapter.Garage.Garage_add_click;
+import com.flyby_riders.Ui.Adapter.Garage.GarageAddClick;
 import com.flyby_riders.Ui.Adapter.Garage.My_Bike_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Garage_Advertisement;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
 import com.flyby_riders.Utils.ShadowLayout;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -75,39 +77,32 @@ import retrofit2.Response;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
 
-public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_click {
+public class My_Garage_Fragment extends Fragment implements onClick, GarageAddClick {
     final static int REQUEST_LOCATION = 199;
     private final LocationRequest defaultLocationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     public RetrofitCallback retrofitCallback;
-    TextView bikeBrandName, newADIndicator;
-    TextView bikeModelName;
-    ShadowLayout AccountBtn;
-    ImageButton BikeAddBtn;
-    RelativeLayout DocumentLockerBtn;
-    RecyclerView AdvetismentList;
-    My_Bike_Adapter my_bike_adapter;
-    ArrayList<My_Bike_Model> My_Bike_els = new ArrayList<>();
-    RecyclerView MyBikeList;
-    My_Garage_Fragment fragment;
-    ImageView MyBikeImage;
-    String BIKE_MODEL_ID, BIKE_BRAND_ID;
-    boolean isGPS = false;
-    boolean isNetwork = false;
-    boolean canGetLocation = true;
-    NestedScrollView NestedScrollView_view;
-   public static ArrayList<Garage_Advertisement> garage_ads_list = new ArrayList<>();
-    Garage_Ad_Adapter garageAdAdapter;
-    LinearLayout collapse_view, My_Bike_Image_view;
-    ImageView collapse_image_view;
-    String toDayDate = "";
-    int newADFlag = 0;
+    private TextView bikeBrandName, newADIndicator, bikeModelName;
+    private LinearLayout collapse_view, My_Bike_Image_view;
+    private ShadowLayout AccountBtn;
+    private ImageButton BikeAddBtn;
+    private RelativeLayout DocumentLockerBtn;
+    private RecyclerView AdvetismentList, MyBikeList;
+    private My_Bike_Adapter my_bike_adapter;
+    private My_Garage_Fragment fragment;
+    private NestedScrollView NestedScrollView_view;
+    private Garage_Ad_Adapter garageAdAdapter;
+    private ImageView collapse_image_view, MyBikeImage;
+    private String toDayDate = "", City_Name = "", BIKE_MODEL_ID = "", BIKE_BRAND_ID = "";
+    private int newADFlag = 0;
     private AlertDialog alertDialog_loader = null;
     private LocationManager locationManager;
-    private GoogleApiClient googleApiClient;
-    private String City_Name = "";
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Activity mActivity;
+    ShimmerFrameLayout shimmer_view_container;
+    RelativeLayout shimmerView;
     private Context mContext;
+    private ArrayList<My_Bike_Model> My_Bike_els = new ArrayList<>();
+    public static ArrayList<Garage_Advertisement> garage_ads_list = new ArrayList<>();
 
     public My_Garage_Fragment() {
     }
@@ -155,37 +150,28 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         AccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MyAccount.class));
+                startActivity(new Intent(mActivity, MyAccount.class));
             }
         });
         NestedScrollView_view.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
                 if (scrollY > oldScrollY) {
-
                     Transition transition = new Fade();
                     transition.setDuration(100);
                     transition.addTarget(R.id.collapse_view);
-
                     TransitionManager.beginDelayedTransition(collapse_view, transition);
-
                     collapse_view.setVisibility(View.VISIBLE);
                     MyBikeImage.setVisibility(View.GONE);
                 }
-
                 if (scrollY == 0) {
-
                     Transition x = new Fade();
                     x.setDuration(600);
                     x.addTarget(R.id.My_Bike_Image);
-
                     TransitionManager.beginDelayedTransition(My_Bike_Image_view, x);
                     collapse_view.setVisibility(View.GONE);
                     MyBikeImage.setVisibility(View.VISIBLE);
                 }
-
-
             }
         });
         return view;
@@ -209,14 +195,16 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
     private void Instantiation(View view) {
         mActivity = getActivity();
-        mContext = getActivity();
+        mContext = mActivity;
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(mActivity);
+        shimmer_view_container = view.findViewById(R.id.shimmer_view_container);
+        shimmerView = view.findViewById(R.id.shimmerView);
         NestedScrollView_view = view.findViewById(R.id.NestedScrollView_view);
         collapse_view = view.findViewById(R.id.collapse_view);
         My_Bike_Image_view = view.findViewById(R.id.My_Bike_Image_view);
         collapse_image_view = view.findViewById(R.id.collapse_image_view);
         bikeBrandName = view.findViewById(R.id.bike_brand_name);
-        AccountBtn= view.findViewById(R.id.Account_Btn);
+        AccountBtn = view.findViewById(R.id.Account_Btn);
         bikeModelName = view.findViewById(R.id.bike_model_name);
         newADIndicator = view.findViewById(R.id.newADIndicator);
         bikeModelName.setSelected(true);
@@ -295,27 +283,29 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
         if (new Prefe(mContext).get_mylocation().equalsIgnoreCase("")) {
             show_ProgressDialog();
-            mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(mActivity, new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(mActivity, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
 
-                    if (location != null) {
-                        hide_ProgressDialog();
-                        try {
-                            FetchMyAdd(location);
-                        } catch (Exception e) {
-                            Constant.Show_Tos_Error(mActivity, false, true);
+                        if (location != null) {
+
+                            try {
+                                FetchMyAdd(location);
+                            } catch (Exception e) {
+                                Constant.Show_Tos_Error(mActivity, false, true);
+                            }
+                        } else {
+                            getLocation();
                         }
-                    } else {
-                        getLocation();
                     }
-                }
 
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                }
-            });
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+            }
         } else {
             JSONObject jsonObject = null;
             try {
@@ -327,7 +317,6 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
         }
     }
-
 
     @Override
     public void onClick(String Value) {
@@ -370,6 +359,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     }
 
     private void hit_Fetch_add(String bike_brand_id, String bike_model_id) {
+        newADFlag = 0;
         show_ProgressDialog();
         Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(bike_model_id, bike_brand_id, City_Name);
         requestCall.enqueue(new Callback<ResponseBody>() {
@@ -400,12 +390,16 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                                 AdvetismentList.setAdapter(garageAdAdapter);
                                 if (newADFlag != 0)
                                     newADIndicator.setText(String.valueOf(newADFlag) + " New");
-                                else
+                                else {
+                                    newADFlag = 0;
                                     newADIndicator.setText("No New");
+                                }
+                                    
                             }
                         } else {
                             if (garageAdAdapter != null)
-                                garageAdAdapter.notifyDataSetChanged();
+                                newADFlag = 0;
+                            garageAdAdapter.notifyDataSetChanged();
                             hide_ProgressDialog();
                         }
                     } catch (Exception e) {
@@ -473,7 +467,6 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         return temp;
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -502,7 +495,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         }
     }
 
-    void FetchMyAdd(Location location) throws JSONException {
+    private void FetchMyAdd(Location location) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("lat", location.getLatitude());
         jsonObject.put("long", location.getLongitude());
@@ -516,7 +509,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
     }
 
-    void FetchMyAdd(String Latitude, String Longitude) throws JSONException {
+    private void FetchMyAdd(String Latitude, String Longitude) throws JSONException {
         City_Name = Constant.getCompletecity(mActivity, Double.parseDouble(Latitude), Double.parseDouble(Longitude), true, false, false);
         if (City_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
             if (!City_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
@@ -584,8 +577,6 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                             hide_ProgressDialog();
                             Constant.Show_Tos(mContext, "Someting Error..");
                         }
-
-
                     } catch (Exception e) {
                         e.printStackTrace();
                         Constant.Show_Tos(mContext, "Someting Error..");
@@ -593,7 +584,6 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Constant.Show_Tos_Error(mActivity, true, false);
@@ -601,54 +591,32 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
             }
         });
     }
-
     public void show_ProgressDialog() {
-        try {
-            try {
-                if (alertDialog_loader != null) {
-                    alertDialog_loader.show();
-                } else {
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
-                    LayoutInflater inflater = (this).getLayoutInflater();
-                    View dialogView = inflater.inflate(R.layout.loading_page, null);
-                    dialogBuilder.setView(dialogView);
-                    dialogBuilder.setCancelable(false);
-                    LottieAnimationView LottieAnimationView = dialogView.findViewById(R.id.LottieAnimationView);
-                    alertDialog_loader = dialogBuilder.create();
-                    alertDialog_loader.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    LottieAnimationView.setAnimation("bike_loader.json");
-                    LottieAnimationView.playAnimation();
-                    alertDialog_loader.show();
-                }
-            } catch (WindowManager.BadTokenException e) {
-                //use a log message
-            }
-        } catch (Exception e) {
-
-        }
-
-
+        shimmer_view_container.startShimmer();
+        shimmerView.setVisibility(View.VISIBLE);
     }
-
     public void hide_ProgressDialog() {
-        try {
-            try {
-                if (alertDialog_loader != null) {
-                    alertDialog_loader.hide();
-                }
-            } catch (WindowManager.BadTokenException e) {
-                //use a log message
-            }
-        } catch (Exception e) {
-
-        }
+        shimmer_view_container.stopShimmer();
+        shimmerView.setVisibility(View.GONE);
     }
-
+    private void hitAddClick(String userid, String advID) {
+        Call<ResponseBody> requestCall = retrofitCallback.click_advertise(userid,advID);
+        requestCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Log.e("@ClickOnAdd ",advID);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {hide_ProgressDialog();}
+        });
+    }
     @Override
-    public void SetOnClick(int Position) {
-
-        Intent intent = new Intent(getActivity(), AvertisementView.class);
-        intent.putExtra("Position",Position);
+    public void setOnClick(int Position) {
+        hitAddClick(new Prefe(mActivity).getUserID(),garage_ads_list.get(Position).Advertising_ID.toString().trim());
+        Intent intent = new Intent(mActivity, AvertisementView.class);
+        intent.putExtra("Position", Position);
         startActivity(intent);
     }
 }

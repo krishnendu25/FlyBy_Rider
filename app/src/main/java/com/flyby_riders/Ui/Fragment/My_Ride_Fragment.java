@@ -13,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
@@ -46,7 +48,8 @@ public class My_Ride_Fragment extends Fragment {
     ArrayList<My_Ride_Model> MyRide_List = new ArrayList<>();
     RecyclerView MyRide_ListRecyclerView;
     private AlertDialog alertDialog_loader = null;
-
+    ShimmerFrameLayout shimmer_view_container;
+    RelativeLayout shimmerView;
     public My_Ride_Fragment() {
     }
 
@@ -67,6 +70,8 @@ public class My_Ride_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my__ride, container, false);
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
+        shimmer_view_container = v.findViewById(R.id.shimmer_view_container);
+        shimmerView = v.findViewById(R.id.shimmerView);
         TextView Create_Ride_tv = (TextView) v.findViewById(R.id.Create_Ride_tv);
         MyRide_ListRecyclerView = (RecyclerView) v.findViewById(R.id.MyRide_List);
         MyRide_ListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -164,47 +169,12 @@ public class My_Ride_Fragment extends Fragment {
 
 
     }
-
-
     public void show_ProgressDialog() {
-        try {
-            try {
-                if (alertDialog_loader != null) {
-                    alertDialog_loader.show();
-                } else {
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-                    LayoutInflater inflater = (this).getLayoutInflater();
-                    View dialogView = inflater.inflate(R.layout.loading_page, null);
-                    dialogBuilder.setView(dialogView);
-                    dialogBuilder.setCancelable(false);
-                    LottieAnimationView LottieAnimationView = dialogView.findViewById(R.id.LottieAnimationView);
-                    alertDialog_loader = dialogBuilder.create();
-                    alertDialog_loader.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    LottieAnimationView.setAnimation("bike_loader.json");
-                    LottieAnimationView.playAnimation();
-                    alertDialog_loader.show();
-                }
-            } catch (WindowManager.BadTokenException e) {
-                //use a log message
-            }
-        } catch (Exception e) {
-
-        }
-
-
+        shimmer_view_container.startShimmer();
+        shimmerView.setVisibility(View.VISIBLE);
     }
-
     public void hide_ProgressDialog() {
-        try {
-            try {
-                if (alertDialog_loader != null) {
-                    alertDialog_loader.hide();
-                }
-            } catch (WindowManager.BadTokenException e) {
-                //use a log message
-            }
-        } catch (Exception e) {
-
-        }
+        shimmer_view_container.stopShimmer();
+        shimmerView.setVisibility(View.GONE);
     }
 }

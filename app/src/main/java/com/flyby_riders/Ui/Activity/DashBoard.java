@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Sharedpreferences.Prefe;
@@ -66,7 +67,8 @@ public class DashBoard extends BaseActivity {
     @BindView(R.id.ShadowLayout_rides)
     ShadowLayout ShadowLayoutRides;
     public static ArrayList<My_Bike_Model> My_Bike = new ArrayList<>();
-    private String My_Ride_Attached;
+    private String My_Ride_Attached; ShimmerFrameLayout shimmer_view_container;
+    RelativeLayout shimmerView;
   String Current_Fagment_Name="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,8 @@ public class DashBoard extends BaseActivity {
 
     private void Instantiation() {
         new Prefe(this).set_mylocation("");
+        shimmer_view_container = findViewById(R.id.shimmer_view_container);
+        shimmerView = findViewById(R.id.shimmerView);
         Tab_View_Adjust(ShadowLayoutMyGarage, ShadowLayoutDiscover, ShadowLayoutRides);
     }
 
@@ -388,6 +392,16 @@ public class DashBoard extends BaseActivity {
             Hit_Rider_Details(new Prefe(this).getUserID());
             hit_my_ride(new Prefe(this).getUserID());
         }
+    }
+
+    public void show_ProgressDialog() {
+        shimmer_view_container.startShimmer();
+        shimmerView.setVisibility(View.VISIBLE);
+    }
+
+    public void hide_ProgressDialog() {
+        shimmer_view_container.stopShimmer();
+        shimmerView.setVisibility(View.GONE);
     }
 
 

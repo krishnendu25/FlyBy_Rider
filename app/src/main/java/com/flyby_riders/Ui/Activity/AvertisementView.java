@@ -2,6 +2,7 @@ package com.flyby_riders.Ui.Activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -101,7 +102,9 @@ public class AvertisementView extends AppCompatActivity {
         {
             AlbumCoverPicture.setImageDrawable(getResources().getDrawable(R.drawable.images));
         }
+
         Images = splitByComma(ga.getAdvertising_Images(), ga.getADIMAGEPATH());
+        Images.add(ga.Advertising_CoverPic);
         imageSlider.setSliderAdapter(new SliderAdapterExample(AvertisementView.this,Images));
 
     }
@@ -122,7 +125,11 @@ public class AvertisementView extends AppCompatActivity {
         String[] allIdsArray = TextUtils.split(allIds, ",");
         ArrayList<String> idsList = new ArrayList<String>(Arrays.asList(allIdsArray));
         for (String element : idsList) {
-            images.add(imagepath + element);
+            String url = imagepath + element;
+            if (!url.trim().equalsIgnoreCase(imagepath))
+            {
+                images.add(url);
+            }
         }
         return images;
     }

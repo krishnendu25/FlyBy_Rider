@@ -51,10 +51,13 @@ public class Advertisement_Adapter extends BaseAdapter {
         holder.Add_title_tv = (TextView) rowView.findViewById(R.id.Add_title_tv);
         holder.price_add = (TextView) rowView.findViewById(R.id.price_add);
         holder.vendor_name_tv = (TextView) rowView.findViewById(R.id.vendor_name_tv);
+        holder.vendorView= (LinearLayout) rowView.findViewById(R.id.vendorView);
 
         holder.Add_title_tv.setText(data.get(i).getTITLE());
         holder.vendor_name_tv.setText(ownername);
         holder.price_add.setText(mcontext.getString(R.string.rupee)+" "+data.get(i).getADCOSTPRICE());
+        holder.vendor_name_tv.setVisibility(View.GONE);
+        holder.vendorView.setVisibility(View.GONE);
 
         try{
             Picasso.get().load(data.get(0).getIMAGECOVERPATH()+data.get(0).getADCOVERIMAGE()).placeholder(R.drawable.images).into(holder.Cover_pic_tv);
@@ -70,7 +73,7 @@ public class Advertisement_Adapter extends BaseAdapter {
     }
 
     public class Holder {
-        LinearLayout Add_view_click;
+        LinearLayout Add_view_click,vendorView;
         ImageView Cover_pic_tv;
         TextView Add_title_tv;
         TextView price_add;

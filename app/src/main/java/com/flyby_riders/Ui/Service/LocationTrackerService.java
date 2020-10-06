@@ -6,6 +6,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,7 +37,7 @@ import com.google.android.gms.location.LocationServices;
  */
 
 
-public class LocationTrackerService extends Service {
+public class LocationTrackerService extends JobService {
 
     private static final String TAG = LocationTrackerService.class.getSimpleName();
     public static final String ACTION_LOCATION_BROADCAST = LocationTrackerService.class.getName() + "LocationBroadcast";
@@ -43,16 +45,31 @@ public class LocationTrackerService extends Service {
     public static final String EXTRA_LONGITUDE = "extra_longitude";
     public static final String EXTRA_SPEED = "EXTRA_SPEED";
     public static final String TIMEING = "TIMEING";
+    private LocationRequest request;
+    private FusedLocationProviderClient client;
+
 
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    public boolean onStartJob(JobParameters params) {
+
+        return true;
+    }
+
+    @Override
+    public boolean onStopJob(JobParameters params) {
+
+        return false;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
        // buildNotification();
+        request = new LocationRequest();
+        request.setInterval(2000);
+        request.setFastestInterval(2000);
+        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        client = LocationServices.getFusedLocationProviderClient(this);
         requestLocationUpdates();
     }
 
@@ -112,18 +129,13 @@ public class LocationTrackerService extends Service {
 
 
     private void requestLocationUpdates() {
-        LocationRequest request = new LocationRequest();
-        request.setInterval(2000);
-        request.setFastestInterval(2000);
-        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
-        int permission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
+        int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permission == PackageManager.PERMISSION_GRANTED) {
             client.requestLocationUpdates(request, new LocationCallback() {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
              Location location = locationResult.getLastLocation();
+                    Log.e("@LocationTrackerService",location.toString());
                     Intent intent = new Intent(ACTION_LOCATION_BROADCAST);
                     intent.putExtra(TIMEING, String.valueOf(location.getElapsedRealtimeNanos()));
                     intent.putExtra(EXTRA_LATITUDE, String.valueOf(location.getLatitude()));
@@ -135,4 +147,9 @@ public class LocationTrackerService extends Service {
         }
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
+    }
 }
