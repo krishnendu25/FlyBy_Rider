@@ -18,10 +18,6 @@ import com.flyby_riders.R;
 import com.flyby_riders.Sharedpreferences.Prefe;
 import com.flyby_riders.Utils.BaseActivity;
 import com.flyby_riders.Utils.CommentKeyBoardFix;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.stfalcon.smsverifycatcher.OnSmsCatchListener;
 import com.stfalcon.smsverifycatcher.SmsVerifyCatcher;
 
@@ -63,7 +59,7 @@ public class OTPVerification extends BaseActivity implements IJSONParseListener 
     @BindView(R.id.otp_verify_btn)
     Button otpVerifyBtn;
     String Phone_Number, User_Id;
-    String Device_Id;
+    String Device_Id="";
     CountDownTimer cTimer = null;
     private SmsVerifyCatcher smsVerifyCatcher;
 
@@ -216,16 +212,6 @@ public class OTPVerification extends BaseActivity implements IJSONParseListener 
 
     private void Initialization() {
         startTimer();
-        FirebaseApp.initializeApp(this);
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-            @Override
-            public void onSuccess(InstanceIdResult instanceIdResult) {
-                Device_Id = instanceIdResult.getToken();
-                if (Device_Id==null)
-                {Device_Id="Device_Id";}else if (Device_Id.equalsIgnoreCase("")){Device_Id="Device_Id";}
-            }
-        });
-
         Phone_Number = getIntent().getStringExtra(PHONE_NO);
         showOtpMobile.setSelected(true);
         showOtpMobile.setText("An OTP has been sent to " + Phone_Number);

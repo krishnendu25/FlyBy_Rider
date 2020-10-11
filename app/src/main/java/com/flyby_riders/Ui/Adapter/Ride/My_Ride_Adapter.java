@@ -1,13 +1,16 @@
 package com.flyby_riders.Ui.Adapter.Ride;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.PowerManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
@@ -18,23 +21,20 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_ENDED;
-import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_NOT_STARTED;
-import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_STARTED;
-
 
 /**
  * Created by KRISHNENDU MANNA on 12,July,2020
  */
 public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyViewHolder>  {
     ArrayList<My_Ride_Model> data;
-    Context context;
+    Context context; Activity activity;
     private static LayoutInflater inflater=null;
 
-    public My_Ride_Adapter(Context contecxt,ArrayList<My_Ride_Model> MyRide_List ) {
+    public My_Ride_Adapter(Context contecxt, ArrayList<My_Ride_Model> MyRide_List, Activity activity) {
         // TODO Auto-generated constructor stub
         this.context=contecxt;
         this.data = MyRide_List;
+        this.activity = activity;
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -59,21 +59,27 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
         holder.my_ride_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, RideMapView.class);
-                intent.putExtra("My_Ride_Name",data.get(position).getRIDENAME());
-                intent.putExtra("My_Ride_ID",data.get(position).getRIDEID());
-                intent.putExtra("Admin_User_Id",data.get(position).getADMINUSERID());
-                intent.putExtra("TRACKSTATUS",data.get(position).getTRACKSTATUS());
-                intent.putExtra("STARTLAT",data.get(position).getSTARTLAT());
-                intent.putExtra("STARTLANG",data.get(position).getSTARTLANG());
-                intent.putExtra("ENDLAT",data.get(position).getENDLAT());
-                intent.putExtra("ENDLANG",data.get(position).getENDLANG());
-                intent.putExtra("TOP_SPEED",data.get(position).getTOP_SPEED());
-                intent.putExtra("AVG_SPEED",data.get(position).getAVG_SPEED());
-                intent.putExtra("TOTALKM",data.get(position).getTOTALKM());
-                intent.putExtra("TOTALTIME",data.get(position).getTOTALTIME());
-                intent.putExtra("RIDE_START_TIME",data.get(position).getSTARTTIME());
-                context.startActivity(intent);
+                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                if (pm.isIgnoringBatteryOptimizations("com.flyby_riders")) {
+                    Intent intent = new Intent(context, RideMapView.class);
+                    intent.putExtra("My_Ride_Name",data.get(position).getRIDENAME());
+                    intent.putExtra("My_Ride_ID",data.get(position).getRIDEID());
+                    intent.putExtra("Admin_User_Id",data.get(position).getADMINUSERID());
+                    intent.putExtra("TRACKSTATUS",data.get(position).getTRACKSTATUS());
+                    intent.putExtra("STARTLAT",data.get(position).getSTARTLAT());
+                    intent.putExtra("STARTLANG",data.get(position).getSTARTLANG());
+                    intent.putExtra("ENDLAT",data.get(position).getENDLAT());
+                    intent.putExtra("ENDLANG",data.get(position).getENDLANG());
+                    intent.putExtra("TOP_SPEED",data.get(position).getTOP_SPEED());
+                    intent.putExtra("AVG_SPEED",data.get(position).getAVG_SPEED());
+                    intent.putExtra("TOTALKM",data.get(position).getTOTALKM());
+                    intent.putExtra("TOTALTIME",data.get(position).getTOTALTIME());
+                    intent.putExtra("RIDE_START_TIME",data.get(position).getSTARTTIME());
+                    context.startActivity(intent);
+                }else {
+                    Constant.openBatteryOptmized(activity);
+                }
+
             }
         });
         try{

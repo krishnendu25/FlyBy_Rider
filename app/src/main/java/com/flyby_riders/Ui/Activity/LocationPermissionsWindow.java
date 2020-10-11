@@ -72,7 +72,7 @@ public class LocationPermissionsWindow extends AppCompatActivity {
             finish();
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 11111);
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 11111);
             }
         }
 

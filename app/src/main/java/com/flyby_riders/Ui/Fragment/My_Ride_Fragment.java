@@ -1,22 +1,21 @@
 package com.flyby_riders.Ui.Fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.airbnb.lottie.LottieAnimationView;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
@@ -33,6 +32,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -78,7 +78,12 @@ public class My_Ride_Fragment extends Fragment {
         Create_Ride_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), RideMapView.class));
+                PowerManager pm = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
+                if (pm.isIgnoringBatteryOptimizations("com.flyby_riders")) {
+                    startActivity(new Intent(getActivity(), RideMapView.class));
+                }else {
+                    Constant.openBatteryOptmized(getActivity());
+                }
             }
         });
 
@@ -146,7 +151,7 @@ public class My_Ride_Fragment extends Fragment {
                             HashSet<My_Ride_Model> listToSet = new HashSet<My_Ride_Model>(MyRide_List);
                             ArrayList<My_Ride_Model> listWithoutDuplicates = new ArrayList<My_Ride_Model>(listToSet);
 
-                            My_Ride_Adapter my_ride_adapter = new My_Ride_Adapter(getActivity(), listWithoutDuplicates);
+                            My_Ride_Adapter my_ride_adapter = new My_Ride_Adapter(getActivity(), listWithoutDuplicates,getActivity());
                             MyRide_ListRecyclerView.setAdapter(my_ride_adapter);
 
                         } else {

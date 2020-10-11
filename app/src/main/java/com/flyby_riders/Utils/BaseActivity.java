@@ -1,12 +1,5 @@
 package com.flyby_riders.Utils;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -21,9 +14,11 @@ import android.view.WindowManager;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.airbnb.lottie.LottieAnimationView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.VolleyError;
-import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.NetworkOperation.IJSONParseListener;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
@@ -36,8 +31,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class BaseActivity extends AppCompatActivity implements IJSONParseListener {
     AlertDialog alertDialog_loader =null;
@@ -86,7 +79,8 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
                 if (alertDialog_loader !=null)
                 {
                     try{
-                        alertDialog_loader.show();
+                        if (!isFinishing())
+                            alertDialog_loader.show();
                     }catch (Exception e){
                       }
 
@@ -96,14 +90,12 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
                     View dialogView = inflater.inflate(R.layout.loading_page, null);
                     dialogBuilder.setView(dialogView);
                     dialogBuilder.setCancelable(false);
-                    LottieAnimationView LottieAnimationView = dialogView.findViewById(R.id.LottieAnimationView);
                     alertDialog_loader = dialogBuilder.create();
                     alertDialog_loader.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    LottieAnimationView.setAnimation("bike_loader.json");
-                    LottieAnimationView.playAnimation();
                     try{
-                        alertDialog_loader.show();
-                    }catch (Exception e){}
+                        if (!isFinishing())
+                            alertDialog_loader.show();
+                         }catch (Exception e){}
                 }
             } catch (WindowManager.BadTokenException e) {
                 //use a log message
@@ -138,7 +130,7 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
     public void onDestroy(){
         super.onDestroy();
         if ( alertDialog_loader !=null && alertDialog_loader.isShowing() ){
-            alertDialog_loader.dismiss();
+            alertDialog_loader.cancel();
         }
     }
     @Override
@@ -200,10 +192,7 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
 
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter != null) {
-
             int numberOfItems = listAdapter.getCount();
-
-            // Get total height of all items.
             int totalItemsHeight = 0;
             for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
                 View item = listAdapter.getView(itemPos, null, listView);
@@ -211,14 +200,8 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
                 item.measure(View.MeasureSpec.makeMeasureSpec((int)px, View.MeasureSpec.AT_MOST), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
                 totalItemsHeight += item.getMeasuredHeight();
             }
-
-            // Get total height of all item dividers.
-            int totalDividersHeight = listView.getDividerHeight() *
-                    (numberOfItems - 1);
-            // Get padding
+            int totalDividersHeight = listView.getDividerHeight() * (numberOfItems - 1);
             int totalPadding = listView.getPaddingTop() + listView.getPaddingBottom();
-
-            // Set list height.
             ViewGroup.LayoutParams params = listView.getLayoutParams();
             params.height = totalItemsHeight + totalDividersHeight + totalPadding;
             listView.setLayoutParams(params);
@@ -230,4 +213,5 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
         }
 
     }
+
 }

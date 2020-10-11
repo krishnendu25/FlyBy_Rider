@@ -45,7 +45,7 @@
     <string name="start_ride">START RIDE</string>
     <string name="starting_point">Starting Point</string>
     <string name="average_speed">Average Speed</string>
-    <string name="ride_time">Ride Time[D:H:M]</string>
+    <string name="ride_time">Ride Time[HH:MM:SS]</string>
     <string name="top_speed">Top Speed</string>
     <string name="distance_covered">Distance Covered</string>
     <string name="end_ride">END RIDE</string>
@@ -99,4 +99,6 @@
     <string name="logout">Logout</string>
     <string name="view_premium_plan">VIEW PREMIUM PLAN</string>
     <string name="posted_by">POSTED BY</string>
+    <string name="trun_off_battery_optimization">TRUN OFF battery optimization</string>
+    <string name="in_the_battery_optimization_settings_select_all_apps_and_then_find_flyby_in_the_list_and_disable_battery_optimization">In the battery optimization settings,select \'All apps\' and then find \'FLYBY\' in the list and disable battery optimization.</string>
 </resources>

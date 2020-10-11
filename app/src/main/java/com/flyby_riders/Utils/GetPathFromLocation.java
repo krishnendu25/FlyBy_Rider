@@ -23,7 +23,7 @@ import java.util.List;
  * Created by KRISHNENDU MANNA on 30,August,2020
  */
 
-public class GetPathFromLocation extends AsyncTask<String, Void, PolylineOptions> {
+public class GetPathFromLocation extends AsyncTask<String, Void,  ArrayList<LatLng>> {
 
     private String TAG = "GetPathFromLocation";
     private String API_KEY = "AIzaSyB7kAsF427wwIhs1ZPFChtlbOt5UnyA9Yo";
@@ -49,7 +49,7 @@ public class GetPathFromLocation extends AsyncTask<String, Void, PolylineOptions
     }
 
     @Override
-    protected PolylineOptions doInBackground(String... url) {
+    protected ArrayList<LatLng> doInBackground(String... url) {
 
         String data;
 
@@ -94,7 +94,7 @@ public class GetPathFromLocation extends AsyncTask<String, Void, PolylineOptions
                 Log.e(TAG, "Executing Routes : "/*, routes.toString()*/);
 
 
-                ArrayList<LatLng> points;
+                ArrayList<LatLng> points = null;
                 PolylineOptions lineOptions = null;
 
                 // Traversing through all the routes
@@ -122,10 +122,10 @@ public class GetPathFromLocation extends AsyncTask<String, Void, PolylineOptions
                 }
 
                 // Drawing polyline in the Google Map for the i-th route
-                if (lineOptions != null) {
-                    return lineOptions;
+                if (points.size()>0 ) {
+                    return points;
                 } else {
-                    return null;
+                    return  new ArrayList<>();
                 }
 
             } catch (Exception e) {
@@ -140,9 +140,9 @@ public class GetPathFromLocation extends AsyncTask<String, Void, PolylineOptions
     }
 
     @Override
-    protected void onPostExecute(PolylineOptions polylineOptions) {
-        super.onPostExecute(polylineOptions);
-        if (resultCallback != null && polylineOptions != null)
-            resultCallback.onPath(polylineOptions);
+    protected void onPostExecute(ArrayList<LatLng> points) {
+        super.onPostExecute(points);
+        if (resultCallback != null )
+            resultCallback.onPath(points);
     }
 }

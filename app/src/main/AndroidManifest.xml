@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -37,7 +38,9 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="false"
+        android:foregroundServiceType="location"
         android:icon="@mipmap/ic_appiconrider"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -47,7 +50,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".Ui.Activity.AvertisementView"></activity>
+        <activity android:name=".Ui.Activity.AvertisementView"/>
         <activity android:name=".Ui.Activity.MyAccount" />
         <activity android:name=".Ui.Activity.LocationPermissionsWindow" />
         <activity android:name=".Ui.Activity.GpsTrunOnWarning" />
@@ -101,15 +104,11 @@
         <activity android:name=".Ui.Activity.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".Ui.Service.LocationTrackerService"
-           />
-
+        <service android:name=".Ui.Service.LocationService" android:exported="false"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBPY5WHNqIEGV2y6eNR4R5xCgzEh_kyYCY" />
@@ -117,6 +116,12 @@
         <receiver android:name=".Utils.GPSManager">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".Utils.BootReceiver" android:enabled="true" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
     </application>

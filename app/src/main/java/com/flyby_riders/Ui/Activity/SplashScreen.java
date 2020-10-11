@@ -28,11 +28,13 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash__screen);
         ButterKnife.bind(this);
+
         clearLocalContact();
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+
                 if (new Prefe(getApplicationContext()).get_IsLogin().equalsIgnoreCase("true"))
                 {
                     startActivity(new Intent(SplashScreen.this,DashBoard.class));

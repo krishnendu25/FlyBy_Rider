@@ -15,12 +15,9 @@ import android.graphics.Matrix;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Base64;
@@ -34,20 +31,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Listener.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
@@ -61,16 +52,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
-import okhttp3.ResponseBody;
-import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 
@@ -320,7 +307,7 @@ public class Constant {
 
                 long unixSeconds = Long.valueOf(timeStamp);
                 java.sql.Date date = new java.sql.Date(unixSeconds * 1000L); // *1000 is to convert seconds to milliseconds
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aaa"); // the format of your date
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aaa"); // the format of your date
                 return sdf.format(date);
 
             }
@@ -771,12 +758,12 @@ public class Constant {
         return images;
     }
 
-    public static void showRateDialog( Context context) {
+    public static void showRateDialog(Context context) {
         try {
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse((true ? "market://details?id=" : "amzn://apps/android?p=") +context.getPackageName())));
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse((true ? "market://details?id=" : "amzn://apps/android?p=") + context.getPackageName())));
         } catch (ActivityNotFoundException e1) {
             try {
-                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse((true ? "http://play.google.com/store/apps/details?id=" : "http://www.amazon.com/gp/mas/dl/android?p=") +context.getPackageName())));
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse((true ? "http://play.google.com/store/apps/details?id=" : "http://www.amazon.com/gp/mas/dl/android?p=") + context.getPackageName())));
             } catch (ActivityNotFoundException e2) {
                 Constant.Show_Tos(context, "You don't have any app that can open this link");
             }
@@ -827,13 +814,13 @@ public class Constant {
     }
 
     public static String getDiferceDteTime(String startDate, String endDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm aaa");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aaa");
 
         try {
             Date date1 = simpleDateFormat.parse(startDate);
             Date date2 = simpleDateFormat.parse(endDate);
 
-           return printDifference(date1, date2);
+            return printDifference(date1, date2);
 
         } catch (ParseException e) {
             return "";
@@ -865,7 +852,11 @@ public class Constant {
         different = different % minutesInMilli;
 
         long elapsedSeconds = different / secondsInMilli;
-        return elapsedDays + ":" + elapsedHours + ":"+elapsedMinutes;
+
+
+        long totalHoure = (elapsedDays*24)+elapsedHours;
+
+        return totalHoure + ":" + elapsedMinutes + ":" + elapsedSeconds;
     }
 
     public static String getCountOfDays(String createdDateString, String expireDateString) {
@@ -995,5 +986,43 @@ public class Constant {
         }
 
         return ret.toString();
+    }
+
+
+    public static void openBatteryOptmized(Activity mActivity) {
+        try {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mActivity);
+            LayoutInflater inflater = (mActivity).getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.update_battery, null);
+            dialogBuilder.setView(dialogView);
+            TextView batteryOptimizationTV = dialogView.findViewById(R.id.batteryOptimizationTV);
+            TextView close_rename_ride = dialogView.findViewById(R.id.close_rename_ride);
+            final AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            close_rename_ride.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.hide();
+                }
+            });
+            batteryOptimizationTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.hide();
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                    mActivity.startActivity(intent);
+                }
+            });
+
+            try {
+                alertDialog.show();
+            } catch (Exception e) {
+
+            }
+        } catch (Exception e) {
+
+        }
+
     }
 }

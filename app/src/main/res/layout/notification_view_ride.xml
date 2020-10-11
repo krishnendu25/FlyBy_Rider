@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:orientation="vertical"
         android:weightSum="5">
         <LinearLayout
@@ -16,7 +16,7 @@
             android:background="#2B2837"
             android:weightSum="3"
             android:orientation="vertical"
-            android:layout_weight="3.2">
+            android:layout_weight="5">
 
             <TextView
                 android:layout_width="match_parent"
@@ -39,13 +39,13 @@
                 android:layout_weight="1.8">
 
                 <TextView
+                    android:id="@+id/notisatust"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:drawablePadding="10dp"
                     android:paddingStart="20dp"
                     android:textSize="14sp"
                     android:gravity="center|start"
-                    android:text="RIDE STARTED"
                     android:fontFamily="@font/manropeextrabold"
                     android:textColor="@color/white"
                     android:layout_weight=".8"/>
@@ -58,10 +58,10 @@
                     android:layout_weight="1.2">
 
         <TextView
+            android:id="@+id/Duration_noti"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="20dp"
-            android:text="Duration : 00:00:10"
             android:gravity="center|start"
             android:textSize="14dp"
             android:textColor="@color/white"
@@ -72,7 +72,6 @@
                         android:id="@+id/Total_distance_tv"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:text="Distance : 0.1 KM"
                         android:gravity="center|start"
                         android:textSize="14dp"
                         android:textColor="@color/white"
@@ -90,24 +89,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.7">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="PAUSE RIDE"
-                android:textColor="@color/light_green"
-                android:textSize="18dp"
-                android:gravity="center|start"
-                android:paddingStart="20dp"
-                android:fontFamily="@font/manropeextrabold"/>
-
-
-
-        </LinearLayout>
 
 
 
