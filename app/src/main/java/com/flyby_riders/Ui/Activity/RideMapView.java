@@ -152,7 +152,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     private ArrayList<My_Ride_Model> MyRide_List = new ArrayList<>();
     private int Create_Ride_Flag = 0, BackGround_Service_Count = 0;
     private double Latitude_Start = 0, Longitude_Start = 0, Latitude_End = 0, Longitude_End = 0;
-    private Marker mCurrLocationMarker;
+    private Marker mCurrLocationMarker=null;
     private double currentLatitude = 0, currentLongitude = 0;
     private Runnable updater, runnable, locupdate;
     private ArrayList<LatLng> points;
@@ -678,28 +678,47 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
 
     private void SetMapView(double LATITUDE, double LONGITUDE) {
         if (mMap != null) {
-            mMap.clear();
-            LatLng currentPosition = new LatLng(LATITUDE, LONGITUDE);
-            MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(LATITUDE, LONGITUDE));
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
-            markerOptions.position(currentPosition);
-            markerOptions.title("Me");
-            markerOptions.draggable(false);
-            PolylineOptions options = new PolylineOptions().width(8).color(Color.parseColor("#F7B500")).geodesic(true);
-            for (int i = 0; i < points.size(); i++) {
-                LatLng point = points.get(i);
-                options.add(point);
-            }
-            polylineMyRide =  mMap.addPolyline(options);
-            mCurrLocationMarker = mMap.addMarker(markerOptions);
-            mCurrLocationMarker.showInfoWindow();
-            //If Marker Move Out To Map
-            boolean contains = mMap.getProjection().getVisibleRegion().latLngBounds.contains(currentPosition);
-            if (!contains) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-            }
 
+            if (mCurrLocationMarker!=null)
+            {
+                LatLng currentPosition = new LatLng(LATITUDE, LONGITUDE);
+                polylineMyRide.remove();
+                PolylineOptions options = new PolylineOptions().width(8).color(Color.parseColor("#F7B500")).geodesic(true);
+                for (int i = 0; i < points.size(); i++) {
+                    LatLng point = points.get(i);
+                    options.add(point);
+                }
+                polylineMyRide =  mMap.addPolyline(options);
+                mCurrLocationMarker.setPosition(currentPosition);
+                boolean contains = mMap.getProjection().getVisibleRegion().latLngBounds.contains(currentPosition);
+                if (!contains) {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+                }
+            }else
+            {
+                mMap.clear();
+                LatLng currentPosition = new LatLng(LATITUDE, LONGITUDE);
+                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(LATITUDE, LONGITUDE));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
+                markerOptions.position(currentPosition);
+                markerOptions.title("Me");
+                markerOptions.draggable(false);
+                PolylineOptions options = new PolylineOptions().width(8).color(Color.parseColor("#F7B500")).geodesic(true);
+                for (int i = 0; i < points.size(); i++) {
+                    LatLng point = points.get(i);
+                    options.add(point);
+                }
+                polylineMyRide =  mMap.addPolyline(options);
+                mCurrLocationMarker = mMap.addMarker(markerOptions);
+                mCurrLocationMarker.showInfoWindow();
+                //If Marker Move Out To Map
+                boolean contains = mMap.getProjection().getVisibleRegion().latLngBounds.contains(currentPosition);
+                if (!contains) {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+                }
+            }
         }
     }
 
@@ -718,7 +737,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         for (int i = 0; i < track_list.size(); i++) {
             if (!track_list.get(i).getMEMBERID().equalsIgnoreCase(new Prefe(getApplicationContext()).getUserID())) {
                 TeamMateLocation teamMateLocation = new TeamMateLocation();
-                teamMateLocation.setLocation(new LatLng(track_list.get(i).getLatitude_Start(), track_list.get(i).getLongitude_Start()));
+                teamMateLocation.setLocation(new LatLng(track_list.get(i).getLongitude_Start(), track_list.get(i).getLatitude_Start()));
                 teamMateLocation.setName(track_list.get(i).getRider_Name());
                 teamMateLocation.setUserID(track_list.get(i).getMEMBERID());
                 teamMateLocationArrayList.add(teamMateLocation);
@@ -728,7 +747,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         if (memberMarker.size() > 0) {
             for (int j = 0; j < teamMateLocationArrayList.size(); j++) {
                 for (Marker marker : memberMarker) {
-                    if (marker.getTag().equals(teamMateLocationArrayList.get(j).getUserID())) {
+                    if (marker.getSnippet().equalsIgnoreCase(teamMateLocationArrayList.get(j).getUserID())) {
                         marker.setPosition(teamMateLocationArrayList.get(j).getLocation());
                     }
                 }
@@ -740,8 +759,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                         position(teamMateLocationArrayList.get(j).getLocation())
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker)));
 
-                mnMarker.setTag(teamMateLocationArrayList.get(j).getUserID());
-                memberMarker.add(mnMarker);
+                mnMarker.setSnippet(teamMateLocationArrayList.get(j).getUserID());
+
             }
         }
     }

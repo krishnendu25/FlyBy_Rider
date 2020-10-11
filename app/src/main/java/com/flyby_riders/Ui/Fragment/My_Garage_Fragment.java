@@ -526,7 +526,8 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 hide_ProgressDialog();
-                fetchRiderLocation();
+                try{ fetchRiderLocation();}catch (Exception e){}
+
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject = null;
