@@ -44,7 +44,7 @@ public class NotificationMannager implements NotificationCallback {
         if (isCreate) {
             buildNotification();
         } else if (isDestroyed) {
-            NotificationManagerCompat.from(activity).cancel(RIDER_NOTIFICATION);
+            notificationmanager.cancel(RIDER_NOTIFICATION);
         }
 
 

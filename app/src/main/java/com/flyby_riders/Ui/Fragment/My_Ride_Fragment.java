@@ -144,6 +144,8 @@ public class My_Ride_Fragment extends Fragment {
                                 myRideModel.setENDLANG(JS.getString("ENDLANG"));
                                 myRideModel.setTOTMEMBER(JS.getString("TOTMEMBER"));
                                 myRideModel.setSTARTTIME(JS.getString("STARTTIME"));
+                                
+                                if (!JS.getString("RIDENAME").equalsIgnoreCase("null"))
                                 MyRide_List.add(myRideModel);
                             }
                             Collections.reverse(MyRide_List);
