@@ -41,6 +41,7 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
     @Override
     public void onBindViewHolder(Garage_Ad_Adapter.MyViewHolder holder, int i) {
         holder.Add_title_tv.setSelected(true);
+        holder.cityName.setText(data.get(i).getGarageOwnerDetails().get(0).getCity());
         holder.Add_title_tv.setText(Constant.wordFirstCap(data.get(i).getAdvertising_Title().toLowerCase()));
         if (data.get(i).getGarageOwnerDetails().size()>0)
         holder.vendor_name_tv.setText(Constant.wordFirstCap(data.get(i).getGarageOwnerDetails().get(0).getGarageName().toLowerCase()));
@@ -83,7 +84,7 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
         ImageView Cover_pic_tv,venderPhoto;
         TextView Add_title_tv;
         TextView price_add;
-        TextView vendor_name_tv;
+        TextView vendor_name_tv,cityName;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -93,6 +94,7 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
             Add_title_tv = (TextView) itemView.findViewById(R.id.Add_title_tv);
             price_add = (TextView) itemView.findViewById(R.id.price_add);
             vendor_name_tv = (TextView) itemView.findViewById(R.id.vendor_name_tv);
+            cityName = (TextView) itemView.findViewById(R.id.cityName);
         }
     }
     void setClickListener(GarageAddClick itemClickListener) {

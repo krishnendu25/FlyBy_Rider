@@ -94,9 +94,17 @@ public class Constant {
     public static void openWhatsApp(String numero, String mensaje, Context context) {
 
         try {
+            String newNum;
+                if (!numero.contains("+91"))
+                {
+                     newNum = "+91" + numero;
+                }else
+                    newNum=numero;
+
+
             PackageManager packageManager = context.getPackageManager();
             Intent i = new Intent(Intent.ACTION_VIEW);
-            String url = "https://api.whatsapp.com/send?phone=" + numero + "&text=" + URLEncoder.encode(mensaje, "UTF-8");
+            String url = "https://api.whatsapp.com/send?phone=" + newNum + "&text=" + URLEncoder.encode(mensaje, "UTF-8");
             i.setPackage("com.whatsapp");
             i.setData(Uri.parse(url));
             if (i.resolveActivity(packageManager) != null) {

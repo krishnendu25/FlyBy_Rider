@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Garage_Owner_Model implements Parcelable
 {
-    private String GARAGEID,OWNERNAME,STORENAME,PHONE,ADDRESS,CITY,LAT,LANG,DISTANCE_FROM_ME,PROFILEPIC;
+    private String GARAGEID,OWNERNAME,STORENAME,PHONE,WHATSAPPNO,ADDRESS,CITY,LAT,LANG,DISTANCE_FROM_ME,PROFILEPIC;
 
     private ArrayList<Category_Model> category_models = new ArrayList<>();
 
@@ -22,6 +22,7 @@ public class Garage_Owner_Model implements Parcelable
         OWNERNAME = in.readString();
         STORENAME = in.readString();
         PHONE = in.readString();
+        WHATSAPPNO = in.readString();
         ADDRESS = in.readString();
         CITY = in.readString();
         LAT = in.readString();
@@ -37,6 +38,7 @@ public class Garage_Owner_Model implements Parcelable
         dest.writeString(OWNERNAME);
         dest.writeString(STORENAME);
         dest.writeString(PHONE);
+        dest.writeString(WHATSAPPNO);
         dest.writeString(ADDRESS);
         dest.writeString(CITY);
         dest.writeString(LAT);
@@ -62,6 +64,14 @@ public class Garage_Owner_Model implements Parcelable
             return new Garage_Owner_Model[size];
         }
     };
+
+    public String getWHATSAPPNO() {
+        return WHATSAPPNO;
+    }
+
+    public void setWHATSAPPNO(String WHATSAPPNO) {
+        this.WHATSAPPNO = WHATSAPPNO;
+    }
 
     public String getGARAGEID() {
         return GARAGEID;

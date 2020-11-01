@@ -117,6 +117,7 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
                                 go.setOWNERNAME(js.getString("OWNERNAME"));
                                 go.setSTORENAME(js.getString("STORENAME"));
                                 go.setPHONE(js.getString("PHONE"));
+                                go.setWHATSAPPNO(js.getString("WhatsappNo"));
                                 go.setADDRESS(js.getString("ADDRESS"));
                                 go.setCITY(js.getString("CITY"));
                                 go.setLAT(js.getString("LAT"));

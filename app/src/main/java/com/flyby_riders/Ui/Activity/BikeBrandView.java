@@ -13,12 +13,15 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Adapter.Garage.Bike_Brand_Adapter;
 import com.flyby_riders.Ui.Model.BIKE_BRAND;
+import com.flyby_riders.Ui.Model.Garage_Owner_Model;
 import com.flyby_riders.Utils.BaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,8 +110,24 @@ public class BikeBrandView extends BaseActivity {
                                 bike_BRAND.setPIC(Base_Pic_url + jsonArray_ALLMODEL.getJSONObject(i).getString("PIC").toString());
                                 BIKE_LIST.add(bike_BRAND);
                             }
-                            bike_brand_adapter = new Bike_Brand_Adapter(BikeBrandView.this,BIKE_LIST);
-                            bikeBrandList.setAdapter(bike_brand_adapter);
+                            try{
+                                Collections.sort(BIKE_LIST, new Comparator() {
+                                    @Override
+                                    public int compare(Object o1, Object o2) {
+                                        BIKE_BRAND p1 = (BIKE_BRAND) o1;
+                                        BIKE_BRAND p2 = (BIKE_BRAND) o2;
+                                        return p1.getNAME().compareToIgnoreCase(p2.getNAME());
+                                    }
+                                });
+                                bike_brand_adapter = new Bike_Brand_Adapter(BikeBrandView.this,BIKE_LIST);
+                                bikeBrandList.setAdapter(bike_brand_adapter);
+                            }catch (Exception e)
+                            {
+                                bike_brand_adapter = new Bike_Brand_Adapter(BikeBrandView.this,BIKE_LIST);
+                                bikeBrandList.setAdapter(bike_brand_adapter);
+                            }
+
+
                         } else {
                             hide_ProgressDialog();
                         }

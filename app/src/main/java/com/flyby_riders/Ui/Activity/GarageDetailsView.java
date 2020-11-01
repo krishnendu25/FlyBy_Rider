@@ -24,9 +24,11 @@ import com.flyby_riders.Ui.Adapter.Discover.Advertisement_Adapter;
 import com.flyby_riders.Ui.Adapter.Discover.Image_Silder_Adapter;
 import com.flyby_riders.Ui.Adapter.Discover.Media_Slider_Click;
 import com.flyby_riders.Ui.Model.ADD_MODEL;
+import com.flyby_riders.Ui.Model.Category_Model;
 import com.flyby_riders.Ui.Model.Garage_Media_Model;
 import com.flyby_riders.Ui.Model.Garage_Owner_Model;
 import com.flyby_riders.Utils.BaseActivity;
+import com.flyby_riders.Utils.Helper;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -82,28 +84,45 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
     TextView EmptyNoMediaFile;
     @BindView(R.id.Empty_no_advertisement)
     TextView EmptyNoAdvertisement;
-
+    String Grage_Owner_ID="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_garage__information);
         ButterKnife.bind(this);
+        Instantiation();
         try {
-            Garage_Owner_List = getIntent().getParcelableArrayListExtra("List_Garage");
-            Position = Integer.valueOf(getIntent().getStringExtra("Position"));
+            if (getIntent().getStringExtra("Grage_Owner_ID")==null){
+                Garage_Owner_List = getIntent().getParcelableArrayListExtra("List_Garage");
+                Position = Integer.valueOf(getIntent().getStringExtra("Position"));
+                Set_Grage_View();
+            }else{
+                Grage_Owner_ID =getIntent().getStringExtra("Grage_Owner_ID");
+                Hit_Grage_Owner_Details(Grage_Owner_ID);
+            }
+
         } catch (Exception E) {
             Garage_Owner_List = new ArrayList<>();
         }
-        Instantiation();
+
 
     }
+
 
     private void Instantiation() {
         Set_LayoutManager(GarageImageSlider, true, false);
-        Set_Grage_View();
+
     }
 
     private void Set_Grage_View() {
+
+
+        if (Garage_Owner_List.get(Position).getWHATSAPPNO().trim().equalsIgnoreCase(""))
+        { GarageWhatsapp.setEnabled(false);
+        GarageWhatsapp.setAlpha(0.3f);}
+        if (Garage_Owner_List.get(Position).getPHONE().trim().equalsIgnoreCase(""))
+        { GarageCall.setEnabled(false);
+            GarageCall.setAlpha(0.3f);}
         Hit_Add_Fetch(Garage_Owner_List.get(Position).getGARAGEID());
         GarageNAME.setText(Garage_Owner_List.get(Position).getSTORENAME());
         GarageCITY.setText(Garage_Owner_List.get(Position).getCITY());
@@ -237,6 +256,7 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                                     Garage_Owner_List.get(Position).getOWNERNAME());
                             GarageAdvetismentList.setAdapter(advertisement_adapter);
                             advertisement_adapter.notifyDataSetChanged();
+                            try{   Helper.getListViewSize(GarageAdvetismentList);}catch (Exception e){}
                         } else {
                             EmptyNoAdvertisement.setVisibility(View.VISIBLE);
                             Hit_Grage_Owner_Details(Garage_Owner_List.get(Position).getGARAGEID());
@@ -307,7 +327,34 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                                     Set_Media_To_Store(Garage_Media_List);
                                 }else{EmptyNoMediaFile.setVisibility(View.VISIBLE);}
                             }catch (Exception e){EmptyNoMediaFile.setVisibility(View.VISIBLE);}
+                            if (Garage_Owner_List.size()==0)
+                            {
+                                ArrayList <Category_Model> category_models = new ArrayList<>();
+                                JSONObject grageOwner = USERDETAILS_Sub.getJSONObject(0);
+                                JSONArray CAT = grageOwner.getJSONArray("CAT");
+                                Garage_Owner_Model go = new Garage_Owner_Model();
+                                go.setGARAGEID(grageOwner.getString("ID"));
+                                go.setOWNERNAME(grageOwner.getString("FIRSTNAME"));
+                                go.setSTORENAME(grageOwner.getString("STORE"));
+                                go.setPHONE(grageOwner.getString("PHONE"));
+                                go.setWHATSAPPNO(grageOwner.getString("WHATSAPPNO"));
+                                go.setADDRESS(grageOwner.getString("ADDRESS"));
+                                go.setCITY(grageOwner.getString("CITY"));
+                                go.setLAT(grageOwner.getString("GLAT"));
+                                go.setLANG(grageOwner.getString("GLANG"));
+                                go.setPROFILEPIC(jsonObject.getString("IMAGEPATH")+grageOwner.getString("PIC"));
+                                for (int j=0 ; j<CAT.length() ; j++)
+                                { JSONObject jsd = CAT.getJSONObject(j);
+                                    Category_Model cf = new Category_Model();
+                                    cf.setID(jsd.getString("id"));
+                                    cf.setName(jsd.getString("cat_name"));
+                                    category_models.add(cf);
+                                }
+                                go.setCategory_models(category_models);
+                                Garage_Owner_List.add(go);
 
+                                Set_Grage_View();
+                            }
                         } else {
                             EmptyNoMediaFile.setVisibility(View.VISIBLE);
                         }
@@ -379,10 +426,16 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                 break;
             case R.id.Garage_Map_Dirtions:
                 try {
-                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Garage_Owner_List.get(Position).getLAT() + "," + Garage_Owner_List.get(0).getLANG());
+                  /*  Uri gmmIntentUri = Uri.parse("google.navigation:q=" );
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
-                    startActivity(mapIntent);
+                    startActivity(mapIntent);*/
+
+
+                    String strUri = "http://maps.google.com/maps?q=loc:" + Garage_Owner_List.get(Position).getLAT() + "," + Garage_Owner_List.get(0).getLANG() + " (" + "" + ")";
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
+                    intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                    startActivity(intent);
                 } catch (Exception e) {
                 }
                 break;

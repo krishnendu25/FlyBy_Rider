@@ -32,9 +32,10 @@
 
                 <ImageView
                     android:id="@+id/Album_cover_picture"
-                    android:layout_width="match_parent"   android:background="@color/transparent"
+                    android:layout_width="match_parent"
+                    android:background="@color/transparent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:layout_margin="5dp"
                     />
             </androidx.cardview.widget.CardView>

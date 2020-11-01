@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -50,12 +51,13 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
     TextView categoryTitle;
     private double longitude = 0, latitude = 0;
     Garage_Owner_Adapter garage_owner_adapter;
-
+    LinearLayout emptyView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_garage__list);
         ButterKnife.bind(this);
+        iniView();
         categoryTitle.setSelected(true);
         try {
             Garage_Owner_List = getIntent().getParcelableArrayListExtra("List_Garage");
@@ -107,6 +109,10 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
         }
     }
 
+    private void iniView() {
+        emptyView = findViewById(R.id.emptyView);
+    }
+
     private void Set_View(double latitude, double longitude) {
         hide_ProgressDialog();
         if (Garage_Owner_List.size() > 0) {
@@ -124,6 +130,12 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
             Set_LayoutManager(garageList, false, true);
             garage_owner_adapter = new Garage_Owner_Adapter(Garage_Owner_List, this);
             garageList.setAdapter(garage_owner_adapter);
+            Sorting_Post(true, false);
+            Distance_sort = true;AtoZ_sort = false;
+            if (Garage_Owner_List.size()>0)
+                emptyView.setVisibility(View.GONE);
+            else
+                emptyView.setVisibility(View.VISIBLE);
         } catch (Exception e) {
         }
     }
@@ -168,6 +180,8 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
                 AtoZ_sort = false;
                 Sorting_Post(Distance_sort, AtoZ_sort);
                 bottomSheetDialog.hide();
+
+
             }
         });
         a_z_tv.setOnClickListener(new View.OnClickListener() {
@@ -201,6 +215,10 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
                 garage_owner_adapter = new Garage_Owner_Adapter(Garage_Owner_List, this);
                 garageList.setAdapter(garage_owner_adapter);
                 garage_owner_adapter.notifyDataSetChanged();
+                if (Garage_Owner_List.size()>0)
+                    emptyView.setVisibility(View.GONE);
+                else
+                    emptyView.setVisibility(View.VISIBLE);
             } catch (Exception e) {
             }
         } else if (distance_sort && Garage_Owner_List.size() > 0) {
@@ -216,6 +234,10 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
                 garage_owner_adapter = new Garage_Owner_Adapter(Garage_Owner_List, this);
                 garageList.setAdapter(garage_owner_adapter);
                 garage_owner_adapter.notifyDataSetChanged();
+                if (Garage_Owner_List.size()>0)
+                    emptyView.setVisibility(View.GONE);
+                else
+                    emptyView.setVisibility(View.VISIBLE);
             } catch (Exception e) {
             }
         }
@@ -233,4 +255,6 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
         intent.putExtra("Position", String.valueOf(Position));
         startActivity(intent);
     }
+
+
 }

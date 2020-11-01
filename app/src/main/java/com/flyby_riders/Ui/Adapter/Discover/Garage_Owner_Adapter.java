@@ -51,9 +51,15 @@ public class Garage_Owner_Adapter extends RecyclerView.Adapter<Garage_Owner_Adap
     public void onBindViewHolder(Garage_Owner_Adapter.MyViewHolder holder,int i) {
 
 
-        holder.Garage_NAME.setText(Garage_list.get(i).getOWNERNAME());
+        holder.Garage_NAME.setText(Garage_list.get(i).getSTORENAME());
         holder.Garage_CITY.setText(Garage_list.get(i).getCITY());
 
+        if (Garage_list.get(i).getWHATSAPPNO().trim().equalsIgnoreCase("")){
+            holder.Garage_Whatsapp.setVisibility(View.GONE);
+        }
+        if (Garage_list.get(i).getPHONE().trim().equalsIgnoreCase("")){
+            holder.Garage_Call.setVisibility(View.GONE);
+        }
         double Dis = Double.valueOf(Garage_list.get(i).getDISTANCE_FROM_ME())* 0.001;
 
 

@@ -30,11 +30,10 @@
                     android:id="@+id/brand_pic"
                     android:layout_width="match_parent"
                     android:layout_margin="5dp"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerInside"
                     android:layout_height="match_parent"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-
     </LinearLayout>
     <TextView
         android:id="@+id/brand_name"
@@ -49,6 +48,4 @@
         android:textColor="@color/light_green"
         android:fontFamily="@font/manropesemibold"/>
 </LinearLayout>
-
-
 </RelativeLayout>

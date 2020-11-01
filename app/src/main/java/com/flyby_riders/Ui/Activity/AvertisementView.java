@@ -2,6 +2,7 @@ package com.flyby_riders.Ui.Activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -105,17 +106,22 @@ public class AvertisementView extends AppCompatActivity {
 
         Images = splitByComma(ga.getAdvertising_Images(), ga.getADIMAGEPATH());
         Images.add(ga.Advertising_CoverPic);
-        imageSlider.setSliderAdapter(new SliderAdapterExample(AvertisementView.this,Images));
+        imageSlider.setSliderAdapter(new SliderAdapterExample(AvertisementView.this,Images,mActivity));
 
     }
 
-    @OnClick({R.id.Back_Btn, R.id.byeProductBTN})
+    @OnClick({R.id.Back_Btn, R.id.byeProductBTN,R.id.garageNameView})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.Back_Btn:
                 finish();
                 break;
             case R.id.byeProductBTN:
+                break;
+            case R.id.garageNameView:
+                Intent intent = new Intent(this, GarageDetailsView.class);
+                intent.putExtra("Grage_Owner_ID", addList.get(pos).garageOwnerDetails.get(0).getID());
+                startActivity(intent);
                 break;
         }
     }

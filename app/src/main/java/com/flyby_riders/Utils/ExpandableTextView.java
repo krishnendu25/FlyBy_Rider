@@ -41,7 +41,7 @@ public class ExpandableTextView extends androidx.appcompat.widget.AppCompatTextV
             public void run()
             {
                 if (getLineCount()>MAX_LINES)
-                    setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_readmor);
+                    setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_readmore);
                 else
                     setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
                 setMaxLines(MAX_LINES);
@@ -70,14 +70,14 @@ public class ExpandableTextView extends androidx.appcompat.widget.AppCompatTextV
         if (getMyMaxLines() == Integer.MAX_VALUE)
         {
             setMaxLines(MAX_LINES);
-            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_readmor);
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_readmore);
         }
 
 
         else
         {
             setMaxLines(Integer.MAX_VALUE);
-            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_readlies);
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_readless);
         }
 
     }

@@ -18,14 +18,14 @@
             android:id="@+id/roundedImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"/>
+            android:scaleType="centerCrop"/>
         <ImageView
             android:id="@+id/video_play_ic"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_play"
             android:layout_gravity="center"
-            android:scaleType="fitXY"/>
+            android:scaleType="centerCrop"/>
     </androidx.cardview.widget.CardView>
 
 

@@ -1,7 +1,7 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="90dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#9F17131D"
+    android:background="#D917131D"
     android:layout_alignParentBottom="true"
     android:orientation="horizontal"
     android:weightSum="3"
@@ -19,26 +19,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:sl_shadow_color="#51FFFFFF"
-            app:shadowRadius="100dp"
+            app:shadowRadius="60dp"
             app:shadowShape="oval"
             android:visibility="gone"
             app:sl_shadow_angle="270"
             app:sl_shadowed="true"
             app:shadowSide="bottom"
-            app:sl_shadow_radius="4dp"
+            app:sl_shadow_radius="3dp"
             >
             <com.flyby_riders.Utils.ShadowLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 app:sl_shadow_color="#000000"
-                app:shadowRadius="100dp"
+                app:shadowRadius="60dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 app:shadowShape="oval"
                 app:sl_shadow_angle="90"
                 app:sl_shadowed="true"
-                app:sl_shadow_radius="12dp"
+                app:sl_shadow_radius="8dp"
                 app:shadowSide="top">
                 <TextView
                     android:id="@+id/discover_active"
@@ -53,7 +53,7 @@
                     android:gravity="center"
                     android:text="@string/discover"
                     android:textColor="@color/light_green"
-                    android:textSize="12dp" />
+                    android:textSize="10sp" />
             </com.flyby_riders.Utils.ShadowLayout>
         </com.flyby_riders.Utils.ShadowLayout>
         <TextView
@@ -67,7 +67,7 @@
             android:gravity="center"
             android:text="@string/discover"
             android:textColor="@color/white"
-            android:textSize="12dp" />
+            android:textSize="10sp" />
 
     </LinearLayout>
 
@@ -84,26 +84,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:sl_shadow_color="#51FFFFFF"
-            app:shadowRadius="100dp"
+            app:shadowRadius="60dp"
             app:shadowShape="oval"
             android:visibility="gone"
             app:sl_shadow_angle="270"
             app:sl_shadowed="true"
             app:shadowSide="bottom"
-            app:sl_shadow_radius="4dp"
+            app:sl_shadow_radius="3dp"
             >
             <com.flyby_riders.Utils.ShadowLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 app:sl_shadow_color="#000000"
-                app:shadowRadius="100dp"
+                app:shadowRadius="60dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 app:shadowShape="oval"
                 app:sl_shadow_angle="90"
                 app:sl_shadowed="true"
-                app:sl_shadow_radius="12dp"
+                app:sl_shadow_radius="8dp"
                 app:shadowSide="top">
                 <TextView
                     android:id="@+id/my_garage_active"
@@ -118,7 +118,7 @@
                     android:gravity="center"
                     android:text="@string/my_garage"
                     android:textColor="@color/light_green"
-                    android:textSize="12dp" />
+                    android:textSize="10sp" />
             </com.flyby_riders.Utils.ShadowLayout>
         </com.flyby_riders.Utils.ShadowLayout>
         <TextView
@@ -133,7 +133,7 @@
             android:gravity="center"
             android:text="@string/my_garage"
             android:textColor="@color/white"
-            android:textSize="12dp" />
+            android:textSize="10sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -148,26 +148,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:sl_shadow_color="#51FFFFFF"
-            app:shadowRadius="100dp"
+            app:shadowRadius="60dp"
             app:shadowShape="oval"
             android:visibility="gone"
             app:sl_shadow_angle="270"
             app:sl_shadowed="true"
             app:shadowSide="bottom"
-            app:sl_shadow_radius="4dp"
+            app:sl_shadow_radius="3dp"
             >
             <com.flyby_riders.Utils.ShadowLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 app:sl_shadow_color="#000000"
-                app:shadowRadius="100dp"
+                app:shadowRadius="60dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 app:shadowShape="oval"
                 app:sl_shadow_angle="90"
                 app:sl_shadowed="true"
-                app:sl_shadow_radius="12dp"
+                app:sl_shadow_radius="10sp"
                 app:shadowSide="top">
                 <TextView
                     android:id="@+id/rides_active"
@@ -182,7 +182,7 @@
                     android:gravity="center"
                     android:text="@string/rides"
                     android:textColor="@color/light_green"
-                    android:textSize="12dp" />
+                    android:textSize="10sp" />
             </com.flyby_riders.Utils.ShadowLayout>
         </com.flyby_riders.Utils.ShadowLayout>
         <TextView
@@ -196,7 +196,7 @@
             android:layout_marginEnd="30dp"
             android:text="@string/rides"
             android:textColor="#fff"
-            android:textSize="12dp" />
+            android:textSize="10sp" />
     </LinearLayout>
 
 </RelativeLayout>

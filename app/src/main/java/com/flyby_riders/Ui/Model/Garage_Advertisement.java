@@ -185,6 +185,11 @@ public class Garage_Advertisement implements Parcelable {
     public static class GarageOwnerDetails implements Parcelable {
         public String ID,UserName,GarageName,Address,ProfilePicture,city;
 
+
+
+
+
+
         public GarageOwnerDetails() {
         }
 

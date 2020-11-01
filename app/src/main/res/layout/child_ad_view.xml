@@ -10,8 +10,8 @@
         android:id="@+id/Add_view_click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -25,7 +25,7 @@
             <ImageView
                 android:id="@+id/Cover_pic_tv"
                 android:layout_width="350dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:layout_height="190dp"/>
         </androidx.cardview.widget.CardView>
 
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textSize="22dp"
+            android:textSize="18sp"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
             android:singleLine="true"
@@ -45,11 +45,11 @@
             android:id="@+id/price_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:singleLine="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
-            android:fontFamily="@font/helveticabold"
+            android:fontFamily="@font/avenirbextregular"
             android:textColor="@color/white"/>
      <LinearLayout
          android:id="@+id/vendorView"
@@ -60,18 +60,40 @@
          android:layout_marginTop="10dp">
          <de.hdodenhof.circleimageview.CircleImageView
              android:id="@+id/venderPhoto"
-             android:layout_width="40dp"
-             android:layout_height="40dp"/>
-         <TextView
-             android:id="@+id/vendor_name_tv"
-             android:layout_width="wrap_content"
+             android:layout_width="38dp"
+             android:layout_height="38dp"/>
+         <LinearLayout
+             android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:textSize="18dp"
-             android:gravity="center"
-             android:paddingStart="10dp"
-             android:singleLine="true"
-             android:fontFamily="@font/helveticabold"
-             android:textColor="@color/white"/>
+             android:weightSum="2"
+             android:orientation="vertical">
+             <TextView
+                 android:id="@+id/vendor_name_tv"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:textSize="14dp"
+                 android:gravity="start|center"
+                 android:paddingStart="10dp"
+                 android:singleLine="true"
+                 android:fontFamily="@font/helveticabold"
+                 android:textColor="@color/light_green"/>
+
+             <TextView
+                 android:id="@+id/cityName"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:textSize="12sp"
+                 android:paddingStart="10dp"
+                 android:gravity="start|center|top"
+                 android:singleLine="true"
+                 android:marqueeRepeatLimit="marquee_forever"
+                 android:ellipsize="marquee"
+                 android:fontFamily="@font/avenirbextregular"
+                 android:textColor="@color/white"/>
+         </LinearLayout>
+
 
 
 

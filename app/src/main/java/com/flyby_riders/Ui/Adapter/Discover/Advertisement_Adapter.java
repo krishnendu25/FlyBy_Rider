@@ -60,7 +60,7 @@ public class Advertisement_Adapter extends BaseAdapter {
         holder.vendorView.setVisibility(View.GONE);
 
         try{
-            Picasso.get().load(data.get(0).getIMAGECOVERPATH()+data.get(0).getADCOVERIMAGE()).placeholder(R.drawable.images).into(holder.Cover_pic_tv);
+            Picasso.get().load(data.get(i).getIMAGECOVERPATH()+data.get(i).getADCOVERIMAGE()).placeholder(R.drawable.ic_placeholderad).into(holder.Cover_pic_tv);
         }catch (Exception e)
         {  }
         holder.Add_view_click.setOnClickListener(new View.OnClickListener() {

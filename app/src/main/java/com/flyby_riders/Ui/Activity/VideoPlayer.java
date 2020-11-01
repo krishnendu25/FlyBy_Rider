@@ -67,12 +67,12 @@ public class VideoPlayer extends AppCompatActivity {
 
             @Override
             public void onBufferingStart(MediaPlayer mediaPlayer) {
-                VideoProgrss.setVisibility(View.VISIBLE);
+
             }
 
             @Override
             public void onBufferingEnd(MediaPlayer mediaPlayer) {
-                VideoProgrss.setVisibility(View.GONE);
+
             }
         });
     }

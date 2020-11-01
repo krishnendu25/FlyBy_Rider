@@ -20,6 +20,8 @@ import com.flyby_riders.Ui.Model.BIKE_BRAND;
 import com.flyby_riders.Utils.BaseActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,6 +90,7 @@ public class BikeModelView extends BaseActivity implements onClick {
                             bike_BRAND.setPIC(Base_Pic_url + jsonArray_ALLMODEL.getJSONObject(i).getString("PIC").toString());
                             BIKE_LIST_MODEL.add(bike_BRAND);
                         }
+
                         bike_brand_adapter = new Bike_Model_Adapter(BikeModelView.this,BIKE_LIST_MODEL);
                         bikeBrandList.setAdapter(bike_brand_adapter);
 

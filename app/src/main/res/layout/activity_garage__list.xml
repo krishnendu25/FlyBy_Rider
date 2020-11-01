@@ -108,11 +108,39 @@
     </com.flyby_riders.Utils.ShadowLayout>
 
 </RelativeLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/garage_list"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"/>
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/garage_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"/>
+
+        <LinearLayout
+            android:id="@+id/emptyView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="No stores are currently listed\nfor this service."
+                android:textSize="14sp"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:fontFamily="@font/avenirbextregular"
+                android:textColor="@color/white"
+                android:layout_toRightOf="@+id/Back_"/>
+        </LinearLayout>
+    </RelativeLayout>
+
 
 
 </LinearLayout>

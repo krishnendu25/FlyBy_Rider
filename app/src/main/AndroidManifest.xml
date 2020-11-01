@@ -28,6 +28,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
@@ -56,7 +57,6 @@
         <activity android:name=".Ui.Activity.GpsTrunOnWarning" />
         <activity android:name=".Ui.Activity.VideoPlayer" />
         <activity android:name=".Ui.Activity.AllGarageList" />
-
         <activity android:name=".Ui.Activity.GarageDetailsView" />
         <activity android:name=".Ui.Activity.RideGalleryView" />
         <activity android:name=".Ui.Activity.UpgradeAccountPlan" />

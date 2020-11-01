@@ -64,7 +64,7 @@
                     android:layout_width="60dp"
                     android:layout_height="65dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="16dp" />
 
                 <TextView
                     android:id="@+id/Garage_NAME"
@@ -90,6 +90,7 @@
                     android:layout_marginStart="20dp"
                     android:drawableStart="@drawable/ic_location"
                     android:drawablePadding="5dp"
+                    android:paddingTop="2dp"
                     android:ellipsize="marquee"
                     android:fontFamily="@font/manroperegular"
                     android:gravity="start|center"
@@ -105,7 +106,7 @@
                     android:layout_below="@+id/Garage_CITY"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="16dp"
                     android:drawablePadding="5dp"
                     android:ellipsize="marquee"
                     android:fontFamily="@font/manroperegular"

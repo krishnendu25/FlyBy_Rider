@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.GarageDetailsView;
 import com.flyby_riders.Ui.Model.Garage_Media_Model;
@@ -42,17 +44,23 @@ public class Image_Silder_Adapter extends RecyclerView.Adapter<Image_Silder_Adap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        try {
-            holder.roundedImageView.setBackground(null);
-            Picasso.get().load(mData.get(position).getFile_Url()).placeholder(R.drawable.images).into(holder.roundedImageView);
-        } catch (Exception e) {
-            holder.roundedImageView.setBackground(null);
-            Picasso.get().load(R.drawable.images).into(holder.roundedImageView);
-        }
+
         if (mData.get(position).getFile_Type().equalsIgnoreCase("VIDEO")) {
             holder.video_play_ic.setVisibility(View.VISIBLE);
-
-        } else {
+            try{
+                holder.roundedImageView.setBackground(null);
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.isMemoryCacheable();
+                Glide.with(context).setDefaultRequestOptions(requestOptions).load(mData.get(position).getFile_Url()).placeholder(R.drawable.ic_placeholderad).into(holder.roundedImageView);
+            }catch (Exception e){}
+                  } else {
+            try {
+                holder.roundedImageView.setBackground(null);
+                Picasso.get().load(mData.get(position).getFile_Url()).placeholder(R.drawable.ic_placeholderad).into(holder.roundedImageView);
+            } catch (Exception e) {
+                holder.roundedImageView.setBackground(null);
+                Picasso.get().load(R.drawable.images).into(holder.roundedImageView);
+            }
             holder.video_play_ic.setVisibility(View.GONE);
         }
         holder.video_layout.setAnimation(AnimationUtils.loadAnimation(context,R.anim.zoom_in));

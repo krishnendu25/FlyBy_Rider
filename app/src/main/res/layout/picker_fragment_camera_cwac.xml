@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@color/transparent"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_camerabtn" />
 
     </LinearLayout>
