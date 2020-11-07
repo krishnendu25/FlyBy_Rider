@@ -19,7 +19,6 @@ import com.flyby_riders.Ui.Adapter.Discover.Garage_Owner_Adapter;
 import com.flyby_riders.Ui.Adapter.Discover.Garageownerclick;
 import com.flyby_riders.Ui.Model.Garage_Owner_Model;
 import com.flyby_riders.Utils.BaseActivity;
-import com.flyby_riders.Utils.ShadowLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONException;
@@ -39,8 +38,6 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
 
     @BindView(R.id.Back_Btn)
     RelativeLayout BackBtn;
-    @BindView(R.id.Back_)
-    ShadowLayout Back;
     @BindView(R.id.Sort_Btn)
     RelativeLayout SortBtn;
     @BindView(R.id.garage_list)

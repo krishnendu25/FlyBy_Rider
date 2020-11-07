@@ -9,6 +9,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import com.flyby_riders.Retrofit.RetrofitClient;
 import com.flyby_riders.Sharedpreferences.Prefe;
 import com.flyby_riders.Ui.Activity.RideMapView;
 import com.flyby_riders.Ui.Adapter.Ride.My_Ride_Adapter;
+import com.flyby_riders.Ui.Listener.RemoveBikeRide;
 import com.flyby_riders.Ui.Model.My_Ride_Model;
 
 import org.json.JSONArray;
@@ -43,18 +45,22 @@ import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_ENDED;
 import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_NOT_STARTED;
 import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_STARTED;
 
-public class My_Ride_Fragment extends Fragment {
+public class My_Ride_Fragment extends Fragment implements RemoveBikeRide {
+    private static My_Ride_Fragment fragment;
     public RetrofitCallback retrofitCallback;
     ArrayList<My_Ride_Model> MyRide_List = new ArrayList<>();
     RecyclerView MyRide_ListRecyclerView;
     private AlertDialog alertDialog_loader = null;
     ShimmerFrameLayout shimmer_view_container;
+    LinearLayout emptyView_Li;
     RelativeLayout shimmerView;
+    private My_Ride_Adapter my_ride_adapter;
+
     public My_Ride_Fragment() {
     }
 
     public static My_Ride_Fragment newInstance(String param1, String param2) {
-        My_Ride_Fragment fragment = new My_Ride_Fragment();
+         fragment = new My_Ride_Fragment();
 
         return fragment;
     }
@@ -71,6 +77,7 @@ public class My_Ride_Fragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_my__ride, container, false);
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
         shimmer_view_container = v.findViewById(R.id.shimmer_view_container);
+        emptyView_Li = v.findViewById(R.id.emptyView_Li);
         shimmerView = v.findViewById(R.id.shimmerView);
         TextView Create_Ride_tv = (TextView) v.findViewById(R.id.Create_Ride_tv);
         MyRide_ListRecyclerView = (RecyclerView) v.findViewById(R.id.MyRide_List);
@@ -115,7 +122,6 @@ public class My_Ride_Fragment extends Fragment {
                         }
                         MyRide_List.clear();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
-
                             JSONArray RIDEDETAILS_LIST = jsonObject.getJSONArray("RIDEDETAILS");
                             for (int i = 0; i < RIDEDETAILS_LIST.length(); i++) {
                                 My_Ride_Model myRideModel = new My_Ride_Model();
@@ -149,19 +155,16 @@ public class My_Ride_Fragment extends Fragment {
                                 MyRide_List.add(myRideModel);
                             }
                             Collections.reverse(MyRide_List);
-
                             HashSet<My_Ride_Model> listToSet = new HashSet<My_Ride_Model>(MyRide_List);
                             ArrayList<My_Ride_Model> listWithoutDuplicates = new ArrayList<My_Ride_Model>(listToSet);
-
-                            My_Ride_Adapter my_ride_adapter = new My_Ride_Adapter(getActivity(), listWithoutDuplicates,getActivity());
-                            MyRide_ListRecyclerView.setAdapter(my_ride_adapter);
-
+                            setRideAdapter(listWithoutDuplicates);
                         } else {
+                            setRideAdapter(new ArrayList<>());
                             Constant.Show_Tos(getContext(), "No Ride Found");
                             hide_ProgressDialog();
                         }
                     } catch (Exception e) {
-                        hide_ProgressDialog();
+                        setRideAdapter(new ArrayList<>());
                         hide_ProgressDialog();
                     }
                 }
@@ -170,6 +173,7 @@ public class My_Ride_Fragment extends Fragment {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hide_ProgressDialog();
+                setRideAdapter(new ArrayList<>());
                 Constant.Show_Tos_Error(getActivity(), true, false);
             }
         });
@@ -183,5 +187,28 @@ public class My_Ride_Fragment extends Fragment {
     public void hide_ProgressDialog() {
         shimmer_view_container.stopShimmer();
         shimmerView.setVisibility(View.GONE);
+    }
+
+
+    private void setRideAdapter( ArrayList<My_Ride_Model> list){
+        if (list.size()>0){
+            emptyView_Li.setVisibility(View.GONE);
+            my_ride_adapter = new My_Ride_Adapter(getActivity(),list,getActivity(),fragment);
+            MyRide_ListRecyclerView.setAdapter(my_ride_adapter);
+        }else{
+            emptyView_Li.setVisibility(View.VISIBLE);
+            if (my_ride_adapter!=null){
+                my_ride_adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void removeMyRide(String rideID) {
+        removeRideList(rideID);
+    }
+
+    private void removeRideList(String rideID) {
+
     }
 }

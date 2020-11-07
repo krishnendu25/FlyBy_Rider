@@ -25,7 +25,6 @@ import com.flyby_riders.Ui.Adapter.Garage.DeleteMyBike;
 import com.flyby_riders.Ui.Adapter.Garage.MyBikeMannageAdapter;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
 import com.flyby_riders.Utils.BaseActivity;
-import com.flyby_riders.Utils.ShadowLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONArray;
@@ -49,8 +48,7 @@ public class MyAccount extends BaseActivity implements DeleteMyBike {
 
     @BindView(R.id.Back_Btn)
     RelativeLayout BackBtn;
-    @BindView(R.id.Back_)
-    ShadowLayout Back;
+
     @BindView(R.id.categoryTitle)
     TextView categoryTitle;
     @BindView(R.id.myPhoneNoTV)

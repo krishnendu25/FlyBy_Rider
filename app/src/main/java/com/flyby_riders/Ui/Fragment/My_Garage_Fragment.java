@@ -51,7 +51,6 @@ import com.flyby_riders.Ui.Adapter.Garage.My_Bike_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Garage_Advertisement;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
-import com.flyby_riders.Utils.ShadowLayout;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -74,6 +73,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import soup.neumorphism.NeumorphCardView;
+import soup.neumorphism.NeumorphTextView;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
@@ -84,7 +85,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
     public RetrofitCallback retrofitCallback;
     private TextView bikeBrandName, newADIndicator, bikeModelName;
     private LinearLayout collapse_view, My_Bike_Image_view;
-    private ShadowLayout AccountBtn;
+    private NeumorphCardView AccountBtn;
     private ImageButton BikeAddBtn;
     private RelativeLayout DocumentLockerBtn;
     private RecyclerView AdvetismentList, MyBikeList;
@@ -459,6 +460,9 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         } catch (Exception e) {
             newADFlag = 0;
         }
+
+
+
         return grg;
     }
 

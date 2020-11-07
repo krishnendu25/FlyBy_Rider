@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.RideMapView;
+import com.flyby_riders.Ui.Adapter.Garage.GarageAddClick;
+import com.flyby_riders.Ui.Fragment.My_Ride_Fragment;
+import com.flyby_riders.Ui.Listener.RemoveBikeRide;
 import com.flyby_riders.Ui.Model.My_Ride_Model;
 import com.squareup.picasso.Picasso;
 
@@ -29,12 +32,13 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
     ArrayList<My_Ride_Model> data;
     Context context; Activity activity;
     private static LayoutInflater inflater=null;
-
-    public My_Ride_Adapter(Context contecxt, ArrayList<My_Ride_Model> MyRide_List, Activity activity) {
+    RemoveBikeRide removeBikeRide ;
+    public My_Ride_Adapter(Context contecxt, ArrayList<My_Ride_Model> MyRide_List, Activity activity, My_Ride_Fragment fragment) {
         // TODO Auto-generated constructor stub
         this.context=contecxt;
         this.data = MyRide_List;
         this.activity = activity;
+        setClickListener(fragment);
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -53,9 +57,6 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
         holder.Total_time_tv.setSelected(true);
         holder.Total_Member_tv.setSelected(true);
         holder.total_media_tv.setSelected(true);
-
-
-
         holder.my_ride_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,5 +131,10 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
             Total_Member_tv = (TextView) itemView.findViewById(R.id.Total_Member_tv);
             total_media_tv = (TextView) itemView.findViewById(R.id.total_media_tv);
         }
+    }
+
+
+    void setClickListener(My_Ride_Fragment itemClickListener) {
+        this.removeBikeRide = itemClickListener;
     }
 }

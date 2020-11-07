@@ -51,7 +51,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".Ui.Activity.AvertisementView"/>
+        <activity android:name=".Ui.Activity.AvertisementView" />
         <activity android:name=".Ui.Activity.MyAccount" />
         <activity android:name=".Ui.Activity.LocationPermissionsWindow" />
         <activity android:name=".Ui.Activity.GpsTrunOnWarning" />
@@ -107,7 +107,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".Ui.Service.LocationService" android:exported="false"/>
+
+        <service
+            android:name=".Ui.Service.LocationService"
+            android:exported="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBPY5WHNqIEGV2y6eNR4R5xCgzEh_kyYCY" />
@@ -117,8 +120,10 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".Utils.BootReceiver" android:enabled="true" android:exported="false">
+        <receiver
+            android:name=".Utils.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

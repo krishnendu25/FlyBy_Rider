@@ -34,6 +34,7 @@ public class LocationService extends Service {
         request = new LocationRequest();
         request.setInterval(2000);
         request.setFastestInterval(2000);
+        request.setSmallestDisplacement(10);
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         client = LocationServices.getFusedLocationProviderClient(LocationService.this);
         int permission = ContextCompat.checkSelfPermission(this,

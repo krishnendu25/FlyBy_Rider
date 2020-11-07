@@ -53,7 +53,7 @@
     <string name="phone_contacts">PHONE CONTACTS</string>
     <string name="contacts_on_flyby">CONTACTS ON FLYBY</string>
     <string name="invite_new_member">Invite new member</string>
-    <string name="remove_member">Remove Member</string>
+    <string name="remove_member">Delete This Ride</string>
     <string name="rename_ride">Rename Ride</string>
     <string name="ride_name">Ride Name</string>
     <string name="update">UPDATE</string>

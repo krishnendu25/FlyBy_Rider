@@ -1,9 +1,11 @@
 package com.flyby_riders.Ui.Activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,13 +16,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Adapter.Garage.SliderAdapterExample;
 import com.flyby_riders.Ui.Model.Garage_Advertisement;
 import com.flyby_riders.Utils.ExpandableTextView;
 import com.smarteist.autoimageslider.SliderView;
-import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -61,6 +64,15 @@ public class AvertisementView extends AppCompatActivity {
     @BindView(R.id.addDescriptionTV)
     ExpandableTextView addDescriptionTV;
     ArrayList<String> Images = new ArrayList<>();
+    @BindView(R.id.whatsappBTN)
+    RelativeLayout whatsappBTN;
+    @BindView(R.id.callBTN)
+    RelativeLayout callBTN;
+    @BindView(R.id.buyLink_Re)
+    LinearLayout buyLinkRe;
+    @BindView(R.id.contactView)
+    LinearLayout contactView;
+    private String adPhoneNo,adWhatsapp,adBuyLink;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +87,7 @@ public class AvertisementView extends AppCompatActivity {
             addList = garage_ads_list;
             advertisementView(addList, pos);
         } catch (Exception e) {
-            Log.e("@Flyby",e.getMessage());
+            Log.e("@Flyby", e.getMessage());
         }
 
         mContext = getApplicationContext();
@@ -95,22 +107,42 @@ public class AvertisementView extends AppCompatActivity {
         else if (ga.getAdvertising_costPrice().equalsIgnoreCase("POR"))
             priceTAGTv.setText("Price On Request");
         else
-            priceTAGTv.setText(getString(R.string.rupee)+" "+ga.getAdvertising_costPrice());
+            priceTAGTv.setText(getString(R.string.rupee) + " " + ga.getAdvertising_costPrice());
 
-        try{
-                Picasso.get().load("https://flybyapp.com/flybyapp/images/"+ga.getGarageOwnerDetails().get(0).getProfilePicture()).placeholder(R.drawable.images).into(AlbumCoverPicture);
-        }catch (Exception e)
-        {
+        try {
+            Picasso.get().load("https://flybyapp.com/flybyapp/images/" + ga.getGarageOwnerDetails().get(0).getProfilePicture()).placeholder(R.drawable.images).into(AlbumCoverPicture);
+        } catch (Exception e) {
             AlbumCoverPicture.setImageDrawable(getResources().getDrawable(R.drawable.images));
         }
-
         Images = splitByComma(ga.getAdvertising_Images(), ga.getADIMAGEPATH());
         Images.add(ga.Advertising_CoverPic);
-        imageSlider.setSliderAdapter(new SliderAdapterExample(AvertisementView.this,Images,mActivity));
+        imageSlider.setSliderAdapter(new SliderAdapterExample(AvertisementView.this, Images, mActivity));
 
+        if (addList.get(pos).getAdvertising_userActions().get(0).getByeNow().equalsIgnoreCase("0")){
+            buyLinkRe.setVisibility(View.GONE);
+        }else
+        {buyLinkRe.setVisibility(View.VISIBLE);
+            contactView.setVisibility(View.GONE);
+        adBuyLink = addList.get(pos).getAdvertising_userActions().get(0).getByeNow();}
+
+        if (addList.get(pos).getAdvertising_userActions().get(0).getContactStore().equalsIgnoreCase("0")){
+            contactView.setVisibility(View.GONE);
+        }else {
+            contactView.setVisibility(View.VISIBLE);
+            buyLinkRe.setVisibility(View.GONE);
+            String rawContact = addList.get(pos).getAdvertising_userActions().get(0).getContactStore();
+            if (rawContact.contains("-")) {
+                String[] allIdsArray = TextUtils.split(rawContact, "-");
+                ArrayList<String> rawContactList = new ArrayList<String>(Arrays.asList(allIdsArray));
+                if (rawContactList.size() > 0)
+                    adPhoneNo = rawContactList.get(0);
+                if (rawContactList.size() > 1)
+                    adWhatsapp = rawContactList.get(1);
+            }
+        }
     }
 
-    @OnClick({R.id.Back_Btn, R.id.byeProductBTN,R.id.garageNameView})
+    @OnClick({R.id.Back_Btn, R.id.byeProductBTN, R.id.garageNameView, R.id.whatsappBTN, R.id.callBTN})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.Back_Btn:
@@ -123,6 +155,28 @@ public class AvertisementView extends AppCompatActivity {
                 intent.putExtra("Grage_Owner_ID", addList.get(pos).garageOwnerDetails.get(0).getID());
                 startActivity(intent);
                 break;
+            case R.id.callBTN:
+                try {
+                    if (ActivityCompat.checkSelfPermission(this,
+                            Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        final String[] PERMISSIONS_STORAGE = {Manifest.permission.CALL_PHONE};
+                        ActivityCompat.requestPermissions((Activity) this, PERMISSIONS_STORAGE, 9);
+                    } else {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" + adPhoneNo));
+                        startActivity(callIntent);
+                    }
+                } catch (Exception E) {
+                    Constant.Show_Tos_Error(this, false, true);
+                }
+                break;
+            case R.id.whatsappBTN:
+                try {
+                 Constant.openWhatsApp(adWhatsapp, "", this);
+                } catch (Exception E) {
+                    Constant.Show_Tos_Error(this, false, true);
+                }
+                break;
         }
     }
 
@@ -132,8 +186,7 @@ public class AvertisementView extends AppCompatActivity {
         ArrayList<String> idsList = new ArrayList<String>(Arrays.asList(allIdsArray));
         for (String element : idsList) {
             String url = imagepath + element;
-            if (!url.trim().equalsIgnoreCase(imagepath))
-            {
+            if (!url.trim().equalsIgnoreCase(imagepath)) {
                 images.add(url);
             }
         }

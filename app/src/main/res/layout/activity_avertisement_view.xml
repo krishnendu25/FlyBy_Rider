@@ -15,32 +15,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <com.flyby_riders.Utils.ShadowLayout
+        <soup.neumorphism.NeumorphCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:shadowRadius="100dp"
-            app:shadowShape="oval"
-            app:shadowSide="bottom"
-            app:sl_shadow_angle="270"
-            app:sl_shadow_color="#51FFFFFF"
-            app:sl_shadow_radius="2dp"
-            app:sl_shadowed="true">
-
-            <com.flyby_riders.Utils.ShadowLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_horizontal"
-                app:shadowRadius="100dp"
-                app:shadowShape="oval"
-                app:shadowSide="top"
-                app:sl_shadow_angle="90"
-                app:sl_shadow_color="#000000"
-                app:sl_shadow_radius="10dp"
-                app:sl_shadowed="true">
-
-                <RelativeLayout
+            app:neumorph_lightSource="leftBottom"
+            android:visibility="visible"
+            app:neumorph_strokeWidth="2dp"
+            app:neumorph_strokeColor="#29252E"
+            app:neumorph_shadowColorDark="#1FFFFFFF"
+            app:neumorph_shadowColorLight="#000000"
+            app:neumorph_shadowElevation="4dp"
+            app:neumorph_shapeType="flat"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            >
+        <RelativeLayout
                     android:id="@+id/Back_Btn"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
@@ -53,8 +42,7 @@
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/ic_back" />
                 </RelativeLayout>
-            </com.flyby_riders.Utils.ShadowLayout>
-        </com.flyby_riders.Utils.ShadowLayout>
+            </soup.neumorphism.NeumorphCardView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -257,7 +245,110 @@
 
 
 
+    <LinearLayout
+        android:id="@+id/buyLink_Re"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:weightSum="3"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/green_btn_ripple_botton"
+            android:layout_weight="1.45">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenirnextheavy"
+                android:textSize="20dp"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:text="BUY NOW"
+                android:gravity="start|center"
+                android:textColor="@color/background_base"/>
+        </RelativeLayout>
+    </LinearLayout>
+    </LinearLayout>
+
+
+<LinearLayout
+    android:id="@+id/contactView"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:orientation="vertical"
+    android:visibility="gone"
+    android:layout_alignParentBottom="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:weightSum="3"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:id="@+id/whatsappBTN"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ph_edittext_bg"
+            android:layout_weight="1.45">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenirnextheavy"
+                android:textSize="18dp"
+                android:textColor="@color/light_green"
+                android:text="WHATSAPP"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:drawableStart="@drawable/ic_whatsapp"
+                android:drawablePadding="10dp"
+                android:gravity="start|center"
+                android:singleLine="true"/>
+
+
+        </RelativeLayout>
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="0.10"/>
+
+        <RelativeLayout
+            android:id="@+id/callBTN"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/green_btn_ripple_botton"
+            android:layout_weight="1.45">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenirnextheavy"
+                android:textSize="18dp"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:text="CALL"
+                android:drawableStart="@drawable/icon_call"
+                android:drawablePadding="10dp"
+                android:gravity="start|center"
+                android:textColor="@color/background_base"/>
+
+        </RelativeLayout>
+
+
+
+
+    </LinearLayout>
+</LinearLayout>
 
 
 

@@ -174,16 +174,16 @@ public interface RetrofitCallback {
     @GET("Get_all_garageowner")
     Call<ResponseBody> Get_all_garageowner();
 
-    @GET("http://flybyapp.com/flybyapp/StoreApi/getAllServices")
+    @GET("http://flybyapp.in/flybyapp/StoreApi/getAllServices")
     Call<ResponseBody> getAllServices();
 
     @FormUrlEncoded
-    @POST("http://flybyapp.com/flybyapp/StoreApi/ad_post_fetch")
+    @POST("http://flybyapp.in/flybyapp/StoreApi/ad_post_fetch")
     Call<ResponseBody> ad_post_fetch(@Field("Userid") String Userid);
 
 
     @FormUrlEncoded
-    @POST("http://flybyapp.com/flybyapp/StoreApi/Getgarageownerdetails")
+    @POST("http://flybyapp.in/flybyapp/StoreApi/Getgarageownerdetails")
     Call<ResponseBody> Getgarageownerdetails(@Field("user_id") String user_id);
 
     @FormUrlEncoded

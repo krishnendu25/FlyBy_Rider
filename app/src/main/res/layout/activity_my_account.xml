@@ -12,33 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.flyby_riders.Utils.ShadowLayout
+        <soup.neumorphism.NeumorphCardView
             android:id="@+id/Back_"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:shadowRadius="100dp"
-            app:shadowShape="oval"
-            app:shadowSide="bottom"
-            app:sl_shadow_angle="270"
-            app:sl_shadow_color="#51FFFFFF"
-            app:sl_shadow_radius="2dp"
-            app:sl_shadowed="true">
+            app:neumorph_lightSource="leftBottom"
+            android:visibility="visible"
+            app:neumorph_strokeWidth="2dp"
+            app:neumorph_strokeColor="#29252E"
+            app:neumorph_shadowColorDark="#1FFFFFFF"
+            app:neumorph_shadowColorLight="#000000"
+            app:neumorph_shadowElevation="4dp"
+            app:neumorph_shapeType="flat"
+            >
 
-            <com.flyby_riders.Utils.ShadowLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_horizontal"
-                app:shadowRadius="100dp"
-                app:shadowShape="oval"
-                app:shadowSide="top"
-                app:sl_shadow_angle="90"
-                app:sl_shadow_color="#000000"
-                app:sl_shadow_radius="10dp"
-                app:sl_shadowed="true">
 
-                <RelativeLayout
+        <RelativeLayout
                     android:id="@+id/Back_Btn"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
@@ -51,9 +40,7 @@
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/ic_back" />
                 </RelativeLayout>
-            </com.flyby_riders.Utils.ShadowLayout>
-        </com.flyby_riders.Utils.ShadowLayout>
-
+        </soup.neumorphism.NeumorphCardView>
         <TextView
             android:id="@+id/categoryTitle"
             android:layout_width="wrap_content"
@@ -68,20 +55,7 @@
             android:textColor="@color/white"
             android:textSize="18dp" />
 
-        <com.flyby_riders.Utils.ShadowLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            app:shadowRadius="100dp"
-            app:shadowShape="oval"
-            app:shadowSide="bottom"
-            app:sl_shadow_angle="270"
-            app:sl_shadow_color="#51FFFFFF"
-            app:sl_shadow_radius="2dp"
-            app:sl_shadowed="true">
 
-
-        </com.flyby_riders.Utils.ShadowLayout>
 
     </RelativeLayout>
 
@@ -357,16 +331,90 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
                 android:layout_marginTop="14dp"
                 android:weightSum="3"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/callBTN"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+
+                    <LinearLayout
+                        android:id="@+id/callBTN"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:translationX="10dp"
+                        android:background="@drawable/ic_btnclwp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="25dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_call" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/manroperegular"
+                                android:paddingStart="10dp"
+                                android:gravity="center"
+                                android:text="Call" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/whatsappBTN"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:translationX="-10dp"
+                        android:background="@drawable/ic_btnclwp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="25dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_whatsapp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/manroperegular"
+                                android:paddingStart="10dp"
+                                android:gravity="center"
+                                android:text="WhatsApp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+
                     android:layout_width="0dp"
                     android:layout_weight="1.45"
                     android:layout_height="match_parent"
@@ -387,32 +435,7 @@
                         android:text="Call" />
 
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="0.10"
-                    android:layout_height="match_parent"/>
-                        <LinearLayout
-                            android:id="@+id/whatsappBTN"
-                            android:layout_width="0dp"
-                            android:layout_weight="1.45"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/call_wp_view"
-                            android:gravity="center"
-                            android:orientation="horizontal">
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_whatsapp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manroperegular"
-                                android:paddingStart="10dp"
-                                android:text="WhatsApp" />
-
-                        </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

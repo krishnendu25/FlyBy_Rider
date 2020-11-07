@@ -1303,7 +1303,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     @Override
     protected void onStop() {
         super.onStop();
-        TrackerService(false);
+       // TrackerService(false);
     }
 
     public class Location_Track_Service extends AsyncTask<Void, Integer, String> {
@@ -1322,15 +1322,14 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                             currentLongitude = Double.parseDouble(new DecimalFormat("##.####").format(Double.parseDouble(intent.getStringExtra(EXTRA_LONGITUDE))));
                             Latitude_End = currentLatitude;
                             Longitude_End = currentLongitude;
-                            if (My_Ride_ID != null) {
-                                if (!My_Ride_ID.equalsIgnoreCase("")) {
-                                    if (Track_My_Location) {
+                            if (Track_My_Location) {
+                                if (My_Ride_ID != null) {
+                                    if (!My_Ride_ID.equalsIgnoreCase("")) {
                                         hit_update_My_Location(currentLatitude, currentLongitude);
                                     }
                                 }
                             }
                             if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
-                                if (Track_My_Location) {
                                     testAdapter.INSERT_REALTIMELOCATION(My_Ride_ID, new Prefe(getApplicationContext()).getUserID(),
                                             String.valueOf(currentLatitude), String.valueOf(currentLongitude), GET_timeStamp());
                                     double Real_Time_Speed = Double.parseDouble(intent.getStringExtra(EXTRA_SPEED));//meters/second
@@ -1340,7 +1339,6 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                                     testAdapter.INSERT_RIDE_DATA(My_Ride_ID, new Prefe(getApplicationContext()).getUserID(),
                                             String.valueOf(Real_Time_Speed_kmph), String.valueOf(Real_Time_Speed_kmph), GET_timeStamp(), RIDE_STATUS);
 
-                                }
                             }
                         }
                     }, new IntentFilter(ACTION_LOCATION_BROADCAST)

@@ -44,11 +44,52 @@
               android:fontFamily="@font/avenirnextheavy"/>
 
       </RelativeLayout>
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/MyRide_List"
-    android:layout_width="match_parent"
-    android:scrollbars="none"
-    android:layout_height="match_parent"/>
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+              <androidx.recyclerview.widget.RecyclerView
+                  android:id="@+id/MyRide_List"
+                  android:layout_width="match_parent"
+                  android:scrollbars="none"
+                  android:layout_height="match_parent"/>
+
+              <LinearLayout
+                  android:id="@+id/emptyView_Li"
+                  android:layout_width="match_parent"
+                  android:layout_centerHorizontal="true"
+                  android:layout_centerVertical="true"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+                  <ImageView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:src="@drawable/ride_empty_bg"
+                      android:layout_centerHorizontal="true"
+                      android:layout_gravity="center"
+                      android:layout_marginTop="50dp"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Welcome to your rides."
+                      android:textSize="18dp"
+                      android:textColor="#F0EEF5"
+                      android:gravity="center"
+                      android:layout_gravity="center"
+                      android:layout_marginTop="10dp"
+                      android:fontFamily="@font/avenirnextheavy"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@string/one_place_to_manage_all_your_rides_fellow_riders_amp_ntheir_location_media_and_trip_information"
+                      android:textSize="14dp"
+                      android:textColor="#AAAAAA"
+                      android:gravity="center"
+                      android:layout_gravity="center"
+                      android:layout_margin="10dp"
+                      android:fontFamily="@font/avenirbextregular"/>
+              </LinearLayout>
+          </RelativeLayout>
+
   </LinearLayout>
     <RelativeLayout
         android:id="@+id/shimmerView"
