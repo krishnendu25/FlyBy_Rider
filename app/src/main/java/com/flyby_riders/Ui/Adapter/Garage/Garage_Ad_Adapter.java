@@ -61,7 +61,7 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
         }
         try{
             if (data.get(i).getGarageOwnerDetails().size()>0)
-            Picasso.get().load("https://flybyapp.com/flybyapp/images/"+data.get(i).getGarageOwnerDetails().get(0).getProfilePicture()).placeholder(R.drawable.images).into(holder.venderPhoto);
+            Picasso.get().load("https://flybyapp.in/flybyapp/images/"+data.get(i).getGarageOwnerDetails().get(0).getProfilePicture()).placeholder(R.drawable.images).into(holder.venderPhoto);
         }catch (Exception e)
         {
             holder.venderPhoto.setImageDrawable(context.getResources().getDrawable(R.drawable.images));

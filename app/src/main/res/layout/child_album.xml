@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Open_Album_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/background_base"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
-    <RelativeLayout
-        android:id="@+id/Open_Album_card"
+    <soup.neumorphism.NeumorphCardView
+        app:neumorph_cornerSize="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_document">
-
-
+        app:neumorph_lightSource="leftBottom"
+        android:visibility="visible"
+        app:neumorph_strokeWidth="2dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="10dp"
+        app:neumorph_backgroundColor="@color/background_base"
+        app:neumorph_strokeColor="#464547"
+        app:neumorph_shadowColorDark="#1FFFFFFF"
+        app:neumorph_shadowColorLight="#000000"
+        app:neumorph_shadowElevation="4dp"
+        app:neumorph_shapeType="flat">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="25dp"
             android:weightSum="5">
 
             <androidx.cardview.widget.CardView
@@ -96,22 +101,6 @@
 
 
         </LinearLayout>
-
-
-
-
-
-    </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
+    </soup.neumorphism.NeumorphCardView>
 
 </RelativeLayout>

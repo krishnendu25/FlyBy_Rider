@@ -5,32 +5,45 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_height="wrap_content">
-
-
-
-        <LinearLayout
+        <soup.neumorphism.NeumorphCardView
+            app:neumorph_cornerSize="0dp"
             android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:gravity="center"
-            android:paddingEnd="20dp"
-            android:paddingStart="20dp"
-            android:background="@drawable/round_progress"
-            android:orientation="horizontal">
-                <pl.droidsonroids.gif.GifImageView
-                    android:id="@+id/LottieAnimationView"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/loader_bg"
-                    android:background="@drawable/loader_bg"
-                    />
-                <TextView
+            android:layout_height="wrap_content"
+            app:neumorph_lightSource="leftBottom"
+            android:visibility="visible"
+            app:neumorph_strokeWidth="2dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            app:neumorph_backgroundColor="#2b2b2b"
+            app:neumorph_strokeColor="#464547"
+            app:neumorph_shadowColorDark="#1FFFFFFF"
+            app:neumorph_shadowColorLight="#000000"
+            app:neumorph_shadowElevation="4dp"
+            app:neumorph_shapeType="flat">
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                        android:text="  Hold On! Warming Up.."
-                        android:textSize="14sp"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/manropeextrabold"/>
+                    android:layout_height="80dp"
+                    android:gravity="center"
+                    android:paddingEnd="20dp"
+                    android:paddingStart="20dp"
+                    android:orientation="horizontal">
+                        <pl.droidsonroids.gif.GifImageView
+                            android:id="@+id/LottieAnimationView"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/loader_bg"
+                            android:background="@drawable/loader_bg"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="  Hold On! Warming Up.."
+                            android:textSize="14sp"
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/manropeextrabold"/>
+                </LinearLayout>
+        </soup.neumorphism.NeumorphCardView>
 
-        </LinearLayout>
+
 </LinearLayout>

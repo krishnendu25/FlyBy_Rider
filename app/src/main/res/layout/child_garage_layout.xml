@@ -6,116 +6,129 @@
     android:background="@color/background_base"
     android:orientation="vertical">
 
+    <soup.neumorphism.NeumorphCardView
+        app:neumorph_cornerSize="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:neumorph_lightSource="leftBottom"
+        android:visibility="visible"
+        app:neumorph_strokeWidth="2dp"
+        app:neumorph_backgroundColor="@color/background_base"
+        app:neumorph_strokeColor="#29252E"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        app:neumorph_shadowColorDark="#1FFFFFFF"
+        app:neumorph_shadowColorLight="#000000"
+        app:neumorph_shadowElevation="4dp"
+        app:neumorph_shapeType="flat">
+        <RelativeLayout
+            android:id="@+id/Garage_View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
-
-
-            <RelativeLayout
-                android:id="@+id/Garage_View"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/Garage_distance_unit"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-               android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:gravity="center"
+                android:drawablePadding="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:background="@drawable/round_brown"
+                android:textColor="@color/white"
+                android:textSize="10dp"
                 android:layout_marginTop="10dp"
-                android:elevation="30dp"
-                android:background="@drawable/catagory_box">
-
-                <TextView
-                    android:id="@+id/Garage_distance_unit"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/manropeextrabold"
+                android:drawableStart="@drawable/icon_distance"
+                android:layout_alignParentEnd="true"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/Garage_distance_unit"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/Garage_Call"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:drawablePadding="5dp"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="10dp"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:background="@drawable/round_brown"
-                    android:textColor="@color/white"
-                    android:textSize="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/manropeextrabold"
-                    android:drawableStart="@drawable/icon_distance"
-                    android:layout_alignParentEnd="true"/>
-                <LinearLayout
+                    android:src="@drawable/ic_call"/>
+                <ImageView
+                    android:id="@+id/Garage_Whatsapp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_below="@+id/Garage_distance_unit"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:id="@+id/Garage_Call"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_call"/>
-                    <ImageView
-                        android:id="@+id/Garage_Whatsapp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:src="@drawable/ic_wsp"/>
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_wsp"/>
 
-                </LinearLayout>
+            </LinearLayout>
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/Garage_ImageView"
-                    android:layout_width="60dp"
-                    android:layout_height="65dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/Garage_ImageView"
+                android:layout_width="60dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp" />
 
-                <TextView
-                    android:id="@+id/Garage_NAME"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/Garage_ImageView"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:ellipsize="marquee"
-                    android:fontFamily="@font/avenirnextbold"
-                    android:gravity="center"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:paddingEnd="5dp"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="14dp" />
+            <TextView
+                android:id="@+id/Garage_NAME"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Garage_ImageView"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/avenirnextbold"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:paddingEnd="5dp"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
 
-                <TextView
-                    android:id="@+id/Garage_CITY"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/Garage_NAME"
-                    android:layout_marginStart="20dp"
-                    android:drawableStart="@drawable/ic_location"
-                    android:drawablePadding="5dp"
-                    android:paddingTop="2dp"
-                    android:ellipsize="marquee"
-                    android:fontFamily="@font/manroperegular"
-                    android:gravity="start|center"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:singleLine="true"
-                    android:textColor="#AEACB5"
-                    android:textSize="12dp" />
+            <TextView
+                android:id="@+id/Garage_CITY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Garage_NAME"
+                android:layout_marginStart="20dp"
+                android:drawableStart="@drawable/ic_location"
+                android:drawablePadding="5dp"
+                android:paddingTop="2dp"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/manroperegular"
+                android:gravity="start|center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textColor="#AEACB5"
+                android:textSize="12dp" />
 
-                <TextView
-                    android:id="@+id/Garage_Services"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/Garage_CITY"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="16dp"
-                    android:drawablePadding="5dp"
-                    android:ellipsize="marquee"
-                    android:fontFamily="@font/manroperegular"
-                    android:gravity="start|center"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:paddingEnd="20dp"
-                    android:textColor="#AEACB5"
-                    android:textSize="12dp" />
+            <TextView
+                android:id="@+id/Garage_Services"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Garage_CITY"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="16dp"
+                android:drawablePadding="5dp"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/manroperegular"
+                android:gravity="start|center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:paddingEnd="20dp"
+                android:textColor="#AEACB5"
+                android:textSize="12dp" />
 
-            </RelativeLayout>
+        </RelativeLayout>
+
+    </soup.neumorphism.NeumorphCardView>
+
+
 
 </LinearLayout>

@@ -110,7 +110,7 @@ public class AvertisementView extends AppCompatActivity {
             priceTAGTv.setText(getString(R.string.rupee) + " " + ga.getAdvertising_costPrice());
 
         try {
-            Picasso.get().load("https://flybyapp.com/flybyapp/images/" + ga.getGarageOwnerDetails().get(0).getProfilePicture()).placeholder(R.drawable.images).into(AlbumCoverPicture);
+            Picasso.get().load("https://flybyapp.in/flybyapp/images/" + ga.getGarageOwnerDetails().get(0).getProfilePicture()).placeholder(R.drawable.images).into(AlbumCoverPicture);
         } catch (Exception e) {
             AlbumCoverPicture.setImageDrawable(getResources().getDrawable(R.drawable.images));
         }

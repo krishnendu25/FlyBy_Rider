@@ -2,6 +2,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
+    android:layout_marginTop="10dp"
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <soup.neumorphism.NeumorphCardView
@@ -15,7 +16,7 @@
         app:neumorph_shadowColorLight="#000000"
         app:neumorph_shadowElevation="4dp"
         app:neumorph_shapeType="flat"
-       android:layout_marginTop="10dp"
+
         android:layout_marginStart="10dp"
         android:foregroundGravity="center"
         >
