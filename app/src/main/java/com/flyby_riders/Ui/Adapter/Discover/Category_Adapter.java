@@ -59,6 +59,7 @@ public class Category_Adapter extends BaseAdapter {
         holder.discover_tv = rowView.findViewById(R.id.discover_tv);
         holder.child_discover_view = rowView.findViewById(R.id.child_discover_view);
 
+        //Dynamic Width
         int iDisplayWidth = context.getResources().getDisplayMetrics().widthPixels ;
         int iImageWidth = iDisplayWidth/2;
 

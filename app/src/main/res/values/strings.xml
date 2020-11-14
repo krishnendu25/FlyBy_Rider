@@ -101,4 +101,18 @@
     <string name="posted_by">POSTED BY</string>
     <string name="trun_off_battery_optimization">TRUN OFF battery optimization</string>
     <string name="in_the_battery_optimization_settings_select_all_apps_and_then_find_flyby_in_the_list_and_disable_battery_optimization">In the battery optimization settings,select \'All apps\' and then find \'FLYBY\' in the list and disable battery optimization.</string>
+
+    <string name="launch_activity">Launch activity</string>
+    <string name="location_unknown">Location unknown</string>
+    <string name="location_updates_label">Location Updates</string>
+
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+    <string name="settings">Settings</string>
+    <string name="ok">OK</string>
+    <string name="request_location_updates">Request location updates</string>
+    <string name="remove_location_updates">Remove location updates</string>
+
+    <string name="location_updated">Location Updated: %1$s</string>
 </resources>

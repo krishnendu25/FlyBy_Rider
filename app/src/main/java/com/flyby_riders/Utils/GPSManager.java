@@ -16,16 +16,8 @@ public class GPSManager extends BroadcastReceiver {
     private static  GPSManager gpsManager;
     private LocationManager mlocManager;
     int Count=0;
-     GPSManager(){
-    }
-    public static GPSManager getInstance(Context context)
-    {
-        if (gpsManager == null)
-        {
-            gpsManager = new GPSManager();
-        }
-        return gpsManager;
-    }
+
+
 
     public void start(Context context) {
         mlocManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

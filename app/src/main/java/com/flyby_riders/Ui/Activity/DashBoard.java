@@ -18,11 +18,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Fragment.Bike_Add_Fragments;
 import com.flyby_riders.Ui.Fragment.Discover_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
-import com.flyby_riders.Ui.Fragment.My_Ride_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Ride_Fragment;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
 import com.flyby_riders.Utils.BaseActivity;
@@ -42,8 +41,8 @@ import retrofit2.Response;
 import soup.neumorphism.NeumorphCardView;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static com.flyby_riders.Ui.Listener.StringUtils.BASIC;
-import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
+import static com.flyby_riders.Constants.StringUtils.BASIC;
+import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 
 public class DashBoard extends BaseActivity {
     @BindView(R.id.fragment_container)

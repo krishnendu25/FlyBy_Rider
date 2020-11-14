@@ -22,7 +22,7 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Activity.RideMapView;
 import com.flyby_riders.Ui.Adapter.Ride.My_Ride_Adapter;
 import com.flyby_riders.Ui.Listener.RemoveBikeRide;
@@ -41,9 +41,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_ENDED;
-import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_NOT_STARTED;
-import static com.flyby_riders.Ui.Listener.StringUtils.RIDE_STARTED;
+import static com.flyby_riders.Constants.StringUtils.RIDE_ENDED;
+import static com.flyby_riders.Constants.StringUtils.RIDE_NOT_STARTED;
+import static com.flyby_riders.Constants.StringUtils.RIDE_STARTED;
 
 public class My_Ride_Fragment extends Fragment implements RemoveBikeRide {
     private static My_Ride_Fragment fragment;
@@ -86,7 +86,7 @@ public class My_Ride_Fragment extends Fragment implements RemoveBikeRide {
             @Override
             public void onClick(View v) {
                 PowerManager pm = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
-                if (pm.isIgnoringBatteryOptimizations("com.flyby_riders")) {
+                if (true) {
                     startActivity(new Intent(getActivity(), RideMapView.class));
                 }else {
                     Constant.openBatteryOptmized(getActivity());

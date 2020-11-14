@@ -61,7 +61,7 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
             @Override
             public void onClick(View v) {
                 PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                if (pm.isIgnoringBatteryOptimizations("com.flyby_riders")) {
+                if (true) {
                     Intent intent = new Intent(context, RideMapView.class);
                     intent.putExtra("My_Ride_Name",data.get(position).getRIDENAME());
                     intent.putExtra("My_Ride_ID",data.get(position).getRIDEID());

@@ -40,7 +40,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.flyby_riders.Ui.Listener.StringUtils.PHONE_NO;
+import static com.flyby_riders.Constants.StringUtils.PHONE_NO;
 
 public class LoginView extends BaseActivity implements IJSONParseListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
 

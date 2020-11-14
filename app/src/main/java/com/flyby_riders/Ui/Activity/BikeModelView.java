@@ -13,15 +13,13 @@ import com.flyby_riders.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Adapter.Garage.Bike_Model_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.BIKE_BRAND;
 import com.flyby_riders.Utils.BaseActivity;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,9 +1,11 @@
 package com.flyby_riders.Ui.Activity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,11 +17,16 @@ import androidx.annotation.NonNull;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.NetworkOperation.IJSONParseListener;
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.AppSignatureHashHelper;
+import com.flyby_riders.Utils.MySMSBroadcastReceiver;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Utils.BaseActivity;
 import com.flyby_riders.Utils.CommentKeyBoardFix;
-import com.stfalcon.smsverifycatcher.OnSmsCatchListener;
-import com.stfalcon.smsverifycatcher.SmsVerifyCatcher;
+import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
 
@@ -37,9 +44,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.flyby_riders.Ui.Listener.StringUtils.PHONE_NO;
+import static com.flyby_riders.Constants.StringUtils.PHONE_NO;
 
-public class OTPVerification extends BaseActivity implements IJSONParseListener {
+public class OTPVerification extends BaseActivity implements MySMSBroadcastReceiver.OTPReceiveListener, IJSONParseListener {
 
     private static final String FORMAT_T = "%02d:%02d:%02d";
     @BindView(R.id.otp_ed)
@@ -61,8 +68,7 @@ public class OTPVerification extends BaseActivity implements IJSONParseListener 
     String Phone_Number, User_Id;
     String Device_Id="";
     CountDownTimer cTimer = null;
-    private SmsVerifyCatcher smsVerifyCatcher;
-
+    private MySMSBroadcastReceiver smsReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,15 +97,14 @@ public class OTPVerification extends BaseActivity implements IJSONParseListener 
                 Verifotp(otp);
             }
         });
-        smsVerifyCatcher = new SmsVerifyCatcher(this, new OnSmsCatchListener<String>() {
-            @Override
-            public void onSmsCatch(String message) {
-                String code = parseCode(message);//Parse verification code
-                otpEd.setOTP(code);//set code in edit text
-                //then you can send verification code to server
-            }
-        });
+        AppSignatureHashHelper appSignatureHashHelper = new AppSignatureHashHelper(this);
+        Log.i("HashKey", "HashKey: " + appSignatureHashHelper.getAppSignatures().get(0));
+        try{
+            Constant.setClipboard(this,appSignatureHashHelper.getAppSignatures().get(0));
+        }catch (Exception e)
+        {
 
+        }
 
     }
 
@@ -147,10 +152,6 @@ public class OTPVerification extends BaseActivity implements IJSONParseListener 
 
             }
         });
-
-
-
-
     }
 
     @OnClick({R.id.edit_phone_no, R.id.Resend_btn, R.id.otp_verify_btn})
@@ -168,6 +169,33 @@ public class OTPVerification extends BaseActivity implements IJSONParseListener 
                 break;
         }
     }
+    private void startSMSListener()
+    {
+        try {
+            smsReceiver = new MySMSBroadcastReceiver();
+            smsReceiver.setOTPListener(this);
+
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(SmsRetriever.SMS_RETRIEVED_ACTION);
+            this.registerReceiver(smsReceiver, intentFilter);
+
+            SmsRetrieverClient client = SmsRetriever.getClient(this);
+
+            Task<Void> task = client.startSmsRetriever();
+            task.addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                }
+            });
+            task.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
+
 
     private void Send_OTP_AGAIN() {
         show_ProgressDialog();
@@ -211,6 +239,7 @@ public class OTPVerification extends BaseActivity implements IJSONParseListener 
     }
 
     private void Initialization() {
+        startSMSListener();
         startTimer();
         Phone_Number = getIntent().getStringExtra(PHONE_NO);
         showOtpMobile.setSelected(true);
@@ -256,13 +285,21 @@ public class OTPVerification extends BaseActivity implements IJSONParseListener 
     @Override
     protected void onStart() {
         super.onStart();
-        smsVerifyCatcher.onStart();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (smsReceiver != null) {
+            unregisterReceiver(smsReceiver);
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        smsVerifyCatcher.onStop();
+
     }
 
     /**
@@ -271,8 +308,23 @@ public class OTPVerification extends BaseActivity implements IJSONParseListener 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        smsVerifyCatcher.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     }
 
 
+    @Override
+    public void onOTPReceived(String otp) {
+        String code = parseCode(otp);//Parse verification code
+        otpEd.setOTP(code);
+    }
+
+    @Override
+    public void onOTPTimeOut() {
+
+    }
+
+    @Override
+    public void onOTPReceivedError(String error) {
+
+    }
 }

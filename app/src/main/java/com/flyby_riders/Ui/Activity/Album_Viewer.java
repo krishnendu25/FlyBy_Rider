@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Adapter.DocumentLocker.Album_Image_Adapter;
 import com.flyby_riders.Ui.Model.Album_Content_Model;
 import com.flyby_riders.Utils.BaseActivity;

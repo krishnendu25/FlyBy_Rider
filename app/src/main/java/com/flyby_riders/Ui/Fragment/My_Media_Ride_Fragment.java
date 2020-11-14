@@ -23,7 +23,7 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Activity.RideGalleryView;
 import com.flyby_riders.Ui.Adapter.Ride.Ride_Gallery_Adapter;
 import com.flyby_riders.Ui.Model.Ride_Media_Model;

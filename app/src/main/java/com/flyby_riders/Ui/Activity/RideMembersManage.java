@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Adapter.Ride.Ride_Members_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Ride_Member_model;
@@ -31,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
+import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 
 public class RideMembersManage extends BaseActivity implements onClick {
     String My_Ride_ID = "",Admin_User_Id="";

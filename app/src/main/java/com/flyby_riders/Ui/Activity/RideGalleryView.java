@@ -18,7 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Adapter.Ride.Bike_Ride_Media_Adapter;
 import com.flyby_riders.Ui.Fragment.All_Media_Ride_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Media_Ride_Fragment;

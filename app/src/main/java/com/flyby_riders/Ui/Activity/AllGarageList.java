@@ -14,7 +14,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Adapter.Discover.Garage_Owner_Adapter;
 import com.flyby_riders.Ui.Adapter.Discover.Garageownerclick;
 import com.flyby_riders.Ui.Model.Garage_Owner_Model;

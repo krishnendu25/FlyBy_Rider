@@ -39,7 +39,7 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
             ContactsContract.Contacts.DISPLAY_NAME,
             ContactsContract.CommonDataKinds.Phone.NUMBER
-    };
+    };public Prefe mPrefe;
    public TestAdapter testAdapter = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
         testAdapter.createDatabase();
         testAdapter.open();
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
-
+        mPrefe = new Prefe(this);
 
 
        /* if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=

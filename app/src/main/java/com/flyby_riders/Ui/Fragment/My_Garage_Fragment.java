@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,13 +32,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Activity.AvertisementView;
 import com.flyby_riders.Ui.Activity.BikeBrandView;
 import com.flyby_riders.Ui.Activity.DocumentLockerView;
@@ -66,7 +64,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
@@ -74,10 +71,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import soup.neumorphism.NeumorphCardView;
-import soup.neumorphism.NeumorphTextView;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
+import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 
 public class My_Garage_Fragment extends Fragment implements onClick, GarageAddClick {
     final static int REQUEST_LOCATION = 199;

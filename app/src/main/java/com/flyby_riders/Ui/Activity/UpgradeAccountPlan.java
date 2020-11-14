@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Utils.BaseActivity;
 
 import org.json.JSONObject;
@@ -20,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
+import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 
 public class UpgradeAccountPlan extends BaseActivity {
 

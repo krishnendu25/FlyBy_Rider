@@ -1,4 +1,4 @@
-package com.flyby_riders.Ui.Listener;
+package com.flyby_riders.Constants;
 
 /**
  * Created by KRISHNENDU MANNA on 24,May,2020
@@ -10,6 +10,8 @@ public interface StringUtils {
     String RIDE_STARTED = "RIDE_STARTED",RIDE_ENDED="RIDE_ENDED",RIDE_NOT_STARTED="RIDE_NOT_STARTED";
 
     String RIDE_PLAY="RIDE_PLAY",RIDE_PAUSE="RIDE_PAUSE";
+
+    String RIDE_IS_BACKGROUND="IS_BACKGROUND",RIDE_IS_FORGROUND="IS_FORGROUND",RIDE_IS_CLOSE="IS_FORGROUND";
 
 
 }

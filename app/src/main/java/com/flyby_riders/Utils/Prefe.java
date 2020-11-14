@@ -1,13 +1,13 @@
-package com.flyby_riders.Sharedpreferences;
+package com.flyby_riders.Utils;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.AppLandingView;
 import com.flyby_riders.Ui.Activity.LoginView;
 import com.flyby_riders.Ui.Model.Contact_Model;
 import com.flyby_riders.Ui.Model.FlyBy_Contact_Model;
@@ -17,7 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static com.flyby_riders.Ui.Listener.StringUtils.BASIC;
+import static com.flyby_riders.Constants.StringUtils.BASIC;
 
 public class Prefe {
 
@@ -25,19 +25,17 @@ public class Prefe {
     private static final String LOGIN_USER_ID = "user_id";
     private static final String IsLogin="";
     private static final String Is_onBoarding_visit = "false";
-    private static final String GRAGE_PHOTO = "GRAGE_PHOTO";
     private static final String Latlong = "latlong";
-
     private static final String MEMBER_STATUS = BASIC;
-
-
     private static final String TRACK_RIDE_ID = "";
     private static final String RIDE_RECORD = "false";
-
-
     private static final String LOCAL_ALL_CONTACT="localallcontact";
     private static final String FLYBY_CONTACT="flybycontact";
-
+    static final String KEY_REQUESTING_LOCATION_UPDATES = "requesting_locaction_updates";
+    //Ride
+    private static final String RIDE_ID="rIdEiD";
+    private static final String RIDE_STATUS="rideStatus";
+    private static final String RIDE_TRACK_STATUS="rideTraCkStatus";
 
 
     public static SharedPreferences sPrfed_State_Saver;
@@ -163,12 +161,47 @@ public class Prefe {
 
 
 
-    public void set_mylocation(String latlong) {
-        sPrfed_State_Saver_editor.putString(Latlong, latlong);
+    public void set_mylocation(String val) {
+        sPrfed_State_Saver_editor.putString(Latlong, val);
         sPrfed_State_Saver_editor.commit();
     }
     public String get_mylocation() {
         return sPrfed_State_Saver.getString(Latlong, "");
     }
 
+
+    public void setRideID(String val) {
+        sPrfed_State_Saver_editor.putString(RIDE_ID, val);
+        sPrfed_State_Saver_editor.commit();
+    }
+    public String getRideID() {
+        return sPrfed_State_Saver.getString(RIDE_ID, "");
+    }
+
+    public void setRideStatus(String val) {
+        sPrfed_State_Saver_editor.putString(RIDE_STATUS, val);
+        sPrfed_State_Saver_editor.commit();
+    }
+    public String getRideStatus() {
+        return sPrfed_State_Saver.getString(RIDE_STATUS, "");
+    }
+
+    public void setRideTrackStatus(String val) {
+        sPrfed_State_Saver_editor.putString(RIDE_TRACK_STATUS, val);
+        sPrfed_State_Saver_editor.commit();
+    }
+    public String getRideTrackStatus() {
+        return sPrfed_State_Saver.getString(RIDE_TRACK_STATUS, "");
+    }
+
+
+    public  boolean requestingLocationUpdates() {
+        return sPrfed_State_Saver.getBoolean(KEY_REQUESTING_LOCATION_UPDATES, false);
+    }
+
+
+    public  void setRequestingLocationUpdates( boolean requestingLocationUpdates) {
+        sPrfed_State_Saver_editor.putBoolean(KEY_REQUESTING_LOCATION_UPDATES, requestingLocationUpdates);
+        sPrfed_State_Saver_editor.commit();
+    }
 }

@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Prefe;
+import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Adapter.Garage.DeleteMyBike;
 import com.flyby_riders.Ui.Adapter.Garage.MyBikeMannageAdapter;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
@@ -41,8 +41,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.flyby_riders.Ui.Listener.StringUtils.BASIC;
-import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
+import static com.flyby_riders.Constants.StringUtils.BASIC;
+import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 
 public class MyAccount extends BaseActivity implements DeleteMyBike {
 
