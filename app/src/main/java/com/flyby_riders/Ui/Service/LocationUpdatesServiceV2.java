@@ -38,9 +38,13 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.flyby_riders.GlobalApplication;
 import com.flyby_riders.R;
+import com.flyby_riders.Retrofit.RetrofitCallback;
+import com.flyby_riders.Retrofit.RetrofitClient;
 import com.flyby_riders.SQLite_DatabaseHelper.TestAdapter;
 import com.flyby_riders.Ui.Activity.RideMapView;
+import com.flyby_riders.Utils.NotificationMannager;
 import com.flyby_riders.Utils.Prefe;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -49,6 +53,11 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.flyby_riders.Constants.Constant.GET_timeStamp;
 import static com.flyby_riders.Constants.StringUtils.RIDE_IS_BACKGROUND;
@@ -59,6 +68,7 @@ public class LocationUpdatesServiceV2 extends Service {
     public static final String EXTRA_LONGITUDE = "extra_longitude";
     public static final String EXTRA_SPEED = "EXTRA_SPEED";
     public static final String TIMEING = "TIMEING";
+    private int RIDER_NOTIFICATION = 85;
     private static final String PACKAGE_NAME =
             "com.google.android.gms.location.sample.locationupdatesforegroundservice";
     private TestAdapter testAdapter;
@@ -83,7 +93,7 @@ public class LocationUpdatesServiceV2 extends Service {
 
     private boolean mChangingConfiguration = false;
 
-    private NotificationManager mNotificationManager;
+    private NotificationMannager notificationMannager;
 
     private LocationRequest mLocationRequest;
 
@@ -100,7 +110,7 @@ public class LocationUpdatesServiceV2 extends Service {
 
     @Override
     public void onCreate() {
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(GlobalApplication.getInstance());
 
         mLocationCallback = new LocationCallback() {
             @Override
@@ -116,18 +126,7 @@ public class LocationUpdatesServiceV2 extends Service {
         HandlerThread handlerThread = new HandlerThread(TAG);
         handlerThread.start();
         mServiceHandler = new Handler(handlerThread.getLooper());
-        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        // Android O requires a Notification Channel.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.app_name);
-            // Create the channel for the notification
-            NotificationChannel mChannel =
-                    new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
-
-            // Set the Notification Channel for the Notification Manager.
-            mNotificationManager.createNotificationChannel(mChannel);
-        }
+        notificationMannager = new NotificationMannager(getApplicationContext());
     }
 
     @Override
@@ -175,87 +174,50 @@ public class LocationUpdatesServiceV2 extends Service {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        if (!mChangingConfiguration && new Prefe(this).requestingLocationUpdates()) {
+        try{
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.cancel(RIDER_NOTIFICATION);
+        }catch (Exception e){ e.printStackTrace(); }
+        if (!mChangingConfiguration && new Prefe(GlobalApplication.getInstance()).requestingLocationUpdates()) {
             startForeground(NOTIFICATION_ID,getNotification() );
         }
         return true; // Ensures onRebind() is called when a client re-binds.
     }
     private Notification getNotification() {
-        Intent intent = new Intent(this, LocationUpdatesServiceV2.class);
-
-        CharSequence text = "";
-
-        // Extra to help us figure out if we arrived in onStartCommand via the notification or not.
-        intent.putExtra(EXTRA_STARTED_FROM_NOTIFICATION, true);
-
-        // The PendingIntent that leads to a call to onStartCommand() in this service.
-        PendingIntent servicePendingIntent = PendingIntent.getService(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // The PendingIntent to launch activity.
-        PendingIntent activityPendingIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, RideMapView.class), 0);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .addAction(R.drawable.uvv_common_ic_loading_icon, getString(R.string.launch_activity),
-                        activityPendingIntent)
-                .addAction(R.drawable.uvv_common_ic_loading_icon, getString(R.string.remove_location_updates),
-                        servicePendingIntent)
-                .setContentText(text)
-                .setContentTitle("")
-                .setOngoing(true)
-                .setPriority(Notification.PRIORITY_LOW)
-                .setSmallIcon(R.mipmap.ic_appiconrider)
-                .setTicker(text)
-                .setWhen(System.currentTimeMillis());
-
-        // Set the Channel ID for Android O.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId(CHANNEL_ID); // Channel ID
-        }
-
-        return builder.build();
+        if (notificationMannager!=null)
+        return notificationMannager.controllerNotification(true,false).build();
+        else
+            return null;
     }
     @Override
     public void onDestroy() {
         mServiceHandler.removeCallbacksAndMessages(null);
     }
 
-    /**
-     * Makes a request for location updates. Note that in this sample we merely log the
-     * {@link SecurityException}.
-     */
     public void requestLocationUpdates() {
         Log.i(TAG, "Requesting location updates");
-        new Prefe(this).setRequestingLocationUpdates(true);
-        startService(new Intent(this, LocationUpdatesServiceV2.class));
+        try{new Prefe(GlobalApplication.getInstance()).setRequestingLocationUpdates(true);}catch (Exception E){}
+
+        startService(new Intent(GlobalApplication.getInstance(), LocationUpdatesServiceV2.class));
         try {
             mFusedLocationClient.requestLocationUpdates(mLocationRequest,
                     mLocationCallback, Looper.myLooper());
         } catch (SecurityException unlikely) {
-            new Prefe(this).setRequestingLocationUpdates(false);
+            new Prefe(GlobalApplication.getInstance()).setRequestingLocationUpdates(false);
             Log.e(TAG, "Lost location permission. Could not request updates. " + unlikely);
         }
     }
-
-    /**
-     * Removes location updates. Note that in this sample we merely log the
-     * {@link SecurityException}.
-     */
     public void removeLocationUpdates() {
         Log.i(TAG, "Removing location updates");
         try {
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-            new Prefe(this).setRequestingLocationUpdates(false);
+            new Prefe(GlobalApplication.getInstance()).setRequestingLocationUpdates(false);
             stopSelf();
         } catch (SecurityException unlikely) {
-            new Prefe(this).setRequestingLocationUpdates(true);
+            new Prefe(GlobalApplication.getInstance()).setRequestingLocationUpdates(true);
             Log.e(TAG, "Lost location permission. Could not remove updates. " + unlikely);
         }
     }
-
-    
-
     private void getLastLocation() {
         try {
             mFusedLocationClient.getLastLocation()
@@ -273,18 +235,54 @@ public class LocationUpdatesServiceV2 extends Service {
             Log.e(TAG, "Lost location permission." + unlikely);
         }
     }
-
     private void onNewLocation(Location location) {
         Log.i(TAG, "New location: " + location);
-
         mLocation = location;
         inBackGroundTrack(location);
+        shearMyLocationToOther(location);
         Intent intent = new Intent(ACTION_BROADCAST);
         intent.putExtra(TIMEING, String.valueOf(location.getElapsedRealtimeNanos()));
         intent.putExtra(EXTRA_LATITUDE, String.valueOf(location.getLatitude()));
         intent.putExtra(EXTRA_LONGITUDE, String.valueOf(location.getLongitude()));
         intent.putExtra(EXTRA_SPEED, String.valueOf(location.getSpeed()));
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        updateNotificationValues();
+        LocalBroadcastManager.getInstance(GlobalApplication.getInstance()).sendBroadcast(intent);
+    }
+
+    private void updateNotificationValues() {
+        try {
+
+
+
+         /*   if (notificationMannager!=null)
+                notificationMannager.updateNotificationView(new Prefe(GlobalApplication.getInstance()).getRideTrackStatus(), String.valueOf(location.getSpeed()*3.6), "time");
+ */       } catch (Exception e) {
+        }
+    }
+
+    private void shearMyLocationToOther(Location location) {
+        if (new Prefe(GlobalApplication.getInstance()).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED) &&
+                new Prefe(GlobalApplication.getInstance()).getisLocationVisibleToOther()) {
+            if (new Prefe(GlobalApplication.getInstance()).getRideID() != null) {
+                if (!new Prefe(GlobalApplication.getInstance()).getRideID().equalsIgnoreCase("")) {
+                    hit_update_My_Location(location.getLatitude(), location.getLongitude());
+                }
+            }
+        }
+    }
+
+    private void hit_update_My_Location(double mlattitude, double mlongitude) {
+        RetrofitCallback retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
+        Call<ResponseBody> requestCall = retrofitCallback.location_tracker(String.valueOf(mlattitude), String.valueOf(mlongitude), new Prefe(GlobalApplication.getInstance()).getRideID(), new Prefe(this).getUserID(), GET_timeStamp());
+        requestCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
     }
 
     /**
@@ -307,40 +305,35 @@ public class LocationUpdatesServiceV2 extends Service {
             return LocationUpdatesServiceV2.this;
         }
     }
-    /**
-     * Returns true if this is a foreground service.
-     *
-     * @param context The {@link Context}.
-     */
-    public boolean serviceIsRunningInForeground(Context context) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(
-                Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(
-                Integer.MAX_VALUE)) {
-            if (getClass().getName().equals(service.service.getClassName())) {
-                if (service.foreground) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+
 
     private void inBackGroundTrack(Location location) {
 
         if (testAdapter==null){
-            testAdapter = new TestAdapter(this);
+            testAdapter = new TestAdapter(GlobalApplication.getInstance());
             testAdapter.createDatabase();
             testAdapter.open();
         }
-        String userID = new Prefe(this).getUserID();
-        if (new Prefe(this).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED)){
-            testAdapter.INSERT_REALTIMELOCATION(new Prefe(this).getRideID(),userID,String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()),GET_timeStamp());
+        String userID = new Prefe(GlobalApplication.getInstance()).getUserID();
+        if (new Prefe(GlobalApplication.getInstance()).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED) &&
+                new Prefe(GlobalApplication.getInstance()).getRideRecordStatus()){
+            testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()),GET_timeStamp());
             double Real_Time_Speed = Double.parseDouble(String.valueOf(location.getSpeed()));//meters/second
             double Real_Time_Speed_kmph = Real_Time_Speed * 3.6;
-            testAdapter.INSERT_RIDE_DATA(new Prefe(this).getRideID(), new Prefe(this).getUserID(),String.valueOf(Real_Time_Speed_kmph), String.valueOf(Real_Time_Speed_kmph), GET_timeStamp(), RIDE_STARTED);
+            testAdapter.INSERT_RIDE_DATA(new Prefe(GlobalApplication.getInstance()).getRideID(), new Prefe(GlobalApplication.getInstance()).getUserID(),String.valueOf(Real_Time_Speed_kmph), String.valueOf(Real_Time_Speed_kmph), GET_timeStamp(), RIDE_STARTED);
+            if (notificationMannager != null)
+                notificationMannager.controllerNotification(true, false);
         }
-
         Log.e("@@@@@@","BackGround-->"+" "+location.getLatitude());
+    }
+
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        try{
+            Log.e("@@@@@@","service terminate-->"+" ");
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.cancel(RIDER_NOTIFICATION);
+        }catch (Exception e){}
     }
 }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
@@ -34,8 +33,9 @@ public class Prefe {
     static final String KEY_REQUESTING_LOCATION_UPDATES = "requesting_locaction_updates";
     //Ride
     private static final String RIDE_ID="rIdEiD";
-    private static final String RIDE_STATUS="rideStatus";
+    private static final String RECORD_STATUS ="rideRecordStatus";
     private static final String RIDE_TRACK_STATUS="rideTraCkStatus";
+    private static final String SHEAR_MY_LOCATION="isLocationShearon";
 
 
     public static SharedPreferences sPrfed_State_Saver;
@@ -178,12 +178,12 @@ public class Prefe {
         return sPrfed_State_Saver.getString(RIDE_ID, "");
     }
 
-    public void setRideStatus(String val) {
-        sPrfed_State_Saver_editor.putString(RIDE_STATUS, val);
+    public void setRideRecordStatus(boolean val) {
+        sPrfed_State_Saver_editor.putBoolean(RECORD_STATUS, val);
         sPrfed_State_Saver_editor.commit();
     }
-    public String getRideStatus() {
-        return sPrfed_State_Saver.getString(RIDE_STATUS, "");
+    public boolean getRideRecordStatus() {
+        return sPrfed_State_Saver.getBoolean(RECORD_STATUS, false);
     }
 
     public void setRideTrackStatus(String val) {
@@ -204,4 +204,18 @@ public class Prefe {
         sPrfed_State_Saver_editor.putBoolean(KEY_REQUESTING_LOCATION_UPDATES, requestingLocationUpdates);
         sPrfed_State_Saver_editor.commit();
     }
+
+
+
+    public  boolean getisLocationVisibleToOther() {
+        return sPrfed_State_Saver.getBoolean(SHEAR_MY_LOCATION, false);
+    }
+
+
+    public  void setisLocationVisibleToOther( boolean requestingLocationUpdates) {
+        sPrfed_State_Saver_editor.putBoolean(SHEAR_MY_LOCATION, requestingLocationUpdates);
+        sPrfed_State_Saver_editor.commit();
+    }
+
+
 }

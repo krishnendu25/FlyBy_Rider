@@ -56,12 +56,11 @@
             android:text="Ride Gallery"
             android:textColor="#fff"
             android:textSize="18dp" />
-
+        <!--android:drawableEnd="@drawable/ic_info"-->
         <TextView
             android:id="@+id/storage_info_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_info"
             android:drawablePadding="10dp"
             android:fontFamily="@font/avenirbextregular"
             android:gravity="end|center"

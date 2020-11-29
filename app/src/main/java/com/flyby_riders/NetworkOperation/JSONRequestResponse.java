@@ -136,10 +136,10 @@ public class JSONRequestResponse {
                     @Override
                     public Map<String, String> getHeaders(){
                         Map<String, String> headers = new HashMap<String, String>();
-                       /* headers.put("Authorization","bearer "+logindetails.getString("JWTtoken", ""));*/
-                        /*headers.put("tag", logindetails.getString("LocationHeader", ""));
-                        headers.put("Accept-Language", "en-US,en");
-                        headers.put("Application", "SwigTVAndroid");*/
+                        if (isjsonrequest){
+                            headers.put("Authorization","Basic cnpwX3Rlc3RfVkIxUmRwS1pVZDlUZkE6dVBWY2ZYZUs5TkU4ZUFpZTJwZ3hlOURB");
+                            headers.put("content-type","application/json");
+                        }
                         return headers;
                     }
                 };

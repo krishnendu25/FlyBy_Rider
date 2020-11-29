@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -46,14 +47,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.flyby_riders.Constants.StringUtils.PREMIUM;
+
 public class RideGalleryView extends BaseActivity {
     private static final int INTENT_REQUEST_GET_IMAGES = 58;
     @BindView(R.id.Back_Btn)
     RelativeLayout BackBtn;
     @BindView(R.id.ACTIVITY_TITEL)
     TextView ACTIVITYTITEL;
-    @BindView(R.id.storage_info_tv)
-    TextView storageInfoTv;
+
+    static TextView storageInfoTv;
     @BindView(R.id.tabs)
     TabLayout viewPager_tabs;
     @BindView(R.id.viewPager)
@@ -61,9 +64,12 @@ public class RideGalleryView extends BaseActivity {
     @BindView(R.id.add_media_to_ride)
     FloatingActionButton addMediaToRide;
     public static String My_Ride_ID = "", Admin_User_Id = "";
-    Bike_Ride_Media_Adapter bike_ride_media_adapter;
+    private Bike_Ride_Media_Adapter bike_ride_media_adapter;
     private int mSelectedTabPosition = 0;
-    ArrayList<Media_Model> media_models = new ArrayList<>();
+    private ArrayList<Media_Model> media_models = new ArrayList<>();
+    private static Activity mActivity;
+    private String usedStrorage="";
+    private static double percentageUsages=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +91,13 @@ public class RideGalleryView extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 mSelectedTabPosition = position;
+                if (mSelectedTabPosition==0)
+                { All_Media_Ride_Fragment ab=All_Media_Ride_Fragment.newInstance();
+                    ab.Fetch_Media_Ride(My_Ride_ID);
+                }else if(mSelectedTabPosition==1)
+                { My_Media_Ride_Fragment mb= My_Media_Ride_Fragment.newInstance();
+                    mb.Fetch_Media_Ride(My_Ride_ID);
+                }
             }
 
             @Override
@@ -95,6 +108,8 @@ public class RideGalleryView extends BaseActivity {
     }
 
     private void Instantiation() {
+        mActivity = RideGalleryView.this;
+        storageInfoTv = findViewById(R.id.storage_info_tv);
         bike_ride_media_adapter = new Bike_Ride_Media_Adapter(getSupportFragmentManager());
         viewPager.setAdapter(bike_ride_media_adapter);
 
@@ -103,6 +118,7 @@ public class RideGalleryView extends BaseActivity {
         viewPager_tabs.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(0);
         mSelectedTabPosition = 0;
+
 
 
     }
@@ -114,7 +130,17 @@ public class RideGalleryView extends BaseActivity {
                 finish();
                 break;
             case R.id.add_media_to_ride:
+                if (percentageUsages<100)
                 getImages();
+                else
+                {
+                    if (new Prefe(mActivity).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)) {
+                        Constant.Show_Tos(mActivity,"Storage Full");
+                    }else{
+                        Constant.Show_Tos(mActivity,"Storage Full. Upgrade Your Account.");
+                    }
+                }
+
                 break;
         }
     }
@@ -231,6 +257,25 @@ public class RideGalleryView extends BaseActivity {
             }
         });
     }
+
+    public static void mannageMediaStorage(String usedStrorage){
+        String storagValue="";
+        //IN KB TO MB
+        double usedStroage= Double.parseDouble(usedStrorage.replaceAll("KB","").trim())/1024;
+        if (new Prefe(mActivity).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)) {
+         String TotalStorage ="2GB" ;
+         double inMBTotalStorage = 2*1024;
+          percentageUsages  = (100*usedStroage)/inMBTotalStorage;
+         storagValue = new DecimalFormat("##.#").format(percentageUsages)+"% Of "+TotalStorage+" Used";
+        }else{
+            String TotalStorage ="0.5GB" ;
+            double inMBTotalStorage = 0.5*1024;
+            percentageUsages  = (100*usedStroage)/inMBTotalStorage;
+            storagValue = new DecimalFormat("##.#").format(percentageUsages)+"% Of "+TotalStorage+" Used";
+        }
+        storageInfoTv.setText(storagValue);
+    }
+
 
     @Override
     protected void onResume() {

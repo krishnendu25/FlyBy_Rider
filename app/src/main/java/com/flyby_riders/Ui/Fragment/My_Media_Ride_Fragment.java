@@ -39,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class My_Media_Ride_Fragment extends Fragment {
+public class My_Media_Ride_Fragment extends Fragment  {
     private AlertDialog alertDialog_loader = null;
     private RetrofitCallback retrofitCallback;
     RecyclerView my_uploaded_list;
@@ -99,6 +99,7 @@ public class My_Media_Ride_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         Fetch_Media_Ride(My_Ride_ID);
+
     }
 
 
@@ -236,4 +237,5 @@ public class My_Media_Ride_Fragment extends Fragment {
 
         }
     }
+
 }

@@ -5,8 +5,10 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,31 +150,36 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
     }
 
 
-    //Get_Phone_Number_Form_Ph
-    public List<Contact_Model> getContactsForm_Phone(Context ctx) {
-        List<Contact_Model> Temp_Local_Contact = new ArrayList<>();
-        ContentResolver cr = ctx.getContentResolver();
-        Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION, null, null, null);
-        if (cursor != null) {
-            try {
-                final int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-                final int numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
-                String name, number;
-                while (cursor.moveToNext()) {
-                    Contact_Model info = new Contact_Model();
-                    info.Contact_Name =cursor.getString(nameIndex);
-                    if (cursor.getString(numberIndex).length()>=10)
-                    { info.Contact_Number = cursor.getString(numberIndex).substring(cursor.getString(numberIndex).length()-10); }
-                    else
-                    { info.Contact_Number = cursor.getString(numberIndex); }
-                    Temp_Local_Contact.add(info);
-                }
-            } finally {
-                cursor.close();
+
+    public ArrayList<Contact_Model> getContactsForm_Phone(Context mContext) {
+        Log.d("START","Getting all Contacts");
+        ArrayList<Contact_Model> arrContacts = new ArrayList<Contact_Model>();
+        Contact_Model Contact_Model=null;
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        Cursor cursor = mContext.getContentResolver().query(uri, new String[] {ContactsContract.CommonDataKinds.Phone.NUMBER,ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,ContactsContract.CommonDataKinds.Phone._ID}, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
+        cursor.moveToFirst();
+        while (cursor.isAfterLast() == false)
+        {
+            String contactNumber= cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            String contactName =  cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            int phoneContactID = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+
+
+            Contact_Model = new Contact_Model();
+            Contact_Model.setContact_Name(contactName);
+            Contact_Model.setContact_Number(contactNumber);
+            if (Contact_Model != null)
+            {
+                arrContacts.add(Contact_Model);
             }
+            Contact_Model = null;
+            cursor.moveToNext();
         }
-        return Temp_Local_Contact;
+        cursor.close();
+        cursor = null;
+        Log.d("END","Got all Contacts");
+        return arrContacts;
     }
     @Override
     public void SuccessResponse(JSONObject response, int requestCode) {

@@ -57,22 +57,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
 
-import net.kjulio.rxlocation.RxLocation;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import soup.neumorphism.NeumorphCardView;
 
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 
 public class My_Garage_Fragment extends Fragment implements onClick, GarageAddClick {
@@ -90,7 +86,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
     private NestedScrollView NestedScrollView_view;
     private Garage_Ad_Adapter garageAdAdapter;
     private ImageView collapse_image_view, MyBikeImage;
-    private String toDayDate = "", City_Name = "", BIKE_MODEL_ID = "", BIKE_BRAND_ID = "";
+    private String toDayDate = "", State_Name = "", BIKE_MODEL_ID = "", BIKE_BRAND_ID = "";
     private int newADFlag = 0;
     private AlertDialog alertDialog_loader = null;
     private LocationManager locationManager;
@@ -130,9 +126,9 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         refreshPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                   if (City_Name != null) {
-                if (!City_Name.equalsIgnoreCase("")) {
-                    hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
+                   if (State_Name != null) {
+                if (!State_Name.equalsIgnoreCase("")) {
+                    hit_Fetch_add();
                 }
             }
                 refreshPull.setRefreshing(false);
@@ -235,63 +231,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         newADIndicator.setText("No New");
     }
 
-    private void getLocation() {
-        try {
-            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                    (mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 199);
-
-            } else {
-                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-                Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-                Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-
-
-                if (location != null) {
-                    try {
-                        FetchMyAdd(location);
-                    } catch (NullPointerException e) {
-
-                    }
-
-                } else if (location1 != null) {
-                    try {
-                        FetchMyAdd(location1);
-
-                    } catch (NullPointerException e) {
-
-                    }
-                } else if (location2 != null) {
-                    try {
-                        FetchMyAdd(location2);
-                    } catch (NullPointerException e) {
-
-                    }
-                } else {
-                    //Secound try
-                    RxLocation.locationUpdates(mContext, defaultLocationRequest)
-                            .firstElement()
-                            .subscribe(new Consumer<Location>() {
-                                @Override
-                                public void accept(Location location) throws Exception {
-                                    FetchMyAdd(location);
-                                }
-                            }, new Consumer<Throwable>() {
-                                @Override
-                                public void accept(Throwable throwable) throws Exception {
-
-                                }
-                            });
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
     private void fetchRiderLocation() {
 
@@ -309,8 +249,6 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                             } catch (Exception e) {
                                 Constant.Show_Tos_Error(mActivity, false, true);
                             }
-                        } else {
-                            getLocation();
                         }
                     }
 
@@ -364,7 +302,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
             BIKE_MODEL_ID = my_bike.get(i).getMODELID();
             /*if (City_Name != null) {
                 if (!City_Name.equalsIgnoreCase("")) {
-                    hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
+                    hit_Fetch_add();
                 }
             }*/
         } catch (Exception e) {
@@ -372,10 +310,10 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         }
     }
 
-    private void hit_Fetch_add(String bike_brand_id, String bike_model_id) {
+    private void hit_Fetch_add() {
         newADFlag = 0;
         show_ProgressDialog();
-        Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(bike_model_id, bike_brand_id, City_Name);
+        Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(State_Name);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -518,20 +456,20 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         jsonObject.put("lat", location.getLatitude());
         jsonObject.put("long", location.getLongitude());
         new Prefe(mContext).set_mylocation(jsonObject.toString());
-        City_Name = Constant.getCompletecity(mActivity, location.getLatitude(), location.getLongitude(), true, false, false);
-        if (City_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
-            if (!City_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
-                hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
+        State_Name = Constant.getCompletecity(mActivity, location.getLatitude(), location.getLongitude(), false, false, true);
+        if (State_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
+            if (!State_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
+                hit_Fetch_add();
             }
         }
 
     }
 
     private void FetchMyAdd(String Latitude, String Longitude) throws JSONException {
-        City_Name = Constant.getCompletecity(mActivity, Double.parseDouble(Latitude), Double.parseDouble(Longitude), true, false, false);
-        if (City_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
-            if (!City_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
-                hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
+        State_Name = Constant.getCompletecity(mActivity, Double.parseDouble(Latitude), Double.parseDouble(Longitude), false, false, true);
+        if (State_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
+            if (!State_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
+                hit_Fetch_add();
             }
         }
 
@@ -587,9 +525,9 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                                         MyBikeList.setAdapter(my_bike_adapter);
                                         Set_View(My_Bike_els, 0);
                                     }
-                                    if (City_Name != null) {
-                                        if (!City_Name.equalsIgnoreCase("")) {
-                                            hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
+                                    if (State_Name != null) {
+                                        if (!State_Name.equalsIgnoreCase("")) {
+                                            hit_Fetch_add();
                                         }}
                                 } else {
                                     Constant.Show_Tos(mContext, "Someting Error..");

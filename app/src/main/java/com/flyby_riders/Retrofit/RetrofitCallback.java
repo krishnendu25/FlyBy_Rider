@@ -1,6 +1,10 @@
 package com.flyby_riders.Retrofit;
 
 
+import androidx.annotation.RawRes;
+
+import org.json.JSONObject;
+
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -8,10 +12,10 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface RetrofitCallback {
-
 
 
     @FormUrlEncoded
@@ -26,6 +30,7 @@ public interface RetrofitCallback {
 
     @GET("Fetchbikebrand")
     Call<ResponseBody> GetAllBrand();
+
     @GET("fetch_all_app_user")
     Call<ResponseBody> GetAllUSER();
 
@@ -37,8 +42,8 @@ public interface RetrofitCallback {
     @FormUrlEncoded
     @POST("add_bike_rider_profile")
     Call<ResponseBody> Add_Bike_To_Profile(@Field("userid") String userid,
-                                    @Field("bike_model_id") String bike_model_id,
-                                    @Field("bike_brand_id") String bike_brand_id);
+                                           @Field("bike_model_id") String bike_model_id,
+                                           @Field("bike_brand_id") String bike_brand_id);
 
     @FormUrlEncoded
     @POST("fetch_rider_detils")
@@ -53,31 +58,30 @@ public interface RetrofitCallback {
     @FormUrlEncoded
     @POST("get_document_album")
     Call<ResponseBody> Fetch_Album(@Field("userid") String userid,
-                                    @Field("my_bike_id") String my_bike_id);
+                                   @Field("my_bike_id") String my_bike_id);
 
     @FormUrlEncoded
     @POST("deldocumentalbum")
     Call<ResponseBody> Delete_Album(@Field("userid") String userid,
-                                   @Field("album_id") String album_id);
+                                    @Field("album_id") String album_id);
 
 
     @FormUrlEncoded
     @POST("add_memeber_toride")
     Call<ResponseBody> add_memeber_toride(@Field("admin_userid") String admin_userid,
-                                    @Field("Ride_id") String Ride_id,
-                                    @Field("list_of_member_userid") String list_of_member_userid,
-                                          @Field("Full_Name") String Full_Name    );
+                                          @Field("Ride_id") String Ride_id,
+                                          @Field("list_of_member_userid") String list_of_member_userid,
+                                          @Field("Full_Name") String Full_Name);
 
     @FormUrlEncoded
     @POST("fetch_member_to_ride")
     Call<ResponseBody> fetch_member_to_ride(@Field("Ride_id") String admin_userid);
 
 
-
     @FormUrlEncoded
     @POST("create_bike_ride")
     Call<ResponseBody> create_bike_ride(@Field("admin_user_id") String admin_user_id,
-                                    @Field("ride_name") String ride_name,
+                                        @Field("ride_name") String ride_name,
                                         @Field("start_location_address") String start_location_address,
                                         @Field("start_location_latitude") String start_location_latitude,
                                         @Field("start_location_longitude") String start_location_longitude);
@@ -88,6 +92,7 @@ public interface RetrofitCallback {
 
     @POST("upload_ride_media_file")
     Call<ResponseBody> updateuploadupload_ride_media_file(@Body RequestBody file);
+
     @FormUrlEncoded
     @POST("fetch_ride_album")
     Call<ResponseBody> fetch_ride_album(@Field("Ride_id") String admin_userid);
@@ -97,27 +102,24 @@ public interface RetrofitCallback {
     @POST("buy_subcription_plan")
     Call<ResponseBody> buy_subcription_plan(
             @Field("Userid") String Userid,
-                                        @Field("plan_name") String plan_name,
-                                        @Field("plan_id") String plan_id,
-                                        @Field("payment_amount") String payment_amount,
-                                        @Field("marchent_name") String marchent_name,
-                                        @Field("payment_id") String payment_id,
-                                        @Field("payment_ref_no") String payment_ref_no,
-                                        @Field("order_id") String order_id);
+            @Field("plan_name") String plan_name,
+            @Field("plan_id") String plan_id,
+            @Field("payment_amount") String payment_amount,
+            @Field("marchent_name") String marchent_name,
+            @Field("payment_id") String payment_id,
+            @Field("payment_ref_no") String payment_ref_no,
+            @Field("order_id") String order_id);
 
-   //--------------------------------------------------------------------------------------------//
+    //--------------------------------------------------------------------------------------------//
     @FormUrlEncoded
     @POST("fetch_all_advertise")
-    Call<ResponseBody> fetch_all_advertise(@Field("bike_model_id") String bike_model_id,
-                                           @Field("bike_brand_id") String bike_brand_id,
-                                           @Field("city") String city);
+    Call<ResponseBody> fetch_all_advertise(@Field("state") String state);
 
 
     @FormUrlEncoded
     @POST("click_advertise")
     Call<ResponseBody> click_advertise(@Field("userid") String userid,
                                        @Field("advertisement_id") String advertisement_id);
-
 
 
     @FormUrlEncoded
@@ -146,7 +148,7 @@ public interface RetrofitCallback {
     @FormUrlEncoded
     @POST("location_tracker")
     Call<ResponseBody> location_tracker(@Field("longitude") String longitude,
-                                       @Field("latitude") String latitude,
+                                        @Field("latitude") String latitude,
                                         @Field("Ride_id") String Ride_id,
                                         @Field("member_id") String member_id,
                                         @Field("spend_timestamp") String spend_timestamp);
@@ -154,16 +156,16 @@ public interface RetrofitCallback {
     @FormUrlEncoded
     @POST("my_ride_update")
     Call<ResponseBody> my_ride_update(@Field("Ride_id") String Ride_id,
-                                        @Field("member_id") String member_id,
-                                        @Field("avg_speed") String avg_speed,
-                                        @Field("top_speed") String top_speed,
-                                        @Field("total_distance") String total_distance,
-                                        @Field("spend_timestamp") String spend_timestamp);
+                                      @Field("member_id") String member_id,
+                                      @Field("avg_speed") String avg_speed,
+                                      @Field("top_speed") String top_speed,
+                                      @Field("total_distance") String total_distance,
+                                      @Field("spend_timestamp") String spend_timestamp);
 
     @FormUrlEncoded
     @POST("fetch_location_tracker")
     Call<ResponseBody> fetch_location_tracker(@Field("Ride_id") String Ride_id,
-                                        @Field("member_id") String member_id);
+                                              @Field("member_id") String member_id);
 
 
     @FormUrlEncoded
@@ -188,16 +190,25 @@ public interface RetrofitCallback {
 
     @FormUrlEncoded
     @POST("Update_ride_name")
-    Call<ResponseBody> Update_ride_name(@Field("Rideid") String Rideid,@Field("Ridename") String Ridename);
+    Call<ResponseBody> Update_ride_name(@Field("Rideid") String Rideid, @Field("Ridename") String Ridename);
 
     @FormUrlEncoded
     @POST("remove_member")
     Call<ResponseBody> remove_member(@Field("Ride_id") String Ride_id,
-                                              @Field("member_userid") String member_userid);
+                                     @Field("member_userid") String member_userid);
 
     @FormUrlEncoded
     @POST("Deletemybike")
     Call<ResponseBody> deleteMyBike(@Field("userid") String userid,
-                                     @Field("bikeid") String bikeid);
+                                    @Field("bikeid") String bikeid);
+
+
+    @FormUrlEncoded
+    @POST("delete_bike_ride")
+    Call<ResponseBody> deleteMyRide(@Field("admin_user_id") String admin_user_id,
+                                    @Field("Ride_id") String Ride_id);
+
+
+
 
 }

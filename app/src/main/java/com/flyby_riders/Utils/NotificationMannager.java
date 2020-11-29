@@ -21,56 +21,63 @@ import com.flyby_riders.Ui.Listener.NotificationCallback;
 
 public class NotificationMannager implements NotificationCallback {
     private final NotificationManager notificationmanager;
-    private Activity activity;
+    String channel = "";
+    private Context activity;
     private RemoteViews remoteViews;
     private NotificationCompat.Builder builder;
     private int RIDER_NOTIFICATION = 85;
     private PendingIntent pIntent;
-    String channel="";
-    public NotificationMannager(Activity activity) {
+
+    public NotificationMannager(Context activity) {
         this.activity = activity;
         notificationmanager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
     }
+
     @Override
     public void updateNotificationView(String rideStatus, String distance, String Time) {
-        remoteViews.setTextViewText(R.id.Duration_noti,"Duration : " +Time);
-        remoteViews.setTextViewText(R.id.Total_distance_tv,"Distance : " +distance+" KM");
-        remoteViews.setTextViewText(R.id.notisatust,rideStatus);
+        remoteViews.setTextViewText(R.id.Duration_noti, "Duration : " + Time);
+        remoteViews.setTextViewText(R.id.Total_distance_tv, "D : " + distance + " KM");
+        remoteViews.setTextViewText(R.id.notisatust, rideStatus);
         NotificationManagerCompat.from(activity).notify(RIDER_NOTIFICATION, builder.build());
     }
 
     @Override
-    public void controllerNotification(boolean isCreate, boolean isDestroyed) {
+    public NotificationCompat.Builder controllerNotification(boolean isCreate, boolean isDestroyed) {
         if (isCreate) {
-            buildNotification();
+            return buildNotification();
         } else if (isDestroyed) {
             notificationmanager.cancel(RIDER_NOTIFICATION);
+            return null;
+        } else {
+            return null;
         }
-
-
     }
 
 
-    private void buildNotification() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            channel = createChannel();
-        else
-            channel = "";
-        remoteViews = new RemoteViews(activity.getPackageName(), R.layout.notification_view_ride);
-        Intent intent = new Intent(activity, DashBoard.class);
-        pIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder = new NotificationCompat.Builder(activity, channel)
-                .setContentTitle(activity.getString(R.string.app_name))
-                .setContentText(activity.getString(R.string.app_name))
-                .setOnlyAlertOnce(true)
-                .setOngoing(true)
-                .setCustomBigContentView(remoteViews)
-                .setStyle(new NotificationCompat.BigTextStyle())
-                .setContentIntent(pIntent)
-                .setSmallIcon(R.mipmap.ic_appiconrider)
-                .setContent(remoteViews);
-        notificationmanager.notify(RIDER_NOTIFICATION, builder.build());
+    private NotificationCompat.Builder buildNotification() {
+        if (builder!=null)
+        return builder;
+        else{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                channel = createChannel();
+            else
+                channel = "";
+            remoteViews = new RemoteViews(activity.getPackageName(), R.layout.notification_view_ride);
+            Intent intent = new Intent(activity, DashBoard.class);
+            pIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder = new NotificationCompat.Builder(activity, channel)
+                    .setContentTitle(activity.getString(R.string.app_name))
+                    .setContentText(activity.getString(R.string.app_name))
+                    .setOnlyAlertOnce(true)
+                    .setOngoing(true)
+                    .setCustomBigContentView(remoteViews)
+                    .setStyle(new NotificationCompat.BigTextStyle())
+                    .setContentIntent(pIntent)
+                    .setSmallIcon(R.mipmap.ic_appiconrider)
+                    .setContent(remoteViews);
+            notificationmanager.notify(RIDER_NOTIFICATION, builder.build());
+            return builder;
+        }
     }
 
 

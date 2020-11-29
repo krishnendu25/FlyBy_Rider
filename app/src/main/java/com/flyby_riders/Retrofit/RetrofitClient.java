@@ -10,7 +10,12 @@ public class RetrofitClient {
 
     private static Retrofit retrofit = null;
 
+
+
+
     public static Retrofit getRetrofitClient(){
+
+
 
         if (retrofit == null){
             retrofit = new Retrofit.Builder()

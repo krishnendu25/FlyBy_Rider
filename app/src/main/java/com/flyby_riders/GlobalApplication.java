@@ -25,7 +25,9 @@ public class GlobalApplication extends Application {
         } catch (Exception e) { }
 
     }
-
+    public static GlobalApplication getInstance() {
+        return instance;
+    }
 
 
     private void initApplication()

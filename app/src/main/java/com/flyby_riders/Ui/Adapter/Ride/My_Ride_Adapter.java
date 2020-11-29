@@ -32,13 +32,13 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
     ArrayList<My_Ride_Model> data;
     Context context; Activity activity;
     private static LayoutInflater inflater=null;
-    RemoveBikeRide removeBikeRide ;
+
     public My_Ride_Adapter(Context contecxt, ArrayList<My_Ride_Model> MyRide_List, Activity activity, My_Ride_Fragment fragment) {
         // TODO Auto-generated constructor stub
         this.context=contecxt;
         this.data = MyRide_List;
         this.activity = activity;
-        setClickListener(fragment);
+
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -134,7 +134,5 @@ public class My_Ride_Adapter extends RecyclerView.Adapter<My_Ride_Adapter.MyView
     }
 
 
-    void setClickListener(My_Ride_Fragment itemClickListener) {
-        this.removeBikeRide = itemClickListener;
-    }
+
 }

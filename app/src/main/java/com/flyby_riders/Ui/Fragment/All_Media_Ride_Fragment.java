@@ -39,7 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class All_Media_Ride_Fragment extends Fragment {
+public class All_Media_Ride_Fragment extends Fragment  {
     private static All_Media_Ride_Fragment fragment;
     private AlertDialog alertDialog_loader = null;
     private RetrofitCallback retrofitCallback;
@@ -106,6 +106,7 @@ public class All_Media_Ride_Fragment extends Fragment {
         Fetch_Media_Ride(My_Ride_ID);
     }
 
+
     public  void Fetch_Media_Ride(String my_ride_id) {
         show_ProgressDialog();
         Call<ResponseBody> requestCall = retrofitCallback.fetch_ride_album(my_ride_id);
@@ -143,6 +144,12 @@ public class All_Media_Ride_Fragment extends Fragment {
                                     Ride_Media_List.add(rm);
                                 }
                             }
+                            try{
+                                RideGalleryView.mannageMediaStorage(jsonObject.getString("ALLTOTALSIZE"));
+                            }catch (Exception e){
+
+                            }
+
                             ride_gallery_adapter = new Ride_Gallery_Adapter(getActivity(),Ride_Media_List,Measuredwidth/2);
                             all_uploaded_list.setAdapter(ride_gallery_adapter);
                             if (Ride_Media_List.size()>0)

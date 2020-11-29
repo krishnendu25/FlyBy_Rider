@@ -45,7 +45,7 @@ import static com.flyby_riders.Constants.StringUtils.RIDE_ENDED;
 import static com.flyby_riders.Constants.StringUtils.RIDE_NOT_STARTED;
 import static com.flyby_riders.Constants.StringUtils.RIDE_STARTED;
 
-public class My_Ride_Fragment extends Fragment implements RemoveBikeRide {
+public class My_Ride_Fragment extends Fragment  {
     private static My_Ride_Fragment fragment;
     public RetrofitCallback retrofitCallback;
     ArrayList<My_Ride_Model> MyRide_List = new ArrayList<>();
@@ -154,10 +154,7 @@ public class My_Ride_Fragment extends Fragment implements RemoveBikeRide {
                                 if (!JS.getString("RIDENAME").equalsIgnoreCase("null"))
                                 MyRide_List.add(myRideModel);
                             }
-                            Collections.reverse(MyRide_List);
-                            HashSet<My_Ride_Model> listToSet = new HashSet<My_Ride_Model>(MyRide_List);
-                            ArrayList<My_Ride_Model> listWithoutDuplicates = new ArrayList<My_Ride_Model>(listToSet);
-                            setRideAdapter(listWithoutDuplicates);
+                            setRideAdapter(MyRide_List);
                         } else {
                             setRideAdapter(new ArrayList<>());
                             Constant.Show_Tos(getContext(), "No Ride Found");
@@ -192,6 +189,7 @@ public class My_Ride_Fragment extends Fragment implements RemoveBikeRide {
 
     private void setRideAdapter( ArrayList<My_Ride_Model> list){
         if (list.size()>0){
+            Collections.reverse(list);
             emptyView_Li.setVisibility(View.GONE);
             my_ride_adapter = new My_Ride_Adapter(getActivity(),list,getActivity(),fragment);
             MyRide_ListRecyclerView.setAdapter(my_ride_adapter);
@@ -203,12 +201,6 @@ public class My_Ride_Fragment extends Fragment implements RemoveBikeRide {
         }
     }
 
-    @Override
-    public void removeMyRide(String rideID) {
-        removeRideList(rideID);
-    }
 
-    private void removeRideList(String rideID) {
 
-    }
 }
