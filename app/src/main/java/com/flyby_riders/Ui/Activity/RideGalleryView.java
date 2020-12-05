@@ -118,7 +118,12 @@ public class RideGalleryView extends BaseActivity {
         viewPager_tabs.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(0);
         mSelectedTabPosition = 0;
-
+        if (new Prefe(mActivity).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)) {
+            storageInfoTv.setText("0% Of 2GB Used");
+        }else
+        {
+            storageInfoTv.setText("0% Of 0.5GB Used");
+        }
 
 
     }

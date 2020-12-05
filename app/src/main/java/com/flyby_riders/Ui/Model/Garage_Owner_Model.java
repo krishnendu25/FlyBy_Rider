@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Garage_Owner_Model implements Parcelable
 {
     private String GARAGEID,OWNERNAME,STORENAME,PHONE,WHATSAPPNO,ADDRESS,CITY,LAT,LANG,DISTANCE_FROM_ME,PROFILEPIC;
+    private String Details_1,Details_2,Details_3;
 
     private ArrayList<Category_Model> category_models = new ArrayList<>();
 
@@ -29,6 +30,9 @@ public class Garage_Owner_Model implements Parcelable
         LANG = in.readString();
         DISTANCE_FROM_ME = in.readString();
         PROFILEPIC = in.readString();
+        Details_1 = in.readString();
+        Details_2 = in.readString();
+        Details_3 = in.readString();
         category_models = in.createTypedArrayList(Category_Model.CREATOR);
     }
 
@@ -45,6 +49,9 @@ public class Garage_Owner_Model implements Parcelable
         dest.writeString(LANG);
         dest.writeString(DISTANCE_FROM_ME);
         dest.writeString(PROFILEPIC);
+        dest.writeString(Details_1);
+        dest.writeString(Details_2);
+        dest.writeString(Details_3);
         dest.writeTypedList(category_models);
     }
 
@@ -64,14 +71,6 @@ public class Garage_Owner_Model implements Parcelable
             return new Garage_Owner_Model[size];
         }
     };
-
-    public String getWHATSAPPNO() {
-        return WHATSAPPNO;
-    }
-
-    public void setWHATSAPPNO(String WHATSAPPNO) {
-        this.WHATSAPPNO = WHATSAPPNO;
-    }
 
     public String getGARAGEID() {
         return GARAGEID;
@@ -103,6 +102,14 @@ public class Garage_Owner_Model implements Parcelable
 
     public void setPHONE(String PHONE) {
         this.PHONE = PHONE;
+    }
+
+    public String getWHATSAPPNO() {
+        return WHATSAPPNO;
+    }
+
+    public void setWHATSAPPNO(String WHATSAPPNO) {
+        this.WHATSAPPNO = WHATSAPPNO;
     }
 
     public String getADDRESS() {
@@ -151,6 +158,30 @@ public class Garage_Owner_Model implements Parcelable
 
     public void setPROFILEPIC(String PROFILEPIC) {
         this.PROFILEPIC = PROFILEPIC;
+    }
+
+    public String getDetails_1() {
+        return Details_1;
+    }
+
+    public void setDetails_1(String details_1) {
+        Details_1 = details_1;
+    }
+
+    public String getDetails_2() {
+        return Details_2;
+    }
+
+    public void setDetails_2(String details_2) {
+        Details_2 = details_2;
+    }
+
+    public String getDetails_3() {
+        return Details_3;
+    }
+
+    public void setDetails_3(String details_3) {
+        Details_3 = details_3;
     }
 
     public ArrayList<Category_Model> getCategory_models() {

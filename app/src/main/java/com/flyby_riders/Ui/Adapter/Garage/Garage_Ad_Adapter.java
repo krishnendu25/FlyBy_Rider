@@ -1,6 +1,7 @@
 package com.flyby_riders.Ui.Adapter.Garage;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,15 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
 import com.flyby_riders.Ui.Model.Garage_Advertisement;
+import com.flyby_riders.Utils.Prefe;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static com.flyby_riders.Constants.StringUtils.TASK_SEEN;
 
-public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.MyViewHolder> {
+
+public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.MyViewHolder>  {
     Context context;
     private static LayoutInflater inflater = null;
     ArrayList<Garage_Advertisement> data;
@@ -40,6 +44,9 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
 
     @Override
     public void onBindViewHolder(Garage_Ad_Adapter.MyViewHolder holder, int i) {
+        holder.itemView.setTag(data.get(i).getAdvertising_ID());
+
+
         holder.Add_title_tv.setSelected(true);
         holder.cityName.setText(data.get(i).getGarageOwnerDetails().get(0).getCity());
         holder.Add_title_tv.setText(Constant.wordFirstCap(data.get(i).getAdvertising_Title().toLowerCase()));
@@ -78,6 +85,7 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
     public int getItemCount() {
         return data.size();
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout Add_view_click;

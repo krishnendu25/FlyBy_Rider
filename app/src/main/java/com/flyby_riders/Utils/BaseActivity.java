@@ -140,13 +140,17 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
 
     }
     //Set LayoutManager to Listview
-    public void Set_LayoutManager(RecyclerView recyclerView, boolean HORIZONTAL, boolean VERTICAL)
+    public LinearLayoutManager Set_LayoutManager(RecyclerView recyclerView, boolean HORIZONTAL, boolean VERTICAL)
     {
+        LinearLayoutManager linearLayoutManager=null;
         if (HORIZONTAL)
-        { recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
+        {  linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
+            recyclerView.setLayoutManager(linearLayoutManager);
         }else if (VERTICAL)
-        { recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+             linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
+        { recyclerView.setLayoutManager(linearLayoutManager);
         }
+        return linearLayoutManager;
     }
 
 

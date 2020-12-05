@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:orientation="vertical"
+        android:visibility="gone"
         android:weightSum="5">
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,5 +95,43 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="5">
 
-</LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_toast"
+                android:drawablePadding="10dp"
+                android:paddingStart="20dp"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|start"
+                android:text="FLYBY"
+                android:fontFamily="@font/manropebold"
+                android:textColor="@color/light_green"
+              />
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:paddingStart="20dp"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="20dp"
+                    android:text="FlyBy Ride Is Running"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center|start"
+                    android:fontFamily="@font/manropeextrabold"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+

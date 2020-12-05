@@ -145,6 +145,7 @@ public class All_Media_Ride_Fragment extends Fragment  {
                                 }
                             }
                             try{
+
                                 RideGalleryView.mannageMediaStorage(jsonObject.getString("ALLTOTALSIZE"));
                             }catch (Exception e){
 

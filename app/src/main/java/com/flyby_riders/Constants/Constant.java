@@ -868,71 +868,30 @@ public class Constant {
     }
 
     public static String getCountOfDays(String createdDateString, String expireDateString) {
+        Date date1= null;
+        Date date2 = null;
+
+        SimpleDateFormat dates = new SimpleDateFormat("dd/MM/yyyy");
+
+        //Setting dates
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-
-            Date createdConvertedDate = null, expireCovertedDate = null, todayWithZeroTime = null;
-            try {
-                createdConvertedDate = dateFormat.parse(createdDateString);
-                expireCovertedDate = dateFormat.parse(expireDateString);
-
-                Date today = new Date();
-
-                todayWithZeroTime = dateFormat.parse(dateFormat.format(today));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            int cYear = 0, cMonth = 0, cDay = 0;
-
-            if (createdConvertedDate.after(todayWithZeroTime)) {
-                Calendar cCal = Calendar.getInstance();
-                cCal.setTime(createdConvertedDate);
-                cYear = cCal.get(Calendar.YEAR);
-                cMonth = cCal.get(Calendar.MONTH);
-                cDay = cCal.get(Calendar.DAY_OF_MONTH);
-
-            } else {
-                Calendar cCal = Calendar.getInstance();
-                cCal.setTime(todayWithZeroTime);
-                cYear = cCal.get(Calendar.YEAR);
-                cMonth = cCal.get(Calendar.MONTH);
-                cDay = cCal.get(Calendar.DAY_OF_MONTH);
-            }
-
-
-    /*Calendar todayCal = Calendar.getInstance();
-    int todayYear = todayCal.get(Calendar.YEAR);
-    int today = todayCal.get(Calendar.MONTH);
-    int todayDay = todayCal.get(Calendar.DAY_OF_MONTH);
-    */
-
-            Calendar eCal = Calendar.getInstance();
-            eCal.setTime(expireCovertedDate);
-
-            int eYear = eCal.get(Calendar.YEAR);
-            int eMonth = eCal.get(Calendar.MONTH);
-            int eDay = eCal.get(Calendar.DAY_OF_MONTH);
-
-            Calendar date1 = Calendar.getInstance();
-            Calendar date2 = Calendar.getInstance();
-
-            date1.clear();
-            date1.set(cYear, cMonth, cDay);
-            date2.clear();
-            date2.set(eYear, eMonth, eDay);
-
-            long diff = date2.getTimeInMillis() - date1.getTimeInMillis();
-
-            float dayCount = (float) diff / (24 * 60 * 60 * 1000);
-
-            return ("" + (int) dayCount + " Days");
-        } catch (Exception e) {
-
+            date1 = dates.parse(createdDateString);
+            date2 = dates.parse(expireDateString);
+        } catch (ParseException e) {
             e.printStackTrace();
-            return "";
+        }
+        long difference= 0,differenceDates = 0;
+        try {
+            //Comparing dates
+            difference = Math.abs(date1.getTime() - date2.getTime());
+            differenceDates = difference / (24 * 60 * 60 * 1000);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
+        //Convert long to String
+        String dayDifference = Long.toString(differenceDates);
+        return dayDifference;
     }
 
     public static void hideKeyboard(Activity activity) {

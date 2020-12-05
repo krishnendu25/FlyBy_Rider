@@ -151,7 +151,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     LinearLayout deleteMyRide;
     @BindView(R.id.tooltip3)
     TextView tooltip3;
-    public static boolean I_AM_ADMIN = false, Location_Shearing_Service = false, Track_My_Location = false, ADMIN_PREMIUM_STATUS = false;
+    public static boolean I_AM_ADMIN = false, Location_Shearing_Service = false, Track_My_Location = true, ADMIN_PREMIUM_STATUS = false;
     private final LocationRequest defaultLocationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     public String RIDE_STATUS = RIDE_NOT_STARTED, My_Ride_ID = "", My_Ride_Name = "", Admin_User_Id = "";
     private String TOP_SPEED = "", AVG_SPEED = "", TOTALKM = "", TOTALTIME = "", RIDE_START_TIME = "";
@@ -268,7 +268,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     private void Instantiation() {
         mService = new LocationUpdatesServiceV2();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+        mPrefe.setisLocationVisibleToOther(Location_Shearing_Service);
         myReceiver = new MyReceiver();
         mService = new LocationUpdatesServiceV2();
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -346,7 +346,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
             } else if (Ride_State.equalsIgnoreCase(RIDE_STARTED)) {
                 RIDE_STATUS = RIDE_STARTED;
                 mPrefe.setRideTrackStatus(RIDE_STATUS);
-                Location_Shearing_Service = true;
+               // Location_Shearing_Service = true;
                 Track_My_Location = true;
                 mPrefe.setRideRecordStatus(Track_My_Location);
                 TrackIV.setTag(RIDE_PAUSE);
@@ -629,11 +629,10 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
 
 
 
-           /* LatLng StartPosition = new LatLng(Latitude_Start, Longitude_Start);
-            LatLng EndPosition = new LatLng(Latitude_End, Longitude_End);*/
+            LatLng StartPosition = new LatLng(Latitude_Start, Longitude_Start);
+            LatLng EndPosition = new LatLng(Latitude_End, Longitude_End);
 
-            LatLng StartPosition = new LatLng(points.get(0).latitude, points.get(0).longitude);
-            LatLng EndPosition = new LatLng(points.get(points.size()-1).latitude, points.get(points.size()-1).longitude);
+
 
             //Start Position Marker
             MarkerOptions markerStart = new MarkerOptions().position(StartPosition);
@@ -1291,13 +1290,13 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            Location_Shearing_Service = true;
+           /* Location_Shearing_Service = true;
             LocationStatusTv.setText("ON");
-            mPrefe.setisLocationVisibleToOther(Location_Shearing_Service);
+            mPrefe.setisLocationVisibleToOther(Location_Shearing_Service);*/
         } else {
-            Location_Shearing_Service = false;
+           /* Location_Shearing_Service = false;
             LocationStatusTv.setText("OFF");
-            mPrefe.setisLocationVisibleToOther(Location_Shearing_Service);
+            mPrefe.setisLocationVisibleToOther(Location_Shearing_Service)*/;
         }
     }
 

@@ -62,6 +62,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -70,9 +71,12 @@ import retrofit2.Response;
 import soup.neumorphism.NeumorphCardView;
 
 import static com.flyby_riders.Constants.StringUtils.PREMIUM;
+import static com.flyby_riders.Constants.StringUtils.TASK_CLICK;
+import static com.flyby_riders.Constants.StringUtils.TASK_SEEN;
 
 public class My_Garage_Fragment extends Fragment implements onClick, GarageAddClick {
     final static int REQUEST_LOCATION = 199;
+    public static ArrayList<Garage_Advertisement> garage_ads_list = new ArrayList<>();
     private final LocationRequest defaultLocationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     public RetrofitCallback retrofitCallback;
     private TextView bikeBrandName, newADIndicator, bikeModelName;
@@ -97,7 +101,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
     private SwipeRefreshLayout refreshPull;
     private Context mContext;
     private ArrayList<My_Bike_Model> My_Bike_els = new ArrayList<>();
-    public static ArrayList<Garage_Advertisement> garage_ads_list = new ArrayList<>();
+    private LinearLayoutManager add_LinearLayoutManager;
 
     public My_Garage_Fragment() {
     }
@@ -126,11 +130,11 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         refreshPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                   if (State_Name != null) {
-                if (!State_Name.equalsIgnoreCase("")) {
-                    hit_Fetch_add();
+                if (State_Name != null) {
+                    if (!State_Name.equalsIgnoreCase("")) {
+                        hit_Fetch_add();
+                    }
                 }
-            }
                 refreshPull.setRefreshing(false);
             }
         });
@@ -182,6 +186,23 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                 }
             }
         });
+
+        AdvetismentList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                try{
+                    int FirstID = add_LinearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    int LastID = add_LinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                    hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(),garage_ads_list.get(FirstID).Advertising_ID);
+                    hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(),garage_ads_list.get(LastID).Advertising_ID);
+                }catch (Exception e){
+                }
+            }
+        });
+
+
+
         return view;
     }
 
@@ -214,7 +235,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         bikeBrandName = view.findViewById(R.id.bike_brand_name);
         AccountBtn = view.findViewById(R.id.Account_Btn);
         bikeModelName = view.findViewById(R.id.bike_model_name);
-        refreshPull= view.findViewById(R.id.refreshPull);
+        refreshPull = view.findViewById(R.id.refreshPull);
         newADIndicator = view.findViewById(R.id.newADIndicator);
         bikeModelName.setSelected(true);
         BikeAddBtn = view.findViewById(R.id.Bike_Add_btn);
@@ -223,14 +244,14 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         MyBikeList = view.findViewById(R.id.My_Bike_list);
         MyBikeImage = view.findViewById(R.id.My_Bike_Image);
         MyBikeList.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        AdvetismentList.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
+        add_LinearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        AdvetismentList.setLayoutManager(add_LinearLayoutManager);
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
         locationManager = (LocationManager) mActivity.getSystemService(Service.LOCATION_SERVICE);
         toDayDate = Constant.Get_back_date(Constant.GET_timeStamp());
         newADIndicator.setVisibility(View.GONE);
         newADIndicator.setText("No New");
     }
-
 
 
     private void fetchRiderLocation() {
@@ -337,17 +358,19 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                                 garage_ads_list.add(getProcessDataParse(js, jsonObject));
                             }
                             if (garage_ads_list.size() > 0) {
-                                garageAdAdapter = new Garage_Ad_Adapter(mActivity, garage_ads_list, My_Garage_Fragment.this);
+                                ArrayList<Garage_Advertisement> temp = filterByData(garage_ads_list);
+                                Collections.reverse(temp);
+                                garageAdAdapter = new Garage_Ad_Adapter(mActivity,temp,My_Garage_Fragment.this);
                                 AdvetismentList.setAdapter(garageAdAdapter);
-                                if (newADFlag != 0){
+                                if (newADFlag != 0) {
                                     newADIndicator.setText(String.valueOf(newADFlag) + " New");
-                                newADIndicator.setVisibility(View.VISIBLE);}
-                                else {
+                                    newADIndicator.setVisibility(View.VISIBLE);
+                                } else {
                                     newADFlag = 0;
                                     newADIndicator.setText("No New");
                                     newADIndicator.setVisibility(View.GONE);
                                 }
-                                    
+
                             }
                         } else {
                             if (garageAdAdapter != null)
@@ -373,6 +396,18 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
 
     }
 
+    private ArrayList<Garage_Advertisement> filterByData(ArrayList<Garage_Advertisement> list) {
+        ArrayList<Garage_Advertisement> temp = new ArrayList<>();
+        String Date = Constant.Get_back_date(Constant.GET_timeStamp());
+        for (int i=0 ; i<list.size(); i++){
+            String Differ = Constant.getCountOfDays(list.get(i).getAdvertising_PostDate(),Date);
+            if (Integer.parseInt(Differ.replaceAll("Days","").trim())<4){
+                temp.add(list.get(i)) ;
+            }
+        }
+        return temp;
+    }
+
     private Garage_Advertisement getProcessDataParse(JSONObject js, JSONObject Rootjs) throws JSONException {
         Garage_Advertisement grg = new Garage_Advertisement();
         grg.setAdvertising_costPrice(js.getString("Advertising_costPrice"));
@@ -394,7 +429,6 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         } catch (Exception e) {
             newADFlag = 0;
         }
-
 
 
         return grg;
@@ -483,7 +517,10 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 hide_ProgressDialog();
-                try{ fetchRiderLocation();}catch (Exception e){}
+                try {
+                    fetchRiderLocation();
+                } catch (Exception e) {
+                }
 
                 if (response.isSuccessful()) {
                     try {
@@ -528,7 +565,8 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                                     if (State_Name != null) {
                                         if (!State_Name.equalsIgnoreCase("")) {
                                             hit_Fetch_add();
-                                        }}
+                                        }
+                                    }
                                 } else {
                                     Constant.Show_Tos(mContext, "Someting Error..");
                                 }
@@ -546,6 +584,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Constant.Show_Tos_Error(mActivity, true, false);
@@ -553,32 +592,41 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
             }
         });
     }
+
     public void show_ProgressDialog() {
         shimmer_view_container.startShimmer();
         shimmerView.setVisibility(View.VISIBLE);
     }
+
     public void hide_ProgressDialog() {
         shimmer_view_container.stopShimmer();
         shimmerView.setVisibility(View.GONE);
     }
-    private void hitAddClick(String userid, String advID) {
-        Call<ResponseBody> requestCall = retrofitCallback.click_advertise(userid,advID);
+
+    private void hitAddClick(String task, String userid, String advID) {
+        Call<ResponseBody> requestCall = retrofitCallback.click_advertise(task, userid, advID);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Log.e("@ClickOnAdd ",advID);
+                    Log.e("@ClickOnAdd ", advID);
                 }
             }
+
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {hide_ProgressDialog();}
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                hide_ProgressDialog();
+            }
         });
     }
+
     @Override
     public void setOnClick(int Position) {
-        hitAddClick(new Prefe(mActivity).getUserID(),garage_ads_list.get(Position).Advertising_ID.toString().trim());
+        hitAddClick(TASK_CLICK, new Prefe(mActivity).getUserID(), garage_ads_list.get(Position).Advertising_ID.toString().trim());
         Intent intent = new Intent(mActivity, AvertisementView.class);
         intent.putExtra("Position", Position);
         startActivity(intent);
     }
+
+
 }

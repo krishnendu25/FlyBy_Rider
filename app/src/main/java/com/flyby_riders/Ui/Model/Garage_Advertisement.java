@@ -190,6 +190,7 @@ public class Garage_Advertisement implements Parcelable {
 
 
 
+
         public GarageOwnerDetails() {
         }
 

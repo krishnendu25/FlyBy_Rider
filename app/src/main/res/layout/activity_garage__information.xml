@@ -214,12 +214,73 @@
                             android:layout_margin="20dp"
                             android:orientation="vertical">
 
+                            <LinearLayout
+                                android:id="@+id/detailsReasonView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:textSize="18sp"
+                                    android:marqueeRepeatLimit="marquee_forever"
+                                    android:ellipsize="marquee"
+                                    android:singleLine="true"
+                                    android:text="Why Visit Here?"
+                                    android:fontFamily="@font/avenirnextbold"
+                                    android:textColor="@color/white"/>
+                                <TextView
+                                    android:id="@+id/details_1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="14sp"
+                                    android:drawableStart="@drawable/ic_check"
+                                    android:drawablePadding="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:marqueeRepeatLimit="marquee_forever"
+                                    android:ellipsize="marquee"
+                                    android:fontFamily="@font/avenirbextregular"
+                                    android:textColor="@color/white"/>
+                                <TextView
+                                    android:id="@+id/details_2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="14sp"
+                                    android:drawableStart="@drawable/ic_check"
+                                    android:drawablePadding="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:marqueeRepeatLimit="marquee_forever"
+                                    android:ellipsize="marquee"
+                                    android:fontFamily="@font/avenirbextregular"
+                                    android:textColor="@color/white"/>
+                                <TextView
+                                    android:id="@+id/details_3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="14sp"
+                                    android:drawableStart="@drawable/ic_check"
+                                    android:drawablePadding="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:marqueeRepeatLimit="marquee_forever"
+                                    android:ellipsize="marquee"
+                                    android:fontFamily="@font/avenirbextregular"
+                                    android:textColor="@color/white"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginTop="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="2dp"
+                                android:background="#2F2A37" />
+
                             <TextView
                                 android:id="@+id/Garage_Descrption"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:ellipsize="marquee"
+                                android:layout_marginTop="10dp"
                                 android:fontFamily="@font/manroperegular"
                                 android:gravity="center|start"
                                 android:marqueeRepeatLimit="marquee_forever"

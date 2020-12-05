@@ -116,10 +116,7 @@ public interface RetrofitCallback {
     Call<ResponseBody> fetch_all_advertise(@Field("state") String state);
 
 
-    @FormUrlEncoded
-    @POST("click_advertise")
-    Call<ResponseBody> click_advertise(@Field("userid") String userid,
-                                       @Field("advertisement_id") String advertisement_id);
+
 
 
     @FormUrlEncoded
@@ -209,6 +206,20 @@ public interface RetrofitCallback {
                                     @Field("Ride_id") String Ride_id);
 
 
+
+
+
+    @FormUrlEncoded
+    @POST("click_advertise")
+    Call<ResponseBody> click_advertise(@Field("Task") String apiTask,
+            @Field("userid") String userid,
+                                       @Field("advertisement_id") String advertisement_id);
+
+
+    @FormUrlEncoded
+    @POST("http://flybyapp.in/flybyapp/StoreApi/event_click")
+    Call<ResponseBody> clickEventOnGarageOwner(@Field("Task") String apiTask,
+                                       @Field("userid") String userid);
 
 
 }

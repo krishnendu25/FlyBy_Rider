@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.R;
@@ -49,6 +52,7 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
     private double longitude = 0, latitude = 0;
     Garage_Owner_Adapter garage_owner_adapter;
     LinearLayout emptyView;
+    LinearLayoutManager linearLayoutManager=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +108,10 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
                 e.printStackTrace();
             }
         }
+
+
+
+
     }
 
     private void iniView() {
@@ -124,7 +132,7 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
             }
         }
         try {
-            Set_LayoutManager(garageList, false, true);
+            linearLayoutManager = Set_LayoutManager(garageList, false, true);
             garage_owner_adapter = new Garage_Owner_Adapter(Garage_Owner_List, this);
             garageList.setAdapter(garage_owner_adapter);
             Sorting_Post(true, false);
@@ -248,9 +256,10 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
     @Override
     public void SelectOnClick(int Position) {
         Intent intent = new Intent(this, GarageDetailsView.class);
-        intent.putExtra("List_Garage", Garage_Owner_List);
-        intent.putExtra("Position", String.valueOf(Position));
+        intent.putExtra("Grage_Owner_ID", Garage_Owner_List.get(Position).getGARAGEID());
         startActivity(intent);
+
+
     }
 
 

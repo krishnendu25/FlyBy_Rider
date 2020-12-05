@@ -20,9 +20,12 @@ import androidx.core.app.ActivityCompat;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
+import com.flyby_riders.Retrofit.RetrofitCallback;
+import com.flyby_riders.Retrofit.RetrofitClient;
 import com.flyby_riders.Ui.Adapter.Garage.SliderAdapterExample;
 import com.flyby_riders.Ui.Model.Garage_Advertisement;
 import com.flyby_riders.Utils.ExpandableTextView;
+import com.flyby_riders.Utils.Prefe;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +35,13 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import static com.flyby_riders.Constants.StringUtils.TASK_CONTACT_CLICK;
+import static com.flyby_riders.Constants.StringUtils.TASK_PURCHASE;
 import static com.flyby_riders.Ui.Fragment.My_Garage_Fragment.garage_ads_list;
 
 public class AvertisementView extends AppCompatActivity {
@@ -55,8 +64,6 @@ public class AvertisementView extends AppCompatActivity {
     TextView garageCityNameTV;
     @BindView(R.id.garageNameView)
     RelativeLayout garageNameView;
-    @BindView(R.id.byeProductBTN)
-    TextView byeProductBTN;
     Context mContext;
     Activity mActivity;
     ArrayList<Garage_Advertisement> addList = new ArrayList<>();
@@ -73,6 +80,7 @@ public class AvertisementView extends AppCompatActivity {
     @BindView(R.id.contactView)
     LinearLayout contactView;
     private String adPhoneNo,adWhatsapp,adBuyLink;
+    public RetrofitCallback retrofitCallback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +100,7 @@ public class AvertisementView extends AppCompatActivity {
 
         mContext = getApplicationContext();
         mActivity = AvertisementView.this;
-
+        retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
 
     }
 
@@ -142,14 +150,34 @@ public class AvertisementView extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.Back_Btn, R.id.byeProductBTN, R.id.garageNameView, R.id.whatsappBTN, R.id.callBTN})
+    private void hitAddClick(String task,String userid, String advID) {
+        Call<ResponseBody> requestCall = retrofitCallback.click_advertise(task,userid,advID);
+        requestCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Log.e("@ClickOnAdd ",advID);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {}
+        });
+    }
+
+    @OnClick({R.id.Back_Btn, R.id.buyLink_Re, R.id.garageNameView, R.id.whatsappBTN, R.id.callBTN})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.Back_Btn:
                 finish();
                 break;
-            case R.id.byeProductBTN:
+
+            case R.id.buyLink_Re:
+                hitAddClick(TASK_PURCHASE,new Prefe(mContext).getUserID(),addList.get(pos).Advertising_ID);
+                Intent intentt = new Intent(Intent.ACTION_VIEW);
+                intentt.setData(Uri.parse(adBuyLink));
+                startActivity(intentt);
                 break;
+
             case R.id.garageNameView:
                 Intent intent = new Intent(this, GarageDetailsView.class);
                 intent.putExtra("Grage_Owner_ID", addList.get(pos).garageOwnerDetails.get(0).getID());
@@ -162,6 +190,11 @@ public class AvertisementView extends AppCompatActivity {
                         final String[] PERMISSIONS_STORAGE = {Manifest.permission.CALL_PHONE};
                         ActivityCompat.requestPermissions((Activity) this, PERMISSIONS_STORAGE, 9);
                     } else {
+                        try {
+                            hitanalytics(TASK_CONTACT_CLICK,(addList.get(pos).garageOwnerDetails.get(0).getID()));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                         callIntent.setData(Uri.parse("tel:" + adPhoneNo));
                         startActivity(callIntent);
@@ -172,7 +205,12 @@ public class AvertisementView extends AppCompatActivity {
                 break;
             case R.id.whatsappBTN:
                 try {
-                 Constant.openWhatsApp(adWhatsapp, "", this);
+                    try {
+                        hitanalytics(TASK_CONTACT_CLICK,(addList.get(pos).garageOwnerDetails.get(0).getID()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Constant.openWhatsApp(adWhatsapp, "", this);
                 } catch (Exception E) {
                     Constant.Show_Tos_Error(this, false, true);
                 }
@@ -191,5 +229,22 @@ public class AvertisementView extends AppCompatActivity {
             }
         }
         return images;
+    }
+
+
+
+    private void hitanalytics(String task, String userid) {
+        Call<ResponseBody> requestCall = retrofitCallback.clickEventOnGarageOwner(task, userid);
+        requestCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
     }
 }

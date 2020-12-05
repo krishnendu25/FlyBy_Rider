@@ -156,6 +156,7 @@
             <LinearLayout
                 android:id="@+id/Track_record"
                 android:layout_width="50dp"
+                android:visibility="gone"
                 android:layout_height="50dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/base_round_ripple"

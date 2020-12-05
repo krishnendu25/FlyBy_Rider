@@ -13,5 +13,7 @@ public interface StringUtils {
 
     String RIDE_IS_BACKGROUND="IS_BACKGROUND",RIDE_IS_FORGROUND="IS_FORGROUND",RIDE_IS_CLOSE="IS_FORGROUND";
 
+    String TASK_SEEN="Seen",TASK_CLICK="Click",TASK_PURCHASE="Purchase";
 
+    String TASK_CONTACT_CLICK="Contact",TASK_VISIT="Visit";
 }

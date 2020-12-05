@@ -122,6 +122,21 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
                                 go.setCITY(js.getString("CITY"));
                                 go.setLAT(js.getString("LAT"));
                                 go.setLANG(js.getString("LANG"));
+                                try {
+                                    go.setDetails_1(js.getString("STORE DETAILS 1"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    go.setDetails_2(js.getString("STORE DETAILS 2"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    go.setDetails_3(js.getString("STORE DETAILS 3"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 go.setPROFILEPIC(jsonObject.getString("IMAGEPATH")+js.getString("PROFILEPIC"));
                                 for (int j=0 ; j<CAT.length() ; j++)
                                 { JSONObject jsd = CAT.getJSONObject(j);

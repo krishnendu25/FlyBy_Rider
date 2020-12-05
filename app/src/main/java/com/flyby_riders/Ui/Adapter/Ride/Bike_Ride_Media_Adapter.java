@@ -11,7 +11,7 @@ import com.flyby_riders.Ui.Fragment.My_Media_Ride_Fragment;
  * Created by KRISHNENDU MANNA on 11,July,2020
  */
 public class Bike_Ride_Media_Adapter extends FragmentPagerAdapter {
-    private int NUM_ITEMS = 2;
+    private int NUM_ITEMS = 1;
     public Bike_Ride_Media_Adapter(FragmentManager fragmentManager) {
         super(fragmentManager);
 
@@ -29,8 +29,8 @@ public class Bike_Ride_Media_Adapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:// Fragment # 0 - This will show Pending
                 return All_Media_Ride_Fragment.newInstance();
-            case 1: //  # 1 - This will show Answered
-                return My_Media_Ride_Fragment.newInstance();
+          /*  case 1: //  # 1 - This will show Answered
+                return My_Media_Ride_Fragment.newInstance();*/
             default:
                 return null;
         }
@@ -38,12 +38,10 @@ public class Bike_Ride_Media_Adapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-
-        if (position == 0) {
             return "ALL";
-        } else  {
+      /*  } else  {
             return "My Uploads";
-        }
+        }*/
 
     }
 }
