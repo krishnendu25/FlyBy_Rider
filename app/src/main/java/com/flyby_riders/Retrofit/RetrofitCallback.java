@@ -113,8 +113,8 @@ public interface RetrofitCallback {
     //--------------------------------------------------------------------------------------------//
     @FormUrlEncoded
     @POST("fetch_all_advertise")
-    Call<ResponseBody> fetch_all_advertise(@Field("state") String state);
-
+    Call<ResponseBody> fetch_all_advertise(@Field("state") String state, @Field("bike_brand_id") String bikeID,
+                                           @Field("bike_model_id") String modelID);
 
 
 

@@ -334,7 +334,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
     private void hit_Fetch_add() {
         newADFlag = 0;
         show_ProgressDialog();
-        Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(State_Name);
+        Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(State_Name,BIKE_BRAND_ID,BIKE_MODEL_ID);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -349,18 +349,20 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                         } catch (Exception e) {
                             Constant.Show_Tos_Error(mActivity, false, true);
                         }
-                        garage_ads_list.clear();
+                        ArrayList<Garage_Advertisement> temp =new ArrayList<>();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             JSONArray ALLADVDETAILS = jsonObject.getJSONArray("ALLADVDETAILS");
 
                             for (int i = 0; i < ALLADVDETAILS.length(); i++) {
                                 JSONObject js = ALLADVDETAILS.getJSONObject(i);
-                                garage_ads_list.add(getProcessDataParse(js, jsonObject));
+                                temp.add(getProcessDataParse(js, jsonObject));
                             }
-                            if (garage_ads_list.size() > 0) {
-                                ArrayList<Garage_Advertisement> temp = filterByData(garage_ads_list);
-                                Collections.reverse(temp);
-                                garageAdAdapter = new Garage_Ad_Adapter(mActivity,temp,My_Garage_Fragment.this);
+                            if (temp.size() > 0) {
+
+                                garage_ads_list.clear();
+                                garage_ads_list= filterByData(temp);
+                                Collections.reverse(garage_ads_list);
+                                garageAdAdapter = new Garage_Ad_Adapter(mActivity,garage_ads_list,My_Garage_Fragment.this);
                                 AdvetismentList.setAdapter(garageAdAdapter);
                                 if (newADFlag != 0) {
                                     newADIndicator.setText(String.valueOf(newADFlag) + " New");
