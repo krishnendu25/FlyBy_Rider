@@ -321,17 +321,14 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
             bikeBrandName.setText(my_bike.get(i).getBRANDNAME());
             BIKE_BRAND_ID = my_bike.get(i).getBRANDID();
             BIKE_MODEL_ID = my_bike.get(i).getMODELID();
-            /*if (City_Name != null) {
-                if (!City_Name.equalsIgnoreCase("")) {
                     hit_Fetch_add();
-                }
-            }*/
         } catch (Exception e) {
             Constant.Show_Tos_Error(mActivity, false, true);
         }
     }
 
     private void hit_Fetch_add() {
+        Log.e("@@@@@",State_Name+"  " +BIKE_BRAND_ID+"  " +BIKE_MODEL_ID);
         newADFlag = 0;
         show_ProgressDialog();
         Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(State_Name,BIKE_BRAND_ID,BIKE_MODEL_ID);
@@ -346,6 +343,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                             String output = Html.fromHtml(response.body().string()).toString();
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
+                            Log.e("@@@@@",jsonObject.toString());
                         } catch (Exception e) {
                             Constant.Show_Tos_Error(mActivity, false, true);
                         }
