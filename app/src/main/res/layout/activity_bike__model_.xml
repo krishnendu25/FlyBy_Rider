@@ -10,28 +10,46 @@
     tools:context=".Ui.Activity.BikeModelView">
     <include layout="@layout/toolbar_layout"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="10dp"
-            android:fontFamily="@font/manropebold"
-            android:text="Select your model"
-            android:textColor="#EEEFF5"
-            android:textSize="18dp" />
-
-        <GridView
-            android:id="@+id/bike_brand_list"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_above="@+id/contactus"
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:numColumns="2"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/manropebold"
+                android:text="Select your model"
+                android:textColor="#EEEFF5"
+                android:textSize="18dp" />
+
+            <GridView
+                android:id="@+id/bike_brand_list"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:numColumns="2"
+                android:layout_height="match_parent"/>
 
 
-    </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/contactus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:fontFamily="@font/manropemedium"
+            android:gravity="center"
+            android:text="@string/can_t_find_your_bike_model_n_let_us_know_on_whatsapp"/>
+    </RelativeLayout>
+
+
 </LinearLayout>

@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.Album_Viewer;
+import com.flyby_riders.Ui.Libraries.PhotoSlider.PhotoSlider;
+import com.flyby_riders.Ui.Model.Ride_Media_Model;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,11 +28,13 @@ public class Album_Image_Adapter extends RecyclerView.Adapter<Album_Image_Adapte
     private static LayoutInflater inflater=null;
     ArrayList<String> Album_Content_list ;
     int Measuredwidth=0;
-    public Album_Image_Adapter(ArrayList<String> data, Context context,int Measuredwidth_g) {
+    PhotoSlider photoSlider;
+    public Album_Image_Adapter(PhotoSlider photoSlider, ArrayList<String> data, Context context, int Measuredwidth_g) {
         this.context=context;
         Album_Content_list = data;
         this.Measuredwidth = Measuredwidth_g;
         inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.photoSlider=photoSlider;
     }
 
 
@@ -56,30 +60,11 @@ public class Album_Image_Adapter extends RecyclerView.Adapter<Album_Image_Adapte
         holder.Album_images_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                    LayoutInflater li = LayoutInflater.from(context);
-                    View dialogView = li.inflate(R.layout.image_layout, null);
-                    dialogBuilder.setView(dialogView);
-                    ImageView ImageView_d = dialogView.findViewById(R.id.ImageView_d);
-                    ImageView Close_Image_view = dialogView.findViewById(R.id.Close_Image_view);
-                    final AlertDialog alertDialog = dialogBuilder.create();
-                    alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    try{
-                        Picasso.get().load(Album_Content_list.get(i)).placeholder(R.drawable.images).into(ImageView_d);
-                    }catch (Exception e)
-                    {
-                       ImageView_d.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
-                    }
-                    Close_Image_view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            alertDialog.hide();
-                        }
-                    });
-                    alertDialog.show();
-                }catch (Exception e)
-                {Constant.Show_Tos(context,"Something Wrong."); }
+                try {
+                    photoSlider.showSliderPopup(i);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         });

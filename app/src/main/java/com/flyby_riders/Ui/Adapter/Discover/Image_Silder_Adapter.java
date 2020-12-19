@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.GarageDetailsView;
+import com.flyby_riders.Ui.Libraries.PhotoSlider.PhotoSlider;
 import com.flyby_riders.Ui.Model.Garage_Media_Model;
 import com.squareup.picasso.Picasso;
 
@@ -26,11 +27,13 @@ public class Image_Silder_Adapter extends RecyclerView.Adapter<Image_Silder_Adap
     private ArrayList<Garage_Media_Model> mData;
     private LayoutInflater mInflater;
     Media_Slider_Click media_slider_click;
-    public Image_Silder_Adapter(Context context, ArrayList<Garage_Media_Model> data) {
+    PhotoSlider photoSlider;
+    public Image_Silder_Adapter(PhotoSlider photoSlider, Context context, ArrayList<Garage_Media_Model> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
         this.media_slider_click = (GarageDetailsView)context;
+        this.photoSlider =photoSlider;
     }
 
     // inflates the row layout from xml when needed
@@ -67,33 +70,7 @@ public class Image_Silder_Adapter extends RecyclerView.Adapter<Image_Silder_Adap
 
         holder.roundedImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                LayoutInflater li = LayoutInflater.from(context);
-                View dialogView = li.inflate(R.layout.image_layout, null);
-                dialogBuilder.setView(dialogView);
-                ImageView ImageView_d = dialogView.findViewById(R.id.ImageView_d);
-                ImageView Close_Image_view = dialogView.findViewById(R.id.Close_Image_view);
-                final AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-                try {
-                    ImageView_d.setBackground(null);
-                    Picasso.get().load(mData.get(position).getFile_Url()).placeholder(R.drawable.images).into(ImageView_d);
-                } catch (Exception e) {
-                    holder.roundedImageView.setBackground(null);
-                    Picasso.get().load(R.drawable.images).into(holder.roundedImageView);
-                }
-
-                Close_Image_view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.hide();
-                    }
-                });
-
-                alertDialog.show();
-            }
+            public void onClick(View v) {photoSlider.showSliderPopup(position);}
         });
         holder.video_play_ic.setOnClickListener(new View.OnClickListener() {
             @Override

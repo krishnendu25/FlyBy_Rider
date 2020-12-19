@@ -29,7 +29,7 @@ import com.flyby_riders.Ui.Adapter.DocumentLocker.Doucment_Privew_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Album_Content_Model;
 import com.flyby_riders.Ui.Model.Media_Model;
-import com.flyby_riders.Ui.PhotoPicker.ImagePickerActivity;
+import com.flyby_riders.Ui.Listener.PhotoPicker.ImagePickerActivity;
 import com.flyby_riders.Utils.BaseActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;

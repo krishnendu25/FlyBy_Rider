@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_base">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Can’t create any more rides"
+            android:textSize="18dp"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/manropeextrabold"
+            android:drawableStart="@drawable/ic_infowhite"
+            android:gravity="center|left"
+            android:textColor="@color/white" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"/>
+
+
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/manroperegular"
+                    android:text="@string/you_have_create_3_of_3_free_rides_available_in_the_basic_plan_please_upgrade_you_plan_to_premium_or_delete_old_rides"
+                    android:textColor="#AEACB5"
+                    android:textSize="15dp"/>
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+                <TextView
+                    android:id="@+id/view_plan_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/base_btn_ripple"
+                    android:text="@string/view_plan_details"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/background_base"
+                    android:fontFamily="@font/avenirnextheavy"
+                    android:padding="10dp"
+                    android:visibility="visible"
+                    />
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

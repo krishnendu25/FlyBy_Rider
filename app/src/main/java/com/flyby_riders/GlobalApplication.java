@@ -37,6 +37,7 @@ public class GlobalApplication extends Application {
     private void initApplication()
     {
         instance = this;
+
     }
 
 

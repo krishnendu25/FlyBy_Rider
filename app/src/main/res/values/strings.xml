@@ -115,4 +115,6 @@
     <string name="remove_location_updates">Remove location updates</string>
 
     <string name="location_updated">Location Updated: %1$s</string>
+    <string name="you_have_create_3_of_3_free_rides_available_in_the_basic_plan_please_upgrade_you_plan_to_premium_or_delete_old_rides">You have create 3 of 3 Free Rides Available in the basic plan.Please Upgrade you plan to Premium or Delete old rides.</string>
+    <string name="can_t_find_your_bike_model_n_let_us_know_on_whatsapp">Can’t find your bike model?\n Let us know on our <font fgcolor='#FF97FD86'>Whatsapp</font>.</string>
 </resources>

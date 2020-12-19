@@ -23,6 +23,7 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
+import com.flyby_riders.Ui.Libraries.PhotoSlider.PhotoSlider;
 import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Activity.RideGalleryView;
 import com.flyby_riders.Ui.Adapter.Ride.Ride_Gallery_Adapter;
@@ -169,8 +170,12 @@ public class My_Media_Ride_Fragment extends Fragment  {
         { if (!ride_media_list.get(i).getUPLOADER_ID().equalsIgnoreCase(User_Id))
             {ride_media_list.remove(i);}
         }
-
-        ride_gallery_adapter = new Ride_Gallery_Adapter(getActivity(),Ride_Media_List,Measuredwidth/2);
+        ArrayList<String> temp = new ArrayList<>();
+        for (int i=0 ; i<Ride_Media_List.size();i++){
+            temp.add(Ride_Media_List.get(i).getMEDIAFILE_URL());
+        }
+        PhotoSlider photoSlider = new PhotoSlider(getActivity(), temp);
+        ride_gallery_adapter = new Ride_Gallery_Adapter(photoSlider, getActivity(),Ride_Media_List,Measuredwidth/2);
         my_uploaded_list.setAdapter(ride_gallery_adapter);
         if (Ride_Media_List.size()>0)
         { Empty_View.setVisibility(View.GONE); }

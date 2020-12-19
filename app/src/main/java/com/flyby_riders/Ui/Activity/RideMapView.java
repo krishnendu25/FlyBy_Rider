@@ -325,7 +325,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         };
         timerHandlerE.post(runnable);
 
-        Handler timermember = new Handler();
+        /*Handler timermember = new Handler();
         locupdate = new Runnable() {
             @Override
             public void run() {
@@ -335,7 +335,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 timermember.postDelayed(locupdate, 10000);
             }
         };
-        timermember.post(locupdate);
+        timermember.post(locupdate);*/
     }
 
     private void Change_Status(boolean Ride_Status, String Ride_State, boolean Admin_Status, String UserId) {
@@ -576,6 +576,9 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
 
     private void EndRideView() {
         if (mMap != null) {
+            trackLocationBtn.setVisibility(View.GONE);
+            BeforeHeaderTv.setVisibility(View.GONE);
+            ShowMyLocation.setVisibility(View.GONE);
             String Distance = "0";
             mMap.clear();
             //From DataBase
@@ -1270,7 +1273,10 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                         distanceCoveredTv.setText(Distance + " KM");
 
                 } else {
-                    distanceCoveredTv.setText(TOTALKM);
+                    if (TOTALKM.contains(" KM"))
+                        distanceCoveredTv.setText(TOTALKM);
+                    else
+                        distanceCoveredTv.setText(TOTALKM + " KM");
                 }
 
                 rideTimeTv.setText(TOTALTIME);

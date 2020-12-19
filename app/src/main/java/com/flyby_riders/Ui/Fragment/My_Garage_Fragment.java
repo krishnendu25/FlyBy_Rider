@@ -133,7 +133,11 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                 if (State_Name != null) {
                     if (!State_Name.equalsIgnoreCase("")) {
                         hit_Fetch_add();
+                    }else{
+                        Hit_Rider_Details(new Prefe(mContext).getUserID());
                     }
+                }else{
+                    Hit_Rider_Details(new Prefe(mContext).getUserID());
                 }
                 refreshPull.setRefreshing(false);
             }
@@ -193,9 +197,9 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                 super.onScrollStateChanged(recyclerView, newState);
                 try{
                     int FirstID = add_LinearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                    int LastID = add_LinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                   // int LastID = add_LinearLayoutManager.findLastCompletelyVisibleItemPosition();
                     hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(),garage_ads_list.get(FirstID).Advertising_ID);
-                    hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(),garage_ads_list.get(LastID).Advertising_ID);
+                    //hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(),garage_ads_list.get(LastID).Advertising_ID);
                 }catch (Exception e){
                 }
             }
@@ -270,6 +274,8 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                             } catch (Exception e) {
                                 Constant.Show_Tos_Error(mActivity, false, true);
                             }
+                        }else{
+                            Hit_Rider_Details(new Prefe(mContext).getUserID());
                         }
                     }
 
@@ -329,7 +335,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
 
     private void hit_Fetch_add() {
         Log.e("@@@@@",State_Name+"  " +BIKE_BRAND_ID+"  " +BIKE_MODEL_ID);
-        newADFlag = 0;
+
         show_ProgressDialog();
         Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(State_Name,BIKE_BRAND_ID,BIKE_MODEL_ID);
         requestCall.enqueue(new Callback<ResponseBody>() {
@@ -350,7 +356,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                         ArrayList<Garage_Advertisement> temp =new ArrayList<>();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             JSONArray ALLADVDETAILS = jsonObject.getJSONArray("ALLADVDETAILS");
-
+                            newADFlag = 0;
                             for (int i = 0; i < ALLADVDETAILS.length(); i++) {
                                 JSONObject js = ALLADVDETAILS.getJSONObject(i);
                                 temp.add(getProcessDataParse(js, jsonObject));
@@ -359,7 +365,6 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
 
                                 garage_ads_list.clear();
                                 garage_ads_list= filterByData(temp);
-                                Collections.reverse(garage_ads_list);
                                 garageAdAdapter = new Garage_Ad_Adapter(mActivity,garage_ads_list,My_Garage_Fragment.this);
                                 AdvetismentList.setAdapter(garageAdAdapter);
                                 if (newADFlag != 0) {
@@ -378,7 +383,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                             garageAdAdapter.notifyDataSetChanged();
                             hide_ProgressDialog();
                         }
-                    } catch (Exception e) {
+                    } catch (Exception e) {newADFlag = 0;
                         Constant.Show_Tos_Error(mActivity, false, true);
                         hide_ProgressDialog();
                     }
@@ -388,7 +393,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Constant.Show_Tos_Error(mActivity, true, false);
-
+                newADFlag = 0;
                 hide_ProgressDialog();
             }
         });

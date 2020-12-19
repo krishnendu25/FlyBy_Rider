@@ -239,7 +239,7 @@ public class LocationUpdatesServiceV2 extends Service {
         Log.i(TAG, "New location: " + location);
         mLocation = location;
         inBackGroundTrack(location);
-        shearMyLocationToOther(location);
+        //shearMyLocationToOther(location);
         Intent intent = new Intent(ACTION_BROADCAST);
         intent.putExtra(TIMEING, String.valueOf(location.getElapsedRealtimeNanos()));
         intent.putExtra(EXTRA_LATITUDE, String.valueOf(location.getLatitude()));

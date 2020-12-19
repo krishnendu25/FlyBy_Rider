@@ -23,7 +23,7 @@ import com.flyby_riders.Ui.Adapter.Ride.Bike_Ride_Media_Adapter;
 import com.flyby_riders.Ui.Fragment.All_Media_Ride_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Media_Ride_Fragment;
 import com.flyby_riders.Ui.Model.Media_Model;
-import com.flyby_riders.Ui.PhotoPicker.ImagePickerActivity;
+import com.flyby_riders.Ui.Listener.PhotoPicker.ImagePickerActivity;
 import com.flyby_riders.Utils.BaseActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;

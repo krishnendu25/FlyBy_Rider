@@ -1,6 +1,7 @@
 package com.flyby_riders.Ui.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +38,11 @@ public class AppLandingView extends BaseActivity {
                 startActivity(new Intent(AppLandingView.this, LoginView.class));
                 break;
             case R.id.trams_conition_tv:
-                startActivity(new Intent(AppLandingView.this,Legal.class));
+                try {
+                    Uri webpage = Uri.parse("http://flybyapp.com");
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, webpage);
+                    startActivity(browserIntent);
+                } catch (Exception e) {}
                 break;
         }
     }

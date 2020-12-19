@@ -724,7 +724,7 @@ public class Constant {
     }
 
     public static String getCompletecity(Context c, double LATITUDE, double LONGITUDE, boolean city, boolean address, boolean street_name) {
-        String cityName = "Kolkata";
+        String cityName = "";
         String address_st = "";
         String stateName = "";
         Geocoder geocoder = new Geocoder(c, Locale.getDefault());
@@ -734,24 +734,21 @@ public class Constant {
                 address_st = addresses.get(0).getSubLocality().toLowerCase().trim();
                 cityName = addresses.get(0).getLocality().toLowerCase().trim();
                 stateName = addresses.get(0).getAdminArea().toLowerCase().trim();
-                /* Log.w("My Current loction address", strReturnedAddress.toString());*/
-            } else {
-                /*  Log.w("My Current loction address", "No Address returned!");*/
             }
         } catch (Exception e) {
             e.printStackTrace();
-            /* Log.w("My Current loction address", "Canont get Address!");*/
+            return "all";
         }
 
         if (city) {
             return cityName;
         } else if (address) {
             return address_st;
-        } else {
+        } else if (street_name) {
             return stateName;
+        }else{
+            return "all";
         }
-
-
     }
 
     public static ArrayList<String> splitByComma(String allIds, String imagepath) {

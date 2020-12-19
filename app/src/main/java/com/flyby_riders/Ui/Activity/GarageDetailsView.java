@@ -24,6 +24,7 @@ import com.flyby_riders.Ui.Adapter.Discover.ADDClickListener;
 import com.flyby_riders.Ui.Adapter.Discover.Advertisement_Adapter;
 import com.flyby_riders.Ui.Adapter.Discover.Image_Silder_Adapter;
 import com.flyby_riders.Ui.Adapter.Discover.Media_Slider_Click;
+import com.flyby_riders.Ui.Libraries.PhotoSlider.PhotoSlider;
 import com.flyby_riders.Ui.Model.ADD_MODEL;
 import com.flyby_riders.Ui.Model.Category_Model;
 import com.flyby_riders.Ui.Model.Garage_Advertisement;
@@ -431,7 +432,12 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
     private void Set_Media_To_Store(ArrayList<Garage_Media_Model> media_list) {
         if (media_list.size() != 0) {
             Collections.reverse(media_list);
-            image_silder_adapter = new Image_Silder_Adapter(this, media_list);
+            ArrayList<String> temp = new ArrayList<>();
+            for (int i=0 ; i<media_list.size();i++){
+                temp.add(media_list.get(i).getFile_Url());
+            }
+            PhotoSlider photoSlider = new PhotoSlider(this, temp);
+            image_silder_adapter = new Image_Silder_Adapter(photoSlider,this, media_list);
             GarageImageSlider.setAdapter(image_silder_adapter);
 
         }

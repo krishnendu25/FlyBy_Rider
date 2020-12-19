@@ -16,17 +16,20 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
+import com.flyby_riders.Ui.Activity.UpgradeAccountPlan;
 import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Activity.RideMapView;
 import com.flyby_riders.Ui.Adapter.Ride.My_Ride_Adapter;
 import com.flyby_riders.Ui.Listener.RemoveBikeRide;
 import com.flyby_riders.Ui.Model.My_Ride_Model;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,6 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 import static com.flyby_riders.Constants.StringUtils.RIDE_ENDED;
 import static com.flyby_riders.Constants.StringUtils.RIDE_NOT_STARTED;
 import static com.flyby_riders.Constants.StringUtils.RIDE_STARTED;
@@ -55,7 +59,7 @@ public class My_Ride_Fragment extends Fragment  {
     LinearLayout emptyView_Li;
     RelativeLayout shimmerView;
     private My_Ride_Adapter my_ride_adapter;
-
+    private SwipeRefreshLayout refreshPull;
     public My_Ride_Fragment() {
     }
 
@@ -79,23 +83,66 @@ public class My_Ride_Fragment extends Fragment  {
         shimmer_view_container = v.findViewById(R.id.shimmer_view_container);
         emptyView_Li = v.findViewById(R.id.emptyView_Li);
         shimmerView = v.findViewById(R.id.shimmerView);
+        refreshPull = v.findViewById(R.id.refreshPull);
         TextView Create_Ride_tv = (TextView) v.findViewById(R.id.Create_Ride_tv);
         MyRide_ListRecyclerView = (RecyclerView) v.findViewById(R.id.MyRide_List);
         MyRide_ListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         Create_Ride_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PowerManager pm = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
+
+                if (new Prefe(getActivity()).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)) {
+                    startActivity(new Intent(getActivity(), RideMapView.class));
+                } else {
+                    if (MyRide_List.size()>3) {
+                        try {
+                            hit_notRide_Bottomsheet();
+                        } catch (Exception e) {e.printStackTrace();}
+                    } else {
+                        startActivity(new Intent(getActivity(), RideMapView.class));
+                    }
+                }
+                /*PowerManager pm = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
                 if (true) {
                     startActivity(new Intent(getActivity(), RideMapView.class));
                 }else {
                     Constant.openBatteryOptmized(getActivity());
-                }
+                }*/
             }
         });
 
+        refreshPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                hit_my_ride(new Prefe(getContext()).getUserID());
+                refreshPull.setRefreshing(false);
+            }
+        });
+
+
+
+
+
+
         return v;
     }
+
+    private void hit_notRide_Bottomsheet() {
+        View dialogView = getLayoutInflater().inflate(R.layout.can_add_ride, null);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity());
+        bottomSheetDialog.setContentView(dialogView);
+        TextView view_plan_details = bottomSheetDialog.findViewById(R.id.view_plan_details);
+        view_plan_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), UpgradeAccountPlan.class);
+                startActivity(i);
+                bottomSheetDialog.hide();
+            }
+        });
+        bottomSheetDialog.show();
+    }
+
 
     @Override
     public void onResume() {

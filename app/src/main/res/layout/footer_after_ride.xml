@@ -12,8 +12,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="2.4"
-            android:layout_margin="5dp"
+            android:layout_weight="3"
+            android:layout_margin="10dp"
             android:orientation="vertical"
             android:weightSum="2">
             <LinearLayout
@@ -32,16 +32,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/distance_covered"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:singleLine="true"
                         android:textSize="14dp"
+
                         android:fontFamily="@font/avenirbextregular"
                         android:textColor="#AEACB5"/>
                     <TextView
                         android:id="@+id/distance_covered_tv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:ellipsize="marquee"
                         android:singleLine="true"
                         android:marqueeRepeatLimit="marquee_forever"
@@ -60,7 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/top_speed"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:singleLine="true"
                         android:textSize="14dp"
                         android:fontFamily="@font/avenirbextregular"
@@ -69,7 +70,7 @@
                         android:id="@+id/top_speed_tv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:textSize="16sp"
 
                         android:ellipsize="marquee"
@@ -96,7 +97,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/ride_time"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:textSize="14dp"
                         android:singleLine="true"
                         android:fontFamily="@font/avenirbextregular"
@@ -105,7 +106,7 @@
                         android:id="@+id/ride_time_tv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:textSize="16sp"
                         android:ellipsize="marquee"
                         android:singleLine="true"
@@ -123,7 +124,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/average_speed"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:textSize="14dp"
                         android:singleLine="true"
                         android:fontFamily="@font/avenirbextregular"
@@ -132,7 +133,7 @@
                         android:id="@+id/average_speed_tv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:ellipsize="marquee"
                         android:singleLine="true"
                         android:marqueeRepeatLimit="marquee_forever"
@@ -151,6 +152,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".6"
+            android:layout_margin="10dp"
+            android:visibility="gone"
             android:gravity="center|end">
 
             <LinearLayout

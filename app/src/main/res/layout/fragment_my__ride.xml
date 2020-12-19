@@ -46,13 +46,19 @@
           <RelativeLayout
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-              <androidx.recyclerview.widget.RecyclerView
-                  android:id="@+id/MyRide_List"
+              <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                  android:id="@+id/refreshPull"
                   android:layout_width="match_parent"
-                  android:scrollbars="none"
-                  android:paddingBottom="100dp"
-                  android:clipToPadding="false"
-                  android:layout_height="match_parent"/>
+                  android:layout_height="match_parent">
+                  <androidx.recyclerview.widget.RecyclerView
+                      android:id="@+id/MyRide_List"
+                      android:layout_width="match_parent"
+                      android:scrollbars="none"
+                      android:paddingBottom="100dp"
+                      android:clipToPadding="false"
+                      android:layout_height="match_parent"/>
+              </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
               <LinearLayout
                   android:id="@+id/emptyView_Li"

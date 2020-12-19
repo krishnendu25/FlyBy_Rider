@@ -100,10 +100,14 @@ public class MyAccount extends BaseActivity implements DeleteMyBike {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.Back_Btn:
-                finish();
+                Intent intentt = new Intent(this, DashBoard.class);
+                intentt.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intentt);
                 break;
             case R.id.Back_:
-                finish();
+                Intent intent = new Intent(this, DashBoard.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 break;
             case R.id.callBTN:
                 if (ActivityCompat.checkSelfPermission(this,
@@ -141,7 +145,7 @@ public class MyAccount extends BaseActivity implements DeleteMyBike {
             if (i.resolveActivity(packageManager) != null) {
                 startActivity(i);
             } else {
-                Constant.Show_Tos(getApplicationContext(), "No not found");
+                Constant.Show_Tos(getApplicationContext(), "Whatsapp Application Not Found");
             }
         } catch (Exception e) {
             Log.e("ERROR WHATSAPP", e.toString());

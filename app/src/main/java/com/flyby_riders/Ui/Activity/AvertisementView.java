@@ -23,6 +23,7 @@ import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
 import com.flyby_riders.Ui.Adapter.Garage.SliderAdapterExample;
+import com.flyby_riders.Ui.Libraries.PhotoSlider.PhotoSlider;
 import com.flyby_riders.Ui.Model.Garage_Advertisement;
 import com.flyby_riders.Utils.ExpandableTextView;
 import com.flyby_riders.Utils.Prefe;
@@ -45,7 +46,6 @@ import static com.flyby_riders.Constants.StringUtils.TASK_PURCHASE;
 import static com.flyby_riders.Ui.Fragment.My_Garage_Fragment.garage_ads_list;
 
 public class AvertisementView extends AppCompatActivity {
-
     @BindView(R.id.Back_Btn)
     RelativeLayout BackBtn;
     @BindView(R.id.imageSlider)
@@ -124,14 +124,16 @@ public class AvertisementView extends AppCompatActivity {
         }
         Images = splitByComma(ga.getAdvertising_Images(), ga.getADIMAGEPATH());
         Images.add(ga.Advertising_CoverPic);
-        imageSlider.setSliderAdapter(new SliderAdapterExample(AvertisementView.this, Images, mActivity));
+
+        PhotoSlider photoSlider = new PhotoSlider(this, Images);
+        imageSlider.setSliderAdapter(new SliderAdapterExample(photoSlider,AvertisementView.this, Images, mActivity));
 
         if (addList.get(pos).getAdvertising_userActions().get(0).getByeNow().equalsIgnoreCase("0")){
             buyLinkRe.setVisibility(View.GONE);
         }else
         {buyLinkRe.setVisibility(View.VISIBLE);
             contactView.setVisibility(View.GONE);
-        adBuyLink = addList.get(pos).getAdvertising_userActions().get(0).getByeNow();}
+        adBuyLink = addList.get(pos).getAdvertising_userActions().get(0).getByeNow().trim();}
 
         if (addList.get(pos).getAdvertising_userActions().get(0).getContactStore().equalsIgnoreCase("0")){
             contactView.setVisibility(View.GONE);
@@ -173,9 +175,27 @@ public class AvertisementView extends AppCompatActivity {
 
             case R.id.buyLink_Re:
                 hitAddClick(TASK_PURCHASE,new Prefe(mContext).getUserID(),addList.get(pos).Advertising_ID);
-                Intent intentt = new Intent(Intent.ACTION_VIEW);
-                intentt.setData(Uri.parse(adBuyLink));
-                startActivity(intentt);
+                try {
+                    Uri webpage;
+                    if (adBuyLink.contains("http")){
+                        webpage = Uri.parse(adBuyLink);
+                    }else{ webpage = Uri.parse("http://"+adBuyLink);}
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, webpage);
+                    startActivity(browserIntent);
+                } catch (Exception e) {
+                    try {
+                        Uri webpage;
+                        if (adBuyLink.contains("http")){
+                             webpage = Uri.parse(adBuyLink);
+                        }else{ webpage = Uri.parse("http://"+adBuyLink);}
+                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
                 break;
 
             case R.id.garageNameView:

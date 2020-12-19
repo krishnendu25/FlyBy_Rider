@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
+import com.flyby_riders.Ui.Libraries.PhotoSlider.PhotoSlider;
 import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Adapter.DocumentLocker.Album_Image_Adapter;
 import com.flyby_riders.Ui.Model.Album_Content_Model;
@@ -83,7 +84,8 @@ public class Album_Viewer extends BaseActivity {
         }
         AlbumNameEd.setText(Album_Content_list.get(Position).getALBUM_NAME());
         MyAlbumList.setLayoutManager(new GridLayoutManager(this, 2));
-        album_image_adapter = new Album_Image_Adapter(Photo_Link,Album_Viewer.this,Measuredwidth/2);
+        PhotoSlider photoSlider = new PhotoSlider(this, Photo_Link);
+        album_image_adapter = new Album_Image_Adapter(photoSlider,Photo_Link,Album_Viewer.this,Measuredwidth/2);
         MyAlbumList.setAdapter(album_image_adapter);
     }
 

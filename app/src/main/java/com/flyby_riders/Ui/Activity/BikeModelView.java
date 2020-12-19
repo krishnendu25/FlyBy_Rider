@@ -1,24 +1,28 @@
 package com.flyby_riders.Ui.Activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
+import android.view.View;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Adapter.Garage.Bike_Model_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.BIKE_BRAND;
 import com.flyby_riders.Utils.BaseActivity;
+import com.flyby_riders.Utils.Prefe;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -40,16 +44,42 @@ public class BikeModelView extends BaseActivity implements onClick {
     GridView bikeBrandList;
     ArrayList<BIKE_BRAND> BIKE_LIST_MODEL = new ArrayList<>();
     Bike_Model_Adapter bike_brand_adapter;
+    @BindView(R.id.contactus)
+    TextView contactus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bike__model_);
         ButterKnife.bind(this);
         Instantiation();
-
+        contactus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWhatsApp("+918800278211", "I Can’t find my bike model.Please Help Me.Model Name- ");
+            }
+        });
 
     }
+    private void openWhatsApp(String numero, String mensaje) {
 
+        try {
+            PackageManager packageManager = this.getPackageManager();
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            String url = "https://api.whatsapp.com/send?phone=" + numero + "&text=" + URLEncoder.encode(mensaje, "UTF-8");
+            i.setPackage("com.whatsapp");
+            i.setData(Uri.parse(url));
+            if (i.resolveActivity(packageManager) != null) {
+                startActivity(i);
+            } else {
+                Constant.Show_Tos(getApplicationContext(), "Whatsapp Application Not Found");
+            }
+        } catch (Exception e) {
+            Log.e("ERROR WHATSAPP", e.toString());
+            Constant.Show_Tos(getApplicationContext(), "No not found");
+        }
+
+    }
     private void Instantiation() {
         try {
             BIKE_ID = getIntent().getStringExtra("ID");
@@ -89,7 +119,7 @@ public class BikeModelView extends BaseActivity implements onClick {
                             BIKE_LIST_MODEL.add(bike_BRAND);
                         }
 
-                        bike_brand_adapter = new Bike_Model_Adapter(BikeModelView.this,BIKE_LIST_MODEL);
+                        bike_brand_adapter = new Bike_Model_Adapter(BikeModelView.this, BIKE_LIST_MODEL);
                         bikeBrandList.setAdapter(bike_brand_adapter);
 
                     } else {
@@ -106,17 +136,18 @@ public class BikeModelView extends BaseActivity implements onClick {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Constant.Show_Tos_Error(getApplicationContext(),true,false);
+                Constant.Show_Tos_Error(getApplicationContext(), true, false);
                 hide_ProgressDialog();
             }
         });
 
     }
+
     private void hit_Add_Bike_Profile(String bike_model_id) {
 
         show_ProgressDialog();
         Call<ResponseBody> requestCall = retrofitCallback.Add_Bike_To_Profile(new Prefe(this).getUserID(),
-                bike_model_id,BIKE_ID);
+                bike_model_id, BIKE_ID);
 
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -137,7 +168,7 @@ public class BikeModelView extends BaseActivity implements onClick {
                         startActivity(intent);
                         finish();
                     } else {
-                        Constant.Show_Tos(getApplicationContext(),jsonObject.getString("msg"));
+                        Constant.Show_Tos(getApplicationContext(), jsonObject.getString("msg"));
                         hide_ProgressDialog();
                     }
 
@@ -151,13 +182,14 @@ public class BikeModelView extends BaseActivity implements onClick {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Constant.Show_Tos_Error(getApplicationContext(),true,false);
+                Constant.Show_Tos_Error(getApplicationContext(), true, false);
                 hide_ProgressDialog();
             }
         });
 
 
     }
+
     @OnClick(R.id.Back_Btn)
     public void onViewClicked() {
         finish();
@@ -167,8 +199,11 @@ public class BikeModelView extends BaseActivity implements onClick {
     public void onClick(String Value) {
         hit_Add_Bike_Profile(Value);
     }
+
     @Override
     public void onLongClick(String Value) {
 
     }
+
+
 }
