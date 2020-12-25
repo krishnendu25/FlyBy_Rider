@@ -94,7 +94,7 @@ public class My_Ride_Fragment extends Fragment  {
                 if (new Prefe(getActivity()).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)) {
                     startActivity(new Intent(getActivity(), RideMapView.class));
                 } else {
-                    if (MyRide_List.size()>3) {
+                    if (MyRide_List.size()>2) {
                         try {
                             hit_notRide_Bottomsheet();
                         } catch (Exception e) {e.printStackTrace();}

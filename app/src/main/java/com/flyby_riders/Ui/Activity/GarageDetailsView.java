@@ -100,6 +100,7 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
     @BindView(R.id.detailsReasonView)
     LinearLayout detailsReasonView;
     boolean isPremium = false;
+    public static ArrayList<Garage_Advertisement> garage_ads_list = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -518,10 +519,6 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
     }
 
 
-    @Override
-    public void setOnAdapterClick(int position) {
-
-    }
 
     @Override
     public void MediaItemClick(int position) {
@@ -545,5 +542,59 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                 hide_ProgressDialog();
             }
         });
+    }
+
+    @Override
+    public void setOnAdapterClick(int position, String addID) {
+        ArrayList<ADD_MODEL> temp = new ArrayList<>();
+        garage_ads_list.clear();
+        if (add_fetch.size()>0){
+            for (int i=0 ; i<add_fetch.size();i++){
+                if (add_fetch.get(i).getADVID().equalsIgnoreCase(addID)){
+                    garage_ads_list = setGarage_Advertisement(add_fetch.get(i));
+                    break;
+                }
+            }
+        }
+        Intent intent = new Intent(this, AvertisementView.class);
+        intent.putExtra("Position", 0);
+        intent.putExtra("classname", "GarageDetailsView");
+        startActivity(intent);
+
+
+    }
+
+    private  ArrayList<Garage_Advertisement> setGarage_Advertisement(ADD_MODEL temp) {
+        ArrayList<Garage_Advertisement> addList = new ArrayList<>();
+        Garage_Advertisement grg = new Garage_Advertisement();
+        grg.setAdvertising_ID(temp.getID());
+        grg.setAdvertising_Title(temp.getTITLE());
+        grg.setAdvertising_Details(temp.getDESC());
+        grg.setAdvertising_Video(temp.getIMAGEVIDEOPATH()+temp.getADVIDEO());
+       //Set Garage OwnerOwnerDetailsDetails
+        ArrayList<Garage_Advertisement.GarageOwnerDetails> temp2 = new    ArrayList<Garage_Advertisement.GarageOwnerDetails>();
+        Garage_Advertisement.GarageOwnerDetails garageOwnerDetails = new Garage_Advertisement.GarageOwnerDetails();
+        garageOwnerDetails.setAddress(Garage_Owner_List.get(Position).getADDRESS());
+        garageOwnerDetails.setCity(Garage_Owner_List.get(Position).getCITY());
+        garageOwnerDetails.setGarageName(Garage_Owner_List.get(Position).getSTORENAME());
+        garageOwnerDetails.setID(Garage_Owner_List.get(Position).getGARAGEID());
+        garageOwnerDetails.setUserName(Garage_Owner_List.get(Position).getOWNERNAME());
+        garageOwnerDetails.setProfilePicture(Garage_Owner_List.get(Position).getPROFILEPIC());
+        temp2.add(garageOwnerDetails);
+        grg.setGarageOwnerDetails(temp2);
+        grg.setAdvertising_PostDate(temp.getPUBLISHDATE());
+        grg.setAdvertising_costPrice(temp.getADCOSTPRICE());
+        grg.setADIMAGEPATH(temp.getIMAGEADPATH());
+        grg.setAdvertising_CoverPic(temp.getIMAGECOVERPATH()+temp.getADCOVERIMAGE());
+        grg.setAdvertising_Images(temp.getADIMAGES());
+        ArrayList<Garage_Advertisement.Advertising_UserAction> temp3 = new ArrayList<>();
+        Garage_Advertisement.Advertising_UserAction userAction = new Garage_Advertisement.Advertising_UserAction();
+        userAction.setByeNow(temp.getSTORELINK());
+        userAction.setContactStore(temp.getCONTACT());
+        userAction.setNoUserAction(temp.getNOACTION());
+        temp3.add(userAction);
+        grg.setAdvertising_userActions(temp3);
+        addList.add(grg);
+        return addList;
     }
 }

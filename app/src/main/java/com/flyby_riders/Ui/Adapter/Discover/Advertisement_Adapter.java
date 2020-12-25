@@ -66,7 +66,7 @@ public class Advertisement_Adapter extends BaseAdapter {
         holder.Add_view_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemClickListener.setOnAdapterClick(0);
+                itemClickListener.setOnAdapterClick(i,data.get(i).getADVID());
             }
         });
         return rowView;

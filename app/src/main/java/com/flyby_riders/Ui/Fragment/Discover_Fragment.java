@@ -110,43 +110,47 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
                             {ArrayList <Category_Model> category_models = new ArrayList<>();
 
                                 JSONObject js = GARAGEOWNERDETAILS.getJSONObject(i);
-                                JSONArray CAT = js.getJSONArray("CAT");
+                                //Active User
+                                if (!js.getString("PLAN_ID").equalsIgnoreCase("0") &&
+                                        !js.getString("ACCOUNT_TYPE").equalsIgnoreCase("0") ){
+                                    JSONArray CAT = js.getJSONArray("CAT");
 
-                                Garage_Owner_Model go = new Garage_Owner_Model();
-                                go.setGARAGEID(js.getString("GARAGEID"));
-                                go.setOWNERNAME(js.getString("OWNERNAME"));
-                                go.setSTORENAME(js.getString("STORENAME"));
-                                go.setPHONE(js.getString("PHONE"));
-                                go.setWHATSAPPNO(js.getString("WhatsappNo"));
-                                go.setADDRESS(js.getString("ADDRESS"));
-                                go.setCITY(js.getString("CITY"));
-                                go.setLAT(js.getString("LAT"));
-                                go.setLANG(js.getString("LANG"));
-                                try {
-                                    go.setDetails_1(js.getString("STORE DETAILS 1"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    Garage_Owner_Model go = new Garage_Owner_Model();
+                                    go.setGARAGEID(js.getString("GARAGEID"));
+                                    go.setOWNERNAME(js.getString("OWNERNAME"));
+                                    go.setSTORENAME(js.getString("STORENAME"));
+                                    go.setPHONE(js.getString("PHONE"));
+                                    go.setWHATSAPPNO(js.getString("WhatsappNo"));
+                                    go.setADDRESS(js.getString("ADDRESS"));
+                                    go.setCITY(js.getString("CITY"));
+                                    go.setLAT(js.getString("LAT"));
+                                    go.setLANG(js.getString("LANG"));
+                                    try {
+                                        go.setDetails_1(js.getString("STORE DETAILS 1"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    try {
+                                        go.setDetails_2(js.getString("STORE DETAILS 2"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    try {
+                                        go.setDetails_3(js.getString("STORE DETAILS 3"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    go.setPROFILEPIC(jsonObject.getString("IMAGEPATH")+js.getString("PROFILEPIC"));
+                                    for (int j=0 ; j<CAT.length() ; j++)
+                                    { JSONObject jsd = CAT.getJSONObject(j);
+                                        Category_Model cf = new Category_Model();
+                                        cf.setID(jsd.getString("id"));
+                                        cf.setName(jsd.getString("cat_name"));
+                                        category_models.add(cf);
+                                    }
+                                    go.setCategory_models(category_models);
+                                    Garage_List.add(go);
                                 }
-                                try {
-                                    go.setDetails_2(js.getString("STORE DETAILS 2"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                try {
-                                    go.setDetails_3(js.getString("STORE DETAILS 3"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                go.setPROFILEPIC(jsonObject.getString("IMAGEPATH")+js.getString("PROFILEPIC"));
-                                for (int j=0 ; j<CAT.length() ; j++)
-                                { JSONObject jsd = CAT.getJSONObject(j);
-                                    Category_Model cf = new Category_Model();
-                                    cf.setID(jsd.getString("id"));
-                                    cf.setName(jsd.getString("cat_name"));
-                                    category_models.add(cf);
-                                }
-                                go.setCategory_models(category_models);
-                                Garage_List.add(go);
                             }
                         } else {
                             hide_ProgressDialog();

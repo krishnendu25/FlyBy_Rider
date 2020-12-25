@@ -33,6 +33,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.flyby_riders.Constants.StringUtils.WhatsappNumberBus;
+
 public class BikeModelView extends BaseActivity implements onClick {
 
     String BIKE_ID, BIKE_BRAND;
@@ -56,7 +58,7 @@ public class BikeModelView extends BaseActivity implements onClick {
         contactus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWhatsApp("+918800278211", "I Can’t find my bike model.Please Help Me.Model Name- ");
+                openWhatsApp(WhatsappNumberBus, "");
             }
         });
 
@@ -75,7 +77,7 @@ public class BikeModelView extends BaseActivity implements onClick {
                 Constant.Show_Tos(getApplicationContext(), "Whatsapp Application Not Found");
             }
         } catch (Exception e) {
-            Log.e("ERROR WHATSAPP", e.toString());
+            Log.e("Error Whatsapp", e.toString());
             Constant.Show_Tos(getApplicationContext(), "No not found");
         }
 

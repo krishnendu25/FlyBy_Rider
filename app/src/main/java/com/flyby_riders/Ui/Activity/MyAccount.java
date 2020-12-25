@@ -43,6 +43,7 @@ import retrofit2.Response;
 
 import static com.flyby_riders.Constants.StringUtils.BASIC;
 import static com.flyby_riders.Constants.StringUtils.PREMIUM;
+import static com.flyby_riders.Constants.StringUtils.WhatsappNumberBus;
 
 public class MyAccount extends BaseActivity implements DeleteMyBike {
 
@@ -119,7 +120,7 @@ public class MyAccount extends BaseActivity implements DeleteMyBike {
                 }
                 break;
             case R.id.whatsappBTN:
-                openWhatsApp("+918800278211", "Hello!");
+                openWhatsApp(WhatsappNumberBus, "");
                 break;
             case R.id.rateMyAppBTN:
                 Constant.showRateDialog(mActivity);

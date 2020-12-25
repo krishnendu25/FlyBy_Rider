@@ -16,4 +16,6 @@ public interface StringUtils {
     String TASK_SEEN="Seen",TASK_CLICK="Click",TASK_PURCHASE="Purchase";
 
     String TASK_CONTACT_CLICK="Contact",TASK_VISIT="Visit";
+
+    String WhatsappNumberBus="+919548582725";
 }

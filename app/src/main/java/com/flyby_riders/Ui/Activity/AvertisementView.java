@@ -23,6 +23,7 @@ import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
 import com.flyby_riders.Ui.Adapter.Garage.SliderAdapterExample;
+import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
 import com.flyby_riders.Ui.Libraries.PhotoSlider.PhotoSlider;
 import com.flyby_riders.Ui.Model.Garage_Advertisement;
 import com.flyby_riders.Utils.ExpandableTextView;
@@ -43,7 +44,6 @@ import retrofit2.Response;
 
 import static com.flyby_riders.Constants.StringUtils.TASK_CONTACT_CLICK;
 import static com.flyby_riders.Constants.StringUtils.TASK_PURCHASE;
-import static com.flyby_riders.Ui.Fragment.My_Garage_Fragment.garage_ads_list;
 
 public class AvertisementView extends AppCompatActivity {
     @BindView(R.id.Back_Btn)
@@ -92,8 +92,27 @@ public class AvertisementView extends AppCompatActivity {
     private void iniView() {
         try {
             pos = getIntent().getIntExtra("Position", 0);
-            addList = garage_ads_list;
-            advertisementView(addList, pos);
+
+            try {
+                if (getIntent().getStringExtra("classname").equalsIgnoreCase("GarageDetailsView")){
+                    try{
+                        addList =   GarageDetailsView.garage_ads_list;
+                        advertisementView(addList, pos);
+                    }catch (Exception e){
+
+                    }
+                }
+            } catch (Exception e) {
+                try{
+                    addList = My_Garage_Fragment.garage_ads_list;
+                    advertisementView(addList, pos);
+                }catch (Exception ee){
+
+                }
+            }
+
+
+
         } catch (Exception e) {
             Log.e("@Flyby", e.getMessage());
         }
