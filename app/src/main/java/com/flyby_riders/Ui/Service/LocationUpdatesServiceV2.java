@@ -177,7 +177,7 @@ public class LocationUpdatesServiceV2 extends Service {
         try{
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.cancel(RIDER_NOTIFICATION);
-        }catch (Exception e){ e.printStackTrace(); }
+        }catch (Exception e){  }
         if (!mChangingConfiguration && new Prefe(GlobalApplication.getInstance()).requestingLocationUpdates()) {
             startForeground(NOTIFICATION_ID,getNotification() );
         }

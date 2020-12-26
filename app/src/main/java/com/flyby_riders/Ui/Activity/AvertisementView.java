@@ -232,7 +232,7 @@ public class AvertisementView extends AppCompatActivity {
                         try {
                             hitanalytics(TASK_CONTACT_CLICK,(addList.get(pos).garageOwnerDetails.get(0).getID()));
                         } catch (Exception e) {
-                            e.printStackTrace();
+
                         }
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                         callIntent.setData(Uri.parse("tel:" + adPhoneNo));
@@ -247,7 +247,7 @@ public class AvertisementView extends AppCompatActivity {
                     try {
                         hitanalytics(TASK_CONTACT_CLICK,(addList.get(pos).garageOwnerDetails.get(0).getID()));
                     } catch (Exception e) {
-                        e.printStackTrace();
+
                     }
                     Constant.openWhatsApp(adWhatsapp, "", this);
                 } catch (Exception E) {

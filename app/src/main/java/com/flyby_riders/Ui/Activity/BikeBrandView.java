@@ -97,7 +97,7 @@ public class BikeBrandView extends BaseActivity {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             BIKE_LIST.clear();
@@ -134,7 +134,6 @@ public class BikeBrandView extends BaseActivity {
 
 
                     } catch (Exception e) {
-                        e.printStackTrace();
                         hide_ProgressDialog();
                     }
 

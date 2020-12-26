@@ -78,7 +78,7 @@ public class JSONRequestResponse {
                                     System.out.println("Request ID:::::" + error.networkResponse.headers.get("RequestId"));
                                 }catch (Exception e)
                                 {
-                                    e.printStackTrace();
+
                                 }
                                 try
                                 {
@@ -103,15 +103,14 @@ public class JSONRequestResponse {
                                             }
 
                                         } catch (JSONException e) {
-                                            //Handle a malformed json response
-                                            e.printStackTrace();
+
 
                                             if (listner != null) {
                                                 listner.ErrorResponse(error, reqCode, null);
                                             }
 
                                         } catch (Exception e) {
-                                            e.printStackTrace();
+
                                             if (listner != null) {
                                                 listner.ErrorResponse(error, reqCode, null);
                                             }
@@ -199,15 +198,12 @@ public class JSONRequestResponse {
                                     }
 
                                 } catch (JSONException e) {
-                                    //Handle a malformed json response
-                                    e.printStackTrace();
 
                                     if (listner != null) {
                                         listner.ErrorResponse(error, reqCode, null);
                                     }
 
                                 } catch (Exception e) {
-                                    e.printStackTrace();
                                     if (listner != null) {
                                         listner.ErrorResponse(error, reqCode, null);
                                     }

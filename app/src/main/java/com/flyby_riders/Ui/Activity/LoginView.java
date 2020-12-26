@@ -127,9 +127,7 @@ public class LoginView extends BaseActivity implements IJSONParseListener, Googl
                                 String output = Html.fromHtml(response.body().string()).toString();
                                 output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                                 jsonObject = new JSONObject(output);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            } catch (Exception e) {  }
                             if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                                 Intent intent = new Intent(LoginView.this, OTPVerification.class);
                                 intent.putExtra(PHONE_NO, toString);
@@ -139,7 +137,6 @@ public class LoginView extends BaseActivity implements IJSONParseListener, Googl
                                 hide_ProgressDialog();
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
                             hide_ProgressDialog();
                         }
                     }

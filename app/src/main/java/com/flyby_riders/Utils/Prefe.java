@@ -38,11 +38,12 @@ public class Prefe {
     private static final String SHEAR_MY_LOCATION="isLocationShearon";
 
 
-    public static SharedPreferences sPrfed_State_Saver;
-    SharedPreferences.Editor sPrfed_State_Saver_editor;
-    Context _context;
+
+    private static SharedPreferences sPrfed_State_Saver;
+    private SharedPreferences.Editor sPrfed_State_Saver_editor;
+    private Context _context;
     // shared pref mode
-    int PRIVATE_MODE = 0;
+    private int PRIVATE_MODE = 0;
 
     public Prefe(Context context) {
         try {
@@ -216,6 +217,11 @@ public class Prefe {
         sPrfed_State_Saver_editor.putBoolean(SHEAR_MY_LOCATION, requestingLocationUpdates);
         sPrfed_State_Saver_editor.commit();
     }
+
+
+
+
+
 
 
 }

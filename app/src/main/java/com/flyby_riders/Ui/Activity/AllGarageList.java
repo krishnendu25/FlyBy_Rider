@@ -105,7 +105,7 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
                 jsonObject = new JSONObject(new Prefe(this).get_mylocation());
                 Set_View(Double.parseDouble(jsonObject.getString("lat")), Double.parseDouble(jsonObject.getString("long")));
             } catch (JSONException e) {
-                e.printStackTrace();
+
             }
         }
 

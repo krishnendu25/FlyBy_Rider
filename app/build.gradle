@@ -82,8 +82,9 @@ dependencies {
     //Place-AutoComplete Search
     implementation 'com.google.android.libraries.places:places:2.4.0'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
-    //smsverifycatcher
-    implementation 'com.github.stfalcon:smsverifycatcher:0.3.2'
+    implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
+    implementation 'com.google.firebase:firebase-analytics:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
     //viewpagerdotsindicator
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
     implementation("com.google.android.gms:play-services-auth:18.1.0")
@@ -113,7 +114,9 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.github.fornewid:neumorphism:0.2.1'
     //razorpay
-    implementation 'com.razorpay:checkout:1.5.13'
-    implementation 'com.github.piasy:BigImageViewer:1.7.0'
+    implementation 'com.razorpay:checkout:1.5.16'
 }
 apply plugin: 'com.jakewharton.butterknife'
+// Apply the Crashlytics Gradle plugin
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.gms.google-services'

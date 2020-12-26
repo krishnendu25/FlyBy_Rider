@@ -184,7 +184,6 @@ public class MyAccount extends BaseActivity implements DeleteMyBike {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             JSONArray BIKEBRANDDETAILS = null;
@@ -235,7 +234,6 @@ public class MyAccount extends BaseActivity implements DeleteMyBike {
 
 
                     } catch (Exception e) {
-                        e.printStackTrace();
                         Constant.Show_Tos(mContext, "Someting Error..");
                         hide_ProgressDialog();
                     }

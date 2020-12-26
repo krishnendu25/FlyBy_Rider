@@ -123,7 +123,7 @@ public class All_Media_Ride_Fragment extends Fragment  {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+
                         }Ride_Media_List.clear();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
 

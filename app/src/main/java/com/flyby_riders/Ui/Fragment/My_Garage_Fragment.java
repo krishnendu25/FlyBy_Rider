@@ -291,7 +291,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                 jsonObject = new JSONObject(new Prefe(mContext).get_mylocation());
                 FetchMyAdd(jsonObject.getString("lat"), jsonObject.getString("long"));
             } catch (JSONException e) {
-                e.printStackTrace();
+
             }
 
         }
@@ -482,7 +482,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                     jsonObject = new JSONObject(new Prefe(mContext).get_mylocation());
                     FetchMyAdd(jsonObject.getString("lat"), jsonObject.getString("long"));
                 } catch (JSONException e) {
-                    e.printStackTrace();
+
                 }
 
             }
@@ -535,7 +535,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             JSONArray BIKEBRANDDETAILS = null;
@@ -583,7 +583,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                             Constant.Show_Tos(mContext, "Someting Error..");
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+
                         Constant.Show_Tos(mContext, "Someting Error..");
                         hide_ProgressDialog();
                     }

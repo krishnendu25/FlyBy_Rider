@@ -150,7 +150,6 @@ public class InviteNewMember extends BaseActivity implements onClick {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             FlyBy_local_contact.clear();
@@ -166,7 +165,6 @@ public class InviteNewMember extends BaseActivity implements onClick {
                             hide_ProgressDialog();
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
                         hide_ProgressDialog();
                     }
                 }

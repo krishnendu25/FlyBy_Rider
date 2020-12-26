@@ -338,7 +338,7 @@ public class Constant {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
             return " ";
         }
     }
@@ -352,7 +352,7 @@ public class Constant {
             System.out.println("Date in milli :: " + timeInMilliseconds);
             return timeInMilliseconds;
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return timeInMilliseconds;
     }
@@ -366,7 +366,7 @@ public class Constant {
             System.out.println("Date in milli :: " + timeInMilliseconds);
             return timeInMilliseconds;
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return timeInMilliseconds;
     }
@@ -380,7 +380,7 @@ public class Constant {
             System.out.println("Date in milli :: " + timeInMilliseconds);
             return timeInMilliseconds;
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return timeInMilliseconds;
     }
@@ -403,7 +403,7 @@ public class Constant {
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa"); // the format of your date
             return sdf.format(time);
         } catch (Exception e) {
-            e.printStackTrace();
+
             return "";
         }
     }
@@ -652,7 +652,7 @@ public class Constant {
 
             p1 = new LatLng(location.getLatitude(), location.getLongitude());
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return p1;
 
@@ -717,7 +717,7 @@ public class Constant {
                 /*  Log.w("My Current loction address", "No Address returned!");*/
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
             /* Log.w("My Current loction address", "Canont get Address!");*/
         }
         return strAdd;
@@ -736,7 +736,7 @@ public class Constant {
                 stateName = addresses.get(0).getAdminArea().toLowerCase().trim();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
             return "all";
         }
 
@@ -875,7 +875,7 @@ public class Constant {
             date1 = dates.parse(createdDateString);
             date2 = dates.parse(expireDateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+
         }
         long difference= 0,differenceDates = 0;
         try {
@@ -883,7 +883,7 @@ public class Constant {
             difference = Math.abs(date1.getTime() - date2.getTime());
             differenceDates = difference / (24 * 60 * 60 * 1000);
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
 
         //Convert long to String
@@ -931,7 +931,7 @@ public class Constant {
                 mf.setFloat(marquee, newSpeed);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
     }
 

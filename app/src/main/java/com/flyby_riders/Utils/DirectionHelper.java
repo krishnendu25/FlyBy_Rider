@@ -54,7 +54,6 @@ public class DirectionHelper {
             }
 
         } catch (JSONException e) {
-            e.printStackTrace();
         } catch (Exception e) {
         }
 

@@ -107,7 +107,7 @@ public class BikeModelView extends BaseActivity implements onClick {
                         output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                         jsonObject = new JSONObject(output);
                     } catch (Exception e) {
-                        e.printStackTrace();
+
                     }
                     if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                         BIKE_LIST_MODEL.clear();
@@ -130,7 +130,7 @@ public class BikeModelView extends BaseActivity implements onClick {
 
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                     hide_ProgressDialog();
                 }
 
@@ -162,7 +162,7 @@ public class BikeModelView extends BaseActivity implements onClick {
                         output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                         jsonObject = new JSONObject(output);
                     } catch (Exception e) {
-                        e.printStackTrace();
+
                     }
                     if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                         Intent intent = new Intent(BikeModelView.this, DashBoard.class);
@@ -176,7 +176,7 @@ public class BikeModelView extends BaseActivity implements onClick {
 
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                     hide_ProgressDialog();
                 }
 

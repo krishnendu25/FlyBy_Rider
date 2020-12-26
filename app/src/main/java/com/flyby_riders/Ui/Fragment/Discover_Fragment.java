@@ -101,7 +101,7 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+
                         }
                         Garage_List.clear();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
@@ -127,18 +127,18 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
                                     go.setLANG(js.getString("LANG"));
                                     try {
                                         go.setDetails_1(js.getString("STORE DETAILS 1"));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                    } catch (Exception e) {
+
                                     }
                                     try {
                                         go.setDetails_2(js.getString("STORE DETAILS 2"));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                    } catch (Exception e) {
+
                                     }
                                     try {
                                         go.setDetails_3(js.getString("STORE DETAILS 3"));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                    } catch (Exception e) {
+
                                     }
                                     go.setPROFILEPIC(jsonObject.getString("IMAGEPATH")+js.getString("PROFILEPIC"));
                                     for (int j=0 ; j<CAT.length() ; j++)
@@ -156,7 +156,7 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
                             hide_ProgressDialog();
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+
                         hide_ProgressDialog();
                     }
                 }
@@ -203,7 +203,7 @@ public class Discover_Fragment extends Fragment implements Catagoryonclick {
                             hide_ProgressDialog();
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+
                         hide_ProgressDialog();
                     }
                 }else

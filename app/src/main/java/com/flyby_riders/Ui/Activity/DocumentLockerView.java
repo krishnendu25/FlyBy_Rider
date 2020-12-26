@@ -162,7 +162,6 @@ public class DocumentLockerView extends BaseActivity implements onClick {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
                         } Album_Content_list.clear();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
 
@@ -217,7 +216,6 @@ public class DocumentLockerView extends BaseActivity implements onClick {
             ab.setALBUM_NAME(obj.getString("FILENAME"));
             ab.setBIKEIDocMAGES(splitByComma(obj.getString("FILEIMAGES"), imagepath));
         } catch (Exception e) {
-            e.printStackTrace();
         }
         Album_Content_list.add(ab);
     }
@@ -240,7 +238,6 @@ public class DocumentLockerView extends BaseActivity implements onClick {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             JSONArray BIKEBRANDDETAILS = null;
@@ -286,7 +283,6 @@ public class DocumentLockerView extends BaseActivity implements onClick {
 
 
                     } catch (Exception e) {
-                        e.printStackTrace();
                         hide_ProgressDialog();
                     }
                 }

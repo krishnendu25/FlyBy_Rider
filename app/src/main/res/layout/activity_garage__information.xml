@@ -179,6 +179,7 @@
                         </LinearLayout>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/mediaView"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:elevation="10dp"
@@ -346,6 +347,7 @@
                             </RelativeLayout>
 
                             <TextView
+                                android:id="@+id/addHeading"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"

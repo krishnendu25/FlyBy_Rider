@@ -63,7 +63,7 @@ public class Album_Image_Adapter extends RecyclerView.Adapter<Album_Image_Adapte
                 try {
                     photoSlider.showSliderPopup(i);
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                 }
 
             }

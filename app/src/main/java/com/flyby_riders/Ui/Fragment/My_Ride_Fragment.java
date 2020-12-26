@@ -97,7 +97,7 @@ public class My_Ride_Fragment extends Fragment  {
                     if (MyRide_List.size()>2) {
                         try {
                             hit_notRide_Bottomsheet();
-                        } catch (Exception e) {e.printStackTrace();}
+                        } catch (Exception e) {}
                     } else {
                         startActivity(new Intent(getActivity(), RideMapView.class));
                     }
@@ -165,7 +165,7 @@ public class My_Ride_Fragment extends Fragment  {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+
                         }
                         MyRide_List.clear();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {

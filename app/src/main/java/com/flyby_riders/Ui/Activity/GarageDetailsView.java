@@ -7,14 +7,13 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -101,6 +100,11 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
     LinearLayout detailsReasonView;
     boolean isPremium = false;
     public static ArrayList<Garage_Advertisement> garage_ads_list = new ArrayList<>();
+    @BindView(R.id.mediaView)
+    CardView mediaView;
+    @BindView(R.id.addHeading)
+    TextView addHeading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +123,9 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
 
     private void Instantiation() {
         Set_LayoutManager(GarageImageSlider, true, false);
-
+        mediaView.setVisibility(View.GONE);
+        EmptyNoMediaFile.setVisibility(View.VISIBLE);
+        addHeading.setVisibility(View.GONE);
     }
 
     private void Set_Grage_View() {
@@ -133,7 +139,7 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
             GarageCall.setEnabled(false);
             GarageCall.setAlpha(0.3f);
         }
-        hitanalytics(TASK_VISIT,(Garage_Owner_List.get(Position).getGARAGEID()));
+        hitanalytics(TASK_VISIT, (Garage_Owner_List.get(Position).getGARAGEID()));
         Hit_Add_Fetch(Garage_Owner_List.get(Position).getGARAGEID());
         GarageNAME.setText(Garage_Owner_List.get(Position).getSTORENAME());
         GarageCITY.setText(Garage_Owner_List.get(Position).getCITY());
@@ -141,11 +147,11 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
         details2.setText(Garage_Owner_List.get(Position).getDetails_2());
         details3.setText(Garage_Owner_List.get(Position).getDetails_3());
 
-        if (Garage_Owner_List.get(Position).getDetails_1().trim().equalsIgnoreCase("")&&
-                Garage_Owner_List.get(Position).getDetails_2().trim().equalsIgnoreCase("")&&
-                Garage_Owner_List.get(Position).getDetails_3().trim().equalsIgnoreCase("")){
+        if (Garage_Owner_List.get(Position).getDetails_1().trim().equalsIgnoreCase("") &&
+                Garage_Owner_List.get(Position).getDetails_2().trim().equalsIgnoreCase("") &&
+                Garage_Owner_List.get(Position).getDetails_3().trim().equalsIgnoreCase("")) {
             detailsReasonView.setVisibility(View.GONE);
-        }else{
+        } else {
             detailsReasonView.setVisibility(View.VISIBLE);
         }
 
@@ -274,9 +280,11 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                                 add_fetch.add(add_model);
                             }
                             if (add_fetch.size() > 0) {
+                                addHeading.setVisibility(View.VISIBLE);
                                 EmptyNoAdvertisement.setVisibility(View.GONE);
                             } else {
-                                EmptyNoAdvertisement.setVisibility(View.VISIBLE);
+                                addHeading.setVisibility(View.GONE);
+                                EmptyNoAdvertisement.setVisibility(View.GONE);
                             }
                             ArrayList<ADD_MODEL> temp = filterByData(add_fetch);
                             Collections.reverse(temp);
@@ -289,10 +297,12 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                             } catch (Exception e) {
                             }
                         } else {
-                            EmptyNoAdvertisement.setVisibility(View.VISIBLE);
+                            addHeading.setVisibility(View.GONE);
+                            EmptyNoAdvertisement.setVisibility(View.GONE);
                         }
                     } catch (JSONException e) {
-                        EmptyNoAdvertisement.setVisibility(View.VISIBLE);
+                        addHeading.setVisibility(View.GONE);
+                        EmptyNoAdvertisement.setVisibility(View.GONE);
                         hide_ProgressDialog();
                     }
                 }
@@ -313,16 +323,18 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
     private ArrayList<ADD_MODEL> filterByData(ArrayList<ADD_MODEL> add_fetch) {
         ArrayList<ADD_MODEL> temp = new ArrayList<>();
         String Date = Constant.Get_back_date(Constant.GET_timeStamp());
-        int day=0;
-        if(isPremium){
-            day=90;
-        }else{day=7;}
+        int day = 0;
+        if (isPremium) {
+            day = 90;
+        } else {
+            day = 7;
+        }
 
 
-        for (int i=0 ; i<add_fetch.size(); i++){
-            String Differ = Constant.getCountOfDays(add_fetch.get(i).getPOSTDATE(),Date);
-            if (Integer.parseInt(Differ.replaceAll("Days","").trim())<day){
-                temp.add(add_fetch.get(i)) ;
+        for (int i = 0; i < add_fetch.size(); i++) {
+            String Differ = Constant.getCountOfDays(add_fetch.get(i).getPOSTDATE(), Date);
+            if (Integer.parseInt(Differ.replaceAll("Days", "").trim()) < day) {
+                temp.add(add_fetch.get(i));
             }
         }
         return temp;
@@ -344,7 +356,6 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (IOException e) {
-                            e.printStackTrace();
                         }
                         Garage_Media_List.clear();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
@@ -354,18 +365,25 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                             JSONObject media_list = USERDETAILS_Sub.getJSONObject(2);
                             try {
                                 isPremium = getDetailsPlan(USERDETAILS_Sub.getJSONObject(1));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            } catch (Exception e) {
+
                             }
 
-                            if (!media_list.getString("STORE_PIC").equalsIgnoreCase("") || !media_list.getString("STORE_PIC").equalsIgnoreCase("null")) {
-                                Images = splitByComma(media_list.getString("STORE_PIC"), jsonObject.getString("IMAGEPATH"));
-                            }
-                            if (!media_list.getString("STORE_VIDEO").equalsIgnoreCase("") || media_list.getString("STORE_VIDEO").equalsIgnoreCase("null")) {
-                                Video_URL = jsonObject.getString("VIDEOPATH") + media_list.getString("STORE_VIDEO");
+                            try {
+                                if (!media_list.getString("STORE_PIC").equalsIgnoreCase("") || !media_list.getString("STORE_PIC").equalsIgnoreCase("null")) {
+                                    Images = splitByComma(media_list.getJSONArray("STORE_PIC"), jsonObject.getString("STOREIMAGEPATH"));
+                                }
+                            } catch (Exception e) {
                             }
                             try {
-                                if (!Video_URL.equalsIgnoreCase("") && Images.size() != 0) {
+                                if (!media_list.getString("STORE_VIDEO").equalsIgnoreCase("") || media_list.getString("STORE_VIDEO").equalsIgnoreCase("null")) {
+                                    Video_URL = jsonObject.getString("VIDEOPATH") + media_list.getString("STORE_VIDEO");
+                                }
+                            } catch (Exception e) {
+                            }
+                            try {
+                                if (Images.size() != 0) {
+                                    mediaView.setVisibility(View.VISIBLE);
                                     EmptyNoMediaFile.setVisibility(View.GONE);
                                     for (int i = 0; i < Images.size(); i++) {
                                         Garage_Media_Model garage_media_model = new Garage_Media_Model();
@@ -373,14 +391,15 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                                         garage_media_model.setFile_Url(Images.get(i));
                                         Garage_Media_List.add(garage_media_model);
                                     }
+                                } else if (!Video_URL.equalsIgnoreCase("")) {
+                                    mediaView.setVisibility(View.VISIBLE);
+                                    EmptyNoMediaFile.setVisibility(View.GONE);
                                     Garage_Media_Model garage_media_model = new Garage_Media_Model();
                                     garage_media_model.setFile_Type("VIDEO");
                                     garage_media_model.setFile_Url(Video_URL);
                                     Garage_Media_List.add(garage_media_model);
-                                    Set_Media_To_Store(Garage_Media_List);
-                                } else {
-                                    EmptyNoMediaFile.setVisibility(View.VISIBLE);
                                 }
+                                Set_Media_To_Store(Garage_Media_List);
                             } catch (Exception e) {
                                 EmptyNoMediaFile.setVisibility(View.GONE);
                             }
@@ -434,38 +453,39 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
         if (media_list.size() != 0) {
             Collections.reverse(media_list);
             ArrayList<String> temp = new ArrayList<>();
-            for (int i=0 ; i<media_list.size();i++){
+            for (int i = 0; i < media_list.size(); i++) {
                 temp.add(media_list.get(i).getFile_Url());
             }
             PhotoSlider photoSlider = new PhotoSlider(this, temp);
-            image_silder_adapter = new Image_Silder_Adapter(photoSlider,this, media_list);
+            image_silder_adapter = new Image_Silder_Adapter(photoSlider, this, media_list);
             GarageImageSlider.setAdapter(image_silder_adapter);
 
         }
     }
 
     private boolean getDetailsPlan(JSONObject jsonObject) throws JSONException {
-        String Current_Plan_Id=jsonObject.getString("Current_Plan_Id");
+        String Current_Plan_Id = jsonObject.getString("Current_Plan_Id");
 
-        if (Current_Plan_Id.equalsIgnoreCase("3")){
+        if (Current_Plan_Id.equalsIgnoreCase("3")) {
             return true;
-        }else if (Current_Plan_Id.equalsIgnoreCase("4")){
+        } else if (Current_Plan_Id.equalsIgnoreCase("4")) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public static ArrayList<String> splitByComma(String allIds, String imagepath) {
+    public static ArrayList<String> splitByComma(JSONArray allIds, String imagepath) {
         ArrayList<String> images = new ArrayList<>();
-        String[] allIdsArray = TextUtils.split(allIds, ",");
-        ArrayList<String> idsList = new ArrayList<String>(Arrays.asList(allIdsArray));
-        for (String element : idsList) {
-            String url = imagepath + element;
-            if (!url.trim().equalsIgnoreCase(imagepath)) {
-                images.add(url);
+        for (int i = 0; i < allIds.length(); i++) {
+            try {
+                images.add(imagepath + allIds.getString(i));
+            } catch (Exception e) {
+                e.getMessage();
             }
         }
+
+
         return images;
     }
 
@@ -483,7 +503,7 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                         final String[] PERMISSIONS_STORAGE = {Manifest.permission.CALL_PHONE};
                         ActivityCompat.requestPermissions((Activity) this, PERMISSIONS_STORAGE, 9);
                     } else {
-                        hitanalytics(TASK_CONTACT_CLICK,(Garage_Owner_List.get(Position).getGARAGEID()));
+                        hitanalytics(TASK_CONTACT_CLICK, (Garage_Owner_List.get(Position).getGARAGEID()));
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                         callIntent.setData(Uri.parse("tel:" + Garage_Owner_List.get(Position).getPHONE()));
                         startActivity(callIntent);
@@ -494,7 +514,7 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                 break;
             case R.id.Garage_Whatsapp:
                 try {
-                    hitanalytics(TASK_CONTACT_CLICK,(Garage_Owner_List.get(Position).getGARAGEID()));
+                    hitanalytics(TASK_CONTACT_CLICK, (Garage_Owner_List.get(Position).getGARAGEID()));
                     Constant.openWhatsApp(Garage_Owner_List.get(Position).getPHONE(), "", this);
                 } catch (Exception E) {
                     Constant.Show_Tos_Error(this, false, true);
@@ -517,7 +537,6 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                 break;
         }
     }
-
 
 
     @Override
@@ -548,9 +567,9 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
     public void setOnAdapterClick(int position, String addID) {
         ArrayList<ADD_MODEL> temp = new ArrayList<>();
         garage_ads_list.clear();
-        if (add_fetch.size()>0){
-            for (int i=0 ; i<add_fetch.size();i++){
-                if (add_fetch.get(i).getADVID().equalsIgnoreCase(addID)){
+        if (add_fetch.size() > 0) {
+            for (int i = 0; i < add_fetch.size(); i++) {
+                if (add_fetch.get(i).getADVID().equalsIgnoreCase(addID)) {
                     garage_ads_list = setGarage_Advertisement(add_fetch.get(i));
                     break;
                 }
@@ -564,15 +583,15 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
 
     }
 
-    private  ArrayList<Garage_Advertisement> setGarage_Advertisement(ADD_MODEL temp) {
+    private ArrayList<Garage_Advertisement> setGarage_Advertisement(ADD_MODEL temp) {
         ArrayList<Garage_Advertisement> addList = new ArrayList<>();
         Garage_Advertisement grg = new Garage_Advertisement();
         grg.setAdvertising_ID(temp.getID());
         grg.setAdvertising_Title(temp.getTITLE());
         grg.setAdvertising_Details(temp.getDESC());
-        grg.setAdvertising_Video(temp.getIMAGEVIDEOPATH()+temp.getADVIDEO());
-       //Set Garage OwnerOwnerDetailsDetails
-        ArrayList<Garage_Advertisement.GarageOwnerDetails> temp2 = new    ArrayList<Garage_Advertisement.GarageOwnerDetails>();
+        grg.setAdvertising_Video(temp.getIMAGEVIDEOPATH() + temp.getADVIDEO());
+        //Set Garage OwnerOwnerDetailsDetails
+        ArrayList<Garage_Advertisement.GarageOwnerDetails> temp2 = new ArrayList<Garage_Advertisement.GarageOwnerDetails>();
         Garage_Advertisement.GarageOwnerDetails garageOwnerDetails = new Garage_Advertisement.GarageOwnerDetails();
         garageOwnerDetails.setAddress(Garage_Owner_List.get(Position).getADDRESS());
         garageOwnerDetails.setCity(Garage_Owner_List.get(Position).getCITY());
@@ -585,7 +604,7 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
         grg.setAdvertising_PostDate(temp.getPUBLISHDATE());
         grg.setAdvertising_costPrice(temp.getADCOSTPRICE());
         grg.setADIMAGEPATH(temp.getIMAGEADPATH());
-        grg.setAdvertising_CoverPic(temp.getIMAGECOVERPATH()+temp.getADCOVERIMAGE());
+        grg.setAdvertising_CoverPic(temp.getIMAGECOVERPATH() + temp.getADCOVERIMAGE());
         grg.setAdvertising_Images(temp.getADIMAGES());
         ArrayList<Garage_Advertisement.Advertising_UserAction> temp3 = new ArrayList<>();
         Garage_Advertisement.Advertising_UserAction userAction = new Garage_Advertisement.Advertising_UserAction();

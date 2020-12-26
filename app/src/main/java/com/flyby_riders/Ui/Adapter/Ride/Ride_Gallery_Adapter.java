@@ -55,7 +55,7 @@ public class Ride_Gallery_Adapter extends RecyclerView.Adapter<Ride_Gallery_Adap
                 try {
                     photoSlider.showSliderPopup(i);
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                 }
             }
         });

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.flyby_riders.Constants.Constant;
+import com.flyby_riders.GlobalApplication;
 import com.flyby_riders.NetworkOperation.IJSONParseListener;
 import com.flyby_riders.R;
 import com.flyby_riders.Utils.AppSignatureHashHelper;
@@ -109,7 +110,7 @@ public class OTPVerification extends BaseActivity implements MySMSBroadcastRecei
     }
 
     private void Verifotp(String otp) {
-
+        try{Device_Id= GlobalApplication.device_Token;}catch (Exception e){Device_Id="";}
         Call<ResponseBody> requestCall = retrofitCallback.validate_otp(Phone_Number,otp,Device_Id);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -123,7 +124,6 @@ public class OTPVerification extends BaseActivity implements MySMSBroadcastRecei
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
                         }
 
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
@@ -141,7 +141,6 @@ public class OTPVerification extends BaseActivity implements MySMSBroadcastRecei
                             hide_ProgressDialog();
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
                         hide_ProgressDialog();
                     }
                 }
@@ -213,7 +212,6 @@ public class OTPVerification extends BaseActivity implements MySMSBroadcastRecei
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
 
@@ -224,7 +222,7 @@ public class OTPVerification extends BaseActivity implements MySMSBroadcastRecei
                             hide_ProgressDialog();
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+
                         hide_ProgressDialog();
                     }
                 }
