@@ -1,4 +1,4 @@
-package com.flyby_riders.Ui.Listener.PhotoPicker.custom.adapter;
+package com.flyby_riders.Ui.PhotoPicker.custom.adapter;
 
 import android.graphics.Rect;
 import android.view.View;

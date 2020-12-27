@@ -2,7 +2,7 @@
  * Copyright (c) 2016. Ted Park. All Rights Reserved
  */
 
-package com.flyby_riders.Ui.Listener.PhotoPicker;
+package com.flyby_riders.Ui.PhotoPicker;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -23,7 +23,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Listener.PhotoPicker.view.CustomSquareFrameLayout;
+import com.flyby_riders.Ui.PhotoPicker.view.CustomSquareFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;

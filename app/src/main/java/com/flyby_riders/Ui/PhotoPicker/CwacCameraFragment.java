@@ -2,7 +2,7 @@
  * Copyright (c) 2016. Ted Park. All Rights Reserved
  */
 
-package com.flyby_riders.Ui.Listener.PhotoPicker;
+package com.flyby_riders.Ui.PhotoPicker;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -46,9 +46,9 @@ import com.commonsware.cwac.camera.CameraView;
 import com.commonsware.cwac.camera.PictureTransaction;
 import com.commonsware.cwac.camera.SimpleCameraHost;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Listener.PhotoPicker.util.BitmapUtil;
-import com.flyby_riders.Ui.Listener.PhotoPicker.util.Util;
-import com.flyby_riders.Ui.Listener.PhotoPicker.view.DrawingView;
+import com.flyby_riders.Ui.PhotoPicker.util.BitmapUtil;
+import com.flyby_riders.Ui.PhotoPicker.util.Util;
+import com.flyby_riders.Ui.PhotoPicker.view.DrawingView;
 
 import java.io.File;
 import java.io.FileOutputStream;

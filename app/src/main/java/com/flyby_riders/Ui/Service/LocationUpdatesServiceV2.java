@@ -198,7 +198,12 @@ public class LocationUpdatesServiceV2 extends Service {
         Log.i(TAG, "Requesting location updates");
         try{new Prefe(GlobalApplication.getInstance()).setRequestingLocationUpdates(true);}catch (Exception E){}
 
-        startService(new Intent(GlobalApplication.getInstance(), LocationUpdatesServiceV2.class));
+        try {
+            startService(new Intent(GlobalApplication.getInstance(), LocationUpdatesServiceV2.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         try {
             mFusedLocationClient.requestLocationUpdates(mLocationRequest,
                     mLocationCallback, Looper.myLooper());

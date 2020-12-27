@@ -2,7 +2,7 @@
  * Copyright (c) 2016. Ted Park. All Rights Reserved
  */
 
-package com.flyby_riders.Ui.Listener.PhotoPicker;
+package com.flyby_riders.Ui.PhotoPicker;
 
 import android.content.Context;
 

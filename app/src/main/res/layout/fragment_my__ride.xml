@@ -70,13 +70,13 @@
                   <ImageView
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:src="@drawable/ride_empty_bg"
+                      android:src="@drawable/bg_no_media"
                       android:layout_centerHorizontal="true"
                       android:layout_gravity="center"/>
                   <TextView
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="Welcome to your rides."
+                      android:text="Welcome To Your Rides."
                       android:textSize="18dp"
                       android:textColor="#F0EEF5"
                       android:gravity="center"
@@ -101,7 +101,7 @@
         android:id="@+id/shimmerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@color/background_base">
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_view_container"

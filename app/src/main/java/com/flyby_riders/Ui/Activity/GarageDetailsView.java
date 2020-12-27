@@ -391,7 +391,8 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                                         garage_media_model.setFile_Url(Images.get(i));
                                         Garage_Media_List.add(garage_media_model);
                                     }
-                                } else if (!Video_URL.equalsIgnoreCase("")) {
+                                }
+                                if (!Video_URL.equalsIgnoreCase("")) {
                                     mediaView.setVisibility(View.VISIBLE);
                                     EmptyNoMediaFile.setVisibility(View.GONE);
                                     Garage_Media_Model garage_media_model = new Garage_Media_Model();

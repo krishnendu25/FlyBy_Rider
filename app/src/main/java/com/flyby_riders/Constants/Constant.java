@@ -535,7 +535,7 @@ public class Constant {
         try {
 
             outStream = new FileOutputStream(image);
-            img.compress(Bitmap.CompressFormat.JPEG, 90, outStream);
+            img.compress(Bitmap.CompressFormat.JPEG, 50, outStream);
             outStream.flush();
             outStream.close();
             success = true;

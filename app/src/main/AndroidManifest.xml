@@ -91,7 +91,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".Ui.Listener.PhotoPicker.ImagePickerActivity"
+            android:name=".Ui.PhotoPicker.ImagePickerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Ui.Activity.OnBoarding"

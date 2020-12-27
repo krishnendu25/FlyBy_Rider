@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
@@ -29,7 +30,7 @@ import com.flyby_riders.Ui.Adapter.DocumentLocker.Doucment_Privew_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Album_Content_Model;
 import com.flyby_riders.Ui.Model.Media_Model;
-import com.flyby_riders.Ui.Listener.PhotoPicker.ImagePickerActivity;
+import com.flyby_riders.Ui.PhotoPicker.ImagePickerActivity;
 import com.flyby_riders.Utils.BaseActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -157,13 +158,31 @@ public class DocumentAlbumMaker extends BaseActivity implements onClick {
         if (requestCode == INTENT_REQUEST_GET_IMAGES && resuleCode == Activity.RESULT_OK) {
 
             ArrayList<Uri> image_uris = intent.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+            new ImageProcessing().execute(image_uris);
+
+
+
+            //do something
+        }
+    }
+
+
+    class ImageProcessing extends AsyncTask<ArrayList<Uri>, Integer,  ArrayList<Media_Model>> {
+
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            show_ProgressDialog();
+        }
+
+        protected  ArrayList<Media_Model> doInBackground( ArrayList<Uri> ... image_uris) {
+            ArrayList<Uri> temp = image_uris[0];
             if (media_models.size()==0)
             {media_models.clear();}
-            for (int i = 0; i < image_uris.size(); i++) {
+            for (int i = 0; i < temp.size(); i++) {
                 try {
-
                     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                    Bitmap bitmap = getResizedBitmap(BitmapFactory.decodeFile(image_uris.get(i).getPath(), bmOptions));
+                    Bitmap bitmap = getResizedBitmap(BitmapFactory.decodeFile(temp.get(i).getPath(), bmOptions));
                     Media_Model mm = new Media_Model();
                     mm.setBitmap(bitmap);
                     mm.setFile_Name(Constant.SaveImagetoSDcard(Constant.get_random_String(),
@@ -173,13 +192,17 @@ public class DocumentAlbumMaker extends BaseActivity implements onClick {
                     Constant.Show_Tos_Error(getApplicationContext(),false,true);
                 }
             }
-            doucment_privew_adapter = new Doucment_Privew_Adapter(media_models, this);
+            return media_models;
+        }
+
+        protected void onPostExecute( ArrayList<Media_Model> result) {
+            super.onPostExecute(result);
+            hide_ProgressDialog();
+            doucment_privew_adapter = new Doucment_Privew_Adapter(result, DocumentAlbumMaker.this);
             MyPhotoList.setAdapter(doucment_privew_adapter);
-
-
-            //do something
         }
     }
+
 
     @OnClick({R.id.Back_Btn, R.id.save_my_album,R.id.Update_File_Btn})
     public void onViewClicked(View view) {

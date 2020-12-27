@@ -1,4 +1,4 @@
-package com.flyby_riders.Ui.Listener.PhotoPicker;
+package com.flyby_riders.Ui.PhotoPicker;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Listener.PhotoPicker.custom.adapter.BaseRecyclerViewAdapter;
+import com.flyby_riders.Ui.PhotoPicker.custom.adapter.BaseRecyclerViewAdapter;
 
 
 /**

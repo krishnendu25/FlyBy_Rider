@@ -2,7 +2,7 @@
  * Copyright (c) 2016. Ted Park. All Rights Reserved
  */
 
-package com.flyby_riders.Ui.Listener.PhotoPicker;
+package com.flyby_riders.Ui.PhotoPicker;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,8 +28,8 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Utils.BaseActivity;
 import com.flyby_riders.Ui.Activity.DocumentLockerView;
-import com.flyby_riders.Ui.Listener.PhotoPicker.custom.adapter.SpacesItemDecoration;
-import com.flyby_riders.Ui.Listener.PhotoPicker.util.Util;
+import com.flyby_riders.Ui.PhotoPicker.custom.adapter.SpacesItemDecoration;
+import com.flyby_riders.Ui.PhotoPicker.util.Util;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -238,7 +238,7 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
 
         int closeImageRes = mConfig.getSelectedCloseImage();
 
-        adapter_selectedPhoto = new Adapter_SelectedPhoto(this, closeImageRes);
+        adapter_selectedPhoto = new Adapter_SelectedPhoto(ImagePickerActivity.this, closeImageRes);
         adapter_selectedPhoto.updateItems(mSelectedImages);
         rc_selected_photos.setAdapter(adapter_selectedPhoto);
 

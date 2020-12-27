@@ -23,14 +23,14 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ride_empty_bg"
+                    android:src="@drawable/bg_no_media"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:layout_marginTop="50dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Welcome to your rides."
+                    android:text="Welcome To Your Rides."
                     android:textSize="18dp"
                     android:textColor="#F0EEF5"
                     android:gravity="center"

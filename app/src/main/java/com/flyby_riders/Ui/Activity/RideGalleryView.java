@@ -7,8 +7,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,7 +25,7 @@ import com.flyby_riders.Ui.Adapter.Ride.Bike_Ride_Media_Adapter;
 import com.flyby_riders.Ui.Fragment.All_Media_Ride_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Media_Ride_Fragment;
 import com.flyby_riders.Ui.Model.Media_Model;
-import com.flyby_riders.Ui.Listener.PhotoPicker.ImagePickerActivity;
+import com.flyby_riders.Ui.PhotoPicker.ImagePickerActivity;
 import com.flyby_riders.Utils.BaseActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -171,13 +173,31 @@ public class RideGalleryView extends BaseActivity {
         if (requestCode == INTENT_REQUEST_GET_IMAGES && resuleCode == Activity.RESULT_OK) {
 
             ArrayList<Uri> image_uris = intent.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+
+            new ImageProcessing().execute(image_uris);
+
+        }
+    }
+
+
+    class ImageProcessing extends AsyncTask<ArrayList<Uri>, Integer,  ArrayList<Media_Model>> {
+
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+           show_ProgressDialog();
+        }
+
+        protected  ArrayList<Media_Model> doInBackground( ArrayList<Uri> ... image_uris) {
+            ArrayList<Uri> temp = image_uris[0];
+
             if (media_models.size() == 0) {
                 media_models.clear();
             }
-            for (int i = 0; i < image_uris.size(); i++) {
+            for (int i = 0; i < temp.size(); i++) {
                 try {
                     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                    Bitmap bitmap = getResizedBitmap(BitmapFactory.decodeFile(image_uris.get(i).getPath(), bmOptions));
+                    Bitmap bitmap = getResizedBitmap(BitmapFactory.decodeFile(temp.get(i).getPath(), bmOptions));
                     Media_Model mm = new Media_Model();
                     mm.setBitmap(bitmap);
                     mm.setFile_Name(Constant.SaveImagetoSDcard(Constant.get_random_String(),
@@ -188,9 +208,23 @@ public class RideGalleryView extends BaseActivity {
 
                 }
             }
-            hit_upload_media(media_models, My_Ride_ID);
+            return media_models;
+        }
+
+        protected void onPostExecute( ArrayList<Media_Model> result) {
+            super.onPostExecute(result);
+            hit_upload_media(result, My_Ride_ID);
         }
     }
+
+
+
+
+
+
+
+
+
 
     public Bitmap getResizedBitmap(Bitmap image) {
         int width = image.getWidth();
@@ -234,7 +268,7 @@ public class RideGalleryView extends BaseActivity {
 
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
 
-                            Constant.Show_Tos(getApplicationContext(), "Media Upload successfully");
+                            Constant.Show_Tos(getApplicationContext(), "Media Uploaded Successfully");
                             if (mSelectedTabPosition==0)
                             { All_Media_Ride_Fragment ab=All_Media_Ride_Fragment.newInstance();
                                 ab.Fetch_Media_Ride(My_Ride_ID);
@@ -243,7 +277,7 @@ public class RideGalleryView extends BaseActivity {
                                 mb.Fetch_Media_Ride(My_Ride_ID);
                             }
                         } else {
-                            Constant.Show_Tos(getApplicationContext(), "Media Upload Failed");
+                            Constant.Show_Tos(getApplicationContext(), "Media Uploaded Fail");
                         }
 
                     } catch (IOException | JSONException e) {

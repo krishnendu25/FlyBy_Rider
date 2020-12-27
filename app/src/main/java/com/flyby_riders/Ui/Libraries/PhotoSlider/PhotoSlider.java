@@ -83,14 +83,14 @@ public class PhotoSlider {
                         } catch (Exception e) {
                             ImageView_d.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
                         }
-                        viewPager.setText(String.valueOf(position)+" / "+String.valueOf(TotalCount));
+                        viewPager.setText(String.valueOf(position)+" / "+String.valueOf(TotalCount+1));
                     }else if (position==TotalCount){
                         try {
                             Picasso.get().load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
                         } catch (Exception e) {
                             ImageView_d.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
                         }
-                        viewPager.setText(String.valueOf(position)+" / "+String.valueOf(TotalCount));
+                        viewPager.setText(String.valueOf(position)+" / "+String.valueOf(TotalCount+1));
                     }
 
                 }
