@@ -41,11 +41,11 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:scrollbars="none">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -107,7 +107,7 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_margin="6dp"
                                 android:orientation="vertical">
 
@@ -127,6 +127,7 @@
                                     android:textColor="#C8C7CA"
                                     android:textSize="14dp"
                                     android:text="@string/add_1_bike_to_your_garage"/>
+
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -134,7 +135,19 @@
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
                                     android:textSize="14dp"
-                                    android:text="Ads expire in 3 days"/>
+                                    android:text="0.5 GB storage per ride"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:textColor="#C8C7CA"
+                                    android:textSize="14dp"
+                                    android:text="1 member per ride"/>
+
+
+
+
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -160,7 +173,7 @@
                             android:layout_weight="0.08"/>
                         <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="200dp"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/add_card"
                             android:layout_weight="0.96">
                             <LinearLayout
@@ -211,7 +224,7 @@
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
                                     android:textSize="14dp"
-                                    android:text="50 members per ride"/>
+                                    android:text="50 members per ride - Coming Soon"/>
 
                                 <TextView
                                     android:layout_width="match_parent"

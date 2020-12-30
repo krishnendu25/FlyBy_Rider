@@ -401,10 +401,11 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
 
         }
         if (RIDE_STATUS.equalsIgnoreCase(RIDE_ENDED)) {
-            AfterSubComponent(false, true);
-            BeforeSubComponent(true, false);
+            AfterSubComponent(true, true);
+            BeforeSubComponent(false, false);
             BeforeHeaderTv.setText(getString(R.string.ENDING_POINT));
             TrackRecord.setVisibility(View.GONE);
+            endMyRide.setVisibility(View.GONE);
         }
     }
 
@@ -458,16 +459,14 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                                 }
 
                             } else {
-                                mannagerGetMyCurrentLocation();
-                                if (isStarted){ hit_Ride_api(false, true, false, false, false, false);
-
-                                }
+                                Fetch_My_Location(false);
+                                if (isStarted){ hit_Ride_api(false, true, false, false, false, false); }
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            mannagerGetMyCurrentLocation();
+                            Fetch_My_Location(false);
                             if (isStarted){ hit_Ride_api(false, true, false, false, false, false);
 
                             }
@@ -480,51 +479,6 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         }
     }
 
-    private void mannagerGetMyCurrentLocation() {
-        try {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                    (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 199);
-            } else {
-                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-                if (location != null) {
-                    try {
-                        locationFetched(location);
-                    } catch (Exception e) {
-                    }
-                } else if (location1 != null) {
-                    try {
-                        locationFetched(location1);
-                    } catch (Exception e) {
-                    }
-                } else if (location2 != null) {
-                    try {
-                        locationFetched(location2);
-                    } catch (Exception e) {
-                    }
-                } else {
-                    RxLocation.locationUpdates(this, defaultLocationRequest)
-                            .firstElement()
-                            .subscribe(new Consumer<Location>() {
-                                @Override
-                                public void accept(Location location) throws Exception {
-                                    locationFetched(location);
-                                }
-                            }, new Consumer<Throwable>() {
-                                @Override
-                                public void accept(Throwable throwable) {
-                                }
-                            });
-                }
-            }
-        } catch (Exception e) {
-            Constant.Show_Tos_Error(this, false, true);
-        }
-    }
 
     private void locationFetched(Location location) {
         hide_ProgressDialog();
@@ -611,7 +565,11 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     LatLng point = points.get(i);
                     options.add(point);
                 }
-                polylineMyRide = mMap.addPolyline(options);
+                if (Latitude_Start==Latitude_End && Longitude_Start==Longitude_End){
+
+                }else{
+                    polylineMyRide = mMap.addPolyline(options);
+                }
                 double polylineLength = SphericalUtil.computeLength(points);
                 Distance = new DecimalFormat("##.##").format(polylineLength / 1000) + " KM";
 
@@ -940,6 +898,18 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
             show_ProgressDialog();
             requestCall = retrofitCallback.START_RIDE(My_Ride_ID, new Prefe(RideMapView.this).getUserID(), GET_timeStamp(), Constant.getCompleteAddressString(RideMapView.this, Latitude_Start, Longitude_Start), String.valueOf(Latitude_Start), String.valueOf(Longitude_Start), "1");
         } else if (End_ride) {
+            try{
+           String distance =  distanceCoveredTv.getText().toString().trim();
+           if (distance.contains("KM")){
+               if (distance.replaceAll("KM","").trim().equalsIgnoreCase("0")){
+                   Latitude_End=Latitude_Start;
+                   Longitude_End=Longitude_Start;
+               }
+           }
+            }catch (Exception e){
+            }
+
+
             show_ProgressDialog();
             requestCall = retrofitCallback.END_RIDE(My_Ride_ID, new Prefe(RideMapView.this).getUserID(), GET_timeStamp(), Constant.getCompleteAddressString(RideMapView.this, Latitude_End, Longitude_End), String.valueOf(Latitude_End), String.valueOf(Longitude_End), "0");
         } else if (Update_Name) {
@@ -1345,7 +1315,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         mMap.getUiSettings().setCompassEnabled(false);
-        mMap.getUiSettings().isMyLocationButtonEnabled();
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
         try {
             googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));

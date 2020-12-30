@@ -196,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manroperegular"
                     android:paddingStart="20dp"
-                    android:text="50 members per ride with premium"
+                    android:text="50 members per ride with premium - Coming Soon"
                     android:textColor="#AEACB5"
                     android:textSize="12sp" />
             </LinearLayout>

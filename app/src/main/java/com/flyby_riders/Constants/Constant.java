@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flyby_riders.R;
+import com.flyby_riders.Ui.Listener.DialogTask;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -453,6 +454,7 @@ public class Constant {
             toast.setGravity(Gravity.BOTTOM, 0, 300);
             toast.setDuration(Toast.LENGTH_LONG);
             toast.setView(layout);
+            if (!MSG.toLowerCase().contains("error"))
             toast.show();
         } catch (Exception e) {
 
@@ -833,7 +835,33 @@ public class Constant {
 
     }
 
+    public static void showDiologBuilder(Activity activity ,String title, String body, DialogTask dialogTask){
+        try {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
+            builder1.setTitle(title);
+            builder1.setMessage(body);
+            builder1.setCancelable(false);
 
+            builder1.setPositiveButton(
+                    "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            dialogTask.setPositiveButton();
+                        }
+                    });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.getWindow().setBackgroundDrawableResource(android.R.color.white);
+            try {
+                alert11.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static String printDifference(Date startDate, Date endDate) {
         //milliseconds
         long different = endDate.getTime() - startDate.getTime();

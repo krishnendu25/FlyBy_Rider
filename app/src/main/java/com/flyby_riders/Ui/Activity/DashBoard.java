@@ -18,13 +18,13 @@ import androidx.fragment.app.FragmentTransaction;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Fragment.Bike_Add_Fragments;
 import com.flyby_riders.Ui.Fragment.Discover_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Ride_Fragment;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
 import com.flyby_riders.Utils.BaseActivity;
+import com.flyby_riders.Utils.Prefe;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,6 +45,7 @@ import static com.flyby_riders.Constants.StringUtils.BASIC;
 import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 
 public class DashBoard extends BaseActivity {
+    public static ArrayList<My_Bike_Model> My_Bike = new ArrayList<>();
     @BindView(R.id.fragment_container)
     RelativeLayout fragmentContainer;
     @BindView(R.id.discover_active)
@@ -59,18 +60,17 @@ public class DashBoard extends BaseActivity {
     TextView ridesActive;
     @BindView(R.id.rides_inactive)
     TextView ridesInactive;
-
-    public static ArrayList<My_Bike_Model> My_Bike = new ArrayList<>();
     @BindView(R.id.ShadowLayout_discover)
     NeumorphCardView ShadowLayoutDiscover;
     @BindView(R.id.ShadowLayout_my_garage)
     NeumorphCardView ShadowLayoutMyGarage;
     @BindView(R.id.ShadowLayout_rides)
     NeumorphCardView ShadowLayoutRides;
-    private String My_Ride_Attached;
     ShimmerFrameLayout shimmer_view_container;
     RelativeLayout shimmerView;
     String Current_Fagment_Name = "";
+    int exitCount = 0;
+    private String My_Ride_Attached;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,9 +162,8 @@ public class DashBoard extends BaseActivity {
 
 
     private void Tab_View_Adjust(View view, View view1, View view2) {
-
+        exitCount = 0;
         if (view.getId() == R.id.ShadowLayout_discover) {
-
             if (view.getVisibility() == View.GONE) {
                 view.setVisibility(View.VISIBLE);
                 discoverInactive.setVisibility(View.GONE);
@@ -401,5 +400,12 @@ public class DashBoard extends BaseActivity {
         shimmerView.setVisibility(View.GONE);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        exitCount++;
+        Constant.Show_Tos(getApplicationContext(), "Press back again to exit");
+        if (exitCount>1) {
+            System.exit(0);
+        }
+    }
 }

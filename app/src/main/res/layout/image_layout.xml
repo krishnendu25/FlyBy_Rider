@@ -23,6 +23,7 @@
     android:padding="10dp"
     android:textColor="@color/light_green"
     android:gravity="center"
+    android:visibility="gone"
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
     android:layout_marginBottom="35dp"

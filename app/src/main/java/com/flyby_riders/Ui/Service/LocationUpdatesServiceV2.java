@@ -16,18 +16,14 @@
 
 package com.flyby_riders.Ui.Service;
 
-import android.app.ActivityManager;
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Binder;
-import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -35,15 +31,12 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.flyby_riders.GlobalApplication;
-import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
 import com.flyby_riders.SQLite_DatabaseHelper.TestAdapter;
-import com.flyby_riders.Ui.Activity.RideMapView;
 import com.flyby_riders.Utils.NotificationMannager;
 import com.flyby_riders.Utils.Prefe;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -60,7 +53,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.flyby_riders.Constants.Constant.GET_timeStamp;
-import static com.flyby_riders.Constants.StringUtils.RIDE_IS_BACKGROUND;
 import static com.flyby_riders.Constants.StringUtils.RIDE_STARTED;
 
 public class LocationUpdatesServiceV2 extends Service {
@@ -83,6 +75,8 @@ public class LocationUpdatesServiceV2 extends Service {
             ".started_from_notification";
 
     private final IBinder mBinder = new LocalBinder();
+
+    private static final int SMALLEST_DISPLACEMENT = 10;
 
     private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 2000;
 
@@ -297,6 +291,7 @@ public class LocationUpdatesServiceV2 extends Service {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+        mLocationRequest.setSmallestDisplacement(SMALLEST_DISPLACEMENT);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 

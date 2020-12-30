@@ -87,12 +87,12 @@
 
     <string name="one_place_to_manage_all_your_rides_fellow_riders_amp_ntheir_location_media_and_trip_information">One place to manage all your rides, track your route, media and trip information</string>
     <string name="my_account">My Account</string>
-    <string name="add_maximum_1_bike_to_garage">Add Maximum 1 bike to Garage</string>
-    <string name="add_maximum_3_rides_0_5_gb_per_ride">Add Maximum 3 Rides - 0.5 GB per ride</string>
-    <string name="maximum_5_members_per_ride">Maximum 5 members per ride</string>
-    <string name="_50_members_per_ride">50 members per ride</string>
-    <string name="unlimited_rides_2_gb_per_ride">Unlimited Rides - 2 GB per ride</string>
-    <string name="add_unlimited_bikes_to_garage">Add Unlimited bikes to Garage</string>
+    <string name="add_maximum_1_bike_to_garage">Add Maximum 1 Bike To Garage</string>
+    <string name="add_maximum_3_rides_0_5_gb_per_ride">Add Maximum 3 Rides - 0.5 GB Per Ride</string>
+    <string name="maximum_5_members_per_ride">Maximum 1 Members Per Ride</string>
+    <string name="_50_members_per_ride">Add Upto 50 Members Per Ride</string>
+    <string name="unlimited_rides_2_gb_per_ride">Unlimited Rides - 2 GB Per Ride</string>
+    <string name="add_unlimited_bikes_to_garage">Add Unlimited Bikes To Garage</string>
     <string name="registered_number">Registered Number</string>
     <string name="customer_support">Customer Support</string>
     <string name="rate_app_on_playstore">Rate App on Playstore</string>

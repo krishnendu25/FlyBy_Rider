@@ -79,7 +79,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
     public static ArrayList<Garage_Advertisement> garage_ads_list = new ArrayList<>();
     private final LocationRequest defaultLocationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     public RetrofitCallback retrofitCallback;
-    private TextView bikeBrandName, newADIndicator, bikeModelName;
+    private TextView bikeBrandName, newADIndicator,emptyViewList, bikeModelName;
     private LinearLayout collapse_view, My_Bike_Image_view;
     private NeumorphCardView AccountBtn;
     private ImageButton BikeAddBtn;
@@ -239,6 +239,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         bikeBrandName = view.findViewById(R.id.bike_brand_name);
         AccountBtn = view.findViewById(R.id.Account_Btn);
         bikeModelName = view.findViewById(R.id.bike_model_name);
+        emptyViewList= view.findViewById(R.id.emptyViewList);
         refreshPull = view.findViewById(R.id.refreshPull);
         newADIndicator = view.findViewById(R.id.newADIndicator);
         bikeModelName.setSelected(true);
@@ -375,13 +376,23 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                                     newADIndicator.setText("No New");
                                     newADIndicator.setVisibility(View.GONE);
                                 }
-
+                                if (garage_ads_list.size()>0){
+                                    emptyViewList.setVisibility(View.GONE);
+                                }else{
+                                    emptyViewList.setVisibility(View.VISIBLE);
+                                }
                             }
                         } else {
                             if (garageAdAdapter != null)
                                 newADFlag = 0;
                             garageAdAdapter.notifyDataSetChanged();
+                            if (garage_ads_list.size()>0){
+                                emptyViewList.setVisibility(View.GONE);
+                            }else{
+                                emptyViewList.setVisibility(View.VISIBLE);
+                            }
                             hide_ProgressDialog();
+
                         }
                     } catch (Exception e) {newADFlag = 0;
                         Constant.Show_Tos_Error(mActivity, false, true);
@@ -397,6 +408,8 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                 hide_ProgressDialog();
             }
         });
+
+
 
 
     }

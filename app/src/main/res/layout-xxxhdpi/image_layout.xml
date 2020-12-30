@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_bg"
         android:padding="10dp"
+        android:visibility="gone"
         android:textColor="@color/light_green"
         android:gravity="center"
         android:layout_alignParentBottom="true"

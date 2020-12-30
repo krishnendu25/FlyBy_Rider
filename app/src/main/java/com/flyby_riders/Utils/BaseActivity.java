@@ -54,7 +54,7 @@ public class BaseActivity extends AppCompatActivity implements IJSONParseListene
         LayoutInflater inflater = (this).getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.loading_page, null);
         dialogBuilder.setView(dialogView);
-        //dialogBuilder.setCancelable(false);
+        dialogBuilder.setCancelable(false);
         alertDialog_loader = dialogBuilder.create();
         alertDialog_loader.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         testAdapter = new TestAdapter(this);

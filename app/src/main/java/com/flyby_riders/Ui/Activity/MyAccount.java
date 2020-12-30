@@ -158,7 +158,7 @@ public class MyAccount extends BaseActivity implements DeleteMyBike {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
             Intent callIntent = new Intent(Intent.ACTION_CALL);
-            callIntent.setData(Uri.parse("tel:8800278211"));
+            callIntent.setData(Uri.parse("tel:9548582725"));
             this.startActivity(callIntent);
         } else {
             Constant.Show_Tos(getApplicationContext(), "You don't assign permission.");
@@ -343,5 +343,12 @@ public class MyAccount extends BaseActivity implements DeleteMyBike {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {hide_ProgressDialog();}
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intentt = new Intent(this, DashBoard.class);
+        intentt.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intentt);
     }
 }
