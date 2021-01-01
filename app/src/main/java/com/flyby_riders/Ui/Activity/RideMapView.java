@@ -1330,7 +1330,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
 
 
         Fetch_My_Location(false);
-        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+      /*  mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
                 if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED)) {
@@ -1362,7 +1362,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     }
                 }
             }
-        });
+        });*/
     }
 
     //LifeCircle Method

@@ -11,7 +11,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Can’t created any more rides"
+            android:text="Can’t create any more rides"
             android:textSize="18dp"
             android:drawablePadding="10dp"
             android:fontFamily="@font/manropeextrabold"

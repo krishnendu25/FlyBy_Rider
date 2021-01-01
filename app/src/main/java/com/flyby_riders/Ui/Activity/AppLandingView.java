@@ -39,7 +39,7 @@ public class AppLandingView extends BaseActivity {
                 break;
             case R.id.trams_conition_tv:
                 try {
-                    Uri webpage = Uri.parse("http://flybyapp.com");
+                    Uri webpage = Uri.parse("https://www.flybyapp.com/terms-conditions");
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, webpage);
                     startActivity(browserIntent);
                 } catch (Exception e) {}
