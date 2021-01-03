@@ -29,6 +29,7 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -46,6 +47,8 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.text.DecimalFormat;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -96,8 +99,9 @@ public class LocationUpdatesServiceV2 extends Service {
     private LocationCallback mLocationCallback;
 
     private Handler mServiceHandler;
-
     private Location mLocation;
+
+    private String oldLat="",oldLong="";
 
     public LocationUpdatesServiceV2() {
     }
@@ -238,6 +242,10 @@ public class LocationUpdatesServiceV2 extends Service {
         Log.i(TAG, "New location: " + location);
         mLocation = location;
         inBackGroundTrack(location);
+       /* if (location.getAccuracy()<15){
+
+        }*/
+        Log.e("@@Location","Provider "+location.getProvider()+"\n"+"Accurcy: "+location.getAccuracy());
         //shearMyLocationToOther(location);
         Intent intent = new Intent(ACTION_BROADCAST);
         intent.putExtra(TIMEING, String.valueOf(location.getElapsedRealtimeNanos()));
@@ -314,17 +322,40 @@ public class LocationUpdatesServiceV2 extends Service {
             testAdapter.createDatabase();
             testAdapter.open();
         }
-        String userID = new Prefe(GlobalApplication.getInstance()).getUserID();
-        if (new Prefe(GlobalApplication.getInstance()).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED) &&
-                new Prefe(GlobalApplication.getInstance()).getRideRecordStatus()){
-            testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()),GET_timeStamp());
-            double Real_Time_Speed = Double.parseDouble(String.valueOf(location.getSpeed()));//meters/second
-            double Real_Time_Speed_kmph = Real_Time_Speed * 3.6;
-            testAdapter.INSERT_RIDE_DATA(new Prefe(GlobalApplication.getInstance()).getRideID(), new Prefe(GlobalApplication.getInstance()).getUserID(),String.valueOf(Real_Time_Speed_kmph), String.valueOf(Real_Time_Speed_kmph), GET_timeStamp(), RIDE_STARTED);
-            if (notificationMannager != null)
-                notificationMannager.controllerNotification(true, false);
+
+        String Local_Lat= new DecimalFormat("##.####").format(location.getLatitude());
+        String Local_long= new DecimalFormat("##.####").format(location.getLongitude());
+
+
+        if (oldLat.equalsIgnoreCase("")&&oldLong.equalsIgnoreCase("")){
+            oldLat = Local_Lat ;
+            oldLong = Local_long;
+            String userID = new Prefe(GlobalApplication.getInstance()).getUserID();
+            if (new Prefe(GlobalApplication.getInstance()).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED) &&
+                    new Prefe(GlobalApplication.getInstance()).getRideRecordStatus()){
+                testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(Local_Lat), String.valueOf(Local_long),GET_timeStamp());
+                double Real_Time_Speed = Double.parseDouble(String.valueOf(location.getSpeed()));//meters/second
+                double Real_Time_Speed_kmph = Real_Time_Speed * 3.6;
+                testAdapter.INSERT_RIDE_DATA(new Prefe(GlobalApplication.getInstance()).getRideID(), new Prefe(GlobalApplication.getInstance()).getUserID(),String.valueOf(Real_Time_Speed_kmph), String.valueOf(Real_Time_Speed_kmph), GET_timeStamp(), RIDE_STARTED);
+                if (notificationMannager != null)
+                    notificationMannager.controllerNotification(true, false);
+            }
+        }else if (oldLat.equalsIgnoreCase(Local_Lat)&&oldLong.equalsIgnoreCase(Local_long)){
+
+        }else{
+            oldLat = Local_Lat ;
+            oldLong = Local_long;
+            String userID = new Prefe(GlobalApplication.getInstance()).getUserID();
+            if (new Prefe(GlobalApplication.getInstance()).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED) &&
+                    new Prefe(GlobalApplication.getInstance()).getRideRecordStatus()){
+                testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(Local_Lat), String.valueOf(Local_long),GET_timeStamp());
+                double Real_Time_Speed = Double.parseDouble(String.valueOf(location.getSpeed()));//meters/second
+                double Real_Time_Speed_kmph = Real_Time_Speed * 3.6;
+                testAdapter.INSERT_RIDE_DATA(new Prefe(GlobalApplication.getInstance()).getRideID(), new Prefe(GlobalApplication.getInstance()).getUserID(),String.valueOf(Real_Time_Speed_kmph), String.valueOf(Real_Time_Speed_kmph), GET_timeStamp(), RIDE_STARTED);
+                if (notificationMannager != null)
+                    notificationMannager.controllerNotification(true, false);
+            }
         }
-        Log.e("@@@@@@","BackGround-->"+" "+location.getLatitude());
     }
 
 
@@ -336,4 +367,7 @@ public class LocationUpdatesServiceV2 extends Service {
             mNotificationManager.cancel(RIDER_NOTIFICATION);
         }catch (Exception e){}
     }
+
+
+
 }

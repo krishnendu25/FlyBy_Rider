@@ -316,13 +316,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                             LatLng currentPosition = new LatLng(Double.parseDouble(cursor.getString(2)), Double.parseDouble(cursor.getString(3)));
                             points.add(currentPosition);
                         }
-                        try {
-                            HashSet hs = new HashSet();
-                            hs.addAll(points);
-                            points.clear();
-                            points.addAll(hs);
-                        } catch (Exception e) {
-                        }
+
 
 
                         SetMapView(currentLatitude, currentLongitude);

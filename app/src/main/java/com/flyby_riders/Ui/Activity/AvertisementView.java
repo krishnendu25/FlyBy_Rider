@@ -145,7 +145,11 @@ public class AvertisementView extends AppCompatActivity {
         Images.add(ga.Advertising_CoverPic);
 
         PhotoSlider photoSlider = new PhotoSlider(this, Images);
-        imageSlider.setSliderAdapter(new SliderAdapterExample(photoSlider,AvertisementView.this, Images, mActivity));
+        SliderAdapterExample sliderAdapterExample =  new SliderAdapterExample(photoSlider,AvertisementView.this, Images, mActivity);
+        imageSlider.setSliderAdapter(sliderAdapterExample);
+        if (Images.size()==1){
+            imageSlider.setSliderAdapter(sliderAdapterExample,false);
+        }
 
         if (addList.get(pos).getAdvertising_userActions().get(0).getByeNow().equalsIgnoreCase("0")){
             buyLinkRe.setVisibility(View.GONE);
