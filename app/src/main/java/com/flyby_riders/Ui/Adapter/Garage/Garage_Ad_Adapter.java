@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
@@ -61,7 +62,8 @@ public class Garage_Ad_Adapter extends RecyclerView.Adapter<Garage_Ad_Adapter.My
             holder.price_add.setText(context.getString(R.string.rupee)+" "+data.get(i).getAdvertising_costPrice());
 
         try{
-            Picasso.get().load(data.get(i).getAdvertising_CoverPic()).placeholder(R.drawable.images).into(holder.Cover_pic_tv);
+            //Picasso.get().load(data.get(i).getAdvertising_CoverPic()).placeholder(R.drawable.images).into(holder.Cover_pic_tv);
+            Glide.with(context).load(data.get(i).getAdvertising_CoverPic()).placeholder(R.drawable.images).into(holder.Cover_pic_tv);
         }catch (Exception e)
         {
             holder.Cover_pic_tv.setImageDrawable(context.getResources().getDrawable(R.drawable.images));

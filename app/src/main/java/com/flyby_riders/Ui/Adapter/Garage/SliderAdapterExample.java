@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Libraries.PhotoSlider.PhotoSlider;
@@ -45,7 +46,8 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
     public void onBindViewHolder(SliderAdapterVH viewHolder, final int position) {
         viewHolder.video_play_ic.setVisibility(View.GONE);
         try {
-            Picasso.get().load(images.get(position)).placeholder(R.drawable.ic_placeholderad).into(viewHolder.roundedImageView);
+            Glide.with(context).load(images.get(position)).placeholder(R.drawable.images).into(viewHolder.roundedImageView);
+            //Picasso.get().load(images.get(position)).placeholder(R.drawable.ic_placeholderad).into(viewHolder.roundedImageView);
         } catch (Exception e) {
             viewHolder.roundedImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
         }

@@ -242,18 +242,19 @@ public class LocationUpdatesServiceV2 extends Service {
         Log.i(TAG, "New location: " + location);
         mLocation = location;
         inBackGroundTrack(location);
-       /* if (location.getAccuracy()<15){
-
-        }*/
-        Log.e("@@Location","Provider "+location.getProvider()+"\n"+"Accurcy: "+location.getAccuracy());
-        //shearMyLocationToOther(location);
-        Intent intent = new Intent(ACTION_BROADCAST);
-        intent.putExtra(TIMEING, String.valueOf(location.getElapsedRealtimeNanos()));
-        intent.putExtra(EXTRA_LATITUDE, String.valueOf(location.getLatitude()));
-        intent.putExtra(EXTRA_LONGITUDE, String.valueOf(location.getLongitude()));
-        intent.putExtra(EXTRA_SPEED, String.valueOf(location.getSpeed()));
-        updateNotificationValues();
-        LocalBroadcastManager.getInstance(GlobalApplication.getInstance()).sendBroadcast(intent);
+        try {
+                Log.e("@@Location","Provider "+location.getProvider()+"\n"+"Accurcy: "+location.getAccuracy());
+                //shearMyLocationToOther(location);
+                Intent intent = new Intent(ACTION_BROADCAST);
+                intent.putExtra(TIMEING, String.valueOf(location.getElapsedRealtimeNanos()));
+                intent.putExtra(EXTRA_LATITUDE, String.valueOf(location.getLatitude()));
+                intent.putExtra(EXTRA_LONGITUDE, String.valueOf(location.getLongitude()));
+                intent.putExtra(EXTRA_SPEED, String.valueOf(location.getSpeed()));
+                updateNotificationValues();
+                LocalBroadcastManager.getInstance(GlobalApplication.getInstance()).sendBroadcast(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateNotificationValues() {

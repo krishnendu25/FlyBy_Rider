@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.OnBoarding;
 import com.flyby_riders.Utils.OnSwipeTouchListener;
@@ -39,7 +40,8 @@ public class PhotoSlider {
             final AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             try {
-                Picasso.get().load(mData.get(i).toString()).placeholder(R.drawable.images).into(ImageView_d);
+                Glide.with(context).load(mData.get(i).toString()).placeholder(R.drawable.images).into(ImageView_d);
+               // Picasso.get().load(mData.get(i).toString()).placeholder(R.drawable.images).into(ImageView_d);
             } catch (Exception e) {
                 ImageView_d.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
             }
@@ -59,14 +61,16 @@ public class PhotoSlider {
                     if (position!=0){
                         position--;
                         try {
-                            Picasso.get().load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
+                            Glide.with(context).load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
+                         //   Picasso.get().load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
                         } catch (Exception e) {
                             ImageView_d.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
                         }
                         viewPager.setText(String.valueOf(position+1)+" / "+String.valueOf(TotalCount+1));
                     }else if (position==0){
                         try {
-                            Picasso.get().load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
+                            Glide.with(context).load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
+                       //     Picasso.get().load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
                         } catch (Exception e) {
                             ImageView_d.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
                         }
@@ -79,14 +83,16 @@ public class PhotoSlider {
                     if (position<TotalCount){
                         position++;
                         try {
-                            Picasso.get().load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
+                            Glide.with(context).load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
+                          //  Picasso.get().load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
                         } catch (Exception e) {
                             ImageView_d.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
                         }
                         viewPager.setText(String.valueOf(position)+" / "+String.valueOf(TotalCount+1));
                     }else if (position==TotalCount){
                         try {
-                            Picasso.get().load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
+                            Glide.with(context).load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
+                         //   Picasso.get().load(mData.get(position).toString()).placeholder(R.drawable.images).into(ImageView_d);
                         } catch (Exception e) {
                             ImageView_d.setImageDrawable(context.getResources().getDrawable(R.drawable.images));
                         }

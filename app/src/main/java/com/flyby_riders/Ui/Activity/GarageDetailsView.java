@@ -329,8 +329,6 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
         } else {
             day = 7;
         }
-
-
         for (int i = 0; i < add_fetch.size(); i++) {
             String Differ = Constant.getCountOfDays(add_fetch.get(i).getPOSTDATE(), Date);
             if (Integer.parseInt(Differ.replaceAll("Days", "").trim()) < day) {
