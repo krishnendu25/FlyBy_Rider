@@ -501,8 +501,11 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                             Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                         final String[] PERMISSIONS_STORAGE = {Manifest.permission.CALL_PHONE};
                         ActivityCompat.requestPermissions((Activity) this, PERMISSIONS_STORAGE, 9);
+                        hide_ProgressDialog();
                     } else {
+
                         hitanalytics(TASK_CONTACT_CLICK, (Garage_Owner_List.get(Position).getGARAGEID()));
+                        hide_ProgressDialog();
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                         callIntent.setData(Uri.parse("tel:" + Garage_Owner_List.get(Position).getPHONE()));
                         startActivity(callIntent);
@@ -513,7 +516,9 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                 break;
             case R.id.Garage_Whatsapp:
                 try {
+
                     hitanalytics(TASK_CONTACT_CLICK, (Garage_Owner_List.get(Position).getGARAGEID()));
+                    hide_ProgressDialog();
                     Constant.openWhatsApp(Garage_Owner_List.get(Position).getPHONE(), "", this);
                 } catch (Exception E) {
                     Constant.Show_Tos_Error(this, false, true);
@@ -560,6 +565,17 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
                 hide_ProgressDialog();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            final String[] PERMISSIONS_STORAGE = {Manifest.permission.CALL_PHONE};
+            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS_STORAGE, 9);
+            hide_ProgressDialog();
+        }
     }
 
     @Override

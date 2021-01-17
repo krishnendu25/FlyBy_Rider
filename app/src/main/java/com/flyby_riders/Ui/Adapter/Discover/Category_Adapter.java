@@ -103,8 +103,8 @@ public class Category_Adapter extends BaseAdapter {
             holder.discover_tv.setText("Race Track");
             holder.discover_tv.setTextColor(Color.parseColor("#5AABCB"));
             holder.discover_iv.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_racetrack));
-        } else if (data.get(position).getName().equalsIgnoreCase("Racing Acadmey")) {
-            holder.discover_tv.setText("Racing Acadmey");
+        } else if (data.get(position).getName().equalsIgnoreCase("Racing Academy")) {
+            holder.discover_tv.setText("Racing Academy");
             holder.discover_tv.setTextColor(Color.parseColor("#AD8D31"));
             holder.discover_iv.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_raceacadmey));
         }

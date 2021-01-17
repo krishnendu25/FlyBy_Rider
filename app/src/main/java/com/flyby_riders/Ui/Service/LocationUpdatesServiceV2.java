@@ -300,7 +300,7 @@ public class LocationUpdatesServiceV2 extends Service {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setSmallestDisplacement(SMALLEST_DISPLACEMENT);
+       // mLocationRequest.setSmallestDisplacement(SMALLEST_DISPLACEMENT);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
@@ -324,8 +324,8 @@ public class LocationUpdatesServiceV2 extends Service {
             testAdapter.open();
         }
 
-        String Local_Lat= new DecimalFormat("##.####").format(location.getLatitude());
-        String Local_long= new DecimalFormat("##.####").format(location.getLongitude());
+        String Local_Lat= String.valueOf(location.getLatitude());
+        String Local_long=String.valueOf(location.getLongitude());
 
 
         if (oldLat.equalsIgnoreCase("")&&oldLong.equalsIgnoreCase("")){
@@ -343,7 +343,7 @@ public class LocationUpdatesServiceV2 extends Service {
             }
         }else if (oldLat.equalsIgnoreCase(Local_Lat)&&oldLong.equalsIgnoreCase(Local_long)){
 
-        }else{
+        }else {
             oldLat = Local_Lat ;
             oldLong = Local_long;
             String userID = new Prefe(GlobalApplication.getInstance()).getUserID();

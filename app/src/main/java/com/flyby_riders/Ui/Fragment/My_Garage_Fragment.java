@@ -37,18 +37,18 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
-import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Activity.AvertisementView;
 import com.flyby_riders.Ui.Activity.BikeBrandView;
 import com.flyby_riders.Ui.Activity.DocumentLockerView;
 import com.flyby_riders.Ui.Activity.MyAccount;
 import com.flyby_riders.Ui.Activity.UpgradeAccountPlan;
-import com.flyby_riders.Ui.Adapter.Garage.Garage_Ad_Adapter;
 import com.flyby_riders.Ui.Adapter.Garage.GarageAddClick;
+import com.flyby_riders.Ui.Adapter.Garage.Garage_Ad_Adapter;
 import com.flyby_riders.Ui.Adapter.Garage.My_Bike_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
 import com.flyby_riders.Ui.Model.Garage_Advertisement;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
+import com.flyby_riders.Utils.Prefe;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -61,8 +61,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -79,7 +83,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
     public static ArrayList<Garage_Advertisement> garage_ads_list = new ArrayList<>();
     private final LocationRequest defaultLocationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     public RetrofitCallback retrofitCallback;
-    private TextView bikeBrandName, newADIndicator,emptyViewList, bikeModelName;
+    private TextView bikeBrandName, newADIndicator, emptyViewList, bikeModelName;
     private LinearLayout collapse_view, My_Bike_Image_view;
     private NeumorphCardView AccountBtn;
     private ImageButton BikeAddBtn;
@@ -133,10 +137,10 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                 if (State_Name != null) {
                     if (!State_Name.equalsIgnoreCase("")) {
                         hit_Fetch_add();
-                    }else{
+                    } else {
                         Hit_Rider_Details(new Prefe(mContext).getUserID());
                     }
-                }else{
+                } else {
                     Hit_Rider_Details(new Prefe(mContext).getUserID());
                 }
                 refreshPull.setRefreshing(false);
@@ -195,16 +199,15 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                try{
+                try {
                     int FirstID = add_LinearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                   // int LastID = add_LinearLayoutManager.findLastCompletelyVisibleItemPosition();
-                    hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(),garage_ads_list.get(FirstID).Advertising_ID);
+                    // int LastID = add_LinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                    hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(), garage_ads_list.get(FirstID).Advertising_ID);
                     //hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(),garage_ads_list.get(LastID).Advertising_ID);
-                }catch (Exception e){
+                } catch (Exception e) {
                 }
             }
         });
-
 
 
         return view;
@@ -239,7 +242,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         bikeBrandName = view.findViewById(R.id.bike_brand_name);
         AccountBtn = view.findViewById(R.id.Account_Btn);
         bikeModelName = view.findViewById(R.id.bike_model_name);
-        emptyViewList= view.findViewById(R.id.emptyViewList);
+        emptyViewList = view.findViewById(R.id.emptyViewList);
         refreshPull = view.findViewById(R.id.refreshPull);
         newADIndicator = view.findViewById(R.id.newADIndicator);
         bikeModelName.setSelected(true);
@@ -275,7 +278,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                             } catch (Exception e) {
                                 Constant.Show_Tos_Error(mActivity, false, true);
                             }
-                        }else{
+                        } else {
                             Hit_Rider_Details(new Prefe(mContext).getUserID());
                         }
                     }
@@ -328,17 +331,17 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
             bikeBrandName.setText(my_bike.get(i).getBRANDNAME());
             BIKE_BRAND_ID = my_bike.get(i).getBRANDID();
             BIKE_MODEL_ID = my_bike.get(i).getMODELID();
-                    hit_Fetch_add();
+            hit_Fetch_add();
         } catch (Exception e) {
             Constant.Show_Tos_Error(mActivity, false, true);
         }
     }
 
     private void hit_Fetch_add() {
-        Log.e("@@@@@",State_Name+"  " +BIKE_BRAND_ID+"  " +BIKE_MODEL_ID);
+        Log.e("@@@@@", State_Name + "  " + BIKE_BRAND_ID + "  " + BIKE_MODEL_ID);
 
         show_ProgressDialog();
-        Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(State_Name,BIKE_BRAND_ID,BIKE_MODEL_ID);
+        Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(State_Name, BIKE_BRAND_ID, BIKE_MODEL_ID);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -350,11 +353,11 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                             String output = Html.fromHtml(response.body().string()).toString();
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
-                            Log.e("@@@@@",jsonObject.toString());
+                            Log.e("@@@@@", jsonObject.toString());
                         } catch (Exception e) {
                             Constant.Show_Tos_Error(mActivity, false, true);
                         }
-                        ArrayList<Garage_Advertisement> temp =new ArrayList<>();
+                        ArrayList<Garage_Advertisement> temp = new ArrayList<>();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             JSONArray ALLADVDETAILS = jsonObject.getJSONArray("ALLADVDETAILS");
                             newADFlag = 0;
@@ -365,20 +368,20 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                             if (temp.size() > 0) {
 
                                 garage_ads_list.clear();
-                                garage_ads_list= filterByData(temp);
-                                garageAdAdapter = new Garage_Ad_Adapter(mActivity,garage_ads_list,My_Garage_Fragment.this);
+                                garage_ads_list = sortBYDate(filterByData(temp));
+                                garageAdAdapter = new Garage_Ad_Adapter(mActivity, garage_ads_list, My_Garage_Fragment.this);
                                 AdvetismentList.setAdapter(garageAdAdapter);
                                 if (newADFlag != 0) {
-                                    newADIndicator.setText(String.valueOf(newADFlag) + " New");
+                                    newADIndicator.setText(newADFlag + " New");
                                     newADIndicator.setVisibility(View.VISIBLE);
                                 } else {
                                     newADFlag = 0;
                                     newADIndicator.setText("No New");
                                     newADIndicator.setVisibility(View.GONE);
                                 }
-                                if (garage_ads_list.size()>0){
+                                if (garage_ads_list.size() > 0) {
                                     emptyViewList.setVisibility(View.GONE);
-                                }else{
+                                } else {
                                     emptyViewList.setVisibility(View.VISIBLE);
                                 }
                             }
@@ -386,15 +389,16 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                             if (garageAdAdapter != null)
                                 newADFlag = 0;
                             garageAdAdapter.notifyDataSetChanged();
-                            if (garage_ads_list.size()>0){
+                            if (garage_ads_list.size() > 0) {
                                 emptyViewList.setVisibility(View.GONE);
-                            }else{
+                            } else {
                                 emptyViewList.setVisibility(View.VISIBLE);
                             }
                             hide_ProgressDialog();
 
                         }
-                    } catch (Exception e) {newADFlag = 0;
+                    } catch (Exception e) {
+                        newADFlag = 0;
                         Constant.Show_Tos_Error(mActivity, false, true);
                         hide_ProgressDialog();
                     }
@@ -410,17 +414,37 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
         });
 
 
+    }
 
+    private ArrayList<Garage_Advertisement> sortBYDate(ArrayList<Garage_Advertisement> filterByData) {
+        ArrayList<Garage_Advertisement> temp = filterByData;
+        try {
+            Collections.sort(temp, new Comparator<Garage_Advertisement>() {
+                DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:sss");
 
+                @Override
+                public int compare(Garage_Advertisement lhs, Garage_Advertisement rhs) {
+                    try {
+                        return f.parse(lhs.getAdvertising_PostDate()).compareTo(f.parse(rhs.getAdvertising_PostDate()));
+                    } catch (ParseException e) {
+                        throw new IllegalArgumentException(e);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            temp = filterByData;
+        }
+        Collections.reverse(temp);
+        return temp;
     }
 
     private ArrayList<Garage_Advertisement> filterByData(ArrayList<Garage_Advertisement> list) {
         ArrayList<Garage_Advertisement> temp = new ArrayList<>();
         String Date = Constant.Get_back_date(Constant.GET_timeStamp());
-        for (int i=0 ; i<list.size(); i++){
-            String Differ = Constant.getCountOfDays(list.get(i).getAdvertising_PostDate(),Date);
-            if (Integer.parseInt(Differ.replaceAll("Days","").trim())<4){
-                temp.add(list.get(i)) ;
+        for (int i = 0; i < list.size(); i++) {
+            String Differ = Constant.getCountOfDays(list.get(i).getAdvertising_PostDate(), Date);
+            if (Integer.parseInt(Differ.replaceAll("Days", "").trim()) < 4) {
+                temp.add(list.get(i));
             }
         }
         return temp;
@@ -640,7 +664,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
 
     @Override
     public void setOnClick(int Position) {
-        hitAddClick(TASK_CLICK, new Prefe(mActivity).getUserID(), garage_ads_list.get(Position).Advertising_ID.toString().trim());
+        hitAddClick(TASK_CLICK, new Prefe(mActivity).getUserID(), garage_ads_list.get(Position).Advertising_ID.trim());
         Intent intent = new Intent(mActivity, AvertisementView.class);
         intent.putExtra("Position", Position);
         startActivity(intent);

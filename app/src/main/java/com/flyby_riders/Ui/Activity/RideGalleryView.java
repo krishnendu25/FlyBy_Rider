@@ -197,7 +197,7 @@ public class RideGalleryView extends BaseActivity {
             for (int i = 0; i < temp.size(); i++) {
                 try {
                     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                    Bitmap bitmap = getResizedBitmap(BitmapFactory.decodeFile(temp.get(i).getPath(), bmOptions));
+                    Bitmap bitmap =BitmapFactory.decodeFile(temp.get(i).getPath(), bmOptions);
                     Media_Model mm = new Media_Model();
                     mm.setBitmap(bitmap);
                     mm.setFile_Name(Constant.SaveImagetoSDcard(Constant.get_random_String(),
@@ -226,7 +226,7 @@ public class RideGalleryView extends BaseActivity {
 
 
 
-    public Bitmap getResizedBitmap(Bitmap image) {
+   /* public Bitmap getResizedBitmap(Bitmap image) {
         int width = image.getWidth();
         int height = image.getHeight();
 
@@ -240,7 +240,7 @@ public class RideGalleryView extends BaseActivity {
         }
 
         return Bitmap.createScaledBitmap(image, width, height, true);
-    }
+    }*/
 
     private void hit_upload_media(ArrayList<Media_Model> media_models, String my_ride_id) {
         show_ProgressDialog();

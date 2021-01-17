@@ -175,12 +175,14 @@ public class UpgradeAccountPlan extends BaseActivity  implements IJSONParseListe
 
     @Override
     public void onPaymentSuccess(String s) {
+        hide_ProgressDialog();
         hit_Subscrption(new Prefe(getApplicationContext()).getUserID(),s);
     }
 
     @Override
     public void onPaymentError(int i, String s) {
         Constant.Show_Tos(getApplicationContext(), "Failure Transaction");
+        hide_ProgressDialog();
     }
 
 

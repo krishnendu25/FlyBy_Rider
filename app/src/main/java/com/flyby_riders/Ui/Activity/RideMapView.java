@@ -554,7 +554,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     LatLng currentPosition = new LatLng(Double.parseDouble(cursor.getString(2)), Double.parseDouble(cursor.getString(3)));
                     points.add(currentPosition);
                 }
-                PolylineOptions options = new PolylineOptions().width(8).color(Color.parseColor("#F7B500")).geodesic(true);
+                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(false);
                 for (int i = 0; i < points.size(); i++) {
                     LatLng point = points.get(i);
                     options.add(point);
@@ -578,7 +578,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     public void onPath(ArrayList<LatLng> points) {
                         hide_ProgressDialog();
                         endGooglePoints = points;
-                        PolylineOptions options = new PolylineOptions().width(8).color(Color.parseColor("#F7B500")).geodesic(true);
+                        PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(false);
                         try {
                             for (int i = 0; i < points.size(); i++) {
                                 LatLng point = points.get(i);
@@ -700,7 +700,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 if (polylineMyRide != null) {
                     polylineMyRide.remove();
                 }
-                PolylineOptions options = new PolylineOptions().width(8).color(Color.parseColor("#F7B500")).geodesic(true);
+                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(false);
                 for (int i = 0; i < points.size(); i++) {
                     LatLng point = points.get(i);
                     options.add(point);
@@ -720,7 +720,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 markerOptions.position(currentPosition);
                 markerOptions.title("Me");
                 markerOptions.draggable(false);
-                PolylineOptions options = new PolylineOptions().width(8).color(Color.parseColor("#F7B500")).geodesic(true);
+                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(false);
                 for (int i = 0; i < points.size(); i++) {
                     LatLng point = points.get(i);
                     options.add(point);

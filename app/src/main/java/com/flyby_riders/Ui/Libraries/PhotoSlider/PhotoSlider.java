@@ -1,13 +1,18 @@
 package com.flyby_riders.Ui.Libraries.PhotoSlider;
 
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Activity.OnBoarding;
 import com.flyby_riders.Utils.OnSwipeTouchListener;
@@ -36,6 +41,7 @@ public class PhotoSlider {
             dialogBuilder.setView(dialogView);
             ImageView ImageView_d = dialogView.findViewById(R.id.ImageView_d);
             TextView viewPager  = dialogView.findViewById(R.id.viewPager);
+            ImageView downloadView = dialogView.findViewById(R.id.downloadView);
             ImageView Close_Image_view = dialogView.findViewById(R.id.Close_Image_view);
             final AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -107,6 +113,15 @@ public class PhotoSlider {
             });
 
 
+            downloadView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    downloadViewImages(position);
+                }
+            });
+
+
+
 
             alertDialog.show();
 
@@ -116,5 +131,34 @@ public class PhotoSlider {
         }
     }
 
+    private void downloadViewImages(int position) {
+        String Url = mData.get(position).toString();
+        try {
+            DownloadBooks(Url, String.valueOf(System.currentTimeMillis()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public  void DownloadBooks(String url,String title){
+        try {
+            Constant.Show_Tos(context,title+".jpeg download completed.");
+            DownloadManager.Request request=new DownloadManager.Request(Uri.parse(url));
+            String tempTitle=title;
+            request.setTitle(tempTitle);
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB){
+                request.allowScanningByMediaScanner();
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            }
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,tempTitle+".jpeg");
+            DownloadManager downloadManager=(DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
+            request.setMimeType("image/jpeg");
+            request.allowScanningByMediaScanner();
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
+            downloadManager.enqueue(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
