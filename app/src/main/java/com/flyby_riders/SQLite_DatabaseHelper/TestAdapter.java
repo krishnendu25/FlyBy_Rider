@@ -55,7 +55,7 @@ public class TestAdapter {
 
 
     public boolean INSERT_REALTIMELOCATION(String RIDE_ID_, String MEMBER_ID_,
-                                           String LATITUDE, String LONGITUDE,
+                                           String LATITUDE, String LONGITUDE,String POLYLINE,
                                            String TIMESTAMP) {
 
         Cursor cursor = mDb.rawQuery("Select * from REALTIMELOCATION" + " WHERE " + "RIDE_ID='" + RIDE_ID_ + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ + "'", null);
@@ -82,6 +82,7 @@ public class TestAdapter {
             contentValues.put("MEMBER_ID", MEMBER_ID_);
             contentValues.put("LATITUDE", LATITUDE);
             contentValues.put("LONGITUDE", LONGITUDE);
+            contentValues.put("POLYLINE_DRAW", POLYLINE);
             contentValues.put("TIMESTAMP", TIMESTAMP);
             mDb.insert("REALTIMELOCATION", null, contentValues);
             return true;

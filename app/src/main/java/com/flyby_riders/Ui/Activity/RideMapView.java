@@ -314,15 +314,14 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                         points.clear();
                         while (cursor.moveToNext()) {
                             LatLng currentPosition = new LatLng(Double.parseDouble(cursor.getString(2)), Double.parseDouble(cursor.getString(3)));
-                            points.add(currentPosition);
+                          if (cursor.getString(4).equalsIgnoreCase("true")){
+                              points.add(currentPosition);
+                          }
                         }
-
-
-
                         SetMapView(currentLatitude, currentLongitude);
                     }
                 }
-                timerHandlerE.postDelayed(runnable, 3000);
+                timerHandlerE.postDelayed(runnable, 2000);
             }
         };
         timerHandlerE.post(runnable);
@@ -552,9 +551,11 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 points.clear();
                 while (cursor.moveToNext()) {
                     LatLng currentPosition = new LatLng(Double.parseDouble(cursor.getString(2)), Double.parseDouble(cursor.getString(3)));
-                    points.add(currentPosition);
+                    if (cursor.getString(4).equalsIgnoreCase("true")){
+                        points.add(currentPosition);
+                    }
                 }
-                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(false);
+                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(true);
                 for (int i = 0; i < points.size(); i++) {
                     LatLng point = points.get(i);
                     options.add(point);
@@ -578,7 +579,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     public void onPath(ArrayList<LatLng> points) {
                         hide_ProgressDialog();
                         endGooglePoints = points;
-                        PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(false);
+                        PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(true);
                         try {
                             for (int i = 0; i < points.size(); i++) {
                                 LatLng point = points.get(i);
@@ -700,7 +701,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 if (polylineMyRide != null) {
                     polylineMyRide.remove();
                 }
-                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(false);
+                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(true);
                 for (int i = 0; i < points.size(); i++) {
                     LatLng point = points.get(i);
                     options.add(point);
@@ -720,7 +721,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 markerOptions.position(currentPosition);
                 markerOptions.title("Me");
                 markerOptions.draggable(false);
-                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(false);
+                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(true);
                 for (int i = 0; i < points.size(); i++) {
                     LatLng point = points.get(i);
                     options.add(point);
