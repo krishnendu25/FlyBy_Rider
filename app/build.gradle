@@ -32,7 +32,7 @@ android {
             versionNameSuffix "@production"
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -48,7 +48,10 @@ android {
             url "https://s3.amazonaws.com/repo.commonsware.com"
         }
     }
-
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
 
 dependencies {

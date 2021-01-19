@@ -111,13 +111,10 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
     }
 
     private void initView() {
-
-
         view_root = findViewById(R.id.view_root);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-
-
+        mConfig.setSelectionLimit(20);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -264,8 +261,10 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
 
 
         if (mSelectedImages.size() == mConfig.getSelectionLimit()) {
-            String text = String.format(getResources().getString(R.string.max_count_msg), mConfig.getSelectionLimit());
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+            String sms = "Can not upload more than ";
+            Constant.Show_Tos(getApplicationContext(), sms+String.valueOf(mConfig.getSelectionLimit())+" images at a time");
+            //String text = String.format(getResources().getString(R.string.max_count_msg), mConfig.getSelectionLimit());
+            //Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
             return;
         }
 

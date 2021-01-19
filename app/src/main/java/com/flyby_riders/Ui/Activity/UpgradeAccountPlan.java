@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.flyby_riders.Constants.Constant;
+import com.flyby_riders.Constants.StringUtils;
 import com.flyby_riders.NetworkOperation.IJSONParseListener;
 import com.flyby_riders.NetworkOperation.JSONRequestResponse;
 import com.flyby_riders.NetworkOperation.MyVolley;
@@ -57,7 +58,7 @@ public class UpgradeAccountPlan extends BaseActivity  implements IJSONParseListe
     private void initRazorpay() {
         Checkout.preload(getApplicationContext());
         checkout = new Checkout();
-        checkout.setKeyID("rzp_test_VB1RdpKZUd9TfA");
+        checkout.setKeyID(StringUtils.PayKeyID);
         checkout.setImage(R.mipmap.ic_appiconrider);
     }
     @OnClick({R.id.Back_Btn, R.id.pay_amp_upgrade_tv})

@@ -27,6 +27,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.flyby_riders.Constants.StringUtils.LiveHeader;
+
 /**
  * Common class for requesting network query or uploading file.
  *
@@ -136,9 +138,11 @@ public class JSONRequestResponse {
                     public Map<String, String> getHeaders(){
                         Map<String, String> headers = new HashMap<String, String>();
                         if (isjsonrequest){
-                            headers.put("Authorization","Basic cnpwX3Rlc3RfVkIxUmRwS1pVZDlUZkE6dVBWY2ZYZUs5TkU4ZUFpZTJwZ3hlOURB");
+                            headers.put("Authorization",LiveHeader);
                             headers.put("content-type","application/json");
                         }
+
+
                         return headers;
                     }
                 };
@@ -346,16 +350,10 @@ public class JSONRequestResponse {
         }
     }
 
-    /**
-     * @return the isFile
-     */
     public boolean isFile() {
         return isFile;
     }
 
-    /**
-     * @param isFile the File to set
-     */
     public void setFile(String param, String path) {
         if (path != null && param != null) {
             key = param;
