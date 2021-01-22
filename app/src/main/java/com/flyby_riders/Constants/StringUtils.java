@@ -1,5 +1,7 @@
 package com.flyby_riders.Constants;
 
+import com.flyby_riders.BuildConfig;
+
 /**
  * Created by KRISHNENDU MANNA on 24,May,2020
  */
@@ -18,7 +20,6 @@ public interface StringUtils {
     String TASK_CONTACT_CLICK="Contact",TASK_VISIT="Visit";
 
     String WhatsappNumberBus="+919548582725";
-    String PayKeyID="rzp_live_uaLA2kNlhgs1j6";
-    String LiveHeader="Basic cnpwX2xpdmVfdWFMQTJrTmxoZ3MxajY6UGVXY0lkcEdSSnNMckp3N25pZ0hVdkxs";
-    String TestHeader="Basic cnpwX3Rlc3RfVkIxUmRwS1pVZDlUZkE6dVBWY2ZYZUs5TkU4ZUFpZTJwZ3hlOURB";
+    String PayKeyID= BuildConfig.PayKeyID;
+    String LiveHeader=BuildConfig.PaymentHeader;
 }

@@ -1,7 +1,7 @@
 package com.flyby_riders.Retrofit;
 
 
-import com.flyby_riders.Constants.Constant_url;
+import com.flyby_riders.BuildConfig;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,15 +24,13 @@ public class RetrofitClient {
                 .writeTimeout(5, TimeUnit.MINUTES)
                 .build();
 
-
         if (retrofit == null){
             retrofit = new Retrofit.Builder()
-                    .baseUrl(Constant_url.BASE_URL)
+                    .baseUrl(BuildConfig.BASE_URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-
         return retrofit;
 
     }

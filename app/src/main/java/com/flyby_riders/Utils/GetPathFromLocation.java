@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.flyby_riders.BuildConfig;
 import com.flyby_riders.Ui.Listener.DirectionPointListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -26,7 +27,7 @@ import java.util.List;
 public class GetPathFromLocation extends AsyncTask<String, Void,  ArrayList<LatLng>> {
 
     private String TAG = "GetPathFromLocation";
-    private String API_KEY = "AIzaSyB7kAsF427wwIhs1ZPFChtlbOt5UnyA9Yo";
+    private String API_KEY = BuildConfig.DirectionsAPI;
     private LatLng source, destination;
     private DirectionPointListener resultCallback;
 

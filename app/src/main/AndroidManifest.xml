@@ -116,7 +116,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBPY5WHNqIEGV2y6eNR4R5xCgzEh_kyYCY" />
+            android:value="${G_MAP_KEY}" />
 
         <receiver android:name=".Utils.GPSManager">
             <intent-filter>
