@@ -3,8 +3,11 @@ package com.flyby_riders.Ui.Fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.provider.Settings;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +47,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.POWER_SERVICE;
 import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 import static com.flyby_riders.Constants.StringUtils.RIDE_ENDED;
 import static com.flyby_riders.Constants.StringUtils.RIDE_NOT_STARTED;
@@ -99,15 +103,18 @@ public class My_Ride_Fragment extends Fragment  {
                             hit_notRide_Bottomsheet();
                         } catch (Exception e) {}
                     } else {
-                        startActivity(new Intent(getActivity(), RideMapView.class));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            PowerManager pm = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
+                            if (pm != null && !pm.isIgnoringBatteryOptimizations(getContext().getPackageName())) {
+                                Constant.openBatteryOptmized(getActivity());
+                            }else {
+                                startActivity(new Intent(getActivity(), RideMapView.class));
+                            }
+                        }else{
+                            startActivity(new Intent(getActivity(), RideMapView.class));
+                        }
                     }
                 }
-                /*PowerManager pm = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
-                if (true) {
-                    startActivity(new Intent(getActivity(), RideMapView.class));
-                }else {
-                    Constant.openBatteryOptmized(getActivity());
-                }*/
             }
         });
 
@@ -247,7 +254,4 @@ public class My_Ride_Fragment extends Fragment  {
             }
         }
     }
-
-
-
 }

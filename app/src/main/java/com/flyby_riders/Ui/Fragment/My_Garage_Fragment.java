@@ -664,6 +664,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
 
     @Override
     public void setOnClick(int Position) {
+        hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(), garage_ads_list.get(Position).Advertising_ID);
         hitAddClick(TASK_CLICK, new Prefe(mActivity).getUserID(), garage_ads_list.get(Position).Advertising_ID.trim());
         Intent intent = new Intent(mActivity, AvertisementView.class);
         intent.putExtra("Position", Position);

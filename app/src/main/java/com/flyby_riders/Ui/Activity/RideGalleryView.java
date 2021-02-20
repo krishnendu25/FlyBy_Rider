@@ -217,31 +217,6 @@ public class RideGalleryView extends BaseActivity {
         }
     }
 
-
-
-
-
-
-
-
-
-
-   /* public Bitmap getResizedBitmap(Bitmap image) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 1) {
-            width = 480;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = 640;
-            width = (int) (height * bitmapRatio);
-        }
-
-        return Bitmap.createScaledBitmap(image, width, height, true);
-    }*/
-
     private void hit_upload_media(ArrayList<Media_Model> media_models, String my_ride_id) {
         show_ProgressDialog();
         MultipartBody.Builder builder = new MultipartBody.Builder();

@@ -28,7 +28,14 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash__screen);
         ButterKnife.bind(this);
+        if (!isTaskRoot()
+                && getIntent().hasCategory(Intent.CATEGORY_LAUNCHER)
+                && getIntent().getAction() != null
+                && getIntent().getAction().equals(Intent.ACTION_MAIN)) {
 
+            finish();
+            return;
+        }
         clearLocalContact();
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {

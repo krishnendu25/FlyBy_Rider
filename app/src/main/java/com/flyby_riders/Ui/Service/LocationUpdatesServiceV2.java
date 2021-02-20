@@ -22,6 +22,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.Criteria;
 import android.location.Location;
 import android.os.Binder;
 import android.os.Handler;
@@ -81,7 +82,7 @@ public class LocationUpdatesServiceV2 extends Service {
 
     private static final int SMALLEST_DISPLACEMENT = 10;
 
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 2000;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 1500;
 
     private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
@@ -300,9 +301,7 @@ public class LocationUpdatesServiceV2 extends Service {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-       //mLocationRequest.setSmallestDisplacement(SMALLEST_DISPLACEMENT);
-        //mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     /**
@@ -335,7 +334,7 @@ public class LocationUpdatesServiceV2 extends Service {
             String userID = new Prefe(GlobalApplication.getInstance()).getUserID();
             if (new Prefe(GlobalApplication.getInstance()).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED) &&
                     new Prefe(GlobalApplication.getInstance()).getRideRecordStatus()){
-                   if (location.getAccuracy()<15){
+                   if (location.getAccuracy()<50){
                     testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(Local_Lat), String.valueOf(Local_long),"true",GET_timeStamp());
 
                 }else{
@@ -356,15 +355,14 @@ public class LocationUpdatesServiceV2 extends Service {
             String userID = new Prefe(GlobalApplication.getInstance()).getUserID();
             if (new Prefe(GlobalApplication.getInstance()).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED) &&
                     new Prefe(GlobalApplication.getInstance()).getRideRecordStatus()){
-                if (location.getAccuracy()<15){
+                if (location.getAccuracy()<50){
                     testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(Local_Lat), String.valueOf(Local_long),"true",GET_timeStamp());
 
                 }else{
                     testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(Local_Lat), String.valueOf(Local_long),"false",GET_timeStamp());
 
                 }
-
-                    double Real_Time_Speed = Double.parseDouble(String.valueOf(location.getSpeed()));//meters/second
+                     double Real_Time_Speed = Double.parseDouble(String.valueOf(location.getSpeed()));//meters/second
                 double Real_Time_Speed_kmph = Real_Time_Speed * 3.6;
                 testAdapter.INSERT_RIDE_DATA(new Prefe(GlobalApplication.getInstance()).getRideID(), new Prefe(GlobalApplication.getInstance()).getUserID(),String.valueOf(Real_Time_Speed_kmph), String.valueOf(Real_Time_Speed_kmph), GET_timeStamp(), RIDE_STARTED);
                 if (notificationMannager != null)

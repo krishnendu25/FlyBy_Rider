@@ -555,7 +555,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                         points.add(currentPosition);
                     }
                 }
-                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(true);
+                PolylineOptions options = new PolylineOptions().width(13).color(Color.parseColor("#F7B500")).geodesic(true);
                 for (int i = 0; i < points.size(); i++) {
                     LatLng point = points.get(i);
                     options.add(point);
@@ -579,7 +579,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     public void onPath(ArrayList<LatLng> points) {
                         hide_ProgressDialog();
                         endGooglePoints = points;
-                        PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(true);
+                        PolylineOptions options = new PolylineOptions().width(13).color(Color.parseColor("#F7B500")).geodesic(true);
                         try {
                             for (int i = 0; i < points.size(); i++) {
                                 LatLng point = points.get(i);
@@ -701,7 +701,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 if (polylineMyRide != null) {
                     polylineMyRide.remove();
                 }
-                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(true);
+                PolylineOptions options = new PolylineOptions().width(13).color(Color.parseColor("#F7B500")).geodesic(true);
                 for (int i = 0; i < points.size(); i++) {
                     LatLng point = points.get(i);
                     options.add(point);
@@ -721,7 +721,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 markerOptions.position(currentPosition);
                 markerOptions.title("Me");
                 markerOptions.draggable(false);
-                PolylineOptions options = new PolylineOptions().width(7).color(Color.parseColor("#F7B500")).geodesic(true);
+                PolylineOptions options = new PolylineOptions().width(13).color(Color.parseColor("#F7B500")).geodesic(true);
                 for (int i = 0; i < points.size(); i++) {
                     LatLng point = points.get(i);
                     options.add(point);
@@ -1312,6 +1312,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         mMap.getUiSettings().setCompassEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.setMinZoomPreference(9.0f); // Set a preference for minimum zoom (Zoom out).
+        mMap.setMaxZoomPreference(15.0f);
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
         try {
             googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
@@ -1430,4 +1432,23 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
             }
         }
     }
+
+    private boolean linerDistance(LatLng oldLat,LatLng newLat){
+        try {
+            Location location1 = new Location("locationA");
+            location1.setLatitude(oldLat.latitude);
+            location1.setLongitude(oldLat.longitude);
+            Location location2 = new Location("locationB");
+            location2.setLatitude(newLat.latitude);
+            location2.setLongitude(newLat.longitude);
+            double distance = location1.distanceTo(location2);
+            if (distance>100){
+                return false;
+            }else{
+                return true;
+            }
+        } catch (Exception e) {return false;}
+    }
+
+
 }

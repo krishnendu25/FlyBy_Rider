@@ -18,8 +18,8 @@ android {
         applicationId "com.flyby_riders"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 138
-        versionName "1.3.8"
+        versionCode 139
+        versionName "1.3.9"
         setProperty("archivesBaseName", applicationId + "@vikash" + versionCode)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,13 +33,12 @@ android {
             manifestPlaceholders =[G_MAP_KEY:"AIzaSyBwuESPSg34Dn_RuiMA3aesZZFzSylMw30"]
             buildConfigField "String", "BASE_URL", '"http://flybyapp.in/flybyapp/RiderApi/"'
             buildConfigField "String", "PayKeyID",'"rzp_live_uaLA2kNlhgs1j6"'
-            buildConfigField "String", "DirectionsAPI",'"AIzaSyCQrubwx5qZQRH53awhJj4-nQPmmNWVYFU"'
+            buildConfigField "String", "DirectionsAPI",'"AIzaSyB7kAsF427wwIhs1ZPFChtlbOt5UnyA9Yo"'
             buildConfigField "String", "PaymentHeader",'"Basic cnpwX2xpdmVfdWFMQTJrTmxoZ3MxajY6UGVXY0lkcEdSSnNMckp3N25pZ0hVdkxs"'
             minifyEnabled true
             shrinkResources true
             debuggable false
             useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug{
@@ -48,9 +47,9 @@ android {
                 abortOnError false
             }
             manifestPlaceholders =[G_MAP_KEY:"AIzaSyBPY5WHNqIEGV2y6eNR4R5xCgzEh_kyYCY"]
-            buildConfigField "String", "BASE_URL", '"http://flybyapp.in/flybyapp/RiderApi/"'
+            buildConfigField "String", "BASE_URL", '"http://flybyapp.dev/flybyapp/RiderApi/"'
             buildConfigField "String", "PayKeyID",'"rzp_test_VB1RdpKZUd9TfA"'
-            buildConfigField "String", "DirectionsAPI",'"AIzaSyCQrubwx5qZQRH53awhJj4-nQPmmNWVYFU"'
+            buildConfigField "String", "DirectionsAPI",'"AIzaSyB7kAsF427wwIhs1ZPFChtlbOt5UnyA9Yo"'
             //private String API_KEY = "AIzaSyB7kAsF427wwIhs1ZPFChtlbOt5UnyA9Yo";
             buildConfigField "String", "PaymentHeader",'"Basic cnpwX3Rlc3RfVkIxUmRwS1pVZDlUZkE6dVBWY2ZYZUs5TkU4ZUFpZTJwZ3hlOURB"'
             minifyEnabled false
