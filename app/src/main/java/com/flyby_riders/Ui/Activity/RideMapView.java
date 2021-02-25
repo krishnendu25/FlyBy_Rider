@@ -1409,8 +1409,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
-                currentLatitude = Double.parseDouble(new DecimalFormat("##.####").format(Double.parseDouble(intent.getStringExtra(EXTRA_LATITUDE))));
-                currentLongitude = Double.parseDouble(new DecimalFormat("##.####").format(Double.parseDouble(intent.getStringExtra(EXTRA_LONGITUDE))));
+                currentLatitude = Double.parseDouble(intent.getStringExtra(EXTRA_LATITUDE));
+                currentLongitude = Double.parseDouble(intent.getStringExtra(EXTRA_LONGITUDE));
                 Latitude_End = currentLatitude;
                 Longitude_End = currentLongitude;
                 Log.e("@@@@@@", "ForGround-->" + " " + Latitude_End);

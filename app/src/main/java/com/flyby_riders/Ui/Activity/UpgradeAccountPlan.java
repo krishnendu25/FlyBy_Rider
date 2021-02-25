@@ -1,29 +1,31 @@
 package com.flyby_riders.Ui.Activity;
 
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.flyby_riders.Constants.Constant;
-import com.flyby_riders.Constants.StringUtils;
+import com.flyby_riders.GlobalApplication;
 import com.flyby_riders.NetworkOperation.IJSONParseListener;
-import com.flyby_riders.NetworkOperation.JSONRequestResponse;
-import com.flyby_riders.NetworkOperation.MyVolley;
 import com.flyby_riders.R;
-import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Utils.BaseActivity;
-import com.google.android.gms.maps.model.LatLng;
-import com.razorpay.Checkout;
-import com.razorpay.PaymentResultListener;
+import com.flyby_riders.Utils.PayU_Module.AppEnvironment;
+import com.flyby_riders.Utils.Prefe;
+import com.payumoney.core.PayUmoneyConfig;
+import com.payumoney.core.PayUmoneyConstants;
+import com.payumoney.core.PayUmoneySdkInitializer;
+import com.payumoney.core.entity.TransactionResponse;
+import com.payumoney.sdkui.ui.utils.PayUmoneyFlowManager;
+import com.payumoney.sdkui.ui.utils.ResultModel;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,34 +35,33 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.flyby_riders.Constants.Constant.hashCal;
 import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 
-public class UpgradeAccountPlan extends BaseActivity  implements IJSONParseListener, PaymentResultListener {
+public class UpgradeAccountPlan extends BaseActivity implements IJSONParseListener {
 
     @BindView(R.id.Back_Btn)
     TextView BackBtn;
     @BindView(R.id.pay_amp_upgrade_tv)
     TextView payAmpUpgradeTv;
-    private int PaymentAmounts=999;
-    private String orderID="";
-    private Checkout checkout;
+    private String PaymentAmounts = "999";
+    private String orderID = "";
+    private PayUmoneySdkInitializer.PaymentParam mPaymentParams;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upgrade_to_premium);
         ButterKnife.bind(this);
-        initRazorpay();
-
+        initPaymentGateway();
 
 
     }
 
-    private void initRazorpay() {
-        Checkout.preload(getApplicationContext());
-        checkout = new Checkout();
-        checkout.setKeyID(StringUtils.PayKeyID);
-        checkout.setImage(R.mipmap.ic_appiconrider);
+    private void initPaymentGateway() {
+
     }
+
     @OnClick({R.id.Back_Btn, R.id.pay_amp_upgrade_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -68,69 +69,76 @@ public class UpgradeAccountPlan extends BaseActivity  implements IJSONParseListe
                 finish();
                 break;
             case R.id.pay_amp_upgrade_tv:
-                hitcreateOrderID();
-
+                startPaymentProcess();
                 break;
         }
     }
 
-    private void hitcreateOrderID() {
-        show_ProgressDialog();
-        JSONObject orderBody= new JSONObject();
-        String amount_razor="";
-        try{
-            amount_razor = String.valueOf(Integer.valueOf(PaymentAmounts) * 100);
-            orderBody.put("amount",amount_razor);
-            orderBody.put("currency","INR");
-            orderBody.put("receipt","FLYBY"+mPrefe.getUserID());
-        }catch (Exception e){
-        }
-
-        JSONRequestResponse mResponse = new JSONRequestResponse(this);
-        Bundle parms = new Bundle();
-        MyVolley.init(this);
+    private void startPaymentProcess() {
+        PayUmoneyConfig payUmoneyConfig = PayUmoneyConfig.getInstance();
+        payUmoneyConfig.setDoneButtonText("DONE");
+        payUmoneyConfig.setPayUmoneyActivityTitle("FLYBY RIDER MEMBERSHIP");
+        boolean isDisableExitConfirmation = false;
+        payUmoneyConfig.disableExitConfirmation(isDisableExitConfirmation);
+        PayUmoneySdkInitializer.PaymentParam.Builder builder = new PayUmoneySdkInitializer.PaymentParam.Builder();
+        double amount = 0;
         try {
-            mResponse.getResponse(Request.Method.POST, "https://api.razorpay.com/v1/orders",
-                    904, this, parms, false, true, orderBody);
-        } catch (Exception e) {
+            amount = Double.parseDouble(PaymentAmounts);
 
+        } catch (Exception e) {
+        }
+        String txnId = String.valueOf(System.currentTimeMillis());
+        String phone = mPrefe.getUserPhoneNO();
+        String productName = "FLYBY";
+        String firstName = mPrefe.getUserPhoneNO();
+        String email = mPrefe.getUserPhoneNO()+ "@flyby.com";
+        String udf1 = "";
+        String udf2 = "";
+        String udf3 = "";
+        String udf4 = "";
+        String udf5 = "";
+        String udf6 = "";
+        String udf7 = "";
+        String udf8 = "";
+        String udf9 = "";
+        String udf10 = "";
+        AppEnvironment appEnvironment = ((GlobalApplication) getApplication()).getAppEnvironment();
+        builder.setAmount(String.valueOf(amount))
+                .setTxnId(txnId)
+                .setPhone(phone)
+                .setProductName(productName)
+                .setFirstName(firstName)
+                .setEmail(email)
+                .setsUrl(appEnvironment.surl())
+                .setfUrl(appEnvironment.furl())
+                .setUdf1(udf1)
+                .setUdf2(udf2)
+                .setUdf3(udf3)
+                .setUdf4(udf4)
+                .setUdf5(udf5)
+                .setUdf6(udf6)
+                .setUdf7(udf7)
+                .setUdf8(udf8)
+                .setUdf9(udf9)
+                .setUdf10(udf10)
+                .setIsDebug(false)
+                .setKey(appEnvironment.merchant_Key())
+                .setMerchantId(appEnvironment.merchant_ID());
+        try {
+            mPaymentParams = builder.build();
+            generateHashFromServer();
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
-    private void openPaymentGateway(String amount) {
-        String txnId = Constant.get_random_String();
-        String phone = mPrefe.getUserPhoneNO().toString().trim();
-        String productName = "FLYBY RIDE MEMBERSHIP";
-        String email = "flyby299kmph@gmail.com";
-        try {
-            /* orderId*/
 
-            JSONObject options = new JSONObject();
-            options.put("name", productName);
-            options.put("description", "FLYBY RIDE MEMBERSHIP");
-           // options.put("image", "https://firebasestorage.googleapis.com/v0/b/tropogoinsurance.appspot.com/o/razor_tglogo.png?alt=media&token=644185f8-bc4c-4256-ad58-ef1184048cf5");
-            if (orderID != null) {
-                if (!orderID.equalsIgnoreCase("")) {
-                    options.put("order_id", orderID);
-                }
-            }
-            options.put("currency", "INR");
-            options.put("amount", amount);
-            JSONObject preFill = new JSONObject();
-            preFill.put("email", email);
-            preFill.put("contact", phone);
-            options.put("prefill", preFill);
-            checkout.open(this, options);
-        } catch (Exception e) {
-            Log.e(getLocalClassName(), "Error in starting Razorpay Checkout", e);
-        }
-    }
 
     private void hit_Subscrption(String login_user_id, String s) {
         show_ProgressDialog();
         Call<ResponseBody> requestCall = retrofitCallback.buy_subcription_plan(new Prefe(this).getUserID(),
-                "Premium Account","FLYBY-Premium","999",s,
-                Constant.get_random_String(),Constant.get_random_String(),Constant.get_random_String());
+                "Premium Account", "FLYBY-Premium", "999", s,
+                Constant.get_random_String(), Constant.get_random_String(), Constant.get_random_String());
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -165,7 +173,8 @@ public class UpgradeAccountPlan extends BaseActivity  implements IJSONParseListe
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog();Constant.Show_Tos_Error(getApplicationContext(),true,false);
+                hide_ProgressDialog();
+                Constant.Show_Tos_Error(getApplicationContext(), true, false);
 
             }
         });
@@ -174,29 +183,69 @@ public class UpgradeAccountPlan extends BaseActivity  implements IJSONParseListe
     }
 
 
-    @Override
-    public void onPaymentSuccess(String s) {
-        hide_ProgressDialog();
-        hit_Subscrption(new Prefe(getApplicationContext()).getUserID(),s);
+
+    public void generateHashFromServer() {
+        StringBuilder stringBuilder = new StringBuilder();
+        HashMap<String, String> params = mPaymentParams.getParams();
+        stringBuilder.append(params.get(PayUmoneyConstants.KEY) + "|");
+        stringBuilder.append(params.get(PayUmoneyConstants.TXNID) + "|");
+        stringBuilder.append(params.get(PayUmoneyConstants.AMOUNT) + "|");
+        stringBuilder.append(params.get(PayUmoneyConstants.PRODUCT_INFO) + "|");
+        stringBuilder.append(params.get(PayUmoneyConstants.FIRSTNAME) + "|");
+        stringBuilder.append(params.get(PayUmoneyConstants.EMAIL) + "|");
+        stringBuilder.append(params.get(PayUmoneyConstants.UDF1) + "|");
+        stringBuilder.append(params.get(PayUmoneyConstants.UDF2) + "|");
+        stringBuilder.append(params.get(PayUmoneyConstants.UDF3) + "|");
+        stringBuilder.append(params.get(PayUmoneyConstants.UDF4) + "|");
+        stringBuilder.append(params.get(PayUmoneyConstants.UDF5) + "||||||");
+        AppEnvironment appEnvironment = ((GlobalApplication) getApplication()).getAppEnvironment();
+        stringBuilder.append(appEnvironment.salt());
+        Log.e("postParamsBuffer ", stringBuilder.toString());
+        String hash = hashCal(stringBuilder.toString());
+        mPaymentParams.setMerchantHash(hash);
+        PayUmoneyFlowManager.startPayUMoneyFlow(mPaymentParams, UpgradeAccountPlan.this, R.style.AppTheme_Green, true);
     }
 
     @Override
-    public void onPaymentError(int i, String s) {
-        Constant.Show_Tos(getApplicationContext(), "Failure Transaction");
-        hide_ProgressDialog();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PayUmoneyFlowManager.REQUEST_CODE_PAYMENT && resultCode == RESULT_OK && data !=
+                null) {
+            TransactionResponse transactionResponse = data.getParcelableExtra(PayUmoneyFlowManager
+                    .INTENT_EXTRA_TRANSACTION_RESPONSE);
+            ResultModel resultModel = data.getParcelableExtra(PayUmoneyFlowManager.ARG_RESULT);
+            if (transactionResponse != null && transactionResponse.getPayuResponse() != null) {
+                if (transactionResponse.getTransactionStatus().equals(TransactionResponse.TransactionStatus.SUCCESSFUL)) {
+                    String payuResponse = transactionResponse.getPayuResponse();
+                    try {
+                        hide_ProgressDialog();
+                        hit_Subscrption(new Prefe(getApplicationContext()).getUserID(), payuResponse);
+                    } catch (Exception e) {
+                        hit_Subscrption(new Prefe(getApplicationContext()).getUserID(), payuResponse);
+                    }
+
+                } else {
+                    Constant.Show_Tos(this, "Failure Transaction");
+                }
+            } else if (resultModel != null && resultModel.getError() != null) {
+                Log.d("TAG", "Error response : " + resultModel.getError().getTransactionResponse());
+            } else {
+                Log.d("TAG", "Both objects are null!");
+            }
+        }
     }
 
 
     @Override
     public void SuccessResponse(JSONObject jsonObject, int requestCode) {
-        if (requestCode==904){
+        /*if (requestCode==904){
             try {
                 orderID = jsonObject.getString("id");
                 openPaymentGateway(String.valueOf(PaymentAmounts*100));
             } catch (JSONException e) {
                 hide_ProgressDialog();
             }
-        }
+        }*/
 
     }
 
@@ -207,15 +256,13 @@ public class UpgradeAccountPlan extends BaseActivity  implements IJSONParseListe
 
     @Override
     public void SuccessResponseRaw(String response, int requestCode) {
-
-        if (requestCode==904){
+       /* if (requestCode==904){
             try { JSONObject jsonObject = new JSONObject(response);
                 orderID = jsonObject.getString("id");
                 openPaymentGateway(String.valueOf(PaymentAmounts*100));
             } catch (JSONException e) {
                 hide_ProgressDialog();
             }
-        }
-
+        }*/
     }
 }

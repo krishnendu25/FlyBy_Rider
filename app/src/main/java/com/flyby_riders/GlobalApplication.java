@@ -14,6 +14,7 @@ import com.flyby_riders.Ui.Activity.AppLandingView;
 import com.flyby_riders.Ui.Activity.DashBoard;
 import com.flyby_riders.Ui.Activity.OnBoarding;
 import com.flyby_riders.Ui.Activity.SplashScreen;
+import com.flyby_riders.Utils.PayU_Module.AppEnvironment;
 import com.flyby_riders.Utils.Prefe;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,10 +28,12 @@ public class GlobalApplication extends Application {
     public static RetrofitCallback retrofitCallback;
     private static GlobalApplication instance;
     public static  String device_Token="";
+    AppEnvironment appEnvironment;
     @Override
     public void onCreate() {
         super.onCreate();
         initApplication();
+        appEnvironment = AppEnvironment.PRODUCTION;
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
         int pid = android.os.Process.myPid();
         String whiteList = "logcat -P '" + pid + "'";
@@ -91,7 +94,13 @@ public class GlobalApplication extends Application {
     }
 
 
+    public AppEnvironment getAppEnvironment() {
+        return appEnvironment;
+    }
 
+    public void setAppEnvironment(AppEnvironment appEnvironment) {
+        this.appEnvironment = appEnvironment;
+    }
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

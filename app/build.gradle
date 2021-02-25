@@ -18,8 +18,8 @@ android {
         applicationId "com.flyby_riders"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 139
-        versionName "1.3.9"
+        versionCode 110
+        versionName "1.1.0"
         setProperty("archivesBaseName", applicationId + "@vikash" + versionCode)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,6 +35,11 @@ android {
             buildConfigField "String", "PayKeyID",'"rzp_live_uaLA2kNlhgs1j6"'
             buildConfigField "String", "DirectionsAPI",'"AIzaSyB7kAsF427wwIhs1ZPFChtlbOt5UnyA9Yo"'
             buildConfigField "String", "PaymentHeader",'"Basic cnpwX2xpdmVfdWFMQTJrTmxoZ3MxajY6UGVXY0lkcEdSSnNMckp3N25pZ0hVdkxs"'
+            //PAYU PAYMENT GATEWAY
+            buildConfigField "String", "MerchantKey_PayU",'"Olme4DOB"'
+            buildConfigField "String", "MerchantSalt_PayU",'"TV7mSz6nze"'
+            buildConfigField "String", "AuthHeader_PayU",'"61bCyMyIM5+HfNu+xAq5PApsQSLXpxlgtEmOctVSjUI="'
+            buildConfigField "String", "MerchantID",'"7363946"'
             minifyEnabled true
             shrinkResources true
             debuggable false
@@ -52,10 +57,15 @@ android {
             buildConfigField "String", "DirectionsAPI",'"AIzaSyB7kAsF427wwIhs1ZPFChtlbOt5UnyA9Yo"'
             //private String API_KEY = "AIzaSyB7kAsF427wwIhs1ZPFChtlbOt5UnyA9Yo";
             buildConfigField "String", "PaymentHeader",'"Basic cnpwX3Rlc3RfVkIxUmRwS1pVZDlUZkE6dVBWY2ZYZUs5TkU4ZUFpZTJwZ3hlOURB"'
+            //PAYU PAYMENT GATEWAY
+            buildConfigField "String", "MerchantKey_PayU",'"Olme4DOB"'
+            buildConfigField "String", "MerchantSalt_PayU",'"TV7mSz6nze"'
+            buildConfigField "String", "AuthHeader_PayU",'"61bCyMyIM5+HfNu+xAq5PApsQSLXpxlgtEmOctVSjUI="'
+            buildConfigField "String", "MerchantID",'"7363946"'
+
             minifyEnabled false
             debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
         }
     }
 
@@ -71,10 +81,7 @@ android {
             url "https://s3.amazonaws.com/repo.commonsware.com"
         }
     }
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
+
 }
 
 dependencies {
@@ -139,6 +146,8 @@ dependencies {
     implementation 'com.github.fornewid:neumorphism:0.2.1'
     //razorpay
     implementation 'com.razorpay:checkout:1.5.16'
+    //PayU
+    implementation 'com.payumoney.sdkui:plug-n-play:1.6.0'
 }
 apply plugin: 'com.jakewharton.butterknife'
 // Apply the Crashlytics Gradle plugin
