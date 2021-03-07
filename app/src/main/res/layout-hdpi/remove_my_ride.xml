@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:orientation="vertical"
+        android:background="@drawable/edittext_bg">
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete My Ride"
+                android:textAllCaps="true"
+                android:textSize="18dp"
+                android:fontFamily="@font/manropeextrabold"
+                android:textColor="#FFFFFF"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/close_rename_ride"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X"
+                android:layout_alignParentEnd="true"
+                android:textSize="25sp"
+                android:fontFamily="@font/manropeextrabold"
+                android:textColor="#FFFFFF"
+                android:layout_margin="20dp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:text="Are you sure you want to delete this ride? All the media and ride stats will also be deleted."/>
+
+        <TextView
+            android:id="@+id/deleteMyRide"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:textAllCaps="true"
+            android:text="OK"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/avenirnextheavy"
+            android:textSize="16dp"
+            android:textColor="@color/deep_purpel"
+            android:background="@drawable/green_btn_ripple_botton"/>
+
+    </LinearLayout>
+
+</LinearLayout>

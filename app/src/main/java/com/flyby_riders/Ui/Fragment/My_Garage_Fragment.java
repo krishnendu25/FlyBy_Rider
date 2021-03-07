@@ -1,10 +1,11 @@
 package com.flyby_riders.Ui.Fragment;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -17,85 +18,94 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.airbnb.lottie.LottieAnimationView;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
-import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Activity.Bike_Brand_Activity;
-import com.flyby_riders.Ui.Activity.Document_Locker;
+import com.flyby_riders.Ui.Activity.AvertisementView;
+import com.flyby_riders.Ui.Activity.BikeBrandView;
+import com.flyby_riders.Ui.Activity.DocumentLockerView;
+import com.flyby_riders.Ui.Activity.MyAccount;
+import com.flyby_riders.Ui.Activity.UpgradeAccountPlan;
+import com.flyby_riders.Ui.Adapter.Garage.GarageAddClick;
 import com.flyby_riders.Ui.Adapter.Garage.Garage_Ad_Adapter;
-import com.flyby_riders.Ui.Adapter.Garage.Garage_add_click;
-import com.flyby_riders.Ui.Adapter.My_Bike_Adapter;
+import com.flyby_riders.Ui.Adapter.Garage.My_Bike_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
-import com.flyby_riders.Ui.Model.Garage_Ad;
+import com.flyby_riders.Ui.Model.Garage_Advertisement;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import com.flyby_riders.Utils.Prefe;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-import fr.quentinklein.slt.LocationTracker;
-import fr.quentinklein.slt.TrackerSettings;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import soup.neumorphism.NeumorphCardView;
 
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
+import static com.flyby_riders.Constants.StringUtils.PREMIUM;
+import static com.flyby_riders.Constants.StringUtils.TASK_CLICK;
+import static com.flyby_riders.Constants.StringUtils.TASK_SEEN;
 
-public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_click {
-    private final LocationRequest defaultLocationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    TextView bikeBrandName;
-    TextView bikeModelName;
+public class My_Garage_Fragment extends Fragment implements onClick, GarageAddClick {
     final static int REQUEST_LOCATION = 199;
-    ImageButton BikeAddBtn;
-    RelativeLayout DocumentLockerBtn;
-    RecyclerView AdvetismentList;
-    My_Bike_Adapter my_bike_adapter;
-    ArrayList<My_Bike_Model> My_Bike_els = new ArrayList<>();
-    RecyclerView MyBikeList;
-    My_Garage_Fragment fragment;
+    public static ArrayList<Garage_Advertisement> garage_ads_list = new ArrayList<>();
+    private final LocationRequest defaultLocationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     public RetrofitCallback retrofitCallback;
-    ImageView MyBikeImage;
-    String BIKE_MODEL_ID, BIKE_BRAND_ID;
+    private TextView bikeBrandName, newADIndicator, emptyViewList, bikeModelName;
+    private LinearLayout collapse_view, My_Bike_Image_view;
+    private NeumorphCardView AccountBtn;
+    private ImageButton BikeAddBtn;
+    private RelativeLayout DocumentLockerBtn;
+    private RecyclerView AdvetismentList, MyBikeList;
+    private My_Bike_Adapter my_bike_adapter;
+    private My_Garage_Fragment fragment;
+    private NestedScrollView NestedScrollView_view;
+    private Garage_Ad_Adapter garageAdAdapter;
+    private ImageView collapse_image_view, MyBikeImage;
+    private String toDayDate = "", State_Name = "", BIKE_MODEL_ID = "", BIKE_BRAND_ID = "";
+    private int newADFlag = 0;
     private AlertDialog alertDialog_loader = null;
     private LocationManager locationManager;
-    private GoogleApiClient googleApiClient;
-    private String City_Name = "";
-    NestedScrollView NestedScrollView_view;
-    ArrayList<Garage_Ad> garage_ads_list = new ArrayList<>();
-    Garage_Ad_Adapter garageAdAdapter;
-    LinearLayout collapse_view,My_Bike_Image_view;
-    ImageView collapse_image_view;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private Activity mActivity;
+    private ShimmerFrameLayout shimmer_view_container;
+    private RelativeLayout shimmerView;
+    private SwipeRefreshLayout refreshPull;
+    private Context mContext;
+    private ArrayList<My_Bike_Model> My_Bike_els = new ArrayList<>();
+    private LinearLayoutManager add_LinearLayoutManager;
 
     public My_Garage_Fragment() {
     }
@@ -121,16 +131,32 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         View view = inflater.inflate(R.layout.fragment_my__garage_, container, false);
         Instantiation(view);
 
+        refreshPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (State_Name != null) {
+                    if (!State_Name.equalsIgnoreCase("")) {
+                        hit_Fetch_add();
+                    } else {
+                        Hit_Rider_Details(new Prefe(mContext).getUserID());
+                    }
+                } else {
+                    Hit_Rider_Details(new Prefe(mContext).getUserID());
+                }
+                refreshPull.setRefreshing(false);
+            }
+        });
+
         BikeAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (new Session(getActivity()).get_MEMBER_STATUS().equalsIgnoreCase(PREMIUM)) {
-                    startActivity(new Intent(getActivity(), Bike_Brand_Activity.class));
+                if (new Prefe(mActivity).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)) {
+                    startActivity(new Intent(mActivity, BikeBrandView.class));
                 } else {
                     if (My_Bike_els.size() == 1) {
-                        Constant.Show_Tos(getActivity(), "Basic User Add Only 1 Bike");
+                        hit_Payment_Bottomsheet();
                     } else {
-                        startActivity(new Intent(getActivity(), Bike_Brand_Activity.class));
+                        startActivity(new Intent(mActivity, BikeBrandView.class));
                     }
                 }
             }
@@ -138,115 +164,142 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         DocumentLockerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), Document_Locker.class));
+                startActivity(new Intent(mActivity, DocumentLockerView.class));
             }
         });
+        AccountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mActivity, MyAccount.class));
+            }
+        });
+        NestedScrollView_view.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY) {
+                    Transition transition = new Fade();
+                    transition.setDuration(100);
+                    transition.addTarget(R.id.collapse_view);
+                    TransitionManager.beginDelayedTransition(collapse_view, transition);
+                    collapse_view.setVisibility(View.VISIBLE);
+                    MyBikeImage.setVisibility(View.GONE);
+                }
+                if (scrollY == 0) {
+                    Transition x = new Fade();
+                    x.setDuration(600);
+                    x.addTarget(R.id.My_Bike_Image);
+                    TransitionManager.beginDelayedTransition(My_Bike_Image_view, x);
+                    collapse_view.setVisibility(View.GONE);
+                    MyBikeImage.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        AdvetismentList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                try {
+                    int FirstID = add_LinearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    // int LastID = add_LinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                    hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(), garage_ads_list.get(FirstID).Advertising_ID);
+                    //hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(),garage_ads_list.get(LastID).Advertising_ID);
+                } catch (Exception e) {
+                }
+            }
+        });
+
 
         return view;
     }
 
+    private void hit_Payment_Bottomsheet() {
+        View dialogView = getLayoutInflater().inflate(R.layout.can_add_bike, null);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(mActivity);
+        bottomSheetDialog.setContentView(dialogView);
+        TextView view_plan_details = bottomSheetDialog.findViewById(R.id.view_plan_details);
+        view_plan_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mActivity, UpgradeAccountPlan.class);
+                startActivity(i);
+                bottomSheetDialog.hide();
+            }
+        });
+        bottomSheetDialog.show();
+    }
+
     private void Instantiation(View view) {
+        mActivity = getActivity();
+        mContext = mActivity;
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(mActivity);
+        shimmer_view_container = view.findViewById(R.id.shimmer_view_container);
+        shimmerView = view.findViewById(R.id.shimmerView);
         NestedScrollView_view = view.findViewById(R.id.NestedScrollView_view);
         collapse_view = view.findViewById(R.id.collapse_view);
         My_Bike_Image_view = view.findViewById(R.id.My_Bike_Image_view);
         collapse_image_view = view.findViewById(R.id.collapse_image_view);
         bikeBrandName = view.findViewById(R.id.bike_brand_name);
+        AccountBtn = view.findViewById(R.id.Account_Btn);
         bikeModelName = view.findViewById(R.id.bike_model_name);
+        emptyViewList = view.findViewById(R.id.emptyViewList);
+        refreshPull = view.findViewById(R.id.refreshPull);
+        newADIndicator = view.findViewById(R.id.newADIndicator);
+        bikeModelName.setSelected(true);
         BikeAddBtn = view.findViewById(R.id.Bike_Add_btn);
         DocumentLockerBtn = view.findViewById(R.id.Document_Locker_btn);
         AdvetismentList = view.findViewById(R.id.Advetisment_list);
         MyBikeList = view.findViewById(R.id.My_Bike_list);
         MyBikeImage = view.findViewById(R.id.My_Bike_Image);
-        MyBikeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        AdvetismentList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        MyBikeList.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+        add_LinearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        AdvetismentList.setLayoutManager(add_LinearLayoutManager);
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
-        //Fetch Location
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
-                PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) ==
-                        PERMISSION_GRANTED) {
-
-            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                enableLoc();
-            } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                //Fetch Location And Set Marker
-                Fetch_Location_With_RX();
-            }
-
-        } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        }
-
-
-        NestedScrollView_view.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-                if (scrollY > oldScrollY) {
-
-                    Transition transition = new Fade();
-                    transition.setDuration(100);
-                    transition.addTarget(R.id.collapse_view);
-
-                    TransitionManager.beginDelayedTransition(collapse_view, transition);
-
-                    collapse_view.setVisibility(View.VISIBLE);
-                    MyBikeImage.setVisibility(View.GONE);
-                }
-
-                if (scrollY == 0) {
-
-                    Transition x = new Fade();
-                    x.setDuration(600);
-                    x.addTarget(R.id.My_Bike_Image);
-
-                    TransitionManager.beginDelayedTransition(My_Bike_Image_view, x);
-                    collapse_view.setVisibility(View.GONE);
-                    MyBikeImage.setVisibility(View.VISIBLE);
-                }
-
-
-            }
-        });
-
-
+        locationManager = (LocationManager) mActivity.getSystemService(Service.LOCATION_SERVICE);
+        toDayDate = Constant.Get_back_date(Constant.GET_timeStamp());
+        newADIndicator.setVisibility(View.GONE);
+        newADIndicator.setText("No New");
     }
 
-    private void Fetch_Location_With_RX() {
-        LocationTracker tracker = new LocationTracker(
-                getActivity(),
-                new TrackerSettings()
-                        .setUseGPS(true)
-                        .setUseNetwork(true)
-                        .setUsePassive(true)
 
-        ) {
+    private void fetchRiderLocation() {
 
-            @Override
-            public void onLocationFound(Location location) {
-                try {
-                    City_Name = Constant.getCompletecity(getActivity(), location.getLatitude(), location.getLongitude(), true, false, false);
-                    if (City_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
-                        if (!City_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
-                            hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
+        if (new Prefe(mContext).get_mylocation().equalsIgnoreCase("")) {
+            show_ProgressDialog();
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(mActivity, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+
+                        if (location != null) {
+
+                            try {
+                                FetchMyAdd(location);
+                            } catch (Exception e) {
+                                Constant.Show_Tos_Error(mActivity, false, true);
+                            }
+                        } else {
+                            Hit_Rider_Details(new Prefe(mContext).getUserID());
                         }
                     }
-                }catch (Exception e){}
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+            }
+        } else {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(new Prefe(mContext).get_mylocation());
+                FetchMyAdd(jsonObject.getString("lat"), jsonObject.getString("long"));
+            } catch (JSONException e) {
 
             }
 
-            @Override
-            public void onTimeout() {
-            }
-        };
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
         }
-        tracker.startListening();
-
     }
-
 
     @Override
     public void onClick(String Value) {
@@ -264,7 +317,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
     private void Set_View(ArrayList<My_Bike_Model> my_bike, int i) {
 
         try {
-            Picasso.get().load(my_bike.get(i).getMODELPIC()).placeholder(R.drawable.ic_emptybike).into(MyBikeImage);
+            Picasso.get().load(my_bike.get(i).getMODELPIC()).placeholder(R.drawable.ic_emptybike).fit().into(MyBikeImage);
         } catch (Exception e) {
             MyBikeImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_emptybike));
         }
@@ -278,20 +331,17 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
             bikeBrandName.setText(my_bike.get(i).getBRANDNAME());
             BIKE_BRAND_ID = my_bike.get(i).getBRANDID();
             BIKE_MODEL_ID = my_bike.get(i).getMODELID();
-            if (City_Name != null) {
-                if (!City_Name.equalsIgnoreCase("")) {
-                    hit_Fetch_add(BIKE_BRAND_ID, BIKE_MODEL_ID);
-                }
-            }
-
+            hit_Fetch_add();
         } catch (Exception e) {
+            Constant.Show_Tos_Error(mActivity, false, true);
         }
-
     }
 
-    private void hit_Fetch_add(String bike_brand_id, String bike_model_id) {
+    private void hit_Fetch_add() {
+        Log.e("@@@@@", State_Name + "  " + BIKE_BRAND_ID + "  " + BIKE_MODEL_ID);
+
         show_ProgressDialog();
-        Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(bike_model_id, bike_brand_id, City_Name);
+        Call<ResponseBody> requestCall = retrofitCallback.fetch_all_advertise(State_Name, BIKE_BRAND_ID, BIKE_MODEL_ID);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -303,40 +353,53 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                             String output = Html.fromHtml(response.body().string()).toString();
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
+                            Log.e("@@@@@", jsonObject.toString());
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            Constant.Show_Tos_Error(mActivity, false, true);
                         }
-                        garage_ads_list.clear();
+                        ArrayList<Garage_Advertisement> temp = new ArrayList<>();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             JSONArray ALLADVDETAILS = jsonObject.getJSONArray("ALLADVDETAILS");
-
+                            newADFlag = 0;
                             for (int i = 0; i < ALLADVDETAILS.length(); i++) {
                                 JSONObject js = ALLADVDETAILS.getJSONObject(i);
-
-                                Garage_Ad garage_ad = new Garage_Ad();
-                                garage_ad.setUSERID(js.getString("USERID"));
-                                garage_ad.setADVID(js.getString("ADVID"));
-                                garage_ad.setADTITLE(js.getString("ADTITLE"));
-                                garage_ad.setADDESC(js.getString("ADDESC"));
-                                garage_ad.setADVIDEO(jsonObject.getString("VIDEOIMAGEPATH") + js.getString("ADVIDEO"));
-                                garage_ad.setADCOVERIMAGES(jsonObject.getString("COVERIMAGE") + js.getString("ADCOVERIMAGES"));
-                                garage_ad.setADCOSTPRICE(js.getString("ADCOSTPRICE"));
-                                garage_ad.setADCREATIONDATE(js.getString("ADCREATIONDATE"));
-                                garage_ad.setADPOSTDATE(js.getString("ADPOSTDATE"));
-                                garage_ad.setImages(Constant.splitByComma(js.getString("ADIMAGES"), jsonObject.getString("ADIMAGEPATH")));
-                                garage_ads_list.add(garage_ad);
+                                temp.add(getProcessDataParse(js, jsonObject));
                             }
-                            if (garage_ads_list.size() > 0) {
-                                garageAdAdapter = new Garage_Ad_Adapter(getActivity(), garage_ads_list);
+                            if (temp.size() > 0) {
+
+                                garage_ads_list.clear();
+                                garage_ads_list = sortBYDate(filterByData(temp));
+                                garageAdAdapter = new Garage_Ad_Adapter(mActivity, garage_ads_list, My_Garage_Fragment.this);
                                 AdvetismentList.setAdapter(garageAdAdapter);
+                                if (newADFlag != 0) {
+                                    newADIndicator.setText(newADFlag + " New");
+                                    newADIndicator.setVisibility(View.VISIBLE);
+                                } else {
+                                    newADFlag = 0;
+                                    newADIndicator.setText("No New");
+                                    newADIndicator.setVisibility(View.GONE);
+                                }
+                                if (garage_ads_list.size() > 0) {
+                                    emptyViewList.setVisibility(View.GONE);
+                                } else {
+                                    emptyViewList.setVisibility(View.VISIBLE);
+                                }
                             }
-
                         } else {
+                            if (garageAdAdapter != null)
+                                newADFlag = 0;
+                            garageAdAdapter.notifyDataSetChanged();
+                            if (garage_ads_list.size() > 0) {
+                                emptyViewList.setVisibility(View.GONE);
+                            } else {
+                                emptyViewList.setVisibility(View.VISIBLE);
+                            }
                             hide_ProgressDialog();
+
                         }
-
-
                     } catch (Exception e) {
+                        newADFlag = 0;
+                        Constant.Show_Tos_Error(mActivity, false, true);
                         hide_ProgressDialog();
                     }
                 }
@@ -344,6 +407,8 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(mActivity, true, false);
+                newADFlag = 0;
                 hide_ProgressDialog();
             }
         });
@@ -351,62 +416,93 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
     }
 
+    private ArrayList<Garage_Advertisement> sortBYDate(ArrayList<Garage_Advertisement> filterByData) {
+        ArrayList<Garage_Advertisement> temp = filterByData;
+        try {
+            Collections.sort(temp, new Comparator<Garage_Advertisement>() {
+                DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:sss");
+
+                @Override
+                public int compare(Garage_Advertisement lhs, Garage_Advertisement rhs) {
+                    try {
+                        return f.parse(lhs.getAdvertising_PostDate()).compareTo(f.parse(rhs.getAdvertising_PostDate()));
+                    } catch (ParseException e) {
+                        throw new IllegalArgumentException(e);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            temp = filterByData;
+        }
+        Collections.reverse(temp);
+        return temp;
+    }
+
+    private ArrayList<Garage_Advertisement> filterByData(ArrayList<Garage_Advertisement> list) {
+        ArrayList<Garage_Advertisement> temp = new ArrayList<>();
+        String Date = Constant.Get_back_date(Constant.GET_timeStamp());
+        for (int i = 0; i < list.size(); i++) {
+            String Differ = Constant.getCountOfDays(list.get(i).getAdvertising_PostDate(), Date);
+            if (Integer.parseInt(Differ.replaceAll("Days", "").trim()) < 4) {
+                temp.add(list.get(i));
+            }
+        }
+        return temp;
+    }
+
+    private Garage_Advertisement getProcessDataParse(JSONObject js, JSONObject Rootjs) throws JSONException {
+        Garage_Advertisement grg = new Garage_Advertisement();
+        grg.setAdvertising_costPrice(js.getString("Advertising_costPrice"));
+        grg.setAdvertising_CoverPic(Rootjs.getString("COVERIMAGE") + js.getString("Advertising_CoverPic"));
+        grg.setAdvertising_Details(js.getString("Advertising_Details"));
+        grg.setAdvertising_ID(js.getString("Advertising_ID"));
+        grg.setAdvertising_Images(js.getString("Advertising_Images"));
+        grg.setUSERID(js.getString("USERID"));
+        grg.setAdvertising_PostDate(js.getString("Advertising_PostDate"));
+        grg.setADIMAGEPATH(Rootjs.getString("ADIMAGEPATH"));
+        grg.setAdvertising_Title(js.getString("Advertising_Title"));
+        grg.setAdvertising_Video(Rootjs.getString("VIDEOIMAGEPATH") + js.getString("Advertising_Video"));
+        grg.setAdvertising_userActions(getAdvertising_userActions(js.getJSONObject("Advertising_UserAction")));
+        grg.setGarageOwnerDetails(getGarageOwnerDetail(js.getJSONObject("GarageOwnerDetails")));
+        try {
+            if (js.getString("Advertising_PostDate").equalsIgnoreCase(toDayDate)) {
+                newADFlag++;
+            }
+        } catch (Exception e) {
+            newADFlag = 0;
+        }
+
+
+        return grg;
+    }
+
+    private ArrayList<Garage_Advertisement.GarageOwnerDetails> getGarageOwnerDetail(JSONObject jsonObject) throws JSONException {
+        ArrayList<Garage_Advertisement.GarageOwnerDetails> temp = new ArrayList<>();
+        Garage_Advertisement.GarageOwnerDetails gh = new Garage_Advertisement.GarageOwnerDetails();
+        gh.setAddress(jsonObject.getString("Address"));
+        gh.setCity(jsonObject.getString("city"));
+        gh.setGarageName(jsonObject.getString("GarageName"));
+        gh.setID(jsonObject.getString("ID"));
+        gh.setProfilePicture(jsonObject.getString("ProfilePicture"));
+        gh.setUserName(jsonObject.getString("UserName"));
+        temp.add(gh);
+        return temp;
+    }
+
+    private ArrayList<Garage_Advertisement.Advertising_UserAction> getAdvertising_userActions(JSONObject jsonObject) throws JSONException {
+        ArrayList<Garage_Advertisement.Advertising_UserAction> temp = new ArrayList<>();
+        Garage_Advertisement.Advertising_UserAction us = new Garage_Advertisement.Advertising_UserAction();
+        us.setByeNow(jsonObject.getString("ByeNow"));
+        us.setContactStore(jsonObject.getString("ContactStore"));
+        us.setNoUserAction(jsonObject.getString("NoUserAction"));
+        temp.add(us);
+        return temp;
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        Hit_Rider_Details(new Session(getContext()).get_LOGIN_USER_ID());
-    }
-
-    private void enableLoc() {
-        if (googleApiClient == null) {
-            googleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .addApi(LocationServices.API)
-                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                        @Override
-                        public void onConnected(Bundle bundle) {
-                        }
-
-                        @Override
-                        public void onConnectionSuspended(int i) {
-                            googleApiClient.connect();
-                        }
-                    })
-                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-                        @Override
-                        public void onConnectionFailed(ConnectionResult connectionResult) {
-                            Log.d("Location error", "Location error " + connectionResult.getErrorCode());
-                        }
-                    }).build();
-            googleApiClient.connect();
-
-            LocationRequest locationRequest = LocationRequest.create();
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            locationRequest.setInterval(30 * 1000);
-            locationRequest.setFastestInterval(5 * 1000);
-            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                    .addLocationRequest(locationRequest);
-
-            builder.setAlwaysShow(true);
-
-            PendingResult<LocationSettingsResult> result =
-                    LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
-            result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-                @Override
-                public void onResult(LocationSettingsResult result) {
-                    final Status status = result.getStatus();
-                    switch (status.getStatusCode()) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            try {
-                                status.startResolutionForResult(getActivity(), REQUEST_LOCATION);
-                            } catch (IntentSender.SendIntentException e) {
-                            }
-                            break;
-                    }
-                }
-            });
-        }
-
+        Hit_Rider_Details(new Prefe(mContext).getUserID());
     }
 
     @Override
@@ -415,17 +511,59 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
 
         if (requestCode == REQUEST_LOCATION) {
 
-            Fetch_Location_With_RX();
+            if (new Prefe(mContext).get_mylocation().equalsIgnoreCase("")) {
+                fetchRiderLocation();
+            } else {
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(new Prefe(mContext).get_mylocation());
+                    FetchMyAdd(jsonObject.getString("lat"), jsonObject.getString("long"));
+                } catch (JSONException e) {
+
+                }
+
+            }
+
         }
     }
 
+    private void FetchMyAdd(Location location) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("lat", location.getLatitude());
+        jsonObject.put("long", location.getLongitude());
+        new Prefe(mContext).set_mylocation(jsonObject.toString());
+        State_Name = Constant.getCompletecity(mActivity, location.getLatitude(), location.getLongitude(), false, false, true);
+        if (State_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
+            if (!State_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
+                hit_Fetch_add();
+            }
+        }
+
+    }
+
+    private void FetchMyAdd(String Latitude, String Longitude) throws JSONException {
+        State_Name = Constant.getCompletecity(mActivity, Double.parseDouble(Latitude), Double.parseDouble(Longitude), false, false, true);
+        if (State_Name != null && BIKE_BRAND_ID != null && BIKE_MODEL_ID != null) {
+            if (!State_Name.equalsIgnoreCase("") && !BIKE_BRAND_ID.equalsIgnoreCase("") && !BIKE_MODEL_ID.equalsIgnoreCase("")) {
+                hit_Fetch_add();
+            }
+        }
+
+    }
+
     private void Hit_Rider_Details(String userid) {
+        newADFlag = 0;
         show_ProgressDialog();
         Call<ResponseBody> requestCall = retrofitCallback.USER_DETAILS(userid);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 hide_ProgressDialog();
+                try {
+                    fetchRiderLocation();
+                } catch (Exception e) {
+                }
+
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject = null;
@@ -434,7 +572,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             JSONArray BIKEBRANDDETAILS = null;
@@ -462,27 +600,58 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
                                         My_Bike_els.add(mb);
                                     }
                                     if (My_Bike_els.size() > 0) {
-                                        my_bike_adapter = new My_Bike_Adapter(My_Garage_Fragment.this, My_Bike_els, getActivity());
+                                        my_bike_adapter = new My_Bike_Adapter(My_Garage_Fragment.this, My_Bike_els, mActivity);
                                         MyBikeList.setAdapter(my_bike_adapter);
                                         Set_View(My_Bike_els, 0);
                                     }
+                                    if (State_Name != null) {
+                                        if (!State_Name.equalsIgnoreCase("")) {
+                                            hit_Fetch_add();
+                                        }
+                                    }
                                 } else {
-                                    Constant.Show_Tos(getContext(), "Someting Error..");
+                                    Constant.Show_Tos(mContext, "Someting Error..");
                                 }
                             } else {
-                                Constant.Show_Tos(getContext(), "Someting Error..");
+                                Constant.Show_Tos(mContext, "Someting Error..");
                             }
                         } else {
                             hide_ProgressDialog();
-                            Constant.Show_Tos(getContext(), "Someting Error..");
+                            Constant.Show_Tos(mContext, "Someting Error..");
                         }
-
-
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        Constant.Show_Tos(getContext(), "Someting Error..");
+
+                        Constant.Show_Tos(mContext, "Someting Error..");
                         hide_ProgressDialog();
                     }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(mActivity, true, false);
+                hide_ProgressDialog();
+            }
+        });
+    }
+
+    public void show_ProgressDialog() {
+        shimmer_view_container.startShimmer();
+        shimmerView.setVisibility(View.VISIBLE);
+    }
+
+    public void hide_ProgressDialog() {
+        shimmer_view_container.stopShimmer();
+        shimmerView.setVisibility(View.GONE);
+    }
+
+    private void hitAddClick(String task, String userid, String advID) {
+        Call<ResponseBody> requestCall = retrofitCallback.click_advertise(task, userid, advID);
+        requestCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Log.e("@ClickOnAdd ", advID);
                 }
             }
 
@@ -493,50 +662,14 @@ public class My_Garage_Fragment extends Fragment implements onClick, Garage_add_
         });
     }
 
-    public void show_ProgressDialog() {
-        try {
-            try {
-                if (alertDialog_loader != null) {
-                    alertDialog_loader.show();
-                } else {
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-                    LayoutInflater inflater = (this).getLayoutInflater();
-                    View dialogView = inflater.inflate(R.layout.loading_page, null);
-                    dialogBuilder.setView(dialogView);
-                    dialogBuilder.setCancelable(false);
-                    LottieAnimationView LottieAnimationView = dialogView.findViewById(R.id.LottieAnimationView);
-                    alertDialog_loader = dialogBuilder.create();
-                    alertDialog_loader.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    LottieAnimationView.setAnimation("bike_loader.json");
-                    LottieAnimationView.playAnimation();
-                    alertDialog_loader.show();
-                }
-            } catch (WindowManager.BadTokenException e) {
-                //use a log message
-            }
-        } catch (Exception e) {
-
-        }
-
-
-    }
-
-    public void hide_ProgressDialog() {
-        try {
-            try {
-                if (alertDialog_loader != null) {
-                    alertDialog_loader.hide();
-                }
-            } catch (WindowManager.BadTokenException e) {
-                //use a log message
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
     @Override
-    public void SetOnClick(int Position) {
-
+    public void setOnClick(int Position) {
+        hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(), garage_ads_list.get(Position).Advertising_ID);
+        hitAddClick(TASK_CLICK, new Prefe(mActivity).getUserID(), garage_ads_list.get(Position).Advertising_ID.trim());
+        Intent intent = new Intent(mActivity, AvertisementView.class);
+        intent.putExtra("Position", Position);
+        startActivity(intent);
     }
+
+
 }

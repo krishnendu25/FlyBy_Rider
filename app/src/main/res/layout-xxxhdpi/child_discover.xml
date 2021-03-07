@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:elevation="10dp"
+    android:layout_height="wrap_content">
+
+
+    <soup.neumorphism.NeumorphCardView
+        app:neumorph_cornerSize="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:neumorph_lightSource="leftBottom"
+        android:visibility="visible"
+        app:neumorph_strokeWidth="2dp"
+        app:neumorph_backgroundColor="@color/background_base"
+        app:neumorph_strokeColor="#29252E"
+        app:neumorph_shadowColorDark="#1FFFFFFF"
+        app:neumorph_shadowColorLight="#000000"
+        app:neumorph_shadowElevation="4dp"
+        app:neumorph_shapeType="flat">
+    <RelativeLayout
+        android:id="@+id/child_discover_view"
+        android:layout_width="wrap_content"
+        android:layout_height="190dp">
+
+        <ImageView
+            android:id="@+id/discover_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <TextView
+            android:id="@+id/discover_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="18dp"
+            android:fontFamily="@font/manropeextrabold"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+    </soup.neumorphism.NeumorphCardView>
+
+
+
+
+</LinearLayout>

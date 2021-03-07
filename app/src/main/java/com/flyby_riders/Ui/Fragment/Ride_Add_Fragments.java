@@ -1,17 +1,21 @@
 package com.flyby_riders.Ui.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.os.PowerManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Create_Group_Ride;
+import com.flyby_riders.Ui.Activity.RideMapView;
+
+import java.util.Objects;
 
 public class Ride_Add_Fragments extends Fragment {
 
@@ -39,7 +43,12 @@ Button Add_my_ride;
         Add_my_ride.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), Create_Group_Ride.class));
+                PowerManager pm = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
+                if (pm.isIgnoringBatteryOptimizations("com.flyby_riders")) {
+                    startActivity(new Intent(getActivity(), RideMapView.class));
+                }else {
+                    Constant.openBatteryOptmized(getActivity());
+                }
             }
         });
 

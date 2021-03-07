@@ -7,16 +7,25 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <declare-styleable name="ShadowLayout">
-        <attr name="sl_shadowed" format="boolean"/>
-        <attr name="sl_shadow_distance" format="dimension"/>
-        <attr name="sl_shadow_angle" format="integer"/>
-        <attr name="sl_shadow_radius" format="dimension"/>
-        <attr name="sl_shadow_color" format="color"/>
+        <attr name="sl_shadowed" format="boolean" />
+        <attr name="sl_shadow_distance" format="dimension" />
+        <attr name="sl_shadow_angle" format="integer" />
+        <attr name="sl_shadow_radius" format="dimension" />
+        <attr name="sl_shadow_color" format="color" />
     </declare-styleable>
-    <style name="TextAppearance" parent="android:TextAppearance">
-        <item name="android:fontFamily">font/avenirnextheavy</item>
-        <item name="android:textSize">25dp</item>
-        <item name="android:textColor">#fff</item>
+
+    <style name="Color1SwitchStyle">
+        <item name="colorControlActivated">@color/light_green</item>
     </style>
+
+    <style name="AppTheme.Green" parent="PayumoneyAppTheme">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="actionMenuTextColor">@color/colorPrimary</item>
+    </style>
+
 </resources>

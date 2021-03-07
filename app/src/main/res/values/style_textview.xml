@@ -13,8 +13,8 @@
 
 
     <style name="CustomText_Body" parent="@style/CustomText">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/black_87</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/avenirnextheavy</item>
     </style>
 
 

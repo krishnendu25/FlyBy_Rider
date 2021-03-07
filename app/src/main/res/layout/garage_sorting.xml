@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_base">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/light_green"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_sort"
+            android:text="Sort By:"
+            android:fontFamily="@font/manropeextrabold"
+            android:textSize="18dp"
+            android:gravity="center|start"
+            android:drawablePadding="10dp"
+            android:textColor="@color/white"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/distance_tv"
+                android:layout_width="match_parent"
+                android:textSize="18dp"
+                android:fontFamily="@font/manropebold"
+                android:text="@string/distance"
+                android:textColor="@color/white"
+                android:gravity="center|start"
+                android:layout_height="45dp"/>
+
+
+            <TextView
+                android:id="@+id/a_z_tv"
+                android:layout_width="match_parent"
+                android:textSize="18dp"
+                android:text="@string/a_z"
+                android:textColor="@color/white"
+                android:gravity="center|start"
+                android:fontFamily="@font/manropebold"
+                android:layout_height="45dp"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:bottom="-1dp"
-        android:left="-1dp"
-        android:right="-1dp"
-        android:top="-1dp">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:color="#728DEF7C"
+tools:targetApi="lollipop">
+<item android:id="@android:id/mask">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/colorPrimaryDark" />
+        <corners android:radius="10dp" />
+    </shape>
+</item>
 
-        <shape android:shape="rectangle">
+<item android:id="@android:id/background">
+    <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:bottom="-1dp"
+            android:left="-1dp"
+            android:right="-1dp"
+            android:top="-1dp">
 
-            <solid android:color="@color/background_base" />
+            <shape android:shape="rectangle">
 
-            <stroke
-                android:width="3dp"
-                android:color="#97FD86"
-                android:dashWidth="3dp"
-                android:dashGap="5dp" />
-            <corners
-                android:radius="10dp"/>
+                <solid android:color="@color/background_base" />
 
-        </shape>
-    </item>
-</layer-list>
+                <stroke
+                    android:width="3dp"
+                    android:color="#97FD86"
+                    android:dashWidth="3dp"
+                    android:dashGap="5dp" />
+                <corners
+                    android:radius="10dp"/>
+
+            </shape>
+        </item>
+    </layer-list>
+</item>
+</ripple>

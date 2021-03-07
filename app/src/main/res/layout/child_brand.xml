@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:background="@color/background_base"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/brand_clickview"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardBackgroundColor="@color/transparent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <ImageView
+                    android:id="@+id/brand_pic"
+                    android:layout_width="match_parent"
+                    android:scaleType="fitXY"
+                    android:layout_height="match_parent"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+<TextView
+    android:id="@+id/brand_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="14dp"
+    android:gravity="center"
+    android:singleLine="true"
+    android:marqueeRepeatLimit="marquee_forever"
+    android:ellipsize="marquee"
+    android:layout_marginTop="5dp"
+    android:textColor="@color/light_green"
+    android:fontFamily="@font/manropesemibold"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

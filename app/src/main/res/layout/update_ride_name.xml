@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rename_ride"
-                android:textSize="25dp"
+                android:textSize="18dp"
                 android:fontFamily="@font/manropeextrabold"
                 android:textColor="#FFFFFF"
                 android:layout_margin="20dp"/>
@@ -61,7 +61,7 @@
             android:text="@string/update"
             android:gravity="center"
             android:fontFamily="@font/avenirnextheavy"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:textColor="@color/deep_purpel"
             android:background="@drawable/green_btn_ripple_botton"/>
 

@@ -95,7 +95,7 @@ public class VolleyMultipartRequest extends Request<NetworkResponse> {
 
             return bos.toByteArray();
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return null;
     }

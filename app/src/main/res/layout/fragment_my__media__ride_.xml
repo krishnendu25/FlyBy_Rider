@@ -10,7 +10,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_uploaded_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:scrollbars="none"/>
 
 
     <LinearLayout
@@ -21,6 +22,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/Empty_View"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bg_nomedia"/>

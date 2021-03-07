@@ -2,35 +2,29 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
+    android:layout_marginTop="10dp"
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.flyby_riders.Utils.ShadowLayout
+    <soup.neumorphism.NeumorphCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:sl_shadow_color="#33EDE9E9"
-        app:shadowRadius="100dp"
-        app:shadowShape="oval"
-        app:sl_shadow_angle="270"
-        app:sl_shadowed="true"
-        app:shadowSide="bottom"
-        app:sl_shadow_radius="2dp">
-        <com.flyby_riders.Utils.ShadowLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            app:sl_shadow_color="#000000"
-            app:shadowRadius="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            app:shadowShape="oval"
-            app:sl_shadow_angle="90"
-            app:sl_shadowed="true"
-            app:sl_shadow_radius="10dp"
-            app:shadowSide="top">
+        app:neumorph_lightSource="leftBottom"
+        android:visibility="visible"
+        app:neumorph_strokeWidth="2dp"
+        app:neumorph_strokeColor="#29252E"
+        app:neumorph_shadowColorDark="#1FFFFFFF"
+        app:neumorph_shadowColorLight="#000000"
+        app:neumorph_shadowElevation="4dp"
+        app:neumorph_shapeType="flat"
+
+        android:layout_marginStart="10dp"
+        android:foregroundGravity="center"
+        >
             <RelativeLayout
                 android:id="@+id/Back_Btn"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
+                android:layout_gravity="center"
                 android:background="@drawable/round_drak"
                 android:gravity="center">
                 <ImageView
@@ -39,14 +33,14 @@
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/ic_back" />
             </RelativeLayout>
-        </com.flyby_riders.Utils.ShadowLayout>
-    </com.flyby_riders.Utils.ShadowLayout>
+    </soup.neumorphism.NeumorphCardView>
     <TextView
         android:id="@+id/ACTIVITY_TITEL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="18dp"
         android:singleLine="true"
+        android:gravity="center|start"
         android:textColor="#fff"
         android:fontFamily="@font/avenirnextheavy"/>
 </LinearLayout>

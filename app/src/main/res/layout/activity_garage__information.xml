@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    tools:context=".Ui.Activity.GarageDetailsView">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <soup.neumorphism.NeumorphCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:neumorph_lightSource="leftBottom"
+                    android:visibility="visible"
+                    app:neumorph_strokeWidth="2dp"
+                    app:neumorph_strokeColor="#29252E"
+                    app:neumorph_shadowColorDark="#1FFFFFFF"
+                    app:neumorph_shadowColorLight="#000000"
+                    app:neumorph_shadowElevation="4dp"
+                    app:neumorph_shapeType="flat"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    >
+                        <RelativeLayout
+                            android:id="@+id/Back_Btn"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/round_drak"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/ic_back" />
+                        </RelativeLayout>
+                </soup.neumorphism.NeumorphCardView>
+            </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/Garage_DP"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_bikewash" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/Garage_NAME"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="marquee"
+                            android:fontFamily="@font/avenirnextbold"
+                            android:gravity="center"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:paddingTop="10dp"
+                            android:singleLine="true"
+                            android:text="Zeus Motorcycle Gear"
+                            android:textColor="@color/white"
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/Garage_CITY"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="marquee"
+                            android:fontFamily="@font/manroperegular"
+                            android:gravity="center"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:paddingTop="5dp"
+                            android:singleLine="true"
+                            android:text="Kolkata"
+                            android:textColor="#AEACB5"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+
+                            <LinearLayout
+                                android:id="@+id/Garage_Call"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:translationX="10dp"
+                                android:background="@drawable/ic_btnclwp"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingBottom="25dp"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/icon_call" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/manroperegular"
+                                        android:paddingStart="10dp"
+                                        android:gravity="center"
+                                        android:text="Call" />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/Garage_Whatsapp"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:translationX="-10dp"
+                                android:background="@drawable/ic_btnclwp"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingBottom="25dp"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/ic_whatsapp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/manroperegular"
+                                        android:paddingStart="10dp"
+                                        android:gravity="center"
+                                        android:text="WhatsApp" />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/mediaView"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:elevation="10dp"
+                            app:cardBackgroundColor="@color/background_base"
+                            app:cardCornerRadius="10dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/Garage_Image_Slider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scrollbars="none" />
+
+                                <TextView
+                                    android:id="@+id/Empty_no_media_file"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:text="@string/no_media_file_found"
+                                    android:textColor="#EEEFF5"
+                                    android:textSize="18dp" />
+                            </RelativeLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/detailsReasonView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:textSize="18sp"
+                                    android:marqueeRepeatLimit="marquee_forever"
+                                    android:ellipsize="marquee"
+                                    android:singleLine="true"
+                                    android:text="Why Visit Here?"
+                                    android:fontFamily="@font/avenirnextbold"
+                                    android:textColor="@color/white"/>
+                                <TextView
+                                    android:id="@+id/details_1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="14sp"
+                                    android:drawableStart="@drawable/ic_check"
+                                    android:drawablePadding="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:marqueeRepeatLimit="marquee_forever"
+                                    android:ellipsize="marquee"
+                                    android:fontFamily="@font/avenirbextregular"
+                                    android:textColor="@color/white"/>
+                                <TextView
+                                    android:id="@+id/details_2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="14sp"
+                                    android:drawableStart="@drawable/ic_check"
+                                    android:drawablePadding="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:marqueeRepeatLimit="marquee_forever"
+                                    android:ellipsize="marquee"
+                                    android:fontFamily="@font/avenirbextregular"
+                                    android:textColor="@color/white"/>
+                                <TextView
+                                    android:id="@+id/details_3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="14sp"
+                                    android:drawableStart="@drawable/ic_check"
+                                    android:drawablePadding="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:marqueeRepeatLimit="marquee_forever"
+                                    android:ellipsize="marquee"
+                                    android:fontFamily="@font/avenirbextregular"
+                                    android:textColor="@color/white"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginTop="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="2dp"
+                                android:background="#2F2A37" />
+
+                            <TextView
+                                android:id="@+id/Garage_Descrption"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:ellipsize="marquee"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/manroperegular"
+                                android:gravity="center|start"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:text="Servicing &amp; Repair | Gears &amp; Accessories | Bike Parts &amp; Accessories | Bike Wash | Tyres | Body Work &amp; Modifications”"
+                                android:textColor="#EEEFF5"
+                                android:textSize="14sp"
+                                android:visibility="visible" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp"
+                                android:layout_marginTop="10dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:background="#2F2A37" />
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="5dp">
+
+                                    <TextView
+                                        android:id="@+id/Garage_Map_Dirtions"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerVertical="true"
+                                        android:drawableStart="@drawable/icon_directions"
+                                        android:drawablePadding="10dp"
+                                        android:fontFamily="@font/manropeextrabold"
+                                        android:gravity="center"
+                                        android:text="GET DIRECTIONS"
+                                        android:textColor="@color/light_green"
+                                        android:textSize="14sp" />
+
+
+                                    <TextView
+                                        android:id="@+id/Garage_distance_unit"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_centerVertical="true"
+                                        android:background="@drawable/round_brown"
+                                        android:drawableStart="@drawable/icon_distance"
+                                        android:drawablePadding="5dp"
+                                        android:fontFamily="@font/manropeextrabold"
+                                        android:gravity="center"
+                                        android:padding="5dp"
+                                        android:paddingStart="10dp"
+                                        android:paddingEnd="10dp"
+                                        android:text="1.5 kms"
+                                        android:textColor="@color/white"
+                                        android:textSize="14dp" />
+                                </RelativeLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="#2F2A37" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/addHeading"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:ellipsize="marquee"
+                                android:fontFamily="@font/manroperegular"
+                                android:gravity="center"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:paddingTop="15dp"
+                                android:text="Posts by Store"
+                                android:textAllCaps="true"
+                                android:textColor="#AEACB5"
+                                android:textSize="18dp"
+                                android:visibility="visible" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ListView
+                                    android:id="@+id/Garage_Advetisment_list"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scrollbars="none"
+                                    android:visibility="visible" />
+
+                                <TextView
+                                    android:id="@+id/Empty_no_advertisement"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:text="@string/no_advertisement_found"
+                                    android:textColor="#EEEFF5"
+                                    android:textSize="18dp" />
+                            </RelativeLayout>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

@@ -18,24 +18,33 @@
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />-->
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <uses-feature android:name="android.hardware.location.gps" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
+
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="false"
+        android:foregroundServiceType="location"
         android:icon="@mipmap/ic_appiconrider"
         android:label="@string/app_name"
+        android:clearTaskOnLaunch="true"
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
@@ -43,20 +52,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".Ui.Activity.Ride_Gallery"></activity>
-        <activity android:name=".Ui.Activity.Upgrade_To_Premium" />
-        <activity android:name=".Ui.Activity.Invite_new_member" />
-        <activity android:name=".Ui.Activity.Ride_Members_Management" />
-        <activity android:name=".Ui.Activity.Create_Group_Ride" />
+        <activity android:name=".Ui.Activity.AvertisementView" />
+        <activity android:name=".Ui.Activity.MyAccount" />
+        <activity android:name=".Ui.Activity.LocationPermissionsWindow" />
+        <activity android:name=".Ui.Activity.GpsTrunOnWarning" />
+        <activity android:name=".Ui.Activity.VideoPlayer" />
+        <activity android:name=".Ui.Activity.AllGarageList" />
+        <activity android:name=".Ui.Activity.GarageDetailsView" />
+        <activity android:name=".Ui.Activity.RideGalleryView" />
+        <activity android:name=".Ui.Activity.UpgradeAccountPlan" />
+        <activity android:name=".Ui.Activity.InviteNewMember" />
+        <activity android:name=".Ui.Activity.RideMembersManage" />
+        <activity android:name=".Ui.Activity.RideMapView"  android:parentActivityName=".Ui.Activity.SplashScreen"/>
         <activity android:name=".Ui.Activity.Album_Viewer" /> <!-- Add the service created in services package ! -->
-
-        <activity android:name=".Ui.Activity.Document_Album_Creator" />
-        <activity android:name=".Ui.Activity.Document_Locker" />
+        <activity android:name=".Ui.Activity.DocumentAlbumMaker" />
+        <activity android:name=".Ui.Activity.DocumentLockerView" />
         <activity
-            android:name=".Ui.Activity.Bike_Brand_Activity"
+            android:name=".Ui.Activity.BikeBrandView"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".Ui.Activity.Bike_Model_Activity"
+            android:name=".Ui.Activity.BikeModelView"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".Ui.Activity.DashBoard"
@@ -65,17 +80,17 @@
             android:name=".Ui.Activity.Legal"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".Ui.Activity.Choose_Way_Screen"
+            android:name=".Ui.Activity.AppLandingView"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".Ui.Activity.Verification_Successful"
+            android:name=".Ui.Activity.VerificationSuccessful"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".Ui.Activity.OTP_Verify"
+            android:name=".Ui.Activity.OTPVerification"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".Ui.Activity.Login_Form"
+            android:name=".Ui.Activity.LoginView"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -85,19 +100,41 @@
             android:name=".Ui.Activity.OnBoarding"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".Ui.Activity.BaseActivity"
+            android:name=".Utils.BaseActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".Ui.Activity.Splash_Screen">
+
+
+        <activity android:name=".Ui.Activity.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service  android:name=".Ui.Service.LocationTrackerService"  android:enabled="true" android:exported="true"/>
+
+
+        <service
+            android:name=".Ui.Service.LocationUpdatesServiceV2"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="location" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBPY5WHNqIEGV2y6eNR4R5xCgzEh_kyYCY" />
+            android:value="${G_MAP_KEY}" />
+
+        <receiver android:name=".Utils.GPSManager">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".Utils.MySMSBroadcastReceiver"
+            android:exported="true"
+            android:permission="com.google.android.gms.auth.api.phone.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

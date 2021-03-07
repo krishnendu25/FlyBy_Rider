@@ -8,18 +8,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,13 +26,17 @@ import com.commonsware.cwac.camera.CameraHost;
 import com.commonsware.cwac.camera.CameraHostProvider;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.BaseActivity;
-import com.flyby_riders.Ui.Activity.Document_Locker;
+import com.flyby_riders.Utils.BaseActivity;
+import com.flyby_riders.Ui.Activity.DocumentLockerView;
 import com.flyby_riders.Ui.PhotoPicker.custom.adapter.SpacesItemDecoration;
 import com.flyby_riders.Ui.PhotoPicker.util.Util;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class ImagePickerActivity extends BaseActivity implements CameraHostProvider {
@@ -52,7 +53,6 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
      */
 
     public ArrayList<Uri> mSelectedImages;
-    protected Toolbar toolbar;
     View view_root;
     TextView mSelectedImageEmptyMessage;
     View view_selected_photos_container;
@@ -62,7 +62,15 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
     TabLayout tabLayout;
     PagerAdapter_Picker adapter;
     Adapter_SelectedPhoto adapter_selectedPhoto;
-    String Class="";
+    String Class = "";
+    @BindView(R.id.titleBarTV)
+    TextView titleBarTV;
+    @BindView(R.id.nextTV)
+    TextView nextTV;
+    @BindView(R.id.Back_Btn)
+    RelativeLayout BackBtn;
+
+
     public static Config getConfig() {
         return mConfig;
     }
@@ -86,13 +94,15 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
         super.onCreate(savedInstanceState);
         setupFromSavedInstanceState(savedInstanceState);
         setContentView(R.layout.picker_activity_main_pp);
-        try{
+        ButterKnife.bind(this);
+        try {
             Class = getIntent().getStringExtra("Class");
-        }catch (Exception e)
-        {Class=""; }
+        } catch (Exception e) {
+            Class = "";
+        }
         initView();
 
-        toolbar.setTitle("PHOTO");
+        titleBarTV.setText("PHOTO");
 
 
         setupTabs();
@@ -101,18 +111,10 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
     }
 
     private void initView() {
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(false);
-        toolbar.setTitleTextAppearance(this, R.style.TextAppearance);
-
         view_root = findViewById(R.id.view_root);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-
-
+        mConfig.setSelectionLimit(20);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -121,12 +123,10 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
 
             @Override
             public void onPageSelected(int position) {
-                if (position==0)
-                {
-                    toolbar.setTitle("PHOTO");
-                }else if (position==1)
-                {
-                    toolbar.setTitle("GALLERY");
+                if (position == 0) {
+                    titleBarTV.setText("PHOTO");
+                } else if (position == 1) {
+                    titleBarTV.setText("GALLERY");
                 }
 
             }
@@ -137,8 +137,6 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
             }
         });
 
-
-        tv_selected_title = (TextView) findViewById(R.id.tv_selected_title);
 
         rc_selected_photos = (RecyclerView) findViewById(R.id.rc_selected_photos);
         mSelectedImageEmptyMessage = (TextView) findViewById(R.id.selected_photos_empty);
@@ -189,13 +187,14 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (Class!=null)
-        { if (!Class.equalsIgnoreCase(""))
-            {finish(); }
-        }else
-        { startActivity(new Intent(this, Document_Locker.class));
-            finish(); }
-
+        if (Class != null) {
+            if (!Class.equalsIgnoreCase("")) {
+                finish();
+            }
+        } else {
+            startActivity(new Intent(this, DocumentLockerView.class));
+            finish();
+        }
 
 
     }
@@ -236,7 +235,7 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
 
         int closeImageRes = mConfig.getSelectedCloseImage();
 
-        adapter_selectedPhoto = new Adapter_SelectedPhoto(this, closeImageRes);
+        adapter_selectedPhoto = new Adapter_SelectedPhoto(ImagePickerActivity.this, closeImageRes);
         adapter_selectedPhoto.updateItems(mSelectedImages);
         rc_selected_photos.setAdapter(adapter_selectedPhoto);
 
@@ -244,9 +243,6 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
         if (mSelectedImages.size() >= 1) {
             mSelectedImageEmptyMessage.setVisibility(View.GONE);
         }
-
-
-
 
 
     }
@@ -265,8 +261,10 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
 
 
         if (mSelectedImages.size() == mConfig.getSelectionLimit()) {
-            String text = String.format(getResources().getString(R.string.max_count_msg), mConfig.getSelectionLimit());
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+            String sms = "Can not upload more than ";
+            Constant.Show_Tos(getApplicationContext(), sms+String.valueOf(mConfig.getSelectionLimit())+" images at a time");
+            //String text = String.format(getResources().getString(R.string.max_count_msg), mConfig.getSelectionLimit());
+            //Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -280,9 +278,7 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
         }
 
 
-
-
-        rc_selected_photos.smoothScrollToPosition(adapter_selectedPhoto.getItemCount()-1);
+        rc_selected_photos.smoothScrollToPosition(adapter_selectedPhoto.getItemCount() - 1);
 
 
     }
@@ -300,7 +296,6 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
         GalleryFragment.mGalleryAdapter.notifyDataSetChanged();
 
 
-
     }
 
     public boolean containsImage(Uri uri) {
@@ -316,23 +311,6 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            finish();
-            return true;
-        } else if (id == R.id.action_done) {
-            updatePicture();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-
-
-    }
-
     private void updatePicture() {
 
         if (mSelectedImages.size() < mConfig.getSelectionMin()) {
@@ -340,11 +318,9 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (mSelectedImages.size()==0)
-        {
-            Constant.Show_Tos(this,"Please select an image");
-        }else
-        {
+        if (mSelectedImages.size() == 0) {
+            Constant.Show_Tos(this, "Please select an image");
+        } else {
             Intent intent = new Intent();
             intent.putParcelableArrayListExtra(EXTRA_IMAGE_URIS, mSelectedImages);
             setResult(Activity.RESULT_OK, intent);
@@ -352,8 +328,27 @@ public class ImagePickerActivity extends BaseActivity implements CameraHostProvi
         }
 
 
-
     }
 
 
+
+
+    @OnClick({R.id.Back_Btn, R.id.nextTV})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.Back_Btn:
+                if (Class != null) {
+                    if (!Class.equalsIgnoreCase("")) {
+                        finish();
+                    }
+                } else {
+                    startActivity(new Intent(this, DocumentLockerView.class));
+                    finish();
+                }
+                break;
+            case R.id.nextTV:
+                updatePicture();
+                break;
+        }
+    }
 }

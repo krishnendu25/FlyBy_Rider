@@ -11,7 +11,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Can’t add any more members"
+            android:text="Can’t Add Any More Members"
             android:textSize="18dp"
             android:drawablePadding="10dp"
             android:fontFamily="@font/manropeextrabold"

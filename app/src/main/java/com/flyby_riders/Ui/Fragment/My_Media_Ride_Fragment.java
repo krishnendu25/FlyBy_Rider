@@ -16,15 +16,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
-import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Activity.Ride_Gallery;
-import com.flyby_riders.Ui.Adapter.Ride_Gallery_Adapter;
+import com.flyby_riders.Ui.Libraries.PhotoSlider.PhotoSlider;
+import com.flyby_riders.Utils.Prefe;
+import com.flyby_riders.Ui.Activity.RideGalleryView;
+import com.flyby_riders.Ui.Adapter.Ride.Ride_Gallery_Adapter;
 import com.flyby_riders.Ui.Model.Ride_Media_Model;
 
 import org.json.JSONArray;
@@ -38,11 +40,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class My_Media_Ride_Fragment extends Fragment {
+public class My_Media_Ride_Fragment extends Fragment  {
     private AlertDialog alertDialog_loader = null;
     private RetrofitCallback retrofitCallback;
     RecyclerView my_uploaded_list;
     static My_Media_Ride_Fragment fragment;
+    ImageView Empty_View;
     String My_Ride_ID = "", Admin_User_Id = "";
     Ride_Gallery_Adapter ride_gallery_adapter;
     ArrayList<Ride_Media_Model> Ride_Media_List = new ArrayList<>();
@@ -85,8 +88,9 @@ public class My_Media_Ride_Fragment extends Fragment {
         return view;
     }
     private void Instantiation(View view) {
-        My_Ride_ID= Ride_Gallery.My_Ride_ID;
-        Admin_User_Id=Ride_Gallery.Admin_User_Id;
+        Empty_View = view.findViewById(R.id.Empty_View);
+        My_Ride_ID= RideGalleryView.My_Ride_ID;
+        Admin_User_Id= RideGalleryView.Admin_User_Id;
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
         my_uploaded_list= view.findViewById(R.id.my_uploaded_list);
         my_uploaded_list.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -96,6 +100,7 @@ public class My_Media_Ride_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         Fetch_Media_Ride(My_Ride_ID);
+
     }
 
 
@@ -116,7 +121,7 @@ public class My_Media_Ride_Fragment extends Fragment {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+
                         }Ride_Media_List.clear();
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
 
@@ -139,7 +144,7 @@ public class My_Media_Ride_Fragment extends Fragment {
                                 }
                             }
 
-                            Filter_List(Ride_Media_List,new Session(getActivity()).get_LOGIN_USER_ID());
+                            Filter_List(Ride_Media_List,new Prefe(getActivity()).getUserID());
 
                         } else {
                             hide_ProgressDialog();
@@ -153,7 +158,9 @@ public class My_Media_Ride_Fragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hide_ProgressDialog(); }
+                hide_ProgressDialog();
+                Constant.Show_Tos_Error(getActivity(),true,false);
+            }
         });
     }
 
@@ -163,9 +170,15 @@ public class My_Media_Ride_Fragment extends Fragment {
         { if (!ride_media_list.get(i).getUPLOADER_ID().equalsIgnoreCase(User_Id))
             {ride_media_list.remove(i);}
         }
-
-        ride_gallery_adapter = new Ride_Gallery_Adapter(getActivity(),Ride_Media_List,Measuredwidth/2);
+        ArrayList<String> temp = new ArrayList<>();
+        for (int i=0 ; i<Ride_Media_List.size();i++){
+            temp.add(Ride_Media_List.get(i).getMEDIAFILE_URL());
+        }
+        PhotoSlider photoSlider = new PhotoSlider(getActivity(), temp);
+        ride_gallery_adapter = new Ride_Gallery_Adapter(photoSlider, getActivity(),Ride_Media_List,Measuredwidth/2);
         my_uploaded_list.setAdapter(ride_gallery_adapter);
+        if (Ride_Media_List.size()>0)
+        { Empty_View.setVisibility(View.GONE); }
 
     }
 
@@ -229,4 +242,5 @@ public class My_Media_Ride_Fragment extends Fragment {
 
         }
     }
+
 }

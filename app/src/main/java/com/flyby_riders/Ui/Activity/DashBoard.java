@@ -1,34 +1,35 @@
 package com.flyby_riders.Ui.Activity;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Session;
 import com.flyby_riders.Ui.Fragment.Bike_Add_Fragments;
 import com.flyby_riders.Ui.Fragment.Discover_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Garage_Fragment;
 import com.flyby_riders.Ui.Fragment.My_Ride_Fragment;
-import com.flyby_riders.Ui.Fragment.Ride_Add_Fragments;
 import com.flyby_riders.Ui.Model.My_Bike_Model;
-import com.flyby_riders.Utils.ShadowLayout;
+import com.flyby_riders.Utils.BaseActivity;
+import com.flyby_riders.Utils.Prefe;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,13 +38,14 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import soup.neumorphism.NeumorphCardView;
 
-import static com.flyby_riders.Ui.Listener.StringUtils.BASIC;
-import static com.flyby_riders.Ui.Listener.StringUtils.PREMIUM;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static com.flyby_riders.Constants.StringUtils.BASIC;
+import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 
 public class DashBoard extends BaseActivity {
-    @BindView(R.id.Account_Btn)
-    RelativeLayout AccountBtn;
+    public static ArrayList<My_Bike_Model> My_Bike = new ArrayList<>();
     @BindView(R.id.fragment_container)
     RelativeLayout fragmentContainer;
     @BindView(R.id.discover_active)
@@ -59,12 +61,15 @@ public class DashBoard extends BaseActivity {
     @BindView(R.id.rides_inactive)
     TextView ridesInactive;
     @BindView(R.id.ShadowLayout_discover)
-    ShadowLayout ShadowLayoutDiscover;
+    NeumorphCardView ShadowLayoutDiscover;
     @BindView(R.id.ShadowLayout_my_garage)
-    ShadowLayout ShadowLayoutMyGarage;
+    NeumorphCardView ShadowLayoutMyGarage;
     @BindView(R.id.ShadowLayout_rides)
-    ShadowLayout ShadowLayoutRides;
-    public static ArrayList<My_Bike_Model> My_Bike = new ArrayList<>();
+    NeumorphCardView ShadowLayoutRides;
+    ShimmerFrameLayout shimmer_view_container;
+    RelativeLayout shimmerView;
+    String Current_Fagment_Name = "";
+    int exitCount = 0;
     private String My_Ride_Attached;
 
     @Override
@@ -73,20 +78,21 @@ public class DashBoard extends BaseActivity {
         setContentView(R.layout.activity_dash_board);
         ButterKnife.bind(this);
         Instantiation();
-        Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
-        hit_my_ride(new Session(this).get_LOGIN_USER_ID());
+        Hit_Rider_Details(new Prefe(this).getUserID());
+
+
     }
 
     private void Instantiation() {
+        new Prefe(this).set_mylocation("");
+        shimmer_view_container = findViewById(R.id.shimmer_view_container);
+        shimmerView = findViewById(R.id.shimmerView);
         Tab_View_Adjust(ShadowLayoutMyGarage, ShadowLayoutDiscover, ShadowLayoutRides);
     }
 
-    @OnClick({R.id.Account_Btn, R.id.discover_active, R.id.discover_inactive, R.id.my_garage_active, R.id.my_garage_inactive, R.id.rides_active, R.id.rides_inactive})
+    @OnClick({R.id.discover_active, R.id.discover_inactive, R.id.my_garage_active, R.id.my_garage_inactive, R.id.rides_active, R.id.rides_inactive})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.Account_Btn:
-                Constant.Show_Tos(this, "NOT IMPLEMENTED");
-                break;
             case R.id.discover_active:
                 replaceFragment(new Discover_Fragment());
                 Tab_View_Adjust(ShadowLayoutDiscover, ShadowLayoutMyGarage, ShadowLayoutRides);
@@ -96,34 +102,35 @@ public class DashBoard extends BaseActivity {
                 Tab_View_Adjust(ShadowLayoutDiscover, ShadowLayoutMyGarage, ShadowLayoutRides);
                 break;
             case R.id.my_garage_active:
-                Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
+                Hit_Rider_Details(new Prefe(this).getUserID());
                 Tab_View_Adjust(ShadowLayoutMyGarage, ShadowLayoutRides, ShadowLayoutDiscover);
                 break;
             case R.id.my_garage_inactive:
-                Hit_Rider_Details(new Session(this).get_LOGIN_USER_ID());
+                Hit_Rider_Details(new Prefe(this).getUserID());
                 Tab_View_Adjust(ShadowLayoutMyGarage, ShadowLayoutRides, ShadowLayoutDiscover);
                 break;
             case R.id.rides_active:
+                hit_my_ride(new Prefe(this).getUserID());
                 if (My_Ride_Attached != null) {
                     if (My_Ride_Attached.equalsIgnoreCase("0")) {
-                        replaceFragment(new Ride_Add_Fragments());
+                        replaceFragment(new My_Ride_Fragment());
                     } else {
                         replaceFragment(new My_Ride_Fragment());
                     }
                 } else {
-                    replaceFragment(new Ride_Add_Fragments());
+                    replaceFragment(new My_Ride_Fragment());
                 }
                 Tab_View_Adjust(ShadowLayoutRides, ShadowLayoutMyGarage, ShadowLayoutDiscover);
                 break;
             case R.id.rides_inactive:
                 if (My_Ride_Attached != null) {
                     if (My_Ride_Attached.equalsIgnoreCase("0")) {
-                        replaceFragment(new Ride_Add_Fragments());
+                        replaceFragment(new My_Ride_Fragment());
                     } else {
                         replaceFragment(new My_Ride_Fragment());
                     }
                 } else {
-                    replaceFragment(new Ride_Add_Fragments());
+                    replaceFragment(new My_Ride_Fragment());
                 }
                 Tab_View_Adjust(ShadowLayoutRides, ShadowLayoutMyGarage, ShadowLayoutDiscover);
                 break;
@@ -132,21 +139,30 @@ public class DashBoard extends BaseActivity {
 
     private void replaceFragment(Fragment fragment) {
         try {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            Fragment oldFragment = fragmentManager.findFragmentByTag(fragment.getClass().getName());
-            if (oldFragment != null) {
-                fragment = oldFragment;
+            try {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment oldFragment = fragmentManager.findFragmentByTag(fragment.getClass().getName());
+                if (oldFragment != null) {
+                    fragment = oldFragment;
+                }
+                fragmentTransaction.replace(R.id.fragment_container, fragment, fragment.getClass().getName());
+                Current_Fagment_Name = fragment.getClass().getName();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                fragmentTransaction.commit();
+            } catch (IllegalStateException e) {
+                Constant.Show_Tos_Error(getApplicationContext(), false, true);
             }
-            fragmentTransaction.replace(R.id.fragment_container, fragment, fragment.getClass().getName());
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            fragmentTransaction.commit();
         } catch (Exception e) {
+            Constant.Show_Tos_Error(getApplicationContext(), false, true);
         }
+
+
     }
 
-    private void Tab_View_Adjust(View view, View view1, View view2) {
 
+    private void Tab_View_Adjust(View view, View view1, View view2) {
+        exitCount = 0;
         if (view.getId() == R.id.ShadowLayout_discover) {
             if (view.getVisibility() == View.GONE) {
                 view.setVisibility(View.VISIBLE);
@@ -187,6 +203,29 @@ public class DashBoard extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        hit_my_ride(new Prefe(this).getUserID());
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            {
+                Intent intent = new Intent(this, GpsTrunOnWarning.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+            }
+        }
+        if (ContextCompat.checkSelfPermission(DashBoard.this, Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
+        } else {
+            Intent i = new Intent(getApplicationContext(), LocationPermissionsWindow.class);
+            startActivityForResult(i, 365);
+        }
+
+
+        if (My_Ride_Attached != null) {
+            if (!My_Ride_Attached.equalsIgnoreCase("0")) {
+                if (Current_Fagment_Name.contains("My_Ride_Fragment"))
+                    replaceFragment(new My_Ride_Fragment());
+            }
+        }
+
 
     }
 
@@ -205,7 +244,7 @@ public class DashBoard extends BaseActivity {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            Constant.Show_Tos_Error(getApplicationContext(), false, true);
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             JSONArray BIKEBRANDDETAILS = null;
@@ -213,6 +252,7 @@ public class DashBoard extends BaseActivity {
                                 BIKEBRANDDETAILS = jsonObject.getJSONObject("ALLRIDERDETAILS").getJSONArray("BIKEBRANDDETAILS");
                                 Check_Payment(jsonObject.getJSONObject("ALLRIDERDETAILS").getJSONObject("USERDETAILS"));
                             } catch (Exception E) {
+                                Constant.Show_Tos_Error(getApplicationContext(), false, true);
                             }
 
                             if (BIKEBRANDDETAILS != null) {
@@ -247,7 +287,7 @@ public class DashBoard extends BaseActivity {
 
 
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Constant.Show_Tos_Error(getApplicationContext(), false, true);
                         hide_ProgressDialog();
                     }
                 }
@@ -255,6 +295,7 @@ public class DashBoard extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(), true, false);
                 hide_ProgressDialog();
             }
         });
@@ -266,17 +307,21 @@ public class DashBoard extends BaseActivity {
             try {
                 if (jsonObject.getString("PLANNAME") != null) {
                     if (jsonObject.getString("PLANNAME").equalsIgnoreCase("")) {
-                        new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);
+                        new Prefe(getApplicationContext()).setAccountPlanStatus(BASIC);
                     } else if (jsonObject.getString("PLANNAME").equalsIgnoreCase("null")) {
-                        new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);
+                        new Prefe(getApplicationContext()).setAccountPlanStatus(BASIC);
                     } else {
-                        new Session(getApplicationContext()).set_MEMBER_STATUS(PREMIUM);
+                        if (jsonObject.getString("PLANNAME").equalsIgnoreCase(BASIC)) {
+                            new Prefe(getApplicationContext()).setAccountPlanStatus(BASIC);
+                        } else {
+                            new Prefe(getApplicationContext()).setAccountPlanStatus(PREMIUM);
+                        }
                     }
                 } else {
-                    new Session(getApplicationContext()).set_MEMBER_STATUS(BASIC);
+                    new Prefe(getApplicationContext()).setAccountPlanStatus(BASIC);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                Constant.Show_Tos_Error(getApplicationContext(), false, true);
             }
         }
 
@@ -297,7 +342,7 @@ public class DashBoard extends BaseActivity {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            Constant.Show_Tos_Error(getApplicationContext(), false, true);
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
 
@@ -321,11 +366,46 @@ public class DashBoard extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(), true, false);
                 My_Ride_Attached = String.valueOf(0);
             }
         });
 
-
+        if (My_Ride_Attached != null) {
+            if (!My_Ride_Attached.equalsIgnoreCase("0")) {
+                if (Current_Fagment_Name.contains("My_Ride_Fragment"))
+                    replaceFragment(new My_Ride_Fragment());
+            }
+        }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (resultCode == RESULT_OK && requestCode == 365) {
+            Hit_Rider_Details(new Prefe(this).getUserID());
+            hit_my_ride(new Prefe(this).getUserID());
+        }
+    }
+
+    public void show_ProgressDialog() {
+        shimmer_view_container.startShimmer();
+        shimmerView.setVisibility(View.VISIBLE);
+    }
+
+    public void hide_ProgressDialog() {
+        shimmer_view_container.stopShimmer();
+        shimmerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        exitCount++;
+        Constant.Show_Tos(getApplicationContext(), "Press back again to exit");
+        if (exitCount>1) {
+            System.exit(0);
+        }
+    }
 }

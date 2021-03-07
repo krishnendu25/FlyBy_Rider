@@ -27,6 +27,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.flyby_riders.Constants.StringUtils.LiveHeader;
+
 /**
  * Common class for requesting network query or uploading file.
  *
@@ -78,7 +80,7 @@ public class JSONRequestResponse {
                                     System.out.println("Request ID:::::" + error.networkResponse.headers.get("RequestId"));
                                 }catch (Exception e)
                                 {
-                                    e.printStackTrace();
+
                                 }
                                 try
                                 {
@@ -103,15 +105,14 @@ public class JSONRequestResponse {
                                             }
 
                                         } catch (JSONException e) {
-                                            //Handle a malformed json response
-                                            e.printStackTrace();
+
 
                                             if (listner != null) {
                                                 listner.ErrorResponse(error, reqCode, null);
                                             }
 
                                         } catch (Exception e) {
-                                            e.printStackTrace();
+
                                             if (listner != null) {
                                                 listner.ErrorResponse(error, reqCode, null);
                                             }
@@ -136,10 +137,12 @@ public class JSONRequestResponse {
                     @Override
                     public Map<String, String> getHeaders(){
                         Map<String, String> headers = new HashMap<String, String>();
-                       /* headers.put("Authorization","bearer "+logindetails.getString("JWTtoken", ""));*/
-                        /*headers.put("tag", logindetails.getString("LocationHeader", ""));
-                        headers.put("Accept-Language", "en-US,en");
-                        headers.put("Application", "SwigTVAndroid");*/
+                        if (isjsonrequest){
+                            headers.put("Authorization",LiveHeader);
+                            headers.put("content-type","application/json");
+                        }
+
+
                         return headers;
                     }
                 };
@@ -199,15 +202,12 @@ public class JSONRequestResponse {
                                     }
 
                                 } catch (JSONException e) {
-                                    //Handle a malformed json response
-                                    e.printStackTrace();
 
                                     if (listner != null) {
                                         listner.ErrorResponse(error, reqCode, null);
                                     }
 
                                 } catch (Exception e) {
-                                    e.printStackTrace();
                                     if (listner != null) {
                                         listner.ErrorResponse(error, reqCode, null);
                                     }
@@ -350,16 +350,10 @@ public class JSONRequestResponse {
         }
     }
 
-    /**
-     * @return the isFile
-     */
     public boolean isFile() {
         return isFile;
     }
 
-    /**
-     * @param isFile the File to set
-     */
     public void setFile(String param, String path) {
         if (path != null && param != null) {
             key = param;

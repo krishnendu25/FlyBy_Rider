@@ -5,16 +5,71 @@
     android:layout_height="match_parent">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background_base"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@color/white"
-        app:title="PHOTO"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/toolbar"
+      android:background="@color/background_base">
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+          <soup.neumorphism.NeumorphCardView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:neumorph_lightSource="leftBottom"
+              android:visibility="visible"
+              app:neumorph_strokeWidth="2dp"
+              app:neumorph_strokeColor="#29252E"
+              app:neumorph_shadowColorDark="#1FFFFFFF"
+              app:neumorph_shadowColorLight="#000000"
+              app:neumorph_shadowElevation="4dp"
+              app:neumorph_shapeType="flat"
+              android:layout_marginTop="10dp"
+              android:layout_marginStart="10dp"
+            >
+                  <RelativeLayout
+                      android:id="@+id/Back_Btn"
+                      android:layout_width="45dp"
+                      android:layout_height="45dp"
+                      android:background="@drawable/round_drak"
+                      android:gravity="center">
+                      <ImageView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerHorizontal="true"
+                          android:src="@drawable/ic_back" />
+                  </RelativeLayout>
+          </soup.neumorphism.NeumorphCardView>
+          <TextView
+              android:id="@+id/titleBarTV"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:textSize="18dp"
+              android:fontFamily="@font/avenirnextheavy"
+              android:textColor="@color/white"
+              android:layout_gravity="center"
+              android:text="PHOTO"
+              android:paddingStart="10dp"/>
+      </LinearLayout>
+
+      <TextView
+          android:id="@+id/nextTV"
+          android:layout_width="100dp"
+          android:layout_height="45dp"
+          android:background="@drawable/base_round_ripple"
+          android:layout_alignParentEnd="true"
+          android:layout_centerVertical="true"
+          android:text="NEXT"
+          android:gravity="center"
+          android:textColor="@color/background_base"
+          android:drawableTint="@color/background_base"
+          android:fontFamily="@font/blackhansansregular"
+          android:layout_marginEnd="20dp"
+          android:textSize="18dp"
+          />
+  </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/view_root"
@@ -29,7 +84,6 @@
             android:layout_height="match_parent"
             android:background="@color/background_base"
             android:layout_above="@+id/action_btn_contianer"
-            android:layout_below="@+id/tab_layout"
             />
 
         <LinearLayout
@@ -37,30 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-
             android:divider="?android:dividerHorizontal"
-
             android:orientation="vertical">
-
-            <TextView
-
-                android:id="@+id/tv_selected_title"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/background_base"
-                android:gravity="center"
-                android:fontFamily="@font/avenirnextbold"
-                android:padding="5dp"
-                android:text="@string/selected_image"
-                android:textColor="#97FD86"
-                android:textSize="18dp"
-                android:textStyle="bold"/>
-
-
-
-
-
-
             <FrameLayout
                 android:id="@+id/view_selected_photos_container"
                 android:layout_width="match_parent"
@@ -75,6 +107,7 @@
                     android:id="@+id/rc_selected_photos"
                     android:layout_width="match_parent"
                     android:background="@color/background_base"
+                    android:scrollbars="none"
                     android:layout_height="match_parent"
 
                     />
@@ -85,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/no_image"
-                    android:textSize="16dp"
+                    android:textSize="14sp"
                     android:fontFamily="@font/avenirnextbold"
                     android:textColor="#97FD86"/>
             </FrameLayout>
@@ -98,12 +131,13 @@
                 android:background="@color/background_base"
                 android:minHeight="?attr/actionBarSize"
                 app:tabGravity="fill"
-                app:tabIndicatorColor="@color/white"
-                app:tabIndicatorHeight="5dp"
+                android:translationY="10dp"
+                app:tabIndicatorColor="@color/light_green"
+                app:tabIndicatorHeight="6dp"
                 app:tabMaxWidth="0dp"
                 app:tabSelectedTextColor="@color/light_green"
                 app:tabTextAppearance="@style/CustomText_Body"
-                app:tabTextColor="@color/light_green" />
+                app:tabTextColor="@color/white" />
         </LinearLayout>
 
     </RelativeLayout>

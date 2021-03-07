@@ -5,28 +5,23 @@
     android:layout_height="match_parent"
     android:background="@color/background_base"
     tools:context=".Ui.Fragment.My_Ride_Fragment">
-
-  <ScrollView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
-`       <LinearLayout
+      <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:orientation="vertical">
       <RelativeLayout
           android:layout_width="match_parent"
-          android:layout_height="80dp">
-
+          android:layout_height="?actionBarSize">
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentStart="true"
               android:layout_marginStart="25dp"
               android:layout_centerVertical="true"
-              android:textColor="#F0EEF5"
-              android:textSize="25dp"
+              android:textColor="#DEDEDE"
+              android:textSize="18dp"
               android:text="My Rides"
-              android:fontFamily="@font/avenirnextheavy"/>
+              android:fontFamily="@font/manropeextrabold"/>
 
 
           <TextView
@@ -48,11 +43,83 @@
               android:fontFamily="@font/avenirnextheavy"/>
 
       </RelativeLayout>
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/MyRide_List"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+              <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                  android:id="@+id/refreshPull"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+                  <androidx.recyclerview.widget.RecyclerView
+                      android:id="@+id/MyRide_List"
+                      android:layout_width="match_parent"
+                      android:scrollbars="none"
+                      android:paddingBottom="100dp"
+                      android:clipToPadding="false"
+                      android:layout_height="match_parent"/>
+              </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+              <LinearLayout
+                  android:id="@+id/emptyView_Li"
+                  android:layout_width="match_parent"
+                  android:layout_centerHorizontal="true"
+                  android:layout_centerVertical="true"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+                  <ImageView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:src="@drawable/bg_no_media"
+                      android:layout_centerHorizontal="true"
+                      android:layout_gravity="center"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Welcome To Your Rides."
+                      android:textSize="18dp"
+                      android:textColor="#F0EEF5"
+                      android:gravity="center"
+                      android:layout_gravity="center"
+                      android:layout_marginTop="10dp"
+                      android:fontFamily="@font/avenirnextheavy"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@string/one_place_to_manage_all_your_rides_fellow_riders_amp_ntheir_location_media_and_trip_information"
+                      android:textSize="14dp"
+                      android:textColor="#AAAAAA"
+                      android:gravity="center"
+                      android:layout_gravity="center"
+                      android:layout_margin="10dp"
+                      android:fontFamily="@font/avenirbextregular"/>
+              </LinearLayout>
+          </RelativeLayout>
 
   </LinearLayout>
-  </ScrollView>
+    <RelativeLayout
+        android:id="@+id/shimmerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/background_base">
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:duration="300"
+            android:background="@color/transparent"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background_base">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shimmer_rides"/>
+            </RelativeLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </RelativeLayout>
 </FrameLayout>

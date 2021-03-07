@@ -110,7 +110,6 @@ public class GalleryFragment extends Fragment {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             if (imageCursor != null && !imageCursor.isClosed()) {
                 imageCursor.close();

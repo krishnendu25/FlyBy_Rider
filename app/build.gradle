@@ -18,18 +18,57 @@ android {
         applicationId "com.flyby_riders"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 120
-        versionName "1.2.0"
-
+        versionCode 113
+        versionName "1.1.3"
+        setProperty("archivesBaseName","@vikash" + versionCode)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
+            manifestPlaceholders =[G_MAP_KEY:"AIzaSyBwuESPSg34Dn_RuiMA3aesZZFzSylMw30"]
+            buildConfigField "String", "BASE_URL", '"http://flybyapp.in/flybyapp/RiderApi/"'
+            buildConfigField "String", "PayKeyID",'"rzp_live_uaLA2kNlhgs1j6"'
+            buildConfigField "String", "DirectionsAPI",'"AIzaSyB7kAsF427wwIhs1ZPFChtlbOt5UnyA9Yo"'
+            buildConfigField "String", "PaymentHeader",'"Basic cnpwX2xpdmVfdWFMQTJrTmxoZ3MxajY6UGVXY0lkcEdSSnNMckp3N25pZ0hVdkxs"'
+            //PAYU PAYMENT GATEWAY
+            buildConfigField "String", "MerchantKey_PayU",'"Olme4DOB"'
+            buildConfigField "String", "MerchantSalt_PayU",'"TV7mSz6nze"'
+            buildConfigField "String", "AuthHeader_PayU",'"61bCyMyIM5+HfNu+xAq5PApsQSLXpxlgtEmOctVSjUI="'
+            buildConfigField "String", "MerchantID",'"7363946"'
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
+            manifestPlaceholders =[G_MAP_KEY:"AIzaSyBPY5WHNqIEGV2y6eNR4R5xCgzEh_kyYCY"]
+            buildConfigField "String", "BASE_URL", '"http://flybyapp.dev/flybyapp/RiderApi/"'
+            buildConfigField "String", "PayKeyID",'"rzp_test_VB1RdpKZUd9TfA"'
+            buildConfigField "String", "DirectionsAPI",'"AIzaSyB7kAsF427wwIhs1ZPFChtlbOt5UnyA9Yo"'
+            //private String API_KEY = "AIzaSyB7kAsF427wwIhs1ZPFChtlbOt5UnyA9Yo";
+            buildConfigField "String", "PaymentHeader",'"Basic cnpwX3Rlc3RfVkIxUmRwS1pVZDlUZkE6dVBWY2ZYZUs5TkU4ZUFpZTJwZ3hlOURB"'
+            //PAYU PAYMENT GATEWAY
+            buildConfigField "String", "MerchantKey_PayU",'"Olme4DOB"'
+            buildConfigField "String", "MerchantSalt_PayU",'"TV7mSz6nze"'
+            buildConfigField "String", "AuthHeader_PayU",'"61bCyMyIM5+HfNu+xAq5PApsQSLXpxlgtEmOctVSjUI="'
+            buildConfigField "String", "MerchantID",'"7363946"'
+
             minifyEnabled false
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -47,19 +86,13 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.android.support:multidex:1.0.3'
-    // Recommended: Add the Firebase SDK for Google Analytics.
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
-    // Add the Firebase SDK for Crashlytics.
-    implementation 'com.google.firebase:firebase-messaging:20.1.0'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
     //Network { API CALLING }
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'org.apache.httpcomponents:httpmime:4.5.6'
@@ -67,10 +100,11 @@ dependencies {
     //User Interface  [Url image viewer,RecyclerView,CirculerImageView,Navigation-View]
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
     //Google-Map
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.maps.android:android-maps-utils:0.5'
     //Depandecy Enjection
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
@@ -79,16 +113,17 @@ dependencies {
     //OTP
     implementation 'com.github.aabhasr1:OtpView:v1.1.2'
     //Place-AutoComplete Search
-    implementation 'com.google.android.libraries.places:places:2.3.0'
+    implementation 'com.google.android.libraries.places:places:2.4.0'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
-    //smsverifycatcher
-    implementation 'com.github.stfalcon:smsverifycatcher:0.3.2'
+    implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
+    implementation 'com.google.firebase:firebase-analytics:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
     //viewpagerdotsindicator
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
-    implementation("com.google.android.gms:play-services-auth:18.0.0")
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation("com.google.android.gms:play-services-auth:18.1.0")
     //RxLocation
     implementation 'com.github.quentin7b:android-location-tracker:3.2'
+    implementation 'net.kjulio.RxLocation:rxlocation:0.11.0-beta'
     //retrofit
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
@@ -96,19 +131,25 @@ dependencies {
     //gson
     implementation 'com.google.code.gson:gson:2.8.6'
     //Glide
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //lottieVersion
     implementation 'com.airbnb.android:lottie:3.4.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     //shadowlayout
-    implementation 'com.lijiankun24:shadowlayout:1.1.0'
     implementation 'com.commonsware.cwac:camera:0.6.+'
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
     //Recyclerviewmergeadapter
-    implementation 'me.mvdw.recyclerviewmergeadapter:recyclerviewmergeadapter:2.1.0'
-
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+    implementation 'com.github.smarteist:autoimageslider:1.3.9'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'com.github.fornewid:neumorphism:0.2.1'
+    //razorpay
+    implementation 'com.razorpay:checkout:1.5.16'
+    //PayU
+    implementation 'com.payumoney.sdkui:plug-n-play:1.6.0'
 }
 apply plugin: 'com.jakewharton.butterknife'
-apply plugin: 'com.google.gms.google-services'
+// Apply the Crashlytics Gradle plugin
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.gms.google-services'

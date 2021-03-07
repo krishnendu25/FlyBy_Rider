@@ -314,7 +314,6 @@ public class CwacCameraFragment extends Fragment implements View.OnClickListener
             cameraView.autoFocus();
 
         } catch (Exception e) {
-            e.printStackTrace();
 
         }
     }
@@ -544,7 +543,7 @@ public class CwacCameraFragment extends Fragment implements View.OnClickListener
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+
             }
 
             return bitmap;
@@ -622,7 +621,7 @@ public class CwacCameraFragment extends Fragment implements View.OnClickListener
             } catch (Exception e) {
                 handleException(e);
 
-                e.printStackTrace();
+
             }
 
         }
@@ -662,7 +661,6 @@ public class CwacCameraFragment extends Fragment implements View.OnClickListener
 
 
             } catch (Exception e) {
-                e.printStackTrace();
 
             }
 

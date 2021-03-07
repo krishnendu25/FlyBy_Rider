@@ -6,35 +6,14 @@
     android:layout_height="match_parent"
     android:background="@color/background_base"
     android:orientation="vertical"
-    tools:context=".Ui.Activity.Bike_Brand_Activity">
+    tools:context=".Ui.Activity.BikeBrandView">
 
    <include layout="@layout/toolbar_layout"/>
-    <com.flyby_riders.Utils.ShadowLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:sl_shadow_color="#33EDE9E9"
-        app:shadowRadius="100dp"
-        app:shadowShape="rectangle"
-        app:sl_shadow_angle="270"
-        app:sl_shadowed="true"
-        app:shadowSide="bottom"
-        app:sl_shadow_radius="2sp">
-        <com.flyby_riders.Utils.ShadowLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            app:sl_shadow_color="#000000"
-            app:shadowRadius="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            app:shadowShape="rectangle"
-            app:sl_shadow_angle="90"
-            app:sl_shadowed="true"
-            app:sl_shadow_radius="13dp"
-            app:shadowSide="top">
+
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="?actionBarSize"
+                android:layout_margin="25dp"
                 android:background="@drawable/round_drak"
                 android:gravity="center">
                 <EditText
@@ -43,13 +22,12 @@
                     android:drawableStart="@drawable/ic_search"
                     android:drawablePadding="20dp"
                     android:paddingStart="20dp"
+                    android:textSize="14dp"
                     android:hint="Search for a brands"
                     android:fontFamily="@font/manropesemibold"
                     android:layout_height="?actionBarSize"
                     android:background="@drawable/ph_edittext_bg"/>
             </RelativeLayout>
-        </com.flyby_riders.Utils.ShadowLayout>
-    </com.flyby_riders.Utils.ShadowLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -63,7 +41,7 @@
             android:fontFamily="@font/manropebold"
             android:text="Select one or more brands"
             android:textColor="#EEEFF5"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
 
         <GridView
             android:id="@+id/bike_brand_list"

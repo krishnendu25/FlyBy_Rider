@@ -6,7 +6,7 @@
 <resources>
 
 
-    <dimen name="ted_picker_selected_image_height">90dp</dimen>
+    <dimen name="ted_picker_selected_image_height">120dp</dimen>
 
 
     <dimen name="ted_picker_camera_height">1200</dimen>

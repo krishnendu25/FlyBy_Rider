@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#17141C"
+    android:orientation="vertical"
+    tools:context=".Ui.Activity.MyAccount">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <soup.neumorphism.NeumorphCardView
+            android:id="@+id/Back_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:neumorph_lightSource="leftBottom"
+            android:visibility="visible"
+            app:neumorph_strokeWidth="2dp"
+            app:neumorph_strokeColor="#29252E"
+            app:neumorph_shadowColorDark="#1FFFFFFF"
+            app:neumorph_shadowColorLight="#000000"
+            app:neumorph_shadowElevation="4dp"
+            app:neumorph_shapeType="flat"
+            >
+
+
+        <RelativeLayout
+                    android:id="@+id/Back_Btn"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_drak"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/ic_back" />
+                </RelativeLayout>
+        </soup.neumorphism.NeumorphCardView>
+        <TextView
+            android:id="@+id/categoryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/Back_"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/avenirnextbold"
+            android:gravity="center|start"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:text="@string/my_account"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+
+
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/NestedScrollView_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manroperegular"
+                    android:text="Registered Number"
+                    android:textColor="#AEACB5"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/myPhoneNoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manropeextrabold"
+                    android:textColor="#F0EEF5"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="#2F2A37" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manroperegular"
+                        android:text="Your Plan"
+                        android:textColor="#AEACB5"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/planIndicatorTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/manropeextrabold"
+                        android:gravity="center"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="5dp"
+                        android:textColor="@color/background_base"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/basicAccountPointsView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="14dp"
+                android:visibility="gone"
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_yellowpoint"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/manroperegular"
+                    android:text="@string/add_maximum_1_bike_to_garage"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manroperegular"
+                    android:paddingStart="20dp"
+                    android:text="Add unlimited bikes with Premium plan"
+                    android:textColor="#AEACB5"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:drawableStart="@drawable/ic_yellowpoint"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/manroperegular"
+                    android:text="@string/add_maximum_3_rides_0_5_gb_per_ride"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manroperegular"
+                    android:paddingStart="20dp"
+                    android:text="Unlimited Rides with 2 GB storage per ride with Premium"
+                    android:textColor="#AEACB5"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:drawableStart="@drawable/ic_yellowpoint"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/manroperegular"
+                    android:text="@string/maximum_5_members_per_ride"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manroperegular"
+                    android:paddingStart="20dp"
+                    android:text="50 members per ride with premium - Coming Soon"
+                    android:textColor="#AEACB5"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/premiumAccountPointsView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_greenpoint"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/manroperegular"
+                    android:text="@string/add_unlimited_bikes_to_garage"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:drawableStart="@drawable/ic_greenpoint"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/manroperegular"
+                    android:text="@string/unlimited_rides_2_gb_per_ride"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:drawableStart="@drawable/ic_greenpoint"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/manroperegular"
+                    android:text="@string/_50_members_per_ride"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:layout_marginEnd="24dp">
+                <TextView
+                    android:id="@+id/viewPremiumPlan"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/base_btn_ripple"
+                    android:fontFamily="@font/avenirnextheavy"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="@string/view_premium_plan"
+                    android:textColor="@color/background_base"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="#2F2A37" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manroperegular"
+                    android:text="Your Bikes"
+                    android:textColor="#AEACB5"
+                    android:textSize="14sp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/myBikeList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                         />
+                    <TextView
+                        android:id="@+id/empty_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/manropeextrabold"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+                        android:text="You Have No Bike" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="#2F2A37" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manroperegular"
+                    android:text="@string/customer_support"
+                    android:textColor="#AEACB5"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="14dp"
+                android:weightSum="3"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+
+                    <LinearLayout
+                        android:id="@+id/callBTN"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:translationX="10dp"
+                        android:background="@drawable/ic_btnclwp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="25dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_call" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/manroperegular"
+                                android:paddingStart="10dp"
+                                android:gravity="center"
+                                android:text="Call" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/whatsappBTN"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:translationX="-10dp"
+                        android:background="@drawable/ic_btnclwp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="25dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_whatsapp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/manroperegular"
+                                android:paddingStart="10dp"
+                                android:gravity="center"
+                                android:text="WhatsApp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+                    android:layout_weight="1.45"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/call_wp_view"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_call" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manroperegular"
+                        android:paddingStart="10dp"
+                        android:text="Call" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="#2F2A37" />
+            <LinearLayout
+            android:id="@+id/rateMyAppBTN"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manroperegular"
+                android:text="@string/rate_app_on_playstore"
+                android:textColor="#AEACB5"
+                android:textSize="14sp" />
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="#2F2A37" />
+            <LinearLayout
+                android:id="@+id/logoutBTN"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manroperegular"
+                    android:text="@string/logout"
+                    android:textColor="#AEACB5"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="#2F2A37" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

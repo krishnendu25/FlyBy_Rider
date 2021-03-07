@@ -1,0 +1,194 @@
+package com.flyby_riders.Ui.Model;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
+
+/**
+ * Created by KRISHNENDU MANNA on 31,July,2020
+ */
+public class Garage_Owner_Model implements Parcelable
+{
+    private String GARAGEID,OWNERNAME,STORENAME,PHONE,WHATSAPPNO,ADDRESS,CITY,LAT,LANG,DISTANCE_FROM_ME,PROFILEPIC;
+    private String Details_1,Details_2,Details_3;
+
+    private ArrayList<Category_Model> category_models = new ArrayList<>();
+
+    public Garage_Owner_Model() {
+    }
+
+    protected Garage_Owner_Model(Parcel in) {
+        GARAGEID = in.readString();
+        OWNERNAME = in.readString();
+        STORENAME = in.readString();
+        PHONE = in.readString();
+        WHATSAPPNO = in.readString();
+        ADDRESS = in.readString();
+        CITY = in.readString();
+        LAT = in.readString();
+        LANG = in.readString();
+        DISTANCE_FROM_ME = in.readString();
+        PROFILEPIC = in.readString();
+        Details_1 = in.readString();
+        Details_2 = in.readString();
+        Details_3 = in.readString();
+        category_models = in.createTypedArrayList(Category_Model.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(GARAGEID);
+        dest.writeString(OWNERNAME);
+        dest.writeString(STORENAME);
+        dest.writeString(PHONE);
+        dest.writeString(WHATSAPPNO);
+        dest.writeString(ADDRESS);
+        dest.writeString(CITY);
+        dest.writeString(LAT);
+        dest.writeString(LANG);
+        dest.writeString(DISTANCE_FROM_ME);
+        dest.writeString(PROFILEPIC);
+        dest.writeString(Details_1);
+        dest.writeString(Details_2);
+        dest.writeString(Details_3);
+        dest.writeTypedList(category_models);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Garage_Owner_Model> CREATOR = new Creator<Garage_Owner_Model>() {
+        @Override
+        public Garage_Owner_Model createFromParcel(Parcel in) {
+            return new Garage_Owner_Model(in);
+        }
+
+        @Override
+        public Garage_Owner_Model[] newArray(int size) {
+            return new Garage_Owner_Model[size];
+        }
+    };
+
+    public String getGARAGEID() {
+        return GARAGEID;
+    }
+
+    public void setGARAGEID(String GARAGEID) {
+        this.GARAGEID = GARAGEID;
+    }
+
+    public String getOWNERNAME() {
+        return OWNERNAME;
+    }
+
+    public void setOWNERNAME(String OWNERNAME) {
+        this.OWNERNAME = OWNERNAME;
+    }
+
+    public String getSTORENAME() {
+        return STORENAME;
+    }
+
+    public void setSTORENAME(String STORENAME) {
+        this.STORENAME = STORENAME;
+    }
+
+    public String getPHONE() {
+        return PHONE;
+    }
+
+    public void setPHONE(String PHONE) {
+        this.PHONE = PHONE;
+    }
+
+    public String getWHATSAPPNO() {
+        return WHATSAPPNO;
+    }
+
+    public void setWHATSAPPNO(String WHATSAPPNO) {
+        this.WHATSAPPNO = WHATSAPPNO;
+    }
+
+    public String getADDRESS() {
+        return ADDRESS;
+    }
+
+    public void setADDRESS(String ADDRESS) {
+        this.ADDRESS = ADDRESS;
+    }
+
+    public String getCITY() {
+        return CITY;
+    }
+
+    public void setCITY(String CITY) {
+        this.CITY = CITY;
+    }
+
+    public String getLAT() {
+        return LAT;
+    }
+
+    public void setLAT(String LAT) {
+        this.LAT = LAT;
+    }
+
+    public String getLANG() {
+        return LANG;
+    }
+
+    public void setLANG(String LANG) {
+        this.LANG = LANG;
+    }
+
+    public String getDISTANCE_FROM_ME() {
+        return DISTANCE_FROM_ME;
+    }
+
+    public void setDISTANCE_FROM_ME(String DISTANCE_FROM_ME) {
+        this.DISTANCE_FROM_ME = DISTANCE_FROM_ME;
+    }
+
+    public String getPROFILEPIC() {
+        return PROFILEPIC;
+    }
+
+    public void setPROFILEPIC(String PROFILEPIC) {
+        this.PROFILEPIC = PROFILEPIC;
+    }
+
+    public String getDetails_1() {
+        return Details_1;
+    }
+
+    public void setDetails_1(String details_1) {
+        Details_1 = details_1;
+    }
+
+    public String getDetails_2() {
+        return Details_2;
+    }
+
+    public void setDetails_2(String details_2) {
+        Details_2 = details_2;
+    }
+
+    public String getDetails_3() {
+        return Details_3;
+    }
+
+    public void setDetails_3(String details_3) {
+        Details_3 = details_3;
+    }
+
+    public ArrayList<Category_Model> getCategory_models() {
+        return category_models;
+    }
+
+    public void setCategory_models(ArrayList<Category_Model> category_models) {
+        this.category_models = category_models;
+    }
+}

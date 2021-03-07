@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_base"
     android:orientation="vertical"
-    tools:context=".Ui.Activity.Ride_Members_Management">
+    tools:context=".Ui.Activity.RideMembersManage">
 
 
     <LinearLayout
@@ -14,31 +14,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.flyby_riders.Utils.ShadowLayout
+        <soup.neumorphism.NeumorphCardView
+            android:id="@+id/Back_"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:shadowRadius="100dp"
-            app:shadowShape="oval"
-            app:shadowSide="bottom"
-            app:sl_shadow_angle="270"
-            app:sl_shadow_color="#33EDE9E9"
-            app:sl_shadow_radius="2dp"
-            app:sl_shadowed="true">
-
-            <com.flyby_riders.Utils.ShadowLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_horizontal"
-                app:shadowRadius="100dp"
-                app:shadowShape="oval"
-                app:shadowSide="top"
-                app:sl_shadow_angle="90"
-                app:sl_shadow_color="#000000"
-                app:sl_shadow_radius="10dp"
-                app:sl_shadowed="true">
-
+            app:neumorph_lightSource="leftBottom"
+            android:visibility="visible"
+            app:neumorph_strokeWidth="2dp"
+            app:neumorph_strokeColor="#29252E"
+            app:neumorph_shadowColorDark="#1FFFFFFF"
+            app:neumorph_shadowColorLight="#000000"
+            app:neumorph_shadowElevation="4dp"
+            app:neumorph_shapeType="flat"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp">
                 <RelativeLayout
                     android:id="@+id/Back_Btn"
                     android:layout_width="45dp"
@@ -51,13 +40,12 @@
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/ic_back" />
                 </RelativeLayout>
-            </com.flyby_riders.Utils.ShadowLayout>
-        </com.flyby_riders.Utils.ShadowLayout>
+        </soup.neumorphism.NeumorphCardView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center|start"
+            android:layout_height="wrap_content"
+            android:gravity="center|start|top"
             android:orientation="vertical">
 
 
@@ -68,7 +56,7 @@
                 android:fontFamily="@font/avenirnextbold"
                 android:text="Ride Members"
                 android:textColor="#fff"
-                android:textSize="16dp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/member_count_tv"
@@ -77,7 +65,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/manroperegular"
                 android:textColor="#fff"
-                android:textSize="16dp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/Buy_Subscption_tv"
@@ -90,7 +78,7 @@
                 android:ellipsize="marquee"
                 android:text="@string/add_upto_50_members_upgrade_to_premium"
                 android:textColor="#fff"
-                android:textSize="16dp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -119,7 +107,7 @@
             android:gravity="start|center"
             android:text="Add new member"
             android:textColor="@color/light_green"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
 
     </LinearLayout>
 
@@ -137,6 +125,7 @@
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/Ride_member_list"
     android:layout_width="match_parent"
+    android:scrollbars="none"
     android:layout_height="match_parent"/>
 
     </LinearLayout>

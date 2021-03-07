@@ -15,5 +15,29 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="10dp"
         android:background="@drawable/ic_remove_doc"
-      />
+      /> <TextView
+    android:id="@+id/viewPager"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edittext_bg"
+    android:padding="10dp"
+    android:textColor="@color/light_green"
+    android:gravity="center"
+    android:visibility="gone"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="35dp"
+    android:textSize="18dp"
+    android:fontFamily="@font/avenirnextbold"/>
+    <ImageView
+        android:id="@+id/downloadView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_download"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/base_round_ripple"
+        />
 </RelativeLayout>

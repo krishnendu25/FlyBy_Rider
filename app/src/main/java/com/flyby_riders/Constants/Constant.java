@@ -2,6 +2,7 @@ package com.flyby_riders.Constants;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,8 +19,10 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.text.format.Formatter;
 import android.util.Base64;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,18 +31,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flyby_riders.R;
+import com.flyby_riders.Ui.Listener.DialogTask;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,18 +56,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class Constant
-{
+import static android.content.ContentValues.TAG;
+
+public class Constant {
 
 
     public static List<String> months = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+    public static List<String> categories = Arrays.asList("Bike Servicing & Repair", "Gear & Accessory", "Bike Parts & Accessories",
+            "Bike Wash", "Tyres", "Body Work & Modifications", "Towing", "Bike Showroom", "Race Track", "Racing Acadmey");
 
-    public static String SET_TIME="set_time",SET_LOCATION_LAT="set_location_lat",SET_LOCATION_LON="set_location_lon",REVIEW="REVIEW";
+    public static String SET_TIME = "set_time", SET_LOCATION_LAT = "set_location_lat", SET_LOCATION_LON = "set_location_lon", REVIEW = "REVIEW";
     public static String Global_FCM_TOKEN;
 
     public static String GET_timeStamp() {
@@ -76,22 +89,43 @@ public class Constant
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // the format of your date
             return sdf.format(date);
         } catch (Exception e) {
-            e.printStackTrace();
             return "";
         }
 
     }
 
+    public static void openWhatsApp(String numero, String mensaje, Context context) {
+
+        try {
+            String newNum;
+                if (!numero.contains("+91"))
+                {
+                     newNum = "+91" + numero;
+                }else
+                    newNum=numero;
 
 
+            PackageManager packageManager = context.getPackageManager();
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            String url = "https://api.whatsapp.com/send?phone=" + newNum + "&text=" + URLEncoder.encode(mensaje, "UTF-8");
+            i.setPackage("com.whatsapp");
+            i.setData(Uri.parse(url));
+            if (i.resolveActivity(packageManager) != null) {
+                context.startActivity(i);
+            } else {
+                Constant.Show_Tos(context, "No not found");
+            }
+        } catch (Exception e) {
+            Constant.Show_Tos_Error(context, true, false);
 
+        }
 
-
+    }
 
 
     public static int differentDensityAndScreenSize(Context context) {
         int value = 20;
-        String str = "",str_device="";
+        String str = "", str_device = "";
         if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
             switch (context.getResources().getDisplayMetrics().densityDpi) {
                 case DisplayMetrics.DENSITY_LOW:
@@ -275,22 +309,20 @@ public class Constant
 
         return value;
     }
+
     public static String Get_back_date_and_time(String timeStamp) {
         try {
-            if (timeStamp.isEmpty() && timeStamp==null)
-            {
+            if (timeStamp.isEmpty() && timeStamp == null) {
                 return " ";
-            }else
-            {
+            } else {
 
                 long unixSeconds = Long.valueOf(timeStamp);
                 java.sql.Date date = new java.sql.Date(unixSeconds * 1000L); // *1000 is to convert seconds to milliseconds
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aaa"); // the format of your date
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aaa"); // the format of your date
                 return sdf.format(date);
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return " ";
         }
     }
@@ -298,11 +330,9 @@ public class Constant
 
     public static String Get_DATE_INWORD(String timeStamp) {
         try {
-            if (timeStamp.isEmpty() && timeStamp==null)
-            {
+            if (timeStamp.isEmpty() && timeStamp == null) {
                 return " ";
-            }else
-            {
+            } else {
 
                 long unixSeconds = Long.valueOf(timeStamp);
                 java.sql.Date date = new java.sql.Date(unixSeconds * 1000L); // *1000 is to convert seconds to milliseconds
@@ -311,53 +341,51 @@ public class Constant
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
             return " ";
         }
     }
-    public static  long Date_to_milliseconds(String givenDateString)
-    {
+
+    public static long Date_to_milliseconds(String givenDateString) {
         long timeInMilliseconds = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date mDate = sdf.parse(givenDateString);
             timeInMilliseconds = mDate.getTime();
             System.out.println("Date in milli :: " + timeInMilliseconds);
-            return timeInMilliseconds ;
+            return timeInMilliseconds;
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
-        return timeInMilliseconds ;
+        return timeInMilliseconds;
     }
 
-    public static  long Date_to_milliseconds(String givenDateString,String Sig)
-    {
+    public static long Date_to_milliseconds(String givenDateString, String Sig) {
         long timeInMilliseconds = 0;
         SimpleDateFormat sdf = new SimpleDateFormat(Sig);
         try {
             Date mDate = sdf.parse(givenDateString);
             timeInMilliseconds = mDate.getTime();
             System.out.println("Date in milli :: " + timeInMilliseconds);
-            return timeInMilliseconds ;
+            return timeInMilliseconds;
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
-        return timeInMilliseconds ;
+        return timeInMilliseconds;
     }
 
-    public static  long Date_time_to_milliseconds(String givenDateString)
-    {
+    public static long Date_time_to_milliseconds(String givenDateString) {
         long timeInMilliseconds = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aaa");
         try {
             Date mDate = sdf.parse(givenDateString);
             timeInMilliseconds = mDate.getTime();
             System.out.println("Date in milli :: " + timeInMilliseconds);
-            return timeInMilliseconds ;
+            return timeInMilliseconds;
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
-        return timeInMilliseconds ;
+        return timeInMilliseconds;
     }
 
     //Check Device Time Automatic oR Not
@@ -366,11 +394,11 @@ public class Constant
             return Settings.Global.getInt(c.getContentResolver(), Settings.Global.AUTO_TIME, 0) != 1;
 
 
-
         } else {
             return Settings.System.getInt(c.getContentResolver(), Settings.System.AUTO_TIME, 0) != 1;
         }
     }
+
     public static String Get_back_time(String timeStamp) {
         try {
             long unixSeconds = Long.valueOf(timeStamp);
@@ -378,7 +406,7 @@ public class Constant
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa"); // the format of your date
             return sdf.format(time);
         } catch (Exception e) {
-            e.printStackTrace();
+
             return "";
         }
     }
@@ -419,30 +447,65 @@ public class Constant
 
 
     public static void Show_Tos(Context context, String MSG) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.toast_custom, null);
-        TextView text = (TextView) layout.findViewById(R.id.text);
-        text.setText(MSG);
-        Toast toast = new Toast(context);
-        toast.setGravity(Gravity.BOTTOM, 0, 300);
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setView(layout);
-        toast.show();
+        try {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.toast_custom, null);
+            TextView text = (TextView) layout.findViewById(R.id.text);
+            text.setText(MSG);
+            Toast toast = new Toast(context);
+            toast.setGravity(Gravity.BOTTOM, 0, 300);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(layout);
+            if (!MSG.toLowerCase().contains("error"))
+            toast.show();
+        } catch (Exception e) {
+
+        }
+
     }
+
+
+    public static void Show_Tos_Error(Context context, boolean NetWork, boolean Exception_) {
+     /*   try{
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.toast_custom_error, null);
+            TextView text = (TextView) layout.findViewById(R.id.text_ER);
+            if (NetWork)
+            {
+                text.setText("Network error");
+
+            }  if (Exception_)
+            {
+                text.setText("An error occurred");
+            }
+            Toast toast = new Toast(context);
+            toast.setGravity(Gravity.BOTTOM, 0, 300);
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setView(layout);
+            toast.show();
+        }catch (Exception e)
+        {
+
+        }
+*/
+    }
+
     public static void Show_Tos_Long(Context context, String MSG) {
-        Toast.makeText(context,MSG,Toast.LENGTH_LONG).show();
+        Toast.makeText(context, MSG, Toast.LENGTH_LONG).show();
     }
+
     public static String random() {
         Random generator = new Random();
         StringBuilder randomStringBuilder = new StringBuilder();
         int randomLength = generator.nextInt(4);
         char tempChar;
-        for (int i = 0; i < randomLength; i++){
+        for (int i = 0; i < randomLength; i++) {
             tempChar = (char) (generator.nextInt(96) + 32);
             randomStringBuilder.append(tempChar);
         }
         return randomStringBuilder.toString();
     }
+
     public static int generateRandomNumber() {
         int randomNumber;
         int range = 9;  // to generate a single number with this range, by default its 0..9
@@ -463,6 +526,7 @@ public class Constant
 
         return randomNumber;
     }
+
     public static String SaveImagetoSDcard(String number, String imagename, Bitmap img, Activity mActivity) {
         File mydir = new File(mActivity.getFilesDir() + "/" + number + "_FLYBY/");
         if (!mydir.exists()) {
@@ -475,7 +539,7 @@ public class Constant
         try {
 
             outStream = new FileOutputStream(image);
-            img.compress(Bitmap.CompressFormat.JPEG, 90, outStream);
+            img.compress(Bitmap.CompressFormat.JPEG, 50, outStream);
             outStream.flush();
             outStream.close();
             success = true;
@@ -492,6 +556,7 @@ public class Constant
         }
 
     }
+
     public static Bitmap getBitmapFromURL(String src) {
         try {
             URL url = new URL(src);
@@ -506,6 +571,7 @@ public class Constant
             return null;
         }
     }
+
     public static Bitmap getCorrectlyOrientedImage(Context context, Uri photoUri) throws IOException {
         int MAX_IMAGE_DIMENSION = 900;
         InputStream is = context.getContentResolver().openInputStream(photoUri);
@@ -574,17 +640,14 @@ public class Constant
 
     }
 
-    public static LatLng getLocationFromAddress(String strAddress,Context context)
-    {
-        Geocoder coder= new Geocoder(context);
+    public static LatLng getLocationFromAddress(String strAddress, Context context) {
+        Geocoder coder = new Geocoder(context);
         List<Address> address;
         LatLng p1 = null;
 
-        try
-        {
+        try {
             address = coder.getFromLocationName(strAddress, 5);
-            if(address==null)
-            {
+            if (address == null) {
                 return null;
             }
             Address location = address.get(0);
@@ -592,16 +655,15 @@ public class Constant
             location.getLongitude();
 
             p1 = new LatLng(location.getLatitude(), location.getLongitude());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+        } catch (Exception e) {
+
         }
         return p1;
 
     }
+
     public static void setClipboard(Context context, String text) {
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             clipboard.setText(text);
         } else {
@@ -613,8 +675,25 @@ public class Constant
     }
 
 
+    public static String getLocalIpAddress(Context context) {
 
-
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress()) {
+                        String ip = Formatter.formatIpAddress(inetAddress.hashCode());
+                        Log.i(TAG, "***** IP=" + ip);
+                        return ip;
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            Log.e(TAG, ex.toString());
+        }
+        return null;
+    }
 
 
     public static String convertTimeInMillisToDateString(long timeInMillis, String DATE_TIME_FORMAT) {
@@ -624,8 +703,8 @@ public class Constant
     }
 
 
-    public static String getCompleteAddressString(Context c,double LATITUDE, double LONGITUDE) {
-        String strAdd = "";
+    public static String getCompleteAddressString(Context c, double LATITUDE, double LONGITUDE) {
+        String strAdd = "address_Error";
         Geocoder geocoder = new Geocoder(c, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
@@ -642,66 +721,64 @@ public class Constant
                 /*  Log.w("My Current loction address", "No Address returned!");*/
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
             /* Log.w("My Current loction address", "Canont get Address!");*/
         }
         return strAdd;
     }
 
-    public static String getCompletecity(Context c,double LATITUDE, double LONGITUDE,boolean city,boolean address,boolean street_name) {
+    public static String getCompletecity(Context c, double LATITUDE, double LONGITUDE, boolean city, boolean address, boolean street_name) {
         String cityName = "";
-        String address_st="";
-        String stateName="";
+        String address_st = "";
+        String stateName = "";
         Geocoder geocoder = new Geocoder(c, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
             if (addresses != null) {
-                 address_st = addresses.get(0).getSubLocality().toLowerCase().trim();
-                 cityName = addresses.get(0).getLocality().toLowerCase().trim();
-                 stateName = addresses.get(0).getAdminArea().toLowerCase().trim();
-                /* Log.w("My Current loction address", strReturnedAddress.toString());*/
-            } else {
-                /*  Log.w("My Current loction address", "No Address returned!");*/
+                address_st = addresses.get(0).getSubLocality().toLowerCase().trim();
+                cityName = addresses.get(0).getLocality().toLowerCase().trim();
+                stateName = addresses.get(0).getAdminArea().toLowerCase().trim();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            /* Log.w("My Current loction address", "Canont get Address!");*/
+
+            return "all";
         }
 
-        if (city)
-        { return cityName;
-        }else if (address) { return address_st;
-        }else{return stateName;}
-
-
+        if (city) {
+            return cityName;
+        } else if (address) {
+            return address_st;
+        } else if (street_name) {
+            return stateName;
+        }else{
+            return "all";
+        }
     }
+
     public static ArrayList<String> splitByComma(String allIds, String imagepath) {
         ArrayList<String> images = new ArrayList<>();
         String[] allIdsArray = TextUtils.split(allIds, ",");
         ArrayList<String> idsList = new ArrayList<String>(Arrays.asList(allIdsArray));
         for (String element : idsList) {
-            if (!element.equalsIgnoreCase("")){images.add(imagepath + element);}
+            if (!element.equalsIgnoreCase("")) {
+                images.add(imagepath + element);
+            }
         }
         return images;
     }
-    public static void showRateDialog(final Context context) {
-        if (context != null) {
-            String link = "market://details?id=";
+
+    public static void showRateDialog(Context context) {
+        try {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse((true ? "market://details?id=" : "amzn://apps/android?p=") + context.getPackageName())));
+        } catch (ActivityNotFoundException e1) {
             try {
-                // play market available
-                context.getPackageManager()
-                        .getPackageInfo("com.android.vending", 0);
-                // not available
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-                // should use browser
-                link = "https://play.google.com/store/apps/details?id=";
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse((true ? "http://play.google.com/store/apps/details?id=" : "http://www.amazon.com/gp/mas/dl/android?p=") + context.getPackageName())));
+            } catch (ActivityNotFoundException e2) {
+                Constant.Show_Tos(context, "You don't have any app that can open this link");
             }
-            // starts external action
-            context.startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(link + context.getPackageName())));
         }
     }
+
     public static byte[] getFileDataFromDrawable(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
@@ -709,23 +786,24 @@ public class Constant
     }
 
 
-    public static String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b=baos.toByteArray();
-        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+    public static String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
+
     /**
      * @param encodedString
      * @return bitmap (from given string)
      */
-    public static Bitmap StringToBitMap(String encodedString){
+    public static Bitmap StringToBitMap(String encodedString) {
         try {
-            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }
@@ -739,16 +817,59 @@ public class Constant
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
         }
-        String saltStr = "FLYBY"+salt.toString();
+        String saltStr = "FLYBY" + salt.toString();
         return saltStr;
 
     }
-        public static String printDifference(Date startDate, Date endDate) {
+
+    public static String getDiferceDteTime(String startDate, String endDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aaa");
+
+        try {
+            Date date1 = simpleDateFormat.parse(startDate);
+            Date date2 = simpleDateFormat.parse(endDate);
+
+            return printDifference(date1, date2);
+
+        } catch (ParseException e) {
+            return "";
+        }
+
+    }
+
+    public static void showDiologBuilder(Activity activity ,String title, String body, DialogTask dialogTask){
+        try {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
+            builder1.setTitle(title);
+            builder1.setMessage(body);
+            builder1.setCancelable(false);
+
+            builder1.setPositiveButton(
+                    "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            dialogTask.setPositiveButton();
+                        }
+                    });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.getWindow().setBackgroundDrawableResource(android.R.color.white);
+            try {
+                alert11.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static String printDifference(Date startDate, Date endDate) {
         //milliseconds
         long different = endDate.getTime() - startDate.getTime();
 
         System.out.println("startDate : " + startDate);
-        System.out.println("endDate : "+ endDate);
+        System.out.println("endDate : " + endDate);
         System.out.println("different : " + different);
 
         long secondsInMilli = 1000;
@@ -767,79 +888,39 @@ public class Constant
 
         long elapsedSeconds = different / secondsInMilli;
 
-        System.out.printf(
-                "%d days, %d hours, %d minutes, %d seconds%n",
-                elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds);
-            return  elapsedDays +" days "+elapsedHours+" hours";
+
+        long totalHoure = (elapsedDays*24)+elapsedHours;
+
+        return totalHoure + ":" + elapsedMinutes + ":" + elapsedSeconds;
     }
+
     public static String getCountOfDays(String createdDateString, String expireDateString) {
-        try{
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Date date1= null;
+        Date date2 = null;
 
-            Date createdConvertedDate = null, expireCovertedDate = null, todayWithZeroTime = null;
-            try {
-                createdConvertedDate = dateFormat.parse(createdDateString);
-                expireCovertedDate = dateFormat.parse(expireDateString);
+        SimpleDateFormat dates = new SimpleDateFormat("dd/MM/yyyy");
 
-                Date today = new Date();
+        //Setting dates
+        try {
+            date1 = dates.parse(createdDateString);
+            date2 = dates.parse(expireDateString);
+        } catch (ParseException e) {
 
-                todayWithZeroTime = dateFormat.parse(dateFormat.format(today));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        }
+        long difference= 0,differenceDates = 0;
+        try {
+            //Comparing dates
+            difference = Math.abs(date1.getTime() - date2.getTime());
+            differenceDates = difference / (24 * 60 * 60 * 1000);
+        } catch (Exception e) {
 
-            int cYear = 0, cMonth = 0, cDay = 0;
-
-            if (createdConvertedDate.after(todayWithZeroTime)) {
-                Calendar cCal = Calendar.getInstance();
-                cCal.setTime(createdConvertedDate);
-                cYear = cCal.get(Calendar.YEAR);
-                cMonth = cCal.get(Calendar.MONTH);
-                cDay = cCal.get(Calendar.DAY_OF_MONTH);
-
-            } else {
-                Calendar cCal = Calendar.getInstance();
-                cCal.setTime(todayWithZeroTime);
-                cYear = cCal.get(Calendar.YEAR);
-                cMonth = cCal.get(Calendar.MONTH);
-                cDay = cCal.get(Calendar.DAY_OF_MONTH);
-            }
-
-
-    /*Calendar todayCal = Calendar.getInstance();
-    int todayYear = todayCal.get(Calendar.YEAR);
-    int today = todayCal.get(Calendar.MONTH);
-    int todayDay = todayCal.get(Calendar.DAY_OF_MONTH);
-    */
-
-            Calendar eCal = Calendar.getInstance();
-            eCal.setTime(expireCovertedDate);
-
-            int eYear = eCal.get(Calendar.YEAR);
-            int eMonth = eCal.get(Calendar.MONTH);
-            int eDay = eCal.get(Calendar.DAY_OF_MONTH);
-
-            Calendar date1 = Calendar.getInstance();
-            Calendar date2 = Calendar.getInstance();
-
-            date1.clear();
-            date1.set(cYear, cMonth, cDay);
-            date2.clear();
-            date2.set(eYear, eMonth, eDay);
-
-            long diff = date2.getTimeInMillis() - date1.getTimeInMillis();
-
-            float dayCount = (float) diff / (24 * 60 * 60 * 1000);
-
-            return ("" + (int) dayCount + " Days");
-        }catch (Exception e)
-        {
-
-            e.printStackTrace();
-            return "";
         }
 
+        //Convert long to String
+        String dayDifference = Long.toString(differenceDates);
+        return dayDifference;
     }
+
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -850,6 +931,7 @@ public class Constant
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
     public static void showKeyboard(View mEtSearch, Context context) {
         mEtSearch.requestFocus();
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -867,7 +949,7 @@ public class Constant
 
                 String scrollSpeedFieldName = "mScrollUnit";
 
-                    scrollSpeedFieldName = "mPixelsPerSecond";
+                scrollSpeedFieldName = "mPixelsPerSecond";
 
                 Field mf = marquee.getClass().getDeclaredField(scrollSpeedFieldName);
                 mf.setAccessible(true);
@@ -879,7 +961,81 @@ public class Constant
                 mf.setFloat(marquee, newSpeed);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
+    }
+
+    public static String wordFirstCap(String str) {
+        String[] words = str.trim().split(" ");
+        StringBuilder ret = new StringBuilder();
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].trim().length() > 0) {
+                Log.e("words[i].trim", "" + words[i].trim().charAt(0));
+                ret.append(Character.toUpperCase(words[i].trim().charAt(0)));
+                ret.append(words[i].trim().substring(1));
+                if (i < words.length - 1) {
+                    ret.append(' ');
+                }
+            }
+        }
+
+        return ret.toString();
+    }
+
+
+    public static void openBatteryOptmized(Activity mActivity) {
+        try {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mActivity);
+            LayoutInflater inflater = (mActivity).getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.update_battery, null);
+            dialogBuilder.setView(dialogView);
+            TextView batteryOptimizationTV = dialogView.findViewById(R.id.batteryOptimizationTV);
+            TextView close_rename_ride = dialogView.findViewById(R.id.close_rename_ride);
+            final AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            close_rename_ride.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.hide();
+                }
+            });
+            batteryOptimizationTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.hide();
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                    mActivity.startActivity(intent);
+                }
+            });
+
+            try {
+                alertDialog.show();
+            } catch (Exception e) {
+
+            }
+        } catch (Exception e) {
+
+        }
+    }
+    public static String hashCal(String hashString) {
+
+        byte[] hashseq = hashString.getBytes();
+        StringBuilder hexString = new StringBuilder();
+        try {
+            MessageDigest algorithm = MessageDigest.getInstance("SHA-512");
+            algorithm.reset();
+            algorithm.update(hashseq);
+            byte messageDigest[] = algorithm.digest();
+            for (byte aMessageDigest : messageDigest) {
+                String hex = Integer.toHexString(0xFF & aMessageDigest);
+                if (hex.length() == 1) {
+                    hexString.append("0");
+                }
+                hexString.append(hex);
+            }
+        } catch (NoSuchAlgorithmException ignored) {
+        }
+        return hexString.toString();
     }
 }

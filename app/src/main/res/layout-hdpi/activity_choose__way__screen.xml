@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg"
+    android:background="@drawable/bg_rider"
     android:orientation="vertical"
     android:weightSum="3"
-    tools:context=".Ui.Activity.Choose_Way_Screen">
+    tools:context=".Ui.Activity.AppLandingView">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/sign_in"
                 android:textColor="@color/background_base"
-                android:textSize="16dp"
+                android:textSize="14sp"
                 android:gravity="start|center"
                 android:paddingStart="24dp"
                 android:drawableEnd="@drawable/ic_nextarrowdark"

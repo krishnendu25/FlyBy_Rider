@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.flyby_riders.R;
-import com.flyby_riders.Ui.Activity.Bike_Brand_Activity;
+import com.flyby_riders.Ui.Activity.BikeBrandView;
 
 public class Bike_Add_Fragments extends Fragment {
     public Bike_Add_Fragments() {
@@ -35,7 +35,7 @@ public class Bike_Add_Fragments extends Fragment {
         Bike_Add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), Bike_Brand_Activity.class));
+                startActivity(new Intent(getContext(), BikeBrandView.class));
             }
         });
 

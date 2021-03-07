@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_base"
     android:orientation="vertical"
-    tools:context=".Ui.Activity.Upgrade_To_Premium">
+    tools:context=".Ui.Activity.UpgradeAccountPlan">
 
 
     <TextView
@@ -21,7 +21,7 @@
         android:paddingStart="20dp"
         android:text="UPGRADE TO PREMIUM"
         android:textColor="#fff"
-        android:textSize="20dp" />
+        android:textSize="18dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -41,10 +41,11 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -54,7 +55,7 @@
                     android:gravity="center"
                     android:layout_margin="30dp"
                     android:fontFamily="@font/manropeextrabold"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:textColor="#fff"/>
 
                 <LinearLayout
@@ -78,7 +79,7 @@
                             android:gravity="center"
                             android:text="Current Plan"
                             android:textColor="@color/white"
-                            android:textSize="16dp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -88,7 +89,7 @@
                             android:gravity="center"
                             android:text="Upgrade"
                             android:textColor="@color/white"
-                            android:textSize="16dp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -106,7 +107,7 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_margin="6dp"
                                 android:orientation="vertical">
 
@@ -126,6 +127,7 @@
                                     android:textColor="#C8C7CA"
                                     android:textSize="14dp"
                                     android:text="@string/add_1_bike_to_your_garage"/>
+
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -133,7 +135,19 @@
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
                                     android:textSize="14dp"
-                                    android:text="Ads expire in 3 days"/>
+                                    android:text="0.5 GB storage per ride"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manroperegular"
+                                    android:textColor="#C8C7CA"
+                                    android:textSize="14dp"
+                                    android:text="1 member per ride"/>
+
+
+
+
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -159,7 +173,7 @@
                             android:layout_weight="0.08"/>
                         <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="200dp"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/add_card"
                             android:layout_weight="0.96">
                             <LinearLayout
@@ -210,7 +224,7 @@
                                     android:fontFamily="@font/manroperegular"
                                     android:textColor="#C8C7CA"
                                     android:textSize="14dp"
-                                    android:text="50 members per ride"/>
+                                    android:text="50 members per ride - Coming Soon"/>
 
                                 <TextView
                                     android:layout_width="match_parent"

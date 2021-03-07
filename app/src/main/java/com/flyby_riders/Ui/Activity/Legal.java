@@ -5,9 +5,8 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.flyby_riders.R;
+import com.flyby_riders.Utils.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -2,33 +2,33 @@ package com.flyby_riders.Ui.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
-import com.flyby_riders.Sharedpreferences.Session;
-import com.flyby_riders.Ui.Adapter.Album_Image_Adapter;
-import com.flyby_riders.Ui.Adapter.My_Album_View;
+import com.flyby_riders.Ui.Libraries.PhotoSlider.PhotoSlider;
+import com.flyby_riders.Utils.Prefe;
+import com.flyby_riders.Ui.Adapter.DocumentLocker.Album_Image_Adapter;
 import com.flyby_riders.Ui.Model.Album_Content_Model;
+import com.flyby_riders.Utils.BaseActivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +52,8 @@ public class Album_Viewer extends BaseActivity {
     @BindView(R.id.Album_name_ed)
     TextView AlbumNameEd;
     ArrayList<String> Photo_Link = new ArrayList<>();
+    int Measuredwidth = 0;
+    int Measuredheight = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,16 +64,28 @@ public class Album_Viewer extends BaseActivity {
             Album_Content_list = getIntent().getParcelableArrayListExtra("list");
             Photo_Link.clear();
             Photo_Link = Album_Content_list.get(Position).getBIKEIDocMAGES();
-        } catch (Exception e) {
+        } catch (Exception e) {Constant.Show_Tos_Error(getApplicationContext(),false,true);
         }
         Initialization();
 
     }
 
     private void Initialization() {
+        Point size = new Point();
+        WindowManager w = this.getWindowManager();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)    {
+            w.getDefaultDisplay().getSize(size);
+            Measuredwidth = size.x;
+            Measuredheight = size.y;
+        }else{
+            Display d = w.getDefaultDisplay();
+            Measuredwidth = d.getWidth();
+            Measuredheight = d.getHeight();
+        }
         AlbumNameEd.setText(Album_Content_list.get(Position).getALBUM_NAME());
         MyAlbumList.setLayoutManager(new GridLayoutManager(this, 2));
-        album_image_adapter = new Album_Image_Adapter(Photo_Link,Album_Viewer.this);
+        PhotoSlider photoSlider = new PhotoSlider(this, Photo_Link);
+        album_image_adapter = new Album_Image_Adapter(photoSlider,Photo_Link,Album_Viewer.this,Measuredwidth/2);
         MyAlbumList.setAdapter(album_image_adapter);
     }
 
@@ -93,14 +107,16 @@ public class Album_Viewer extends BaseActivity {
                             try{
                                 Update_album(Album_Content_list,Position);
                             }catch (Exception e)
-                            {  return true; }
+                            {  Constant.Show_Tos_Error(getApplicationContext(),false,true);
+                            return true; }
                             return true;
                         } else if (i == R.id.Delete_album) {
                             try{
                           popup.dismiss();
                           Delete_Album(Album_Content_list.get(Position).getALBUM_ID());
                             }catch (Exception e)
-                            {return true; }
+                            {Constant.Show_Tos_Error(getApplicationContext(),false,true);
+                            return true; }
                             return true;
                         } else {
                             return onMenuItemClick(item);
@@ -115,7 +131,7 @@ public class Album_Viewer extends BaseActivity {
 
     private void Update_album(ArrayList<Album_Content_Model> album_content_list, int position)
     {
-        Intent intent = new Intent(this,Document_Album_Creator.class);
+        Intent intent = new Intent(this, DocumentAlbumMaker.class);
         intent.putExtra("position",String.valueOf(position));
         intent.putExtra("list",album_content_list);
         startActivityForResult(intent,559);
@@ -124,7 +140,7 @@ public class Album_Viewer extends BaseActivity {
     private void Delete_Album(String album_id)
     {
         show_ProgressDialog();
-        Call<ResponseBody> requestCall = retrofitCallback.Delete_Album(new Session(this).get_LOGIN_USER_ID(),album_id);
+        Call<ResponseBody> requestCall = retrofitCallback.Delete_Album(new Prefe(this).getUserID(),album_id);
         requestCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -137,7 +153,7 @@ public class Album_Viewer extends BaseActivity {
                             output = output.substring(output.indexOf("{"), output.lastIndexOf("}") + 1);
                             jsonObject = new JSONObject(output);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            Constant.Show_Tos_Error(getApplicationContext(),false,true);
                         }
                         if (jsonObject.getString("success").equalsIgnoreCase("1")) {
                             Constant.Show_Tos(getApplicationContext(),"Album Deleted Successfully");
@@ -147,13 +163,14 @@ public class Album_Viewer extends BaseActivity {
                             hide_ProgressDialog();
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Constant.Show_Tos_Error(getApplicationContext(),false,true);
                         hide_ProgressDialog();
                     }
                 }
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Constant.Show_Tos_Error(getApplicationContext(),true,false);
                 hide_ProgressDialog();
             }
         });

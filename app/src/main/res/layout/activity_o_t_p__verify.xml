@@ -6,10 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_base"
-    tools:context=".Ui.Activity.OTP_Verify">
+    tools:context=".Ui.Activity.OTPVerification">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,7 +46,7 @@
                 android:layout_marginTop="20dp"
                 android:text="Enter OTP"
                 android:textColor="@color/white"
-                android:textSize="16dp" />
+                android:textSize="14sp" />
 
 
             <LinearLayout
@@ -179,5 +180,5 @@
         android:paddingEnd="24dp"
         android:text="VERIFY &amp; CONTINUE"
         android:textColor="@color/background_base"
-        android:textSize="16dp" />
+        android:textSize="14sp" />
 </RelativeLayout>

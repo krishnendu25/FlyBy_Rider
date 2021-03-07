@@ -54,17 +54,40 @@ public class TestAdapter {
     }
 
 
-    public boolean INSERT_REALTIMELOCATION(String RIDE_ID, String MEMBER_ID,
-                                           String LATITUDE, String LONGITUDE,
+    public boolean INSERT_REALTIMELOCATION(String RIDE_ID_, String MEMBER_ID_,
+                                           String LATITUDE, String LONGITUDE,String POLYLINE,
                                            String TIMESTAMP) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("RIDE_ID", RIDE_ID);
-        contentValues.put("MEMBER_ID", MEMBER_ID);
-        contentValues.put("LATITUDE", LATITUDE);
-        contentValues.put("LONGITUDE", LONGITUDE);
-        contentValues.put("TIMESTAMP", TIMESTAMP);
-        mDb.insert("REALTIMELOCATION", null, contentValues);
-        return true;
+
+        Cursor cursor = mDb.rawQuery("Select * from REALTIMELOCATION" + " WHERE " + "RIDE_ID='" + RIDE_ID_ + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ + "'", null);
+
+       /* if (cursor.getCount() != 0) {
+            ContentValues args = new ContentValues();
+            if (!LATITUDE.equalsIgnoreCase("")) {
+                args.put("LATITUDE", LATITUDE);
+            }
+
+            if (!LONGITUDE.equalsIgnoreCase("")) {
+                args.put("LONGITUDE", LONGITUDE);
+            }
+
+            if (!TIMESTAMP.equalsIgnoreCase("")) {
+                args.put("TIMESTAMP", TIMESTAMP);
+            }
+
+            return mDb.update("REALTIMELOCATION", args, "RIDE_ID" + "=" + RIDE_ID_ + " AND " + "MEMBER_ID" + "=" + MEMBER_ID_, null) > 0;
+
+        } else {*/
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("RIDE_ID", RIDE_ID_);
+            contentValues.put("MEMBER_ID", MEMBER_ID_);
+            contentValues.put("LATITUDE", LATITUDE);
+            contentValues.put("LONGITUDE", LONGITUDE);
+            contentValues.put("POLYLINE_DRAW", POLYLINE);
+            contentValues.put("TIMESTAMP", TIMESTAMP);
+            mDb.insert("REALTIMELOCATION", null, contentValues);
+            return true;
+      /*  }*/
+
     }
 
     public Cursor GET_REALTIMELOCATION(String RIDE_ID_ST, String MEMBER_ID_ST) {
@@ -73,34 +96,7 @@ public class TestAdapter {
     }
 
 
-    public boolean INSERT_RIDE_DATA(String RIDE_ID_ST, String MEMBER_ID_ST,
-                                    String TOP_SPEED, String AVG_SPEED,
-                                    String TOTAL_TIME, String TRACKING_STATUS) {
-
-
-        Cursor cursor = mDb.rawQuery("Select * from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
-
-        if (cursor.getCount() != 0) {
-            ContentValues args = new ContentValues();
-            if (!TOP_SPEED.equalsIgnoreCase("")) {
-                args.put("TOP_SPEED", TOP_SPEED);
-            }
-
-            if (!AVG_SPEED.equalsIgnoreCase("")) {
-                args.put("AVG_SPEED", AVG_SPEED);
-            }
-
-            if (!TOTAL_TIME.equalsIgnoreCase("")) {
-                args.put("TOTAL_TIME", TOTAL_TIME);
-            }
-
-            if (!TRACKING_STATUS.equalsIgnoreCase("")) {
-                args.put("TRACKING_STATUS", TRACKING_STATUS);
-            }
-
-            return mDb.update("RIDE_DATA", args, "RIDE_ID" + "=" + RIDE_ID_ST + " AND " + "MEMBER_ID" + "=" + MEMBER_ID_ST, null) > 0;
-
-        } else {
+    public boolean INSERT_RIDE_DATA(String RIDE_ID_ST, String MEMBER_ID_ST, String TOP_SPEED, String AVG_SPEED, String TOTAL_TIME, String TRACKING_STATUS) {
             ContentValues contentValues = new ContentValues();
             contentValues.put("RIDE_ID", RIDE_ID_ST);
             contentValues.put("MEMBER_ID", MEMBER_ID_ST);
@@ -110,9 +106,6 @@ public class TestAdapter {
             contentValues.put("TRACKING_STATUS", TRACKING_STATUS);
             mDb.insert("RIDE_DATA", null, contentValues);
             return true;
-        }
-
-
     }
 
 
@@ -122,7 +115,29 @@ public class TestAdapter {
     }
 
 
+    public String GET_AVERAGE_SPEED(String RIDE_ID_ST, String MEMBER_ID_ST) {
+        String Average = "";
+        Cursor cursor = mDb.rawQuery("Select AVG(CAST(TOP_SPEED AS INT)) from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
+        if (cursor.getCount() != 0) {
 
+            while (cursor.moveToNext()) {
+                Average=  cursor.getString(0);
+            }
+        }
+        return Average;
+    }
+
+    public String GET_TOP_SPEED(String RIDE_ID_ST, String MEMBER_ID_ST) {
+        String MAX = "";
+        Cursor cursor = mDb.rawQuery("Select  Max(CAST(TOP_SPEED AS INT)) from RIDE_DATA" + " WHERE " + "RIDE_ID='" + RIDE_ID_ST + "'" + " AND " + "MEMBER_ID='" + MEMBER_ID_ST + "'", null);
+        if (cursor.getCount() != 0) {
+
+            while (cursor.moveToNext()) {
+                MAX=  cursor.getString(0);
+            }
+        }
+        return MAX;
+    }
 
 
 
