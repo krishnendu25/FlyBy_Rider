@@ -18,14 +18,13 @@
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <!--<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />-->
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
@@ -64,7 +63,7 @@
         <activity android:name=".Ui.Activity.UpgradeAccountPlan" />
         <activity android:name=".Ui.Activity.InviteNewMember" />
         <activity android:name=".Ui.Activity.RideMembersManage" />
-        <activity android:name=".Ui.Activity.RideMapView" />
+        <activity android:name=".Ui.Activity.RideMapView"  android:parentActivityName=".Ui.Activity.SplashScreen"/>
         <activity android:name=".Ui.Activity.Album_Viewer" /> <!-- Add the service created in services package ! -->
         <activity android:name=".Ui.Activity.DocumentAlbumMaker" />
         <activity android:name=".Ui.Activity.DocumentLockerView" />

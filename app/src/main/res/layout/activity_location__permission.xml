@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_base"
-    tools:context=".Ui.Activity.LocationPermissionsWindow">
+    tools:context="com.flyby_riders.Ui.Activity.LocationPermissionsWindow">
 
 
     <LinearLayout
@@ -15,13 +15,13 @@
         android:layout_marginBottom="?actionBarSize"
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
-        android:layout_marginTop="120dp"
+
         android:gravity="center">
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_location_"
+            android:src="@drawable/ic_location_1"
             />
 
         <TextView
@@ -29,44 +29,72 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:textSize="22dp"
+            android:textSize="@dimen/dimen_18dp"
             android:gravity="center"
             android:fontFamily="@font/manropeextrabold"
             android:text="@string/grant_location_permission"
             android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="@dimen/dimen_10dp" />
 
         <TextView
             android:id="@+id/text_subtitle_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:textSize="17dp"
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:textSize="@dimen/dimen_14sp"
             android:gravity="center"
-            android:text="We need your location access to give you the best experience"
+            android:text="Grant Location Permission"
             android:fontFamily="@font/manroperegular"
-            android:textColor="@color/white"/>
+            android:textColor="#AEACB5"/>
 
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="14sp"
+            android:layout_marginEnd="@dimen/dimen_14sp"
+            android:gravity="center|start|top"
+            >
             <TextView
-                android:id="@+id/Setting_Overview"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="16dp"
-                android:textSize="15dp"
-                android:gravity="center"
-                android:visibility="gone"
-                android:text="@string/go_to_settings_app_permissions_and_grant_location_access_to_tropogo"
+                android:textColor="#DBDBDB"
+                android:textSize="@dimen/dimen_16dp"
+                android:fontFamily="@font/manropeextrabold"
+                android:text="1. Show you relevant services and products near you"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/dimen_10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10dp"
+                android:textSize="@dimen/dimen_14sp"
+                android:gravity="start"
+                android:text="For this feature, your location will only be used when the app is open"
                 android:fontFamily="@font/manroperegular"
-                android:textColor="@color/white"/>
-        </RelativeLayout>
+                android:textColor="#AEACB5"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#DBDBDB"
+                android:textSize="@dimen/dimen_16dp"
+                android:fontFamily="@font/manropeextrabold"
+                android:text="2. Track your Rides"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/dimen_10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10dp"
+                android:textSize="@dimen/dimen_14sp"
+                android:gravity="start"
+                android:text="Your location will be used from the time you START the ride till you END the ride. During this time your locaiton will be accessed even in the background when the app is closed."
+                android:fontFamily="@font/manroperegular"
+                android:textColor="#AEACB5"/>
+
+        </LinearLayout>
 
 
 
@@ -83,9 +111,10 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/light_green"
-        android:text="ALLOW ACCESS"
+        android:text="GIVE PERMISSION"
         android:gravity="left|center"
         android:textSize="17dp"
+        android:onClick="getPermission"
         android:padding="10dp"
         android:textColor="@color/background_base"
         android:layout_alignParentBottom="true"

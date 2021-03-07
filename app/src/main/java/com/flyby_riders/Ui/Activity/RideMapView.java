@@ -555,16 +555,31 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                         points.add(currentPosition);
                     }
                 }
-                PolylineOptions options = new PolylineOptions().width(13).color(Color.parseColor("#F7B500")).geodesic(true);
-                for (int i = 0; i < points.size(); i++) {
-                    LatLng point = points.get(i);
-                    options.add(point);
-                }
-                if (Latitude_Start==Latitude_End && Longitude_Start==Longitude_End){
 
-                }else{
-                    polylineMyRide = mMap.addPolyline(options);
+                if (Latitude_Start!=Latitude_End && Longitude_Start!=Longitude_End){
+                    PolylineOptions options = new PolylineOptions().width(13).color(Color.parseColor("#F7B500")).geodesic(true);
+                    ArrayList<LatLng> temp = new ArrayList<>();
+                    for (int i = 0; i < points.size(); i++) {
+                        temp.add(points.get(i));
+                        if (temp.size()==2){
+
+                            double dis = distanceBetween(temp.get(0).latitude,temp.get(0).longitude,temp.get(1).latitude,temp.get(1).longitude);
+                            Log.e("@@dis-->", String.valueOf(dis));
+                            if (dis<30){
+                                for (int j=0;j<temp.size();j++){
+                                    options.add(temp.get(j));
+                                    mMap.addPolyline(options);
+                                }
+                                options = new PolylineOptions().width(13).color(Color.parseColor("#F7B500")).geodesic(true);
+                                temp.remove(0);
+                            }
+                        }
+
+                    /*LatLng point = points.get(i);
+                    options.add(point);*/
+                    }
                 }
+
                 double polylineLength = SphericalUtil.computeLength(points);
                 Distance = new DecimalFormat("##.##").format(polylineLength / 1000) + " KM";
 
@@ -635,7 +650,22 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
 
         }
     }
+    private double distanceBetween(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = dist * 180.0 / Math.PI;
+        dist = dist * 60 * 1.1515*1000;
+        return (dist);
+    }
 
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
     private void Open_Update_Ride_Name(Activity mActivity, String name) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mActivity);
         LayoutInflater inflater = (mActivity).getLayoutInflater();
@@ -1312,8 +1342,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         mMap.getUiSettings().setCompassEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(false);
-        mMap.setMinZoomPreference(9.0f); // Set a preference for minimum zoom (Zoom out).
-        mMap.setMaxZoomPreference(15.0f);
+     /*   mMap.setMinZoomPreference(9.0f); // Set a preference for minimum zoom (Zoom out).
+        mMap.setMaxZoomPreference(15.0f);*/
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
         try {
             googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));

@@ -98,14 +98,12 @@ public class OTPVerification extends BaseActivity implements MySMSBroadcastRecei
                 Verifotp(otp);
             }
         });
+
         AppSignatureHashHelper appSignatureHashHelper = new AppSignatureHashHelper(this);
-        Log.i("HashKey", "HashKey: " + appSignatureHashHelper.getAppSignatures().get(0));
         try{
             Constant.setClipboard(this,appSignatureHashHelper.getAppSignatures().get(0));
         }catch (Exception e)
-        {
-
-        }
+        {  }
 
     }
 
