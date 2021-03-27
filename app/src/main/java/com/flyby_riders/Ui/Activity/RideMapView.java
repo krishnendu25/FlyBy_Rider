@@ -1,6 +1,7 @@
 package com.flyby_riders.Ui.Activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -428,6 +429,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
         }
     }
 
+    @SuppressLint("MissingPermission")
     private void Fetch_My_Location(boolean isStarted) {
         if (RIDE_STATUS.equalsIgnoreCase(RIDE_NOT_STARTED) || RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -503,7 +505,6 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                     }
                 }
             }
-
             if (RIDE_STATUS.equalsIgnoreCase(RIDE_STARTED)) {
                 mMap.clear();
                 LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
@@ -555,31 +556,16 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                         points.add(currentPosition);
                     }
                 }
-
-                if (Latitude_Start!=Latitude_End && Longitude_Start!=Longitude_End){
-                    PolylineOptions options = new PolylineOptions().width(13).color(Color.parseColor("#F7B500")).geodesic(true);
-                    ArrayList<LatLng> temp = new ArrayList<>();
-                    for (int i = 0; i < points.size(); i++) {
-                        temp.add(points.get(i));
-                        if (temp.size()==2){
-
-                            double dis = distanceBetween(temp.get(0).latitude,temp.get(0).longitude,temp.get(1).latitude,temp.get(1).longitude);
-                            Log.e("@@dis-->", String.valueOf(dis));
-                            if (dis<30){
-                                for (int j=0;j<temp.size();j++){
-                                    options.add(temp.get(j));
-                                    mMap.addPolyline(options);
-                                }
-                                options = new PolylineOptions().width(13).color(Color.parseColor("#F7B500")).geodesic(true);
-                                temp.remove(0);
-                            }
-                        }
-
-                    /*LatLng point = points.get(i);
-                    options.add(point);*/
-                    }
+                PolylineOptions options = new PolylineOptions().width(13).color(Color.parseColor("#F7B500")).geodesic(true);
+                for (int i = 0; i < points.size(); i++) {
+                    LatLng point = points.get(i);
+                    options.add(point);
                 }
+                if (Latitude_Start==Latitude_End && Longitude_Start==Longitude_End){
 
+                }else{
+                    polylineMyRide = mMap.addPolyline(options);
+                }
                 double polylineLength = SphericalUtil.computeLength(points);
                 Distance = new DecimalFormat("##.##").format(polylineLength / 1000) + " KM";
 

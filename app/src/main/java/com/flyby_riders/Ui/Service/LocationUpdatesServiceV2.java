@@ -334,7 +334,7 @@ public class LocationUpdatesServiceV2 extends Service {
             String userID = new Prefe(GlobalApplication.getInstance()).getUserID();
             if (new Prefe(GlobalApplication.getInstance()).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED) &&
                     new Prefe(GlobalApplication.getInstance()).getRideRecordStatus()){
-                   if (location.getAccuracy()<50){
+                   if (location.getAccuracy()<100){
                     testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(Local_Lat), String.valueOf(Local_long),"true",GET_timeStamp());
 
                 }else{
@@ -355,7 +355,7 @@ public class LocationUpdatesServiceV2 extends Service {
             String userID = new Prefe(GlobalApplication.getInstance()).getUserID();
             if (new Prefe(GlobalApplication.getInstance()).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED) &&
                     new Prefe(GlobalApplication.getInstance()).getRideRecordStatus()){
-                if (location.getAccuracy()<50){
+                if (location.getAccuracy()<100){
                     testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(Local_Lat), String.valueOf(Local_long),"true",GET_timeStamp());
 
                 }else{

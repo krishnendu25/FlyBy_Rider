@@ -1,5 +1,6 @@
 package com.flyby_riders.Ui.Fragment;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +30,7 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
+import com.flyby_riders.Ui.Activity.LocationPermissionsWindow;
 import com.flyby_riders.Ui.Activity.UpgradeAccountPlan;
 import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Activity.RideMapView;
@@ -47,7 +52,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.POWER_SERVICE;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.flyby_riders.Constants.StringUtils.PREMIUM;
 import static com.flyby_riders.Constants.StringUtils.RIDE_ENDED;
 import static com.flyby_riders.Constants.StringUtils.RIDE_NOT_STARTED;
@@ -91,30 +98,46 @@ public class My_Ride_Fragment extends Fragment  {
         TextView Create_Ride_tv = (TextView) v.findViewById(R.id.Create_Ride_tv);
         MyRide_ListRecyclerView = (RecyclerView) v.findViewById(R.id.MyRide_List);
         MyRide_ListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
         Create_Ride_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean allClearFlag = false ;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PowerManager pm = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
+                    if (pm != null && !pm.isIgnoringBatteryOptimizations(getContext().getPackageName())) {
+                        Constant.openBatteryOptmized(getActivity());
+                        allClearFlag=false;
+                    }else {
+                        allClearFlag=true;
+                    }
+                }
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
+                    if (ContextCompat.checkSelfPermission(getActivity(),
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION)== PERMISSION_GRANTED){
+                        allClearFlag=true;
+                    }else{
+                        Intent i = new Intent(getActivity(), LocationPermissionsWindow.class);
+                        startActivityForResult(i, 365);
+                        allClearFlag=false;
+                    }
+                }
 
-                if (new Prefe(getActivity()).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)) {
-                    startActivity(new Intent(getActivity(), RideMapView.class));
-                } else {
-                    if (MyRide_List.size()>2) {
-                        try {
-                            hit_notRide_Bottomsheet();
-                        } catch (Exception e) {}
-                    } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            PowerManager pm = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
-                            if (pm != null && !pm.isIgnoringBatteryOptimizations(getContext().getPackageName())) {
-                                Constant.openBatteryOptmized(getActivity());
-                            }else {
-                                startActivity(new Intent(getActivity(), RideMapView.class));
+
+
+                if (allClearFlag){
+                    if (new Prefe(getActivity()).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)){
+                        startActivity(new Intent(getActivity(), RideMapView.class));
+                    }else {
+                        if (MyRide_List.size() > 2) {
+                            try {
+                                hit_notRide_Bottomsheet();
+                            } catch (Exception e) {
                             }
-                        }else{
-                            startActivity(new Intent(getActivity(), RideMapView.class));
                         }
                     }
                 }
+
             }
         });
 
@@ -125,14 +148,9 @@ public class My_Ride_Fragment extends Fragment  {
                 refreshPull.setRefreshing(false);
             }
         });
-
-
-
-
-
-
         return v;
     }
+
 
     private void hit_notRide_Bottomsheet() {
         View dialogView = getLayoutInflater().inflate(R.layout.can_add_ride, null);
@@ -254,4 +272,6 @@ public class My_Ride_Fragment extends Fragment  {
             }
         }
     }
+
+
 }

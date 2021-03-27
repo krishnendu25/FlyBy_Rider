@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 
 import butterknife.BindView;
@@ -41,11 +42,14 @@ public class LocationPermissionsWindow extends AppCompatActivity {
         text_subtitle_tv = (TextView) findViewById(R.id.text_subtitle_tv);
         allow_access_TV = (TextView) findViewById(R.id.allow_access_TV);
     }
-
     @Override
     protected void onResume() {
         super.onResume();
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED
+        && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION)== PERMISSION_GRANTED
+        ) {
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
             finish();
@@ -55,16 +59,15 @@ public class LocationPermissionsWindow extends AppCompatActivity {
 
     private void request_location_permission() {
 
-        int check = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        int check =  ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION);
         if (check == PERMISSION_GRANTED) {
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
             finish();
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-               // requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 11111);
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 11111);
-
+              ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 11111);
             }
         }
 
@@ -75,7 +78,6 @@ public class LocationPermissionsWindow extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        boolean openActivityOnce = true;
         boolean openDialogOnce = true;
         if (requestCode == 11111) {
             for (int i = 0; i < grantResults.length; i++) {
@@ -94,12 +96,24 @@ public class LocationPermissionsWindow extends AppCompatActivity {
                         text_subtitle_tv.setText(getString(R.string.just_a_minute));
                         // SettingOverview.setVisibility(View.VISIBLE);
                         allow_access_TV.setText(getString(R.string.SETTINGS));
+                        Constant.Show_Tos(getApplicationContext(),"Allow all the time - Permission For Ride");
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
                     } else {
                         if (openDialogOnce) {
                             Text_title_tv.setText(getString(R.string.unable_to_proceed));
                             text_subtitle_tv.setText(getString(R.string.just_a_minute));
                             // SettingOverview.setVisibility(View.VISIBLE);
                             allow_access_TV.setText(getString(R.string.SETTINGS));
+                            Constant.Show_Tos(getApplicationContext(),"Allow all the time - Permission For Ride");
+                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Uri uri = Uri.fromParts("package", getPackageName(), null);
+                            intent.setData(uri);
+                            startActivity(intent);
                         }
                     }
                 } else if (isPermitted) {
