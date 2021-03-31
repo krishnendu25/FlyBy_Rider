@@ -97,11 +97,7 @@ public class LocationPermissionsWindow extends AppCompatActivity {
                         // SettingOverview.setVisibility(View.VISIBLE);
                         allow_access_TV.setText(getString(R.string.SETTINGS));
                         Constant.Show_Tos(getApplicationContext(),"Allow all the time - Permission For Ride");
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Uri uri = Uri.fromParts("package", getPackageName(), null);
-                        intent.setData(uri);
-                        startActivity(intent);
+
                     } else {
                         if (openDialogOnce) {
                             Text_title_tv.setText(getString(R.string.unable_to_proceed));
@@ -109,11 +105,6 @@ public class LocationPermissionsWindow extends AppCompatActivity {
                             // SettingOverview.setVisibility(View.VISIBLE);
                             allow_access_TV.setText(getString(R.string.SETTINGS));
                             Constant.Show_Tos(getApplicationContext(),"Allow all the time - Permission For Ride");
-                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            Uri uri = Uri.fromParts("package", getPackageName(), null);
-                            intent.setData(uri);
-                            startActivity(intent);
                         }
                     }
                 } else if (isPermitted) {

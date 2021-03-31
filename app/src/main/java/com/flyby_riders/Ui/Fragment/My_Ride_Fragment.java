@@ -30,6 +30,7 @@ import com.flyby_riders.Constants.Constant;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
+import com.flyby_riders.Ui.Activity.LocationPermissionsAllTime;
 import com.flyby_riders.Ui.Activity.LocationPermissionsWindow;
 import com.flyby_riders.Ui.Activity.UpgradeAccountPlan;
 import com.flyby_riders.Utils.Prefe;
@@ -117,8 +118,9 @@ public class My_Ride_Fragment extends Fragment  {
                             Manifest.permission.ACCESS_BACKGROUND_LOCATION)== PERMISSION_GRANTED){
                         allClearFlag=true;
                     }else{
-                        Intent i = new Intent(getActivity(), LocationPermissionsWindow.class);
-                        startActivityForResult(i, 365);
+                        Constant.Show_Tos(getActivity(),"Allow all the time - Permission For Ride");
+                       Intent intent = new Intent(getActivity(), LocationPermissionsAllTime.class);
+                       startActivity(intent);
                         allClearFlag=false;
                     }
                 }

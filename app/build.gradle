@@ -18,8 +18,8 @@ android {
         applicationId "com.flyby_riders"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 120
-        versionName "1.2.0"
+        versionCode 122
+        versionName "1.2.2"
         setProperty("archivesBaseName","@vikash" + versionCode)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
