@@ -112,6 +112,15 @@ public class GarageDetailsView extends BaseActivity implements ADDClickListener,
         ButterKnife.bind(this);
         Instantiation();
         try {
+
+            try {
+                double Dis = Double.valueOf(getIntent().getStringExtra("Distance"))* 0.001;
+                GarageDistanceUnit.setText(new DecimalFormat("##.##").format(Dis)+ "km");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
             Grage_Owner_ID = getIntent().getStringExtra("Grage_Owner_ID");
             Hit_Grage_Owner_Details(Grage_Owner_ID);
         } catch (Exception E) {

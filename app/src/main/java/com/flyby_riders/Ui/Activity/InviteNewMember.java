@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.flyby_riders.Constants.Constant;
+import com.flyby_riders.GlobalApplication;
 import com.flyby_riders.R;
 import com.flyby_riders.Utils.Prefe;
 import com.flyby_riders.Ui.Adapter.Ride.Contact_Adapter;
@@ -67,7 +68,12 @@ public class InviteNewMember extends BaseActivity implements onClick {
         setContentView(R.layout.activity_invite_new_member);
         ButterKnife.bind(this);
         Instantiation();
-        Hit_Get_FlyBy_User();
+        if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+            Hit_Get_FlyBy_User();
+        }else{
+            Constant.Show_Tos(getApplicationContext(),"No internet connection found");
+        }
+
 
 
 

@@ -11,10 +11,10 @@
       "type": "SINGLE",
       "filters": [],
       "properties": [],
-      "versionCode": 122,
-      "versionName": "1.2.2",
+      "versionCode": 124,
+      "versionName": "1.2.4",
       "enabled": true,
-      "outputFile": "@vikash122-release.apk"
+      "outputFile": "@vikash124-release.apk"
     }
   ]
 }

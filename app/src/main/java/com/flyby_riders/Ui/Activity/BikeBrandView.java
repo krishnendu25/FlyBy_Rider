@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flyby_riders.Constants.Constant;
+import com.flyby_riders.GlobalApplication;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Adapter.Garage.Bike_Brand_Adapter;
 import com.flyby_riders.Ui.Model.BIKE_BRAND;
@@ -49,7 +50,12 @@ public class BikeBrandView extends BaseActivity {
         setContentView(R.layout.activity_bike__brand);
         ButterKnife.bind(this);
         Instantiation();
-        hit_GetAllBrand();
+        if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+            hit_GetAllBrand();
+        }else{
+            Constant.Show_Tos(getApplicationContext(),"No internet connection found");
+        }
+
 
         SearchBike.addTextChangedListener(new TextWatcher() {
             @Override

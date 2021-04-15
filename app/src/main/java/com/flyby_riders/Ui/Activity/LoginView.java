@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.flyby_riders.Constants.Constant;
+import com.flyby_riders.GlobalApplication;
 import com.flyby_riders.NetworkOperation.IJSONParseListener;
 import com.flyby_riders.R;
 import com.flyby_riders.Utils.BaseActivity;
@@ -86,7 +87,12 @@ public class LoginView extends BaseActivity implements IJSONParseListener, Googl
                     editTextContainer.setBackground(getResources().getDrawable(R.drawable.ph_edittext_bg));
                 }
                 if (s.length()==10) {
-                    hit_Send_otp(pnoneNoEd.getText().toString());
+                    if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+                        hit_Send_otp(pnoneNoEd.getText().toString());
+                    }else{
+                        Constant.Show_Tos(getApplicationContext(),"No internet connection found");
+                    }
+
                 }
             }
 

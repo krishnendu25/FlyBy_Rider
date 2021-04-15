@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flyby_riders.Constants.Constant;
+import com.flyby_riders.GlobalApplication;
 import com.flyby_riders.R;
 import com.flyby_riders.Ui.Adapter.Garage.Bike_Model_Adapter;
 import com.flyby_riders.Ui.Listener.onClick;
@@ -89,7 +90,12 @@ public class BikeModelView extends BaseActivity implements onClick {
         } catch (Exception e) {
         }
         ACTIVITYTITEL.setText(BIKE_BRAND);
-        hit_fetch_bike_model(BIKE_ID);
+        if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+            hit_fetch_bike_model(BIKE_ID);
+        }else{
+            Constant.Show_Tos(getApplicationContext(),"No internet connection found");
+        }
+
 
     }
 
@@ -199,7 +205,12 @@ public class BikeModelView extends BaseActivity implements onClick {
 
     @Override
     public void onClick(String Value) {
-        hit_Add_Bike_Profile(Value);
+        if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+            hit_Add_Bike_Profile(Value);
+        }else{
+            Constant.Show_Tos(getApplicationContext(),"No internet connection found");
+        }
+
     }
 
     @Override

@@ -65,8 +65,7 @@
                         android:id="@+id/Garage_DP"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_bikewash" />
+                        android:layout_gravity="center" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -84,7 +83,6 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:paddingTop="10dp"
                             android:singleLine="true"
-                            android:text="Zeus Motorcycle Gear"
                             android:textColor="@color/white"
                             android:textSize="18dp" />
 
@@ -98,7 +96,6 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:paddingTop="5dp"
                             android:singleLine="true"
-                            android:text="Kolkata"
                             android:textColor="#AEACB5"
                             android:textSize="14sp" />
 
@@ -334,7 +331,6 @@
                                         android:padding="5dp"
                                         android:paddingStart="10dp"
                                         android:paddingEnd="10dp"
-                                        android:text="1.5 kms"
                                         android:textColor="@color/white"
                                         android:textSize="14dp" />
                                 </RelativeLayout>

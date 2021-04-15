@@ -257,6 +257,7 @@ public class AllGarageList extends BaseActivity implements Garageownerclick {
     public void SelectOnClick(int Position) {
         Intent intent = new Intent(this, GarageDetailsView.class);
         intent.putExtra("Grage_Owner_ID", Garage_Owner_List.get(Position).getGARAGEID());
+        intent.putExtra("Distance", Garage_Owner_List.get(Position).getDISTANCE_FROM_ME());
         startActivity(intent);
 
 

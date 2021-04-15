@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.flyby_riders.Constants.Constant;
+import com.flyby_riders.GlobalApplication;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
@@ -197,7 +198,12 @@ public class AvertisementView extends AppCompatActivity {
                 break;
 
             case R.id.buyLink_Re:
-                hitAddClick(TASK_PURCHASE,new Prefe(mContext).getUserID(),addList.get(pos).Advertising_ID);
+                if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+                    hitAddClick(TASK_PURCHASE,new Prefe(mContext).getUserID(),addList.get(pos).Advertising_ID);
+                }else{
+                    Constant.Show_Tos(getApplicationContext(),"No internet connection found");
+                }
+
                 try {
                     Uri webpage;
                     if (adBuyLink.contains("http")){
@@ -234,7 +240,12 @@ public class AvertisementView extends AppCompatActivity {
                         ActivityCompat.requestPermissions((Activity) this, PERMISSIONS_STORAGE, 9);
                     } else {
                         try {
-                            hitanalytics(TASK_CONTACT_CLICK,(addList.get(pos).garageOwnerDetails.get(0).getID()));
+                            if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+                                hitanalytics(TASK_CONTACT_CLICK,(addList.get(pos).garageOwnerDetails.get(0).getID()));
+                            }else{
+                                Constant.Show_Tos(getApplicationContext(),"No internet connection found");
+                            }
+
                         } catch (Exception e) {
 
                         }
@@ -249,7 +260,12 @@ public class AvertisementView extends AppCompatActivity {
             case R.id.whatsappBTN:
                 try {
                     try {
-                        hitanalytics(TASK_CONTACT_CLICK,(addList.get(pos).garageOwnerDetails.get(0).getID()));
+                        if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+                            hitanalytics(TASK_CONTACT_CLICK,(addList.get(pos).garageOwnerDetails.get(0).getID()));
+                        }else{
+                            Constant.Show_Tos(getApplicationContext(),"No internet connection found");
+                        }
+
                     } catch (Exception e) {
 
                     }

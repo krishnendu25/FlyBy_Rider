@@ -332,17 +332,18 @@ public class LocationUpdatesServiceV2 extends Service {
             oldLat = Local_Lat ;
             oldLong = Local_long;
             String userID = new Prefe(GlobalApplication.getInstance()).getUserID();
+            double Real_Time_Speed = Double.parseDouble(String.valueOf(location.getSpeed()));//meters/second
+            double Real_Time_Speed_kmph = Real_Time_Speed * 3.6;
             if (new Prefe(GlobalApplication.getInstance()).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED) &&
                     new Prefe(GlobalApplication.getInstance()).getRideRecordStatus()){
-                   if (location.getAccuracy()<100){
+                   if (Real_Time_Speed_kmph>2){
                     testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(Local_Lat), String.valueOf(Local_long),"true",GET_timeStamp());
 
                 }else{
                     testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(Local_Lat), String.valueOf(Local_long),"false",GET_timeStamp());
 
                 }
-                double Real_Time_Speed = Double.parseDouble(String.valueOf(location.getSpeed()));//meters/second
-                double Real_Time_Speed_kmph = Real_Time_Speed * 3.6;
+
                 testAdapter.INSERT_RIDE_DATA(new Prefe(GlobalApplication.getInstance()).getRideID(), new Prefe(GlobalApplication.getInstance()).getUserID(),String.valueOf(Real_Time_Speed_kmph), String.valueOf(Real_Time_Speed_kmph), GET_timeStamp(), RIDE_STARTED);
                 if (notificationMannager != null)
                     notificationMannager.controllerNotification(true, false);
@@ -353,17 +354,18 @@ public class LocationUpdatesServiceV2 extends Service {
             oldLat = Local_Lat ;
             oldLong = Local_long;
             String userID = new Prefe(GlobalApplication.getInstance()).getUserID();
+            double Real_Time_Speed = Double.parseDouble(String.valueOf(location.getSpeed()));//meters/second
+            double Real_Time_Speed_kmph = Real_Time_Speed * 3.6;
             if (new Prefe(GlobalApplication.getInstance()).getRideTrackStatus().equalsIgnoreCase(RIDE_STARTED) &&
                     new Prefe(GlobalApplication.getInstance()).getRideRecordStatus()){
-                if (location.getAccuracy()<100){
+                if (Real_Time_Speed_kmph>2){
                     testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(Local_Lat), String.valueOf(Local_long),"true",GET_timeStamp());
 
                 }else{
                     testAdapter.INSERT_REALTIMELOCATION(new Prefe(GlobalApplication.getInstance()).getRideID(),userID,String.valueOf(Local_Lat), String.valueOf(Local_long),"false",GET_timeStamp());
 
                 }
-                     double Real_Time_Speed = Double.parseDouble(String.valueOf(location.getSpeed()));//meters/second
-                double Real_Time_Speed_kmph = Real_Time_Speed * 3.6;
+
                 testAdapter.INSERT_RIDE_DATA(new Prefe(GlobalApplication.getInstance()).getRideID(), new Prefe(GlobalApplication.getInstance()).getUserID(),String.valueOf(Real_Time_Speed_kmph), String.valueOf(Real_Time_Speed_kmph), GET_timeStamp(), RIDE_STARTED);
                 if (notificationMannager != null)
                     notificationMannager.controllerNotification(true, false);

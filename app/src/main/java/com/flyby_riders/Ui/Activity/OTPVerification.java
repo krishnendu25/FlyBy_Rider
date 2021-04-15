@@ -95,7 +95,12 @@ public class OTPVerification extends BaseActivity implements MySMSBroadcastRecei
 
             @Override
             public void onOTPComplete(String otp) {
-                Verifotp(otp);
+                if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+                    Verifotp(otp);
+                }else{
+                    Constant.Show_Tos(getApplicationContext(),"No internet connection found");
+                }
+
             }
         });
 
@@ -159,10 +164,20 @@ public class OTPVerification extends BaseActivity implements MySMSBroadcastRecei
                 break;
             case R.id.Resend_btn:
                 if (ResendBtn.getText().toString().equals("RESEND OTP"))
-                    Send_OTP_AGAIN();
+                    if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+                        Send_OTP_AGAIN();
+                    }else{
+                        Constant.Show_Tos(getApplicationContext(),"No internet connection found");
+                    }
+
                 break;
             case R.id.otp_verify_btn:
-                Verifotp(otpEd.getOTP());
+                if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+                    Verifotp(otpEd.getOTP());
+                }else{
+                    Constant.Show_Tos(getApplicationContext(),"No internet connection found");
+                }
+
                 break;
         }
     }

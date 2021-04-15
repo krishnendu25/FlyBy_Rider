@@ -14,6 +14,7 @@ import com.flyby_riders.Ui.Activity.AppLandingView;
 import com.flyby_riders.Ui.Activity.DashBoard;
 import com.flyby_riders.Ui.Activity.OnBoarding;
 import com.flyby_riders.Ui.Activity.SplashScreen;
+import com.flyby_riders.Utils.ConnectionDetector;
 import com.flyby_riders.Utils.PayU_Module.AppEnvironment;
 import com.flyby_riders.Utils.Prefe;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,7 +25,7 @@ import java.io.IOException;
 
 
 public class GlobalApplication extends Application {
-
+    public static ConnectionDetector connectionDetector;
     public static RetrofitCallback retrofitCallback;
     private static GlobalApplication instance;
     public static  String device_Token="";
@@ -33,6 +34,7 @@ public class GlobalApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initApplication();
+        connectionDetector = new ConnectionDetector(GlobalApplication.getInstance());
         appEnvironment = AppEnvironment.PRODUCTION;
         retrofitCallback = RetrofitClient.getRetrofitClient().create(RetrofitCallback.class);
         int pid = android.os.Process.myPid();

@@ -34,6 +34,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.flyby_riders.Constants.Constant;
+import com.flyby_riders.GlobalApplication;
 import com.flyby_riders.R;
 import com.flyby_riders.Retrofit.RetrofitCallback;
 import com.flyby_riders.Retrofit.RetrofitClient;
@@ -265,7 +266,7 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
     private void fetchRiderLocation() {
 
         if (new Prefe(mContext).get_mylocation().equalsIgnoreCase("")) {
-            show_ProgressDialog();
+            //show_ProgressDialog();
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(mActivity, new OnSuccessListener<Location>() {
                     @Override
@@ -279,7 +280,16 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
                                 Constant.Show_Tos_Error(mActivity, false, true);
                             }
                         } else {
-                            Hit_Rider_Details(new Prefe(mContext).getUserID());
+
+                            Location locationN = new Location("yourprovidername");
+                            locationN.setLatitude(20.5937);
+                            locationN.setLongitude(78.9629);
+                            try {
+                                FetchMyAdd(locationN);
+                            } catch (Exception e) {
+                                Constant.Show_Tos_Error(mActivity, false, true);
+                            }
+                          //  Hit_Rider_Details(new Prefe(mContext).getUserID());
                         }
                     }
 
@@ -664,11 +674,16 @@ public class My_Garage_Fragment extends Fragment implements onClick, GarageAddCl
 
     @Override
     public void setOnClick(int Position) {
-        hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(), garage_ads_list.get(Position).Advertising_ID);
-        hitAddClick(TASK_CLICK, new Prefe(mActivity).getUserID(), garage_ads_list.get(Position).Advertising_ID.trim());
-        Intent intent = new Intent(mActivity, AvertisementView.class);
-        intent.putExtra("Position", Position);
-        startActivity(intent);
+        if (GlobalApplication.connectionDetector.isConnectingToInternet()){
+            hitAddClick(TASK_SEEN, new Prefe(mActivity).getUserID(), garage_ads_list.get(Position).Advertising_ID);
+            hitAddClick(TASK_CLICK, new Prefe(mActivity).getUserID(), garage_ads_list.get(Position).Advertising_ID.trim());
+            Intent intent = new Intent(mActivity, AvertisementView.class);
+            intent.putExtra("Position", Position);
+            startActivity(intent);
+        }else{
+            Constant.Show_Tos(getContext(),"No internet connection found");
+        }
+
     }
 
 

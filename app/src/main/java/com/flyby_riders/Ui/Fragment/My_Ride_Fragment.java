@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -103,41 +104,44 @@ public class My_Ride_Fragment extends Fragment  {
         Create_Ride_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean allClearFlag = false ;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    PowerManager pm = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
-                    if (pm != null && !pm.isIgnoringBatteryOptimizations(getContext().getPackageName())) {
-                        Constant.openBatteryOptmized(getActivity());
-                        allClearFlag=false;
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        PowerManager pm = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
+                        if (pm != null && !pm.isIgnoringBatteryOptimizations(getContext().getPackageName())) {
+                            Constant.openBatteryOptmized(getActivity());
+                        }else {
+                            if (new Prefe(getActivity()).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)){
+                                startActivity(new Intent(getActivity(), RideMapView.class));
+                            }else {
+                                if (MyRide_List.size() > 2) {
+                                    try {
+                                        hit_notRide_Bottomsheet();
+                                    } catch (Exception e) {
+                                    }
+                                }else{
+                                    startActivity(new Intent(getActivity(), RideMapView.class));
+                                }
+                            }
+                        }
                     }else {
-                        allClearFlag=true;
-                    }
-                }
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
-                    if (ContextCompat.checkSelfPermission(getActivity(),
-                            Manifest.permission.ACCESS_BACKGROUND_LOCATION)== PERMISSION_GRANTED){
-                        allClearFlag=true;
-                    }else{
-                        Constant.Show_Tos(getActivity(),"Allow all the time - Permission For Ride");
-                       Intent intent = new Intent(getActivity(), LocationPermissionsAllTime.class);
-                       startActivity(intent);
-                        allClearFlag=false;
-                    }
-                }
-
-
-
-                if (allClearFlag){
-                    if (new Prefe(getActivity()).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)){
-                        startActivity(new Intent(getActivity(), RideMapView.class));
-                    }else {
-                        if (MyRide_List.size() > 2) {
-                            try {
-                                hit_notRide_Bottomsheet();
-                            } catch (Exception e) {
+                        if (new Prefe(getActivity()).getAccountPlanStatus().equalsIgnoreCase(PREMIUM)){
+                            startActivity(new Intent(getActivity(), RideMapView.class));
+                        }else {
+                            if (MyRide_List.size() > 2) {
+                                try {
+                                    hit_notRide_Bottomsheet();
+                                } catch (Exception e) {
+                                }
+                            }else{
+                                startActivity(new Intent(getActivity(), RideMapView.class));
                             }
                         }
                     }
+
+
+
+                } catch (Exception e) {
+                    startActivity(new Intent(getActivity(), RideMapView.class));
                 }
 
             }
@@ -152,6 +156,7 @@ public class My_Ride_Fragment extends Fragment  {
         });
         return v;
     }
+
 
 
     private void hit_notRide_Bottomsheet() {
@@ -174,6 +179,20 @@ public class My_Ride_Fragment extends Fragment  {
     @Override
     public void onResume() {
         super.onResume();
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION)== PackageManager.PERMISSION_GRANTED){
+                }else{
+                    Constant.Show_Tos(getActivity(),"Allow all the time - Permission For Ride");
+                    Intent intent = new Intent(getActivity(), LocationPermissionsAllTime.class);
+                    startActivity(intent);
+                }
+            }
+        } catch (Exception e) {
+        }
+
+
         hit_my_ride(new Prefe(getContext()).getUserID());
     }
 

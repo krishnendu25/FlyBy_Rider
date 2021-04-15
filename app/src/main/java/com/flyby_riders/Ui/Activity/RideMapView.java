@@ -546,6 +546,8 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
             ShowMyLocation.setVisibility(View.GONE);
             String Distance = "0";
             mMap.clear();
+            LatLng StartPosition = new LatLng(Latitude_Start, Longitude_Start);
+            LatLng EndPosition = new LatLng(Latitude_End, Longitude_End);
             //From DataBase
             Cursor cursor = testAdapter.GET_REALTIMELOCATION(My_Ride_ID, new Prefe(getApplicationContext()).getUserID());
             if (cursor.getCount() != 0) {
@@ -568,10 +570,12 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
                 }
                 double polylineLength = SphericalUtil.computeLength(points);
                 Distance = new DecimalFormat("##.##").format(polylineLength / 1000) + " KM";
-
+                if (points.size()>0){
+                    StartPosition = new LatLng(points.get(0).latitude, points.get(0).longitude);
+                    EndPosition = new LatLng(points.get(points.size()-1).latitude, points.get(points.size()-1).longitude);
+                }
             } else {
-                LatLng StartPosition = new LatLng(Latitude_Start, Longitude_Start);
-                LatLng EndPosition = new LatLng(Latitude_End, Longitude_End);
+
                 double polylineLength_ = 0;
                 endGooglePoints.clear();
                 show_ProgressDialog();
@@ -602,8 +606,7 @@ public class RideMapView extends BaseActivity implements OnMapReadyCallback, Com
             rideDataAnalysis(Distance);
 
 
-            LatLng StartPosition = new LatLng(Latitude_Start, Longitude_Start);
-            LatLng EndPosition = new LatLng(Latitude_End, Longitude_End);
+
 
 
             //Start Position Marker
